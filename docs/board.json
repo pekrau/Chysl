@@ -1,0 +1,161 @@
+{
+  "title": "Chart to place charts at specified positions.",
+  "$anchor": "board",
+  "type": "object",
+  "required": [
+    "chart",
+    "entries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "chart": {
+      "const": "board"
+    },
+    "title": {
+      "title": "Title of the board.",
+      "$ref": "#text"
+    },
+    "entries": {
+      "title": "Component charts at specified positions.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "x",
+          "y",
+          "component"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "x": {
+            "title": "Absolute position of component. Left is 0.",
+            "type": "number",
+            "minimum": 0
+          },
+          "y": {
+            "title": "Absolute position of component. Top is 0.",
+            "type": "number",
+            "minimum": 0
+          },
+          "scale": {
+            "title": "Scaling of the component chart.",
+            "type": "number",
+            "exclusiveMinimum": 0,
+            "default": 1
+          },
+          "component": {
+            "$ref": "#chart_or_include"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "text": {
+      "$anchor": "text",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "size": {
+              "title": "Size of font. Default depends on context.",
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            },
+            "anchor": {
+              "title": "Text anchor position. Ignored in some contexts.",
+              "enum": [
+                "start",
+                "middle",
+                "end"
+              ],
+              "default": "middle"
+            }
+          }
+        }
+      ],
+      "_has_been_output": true,
+      "_href": "timelines.md"
+    },
+    "chart_or_include": {
+      "$anchor": "chart_or_include",
+      "title": "Chart specification, or 'include' of a file or web resource.",
+      "oneOf": [
+        {
+          "title": "Include another YAML file from the URI reference.",
+          "type": "object",
+          "required": [
+            "include"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "include": {
+              "type": "string",
+              "format": "uri-reference"
+            }
+          }
+        },
+        {
+          "title": "Specification of any chart.",
+          "type": "object",
+          "required": [
+            "chart"
+          ],
+          "properties": {
+            "chart": {
+              "enum": [
+                "timelines",
+                "piechart",
+                "note",
+                "column",
+                "row",
+                "board"
+              ]
+            }
+          }
+        }
+      ],
+      "_has_been_output": true,
+      "_href": "column.md"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+chysl:
+  version: 0.1.0
+  software: Chysl (Python) 0.1.0
+  timestamp: '2025-05-19T19:10:11+00:00'
+chart: note
+title:
+  text: Declaration
+  bold: true
+body:
+  text: 'This software was
+
+    written by me.'
+footer:
+  text: Copyright 2025 Per Kraulis
+  italic: true

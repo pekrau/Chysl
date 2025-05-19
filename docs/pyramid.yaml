@@ -1,0 +1,21 @@
+chysl:
+  version: 0.1.0
+  software: Chysl (Python) 0.1.0
+  timestamp: '2025-05-19T19:10:11+00:00'
+chart: piechart
+title: Pyramid
+entries:
+- entry: slice
+  label: Shadow
+  value: 7
+- entry: slice
+  label: Sunny
+  value: 18
+- entry: slice
+  label: Sky
+  value: 70
+start: 132
+palette:
+- '#4c78a8'
+- '#9ecae9'
+- '#f58518'

@@ -1,0 +1,25 @@
+chysl:
+  version: 0.1.0
+  software: Chysl (Python) 0.1.0
+  timestamp: '2025-05-19T19:10:12+00:00'
+chart: board
+title: Poster
+entries:
+- x: 250
+  y: 10
+  scale: 1
+  component:
+    chart: note
+    title: By Per Kraulis
+    body: Ph.D.
+    footer: Stockholm University
+- x: 0
+  y: 100
+  scale: 1
+  component:
+    include: universe.yaml
+- x: 50
+  y: 230
+  scale: 1
+  component:
+    include: earth.yaml

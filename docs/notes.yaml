@@ -1,0 +1,34 @@
+chysl:
+  version: 0.1.0
+  software: Chysl (Python) 0.1.0
+  timestamp: '2025-05-19T19:10:11+00:00'
+chart: board
+entries:
+- x: 0
+  y: 0
+  scale: 1.5
+  component:
+    chart: column
+    entries:
+    - chart: note
+      title: Header
+      body: Body
+      footer: Footer
+    - chart: note
+      title: Header
+      body: Body
+    - chart: note
+      body: Body
+      footer: Footer
+    - chart: note
+      title: Header
+    - chart: note
+      body: Body
+    - chart: note
+      footer: Footer
+    - chart: note
+      title: Header
+      body: Body
+      footer: Footer
+      line: 0
+    - include: declaration.yaml
