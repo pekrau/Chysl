@@ -52,6 +52,47 @@
     }
   },
   "$defs": {
+    "chart_or_include": {
+      "$anchor": "chart_or_include",
+      "title": "Chart specification, or 'include' of a file or web resource.",
+      "oneOf": [
+        {
+          "title": "Include another YAML file from the URI reference.",
+          "type": "object",
+          "required": [
+            "include"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "include": {
+              "type": "string",
+              "format": "uri-reference"
+            }
+          }
+        },
+        {
+          "title": "Specification of any chart.",
+          "type": "object",
+          "required": [
+            "chart"
+          ],
+          "properties": {
+            "chart": {
+              "enum": [
+                "timelines",
+                "piechart",
+                "note",
+                "column",
+                "row",
+                "board"
+              ]
+            }
+          }
+        }
+      ],
+      "_has_been_output": true,
+      "_href": "column.md"
+    },
     "text": {
       "$anchor": "text",
       "oneOf": [
@@ -115,47 +156,6 @@
       ],
       "_has_been_output": true,
       "_href": "timelines.md"
-    },
-    "chart_or_include": {
-      "$anchor": "chart_or_include",
-      "title": "Chart specification, or 'include' of a file or web resource.",
-      "oneOf": [
-        {
-          "title": "Include another YAML file from the URI reference.",
-          "type": "object",
-          "required": [
-            "include"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "include": {
-              "type": "string",
-              "format": "uri-reference"
-            }
-          }
-        },
-        {
-          "title": "Specification of any chart.",
-          "type": "object",
-          "required": [
-            "chart"
-          ],
-          "properties": {
-            "chart": {
-              "enum": [
-                "timelines",
-                "piechart",
-                "note",
-                "column",
-                "row",
-                "board"
-              ]
-            }
-          }
-        }
-      ],
-      "_has_been_output": true,
-      "_href": "column.md"
     }
   }
 }
