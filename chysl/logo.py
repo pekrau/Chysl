@@ -34,7 +34,7 @@ def logo(size=100):
     path["transform"] = "translate(5, 7.8) rotate(297)"
     g += (
         line := Element(
-            "line", x1=0.6, y1=0.6, x2=1.2, y2=1.2, stroke="black", fill="none"
+            "line", x1=0.8, y1=0.8, x2=1.8, y2=1.8, stroke="black", fill="none"
         )
     )
     line["stroke-width"] = 0.1

@@ -1,11 +1,12 @@
 # timelines
 
 - [Examples](#examples)
-- [Specification](#specification)
   - [universe](#universe)
   - [earth](#earth)
   - [universe_earth](#universe_earth)
   - [poster](#poster)
+
+- [Specification](#specification)
 
 ## Examples
 
@@ -15,8 +16,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: timelines
 title:
   text: Universe
@@ -97,8 +98,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: timelines
 title: Earth
 entries:
@@ -163,8 +164,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: column
 title: Universe and Earth
 entries:
@@ -307,8 +308,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: board
 title: Poster
 entries:
@@ -350,20 +351,7 @@ Timelines having events and periods.
   - *type*: boolean
   - *default*: true
 - **axis**: Time axis specification.
-  - Alternative 1: Display default time axis.
-    - *type*: boolean
-    - *default*: true
-  - Alternative 2: Time axis details.
-    - *type*: mapping
-    - **absolute**: Display absolute values for ticks.
-      - *type*: boolean
-      - *default*: false
-    - **color**: Color of grid lines.
-      - *type*: string
-      - *format*: color
-      - *default*: 'gray'
-    - **caption**: Time axis description.
-      - *type*: string
+  - *See* [axis](schema_defs.md#axis).
 - **entries**: Entries in the timelines.
   - *required*
   - *type*: sequence

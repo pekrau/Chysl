@@ -1,11 +1,12 @@
 "2D chart plotting x/y data."
 
 import copy
+import pathlib
 
 import constants
 import schema
 import utils
-from chart import Chart, Entry, Element
+from chart import Chart, Entry, Reader, Element
 from dimension import Dimension
 from path import Path
 
@@ -65,6 +66,23 @@ class Plot(Chart):
                                                 "properties": {
                                                     "x": { "$ref": "#fuzzy_number" },
                                                     "y": { "$ref": "#fuzzy_number" },
+                                                },
+                                            },
+                                        },
+                                        {
+                                            "title": "Data from file or web resource.",
+                                            "type": "object",
+                                            "required": ["source"],
+                                            "additionalProperties": False,
+                                            "properties": {
+                                                "source": {
+                                                    "type": "string",
+                                                    "format": "uri-reference",
+                                                },
+                                                "format": {
+                                                    "title": "Format of data file.",
+                                                    "enum": constants.FORMATS,
+                                                    "default": "csv",
                                                 },
                                             },
                                         },
@@ -220,17 +238,57 @@ class Scatter(Entry):
     DEFAULT_SIZE = 5
 
     def __init__(self, data):
-        assert isinstance(data, list) and len(data) >= 1 and isinstance(data[0], dict)
+        assert isinstance(data, (list, dict))
 
-        self.data = copy.deepcopy(data)  # For safety.
+        # Explicit data points.
+        if isinstance(data, list):
+            if len(data) == 0:
+                raise ValueError("No data in the list.")
+            if not isinstance(data[0], dict):
+                raise ValueError("First item in the list is not a dict.")
+            if "x" not in data[0]:
+                raise ValueError("First dict in the list does not contain 'x'.")
+            if "y" not in data[0]:
+                raise ValueError("First dict in the list does not contain 'y'.")
+            self.data = copy.deepcopy(data)  # For safety.
+
+        # Data from file or web resource.
+        else:
+            self.source = data.copy()
+            try:
+                source = data["source"]
+            except KeyError:
+                raise ValueError("No 'source' given in data.")
+            format = data.get("format")
+            if not format:
+                format = pathlib.Path(source).suffix.lstrip(".") or "csv"
+            if format not in constants.FORMATS:
+                raise ValueError(f"Unknown format '{format}' specified.")
+            reader = Reader(source)
+            reader.read()
+            reader.parse(format)
+            self.data = []
+            for record in reader.data:
+                point = {"x": float(record["x"]), "y": float(record["y"])}
+                if (color := record.get("color")) is not None:
+                    point["color"] = color
+                # XXX Add other properties if any.
+                self.data.append(point)
 
     def as_dict(self):
         result = super().as_dict()
-        result["data"] = data = []
-        for point in self.data:
-            item = {"x": point["x"], "y": point["y"]}
-            # XXX Add other properties if any.
-            data.append(item)
+        try:
+            # Data from file or web resource.
+            result["data"] = self.source
+        except AttributeError:
+            # Explicit data points.
+            result["data"] = data = []
+            for point in self.data:
+                item = {"x": point["x"], "y": point["y"]}
+                if (color := point.get("color")) is not None:
+                    item["color"] = color
+                # XXX Add other properties if any.
+                data.append(item)
         return result
 
     @property
@@ -286,5 +344,6 @@ class Scatter(Entry):
                 cx=xdimension.get_pixel(xvalue),
                 cy=ydimension.get_pixel(yvalue),
                 r=self.DEFAULT_SIZE,
+                fill=point.get("color") or "black"
             )
         return g

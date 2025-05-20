@@ -63,6 +63,9 @@ Coordinate axis specification.
     - *type*: string
     - *format*: color
     - *default*: 'gray'
+  - **absolute**: Display absolute values for ticks.
+    - *type*: boolean
+    - *default*: false
   - **caption**: Axis description.
     - *type*: string
 
@@ -80,4 +83,4 @@ Chart specification, or 'include' of a file or web resource.
   - *type*: mapping
   - **chart**:
     - *required*
-    - *one of*: 'timelines', 'piechart', 'note', 'column', 'row', 'board'
+    - *one of*: 'timelines', 'piechart', 'note', 'plot', 'column', 'row', 'board'

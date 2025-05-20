@@ -3,9 +3,9 @@
   <g transform="translate(0, 0.64) scale(12.8)">
     <path d="M 0 8 h 4 l 1 1 1 -1 h 4" stroke="black" fill="none" stroke-width="0.5" />
     <path d="M 0 0 L 7 -1 C 8.500 -1.200 8.500 1.200 7 1 Z" stroke="none" fill="black" transform="translate(5, 7.8) rotate(297)" />
-    <line x1="0.6" y1="0.6" x2="1.2" y2="1.2" stroke="black" fill="none" stroke-width="0.1" stroke-linecap="round" transform="translate(5, 7.8) rotate(159)" />
-    <line x1="0.6" y1="0.6" x2="1.2" y2="1.2" stroke="black" fill="none" stroke-width="0.1" stroke-linecap="round" transform="translate(5, 7.8) rotate(192)" />
-    <line x1="0.6" y1="0.6" x2="1.2" y2="1.2" stroke="black" fill="none" stroke-width="0.1" stroke-linecap="round" transform="translate(5, 7.8) rotate(225)" />
-    <line x1="0.6" y1="0.6" x2="1.2" y2="1.2" stroke="black" fill="none" stroke-width="0.1" stroke-linecap="round" transform="translate(5, 7.8) rotate(286)" />
+    <line x1="0.8" y1="0.8" x2="1.8" y2="1.8" stroke="black" fill="none" stroke-width="0.1" stroke-linecap="round" transform="translate(5, 7.8) rotate(159)" />
+    <line x1="0.8" y1="0.8" x2="1.8" y2="1.8" stroke="black" fill="none" stroke-width="0.1" stroke-linecap="round" transform="translate(5, 7.8) rotate(192)" />
+    <line x1="0.8" y1="0.8" x2="1.8" y2="1.8" stroke="black" fill="none" stroke-width="0.1" stroke-linecap="round" transform="translate(5, 7.8) rotate(225)" />
+    <line x1="0.8" y1="0.8" x2="1.8" y2="1.8" stroke="black" fill="none" stroke-width="0.1" stroke-linecap="round" transform="translate(5, 7.8) rotate(286)" />
   </g>
 </svg>

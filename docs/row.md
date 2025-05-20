@@ -1,8 +1,9 @@
 # row
 
 - [Examples](#examples)
-- [Specification](#specification)
   - [rpies](#rpies)
+
+- [Specification](#specification)
 
 ## Examples
 
@@ -12,8 +13,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: row
 title: Pies in row
 entries:

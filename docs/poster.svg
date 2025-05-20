@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="651" height="465.400" viewBox="0 0 651 465.400" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.1 board</desc>
+  <desc>Chysl 0.2.2 board</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="325" y="36" stroke="none" fill="black" font-size="36" text-anchor="middle">Poster</text>
     <g transform="scale(1) translate(250, 55.2)">

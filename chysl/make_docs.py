@@ -28,7 +28,7 @@ def make_docs():
         f"where `{{version}}` is either `null` or the string representing the version of the software.\n\n"
     )
 
-    result.append("JSON Schema for [definitions](../docs/schema_defs.md) used in chart JSON schema.\n\n")
+    result.append("[JSON Schema](docs/schema_defs.md) for definitions used in chart JSON schema.\n\n")
 
     run_tests()
 
@@ -55,10 +55,10 @@ def make_docs():
         result = []
         result.append(f"# {name}\n\n")
         result.append("- [Examples](#examples)\n")
-        result.append("- [Specification](#specification)\n")
         for test in TESTS[name]:
             result.append(f"  - [{test}](#{test})\n")
         result.append("\n")
+        result.append("- [Specification](#specification)\n\n")
         result.append("## Examples\n\n")
         for test in TESTS[name]:
             result.append(f"### {test}\n\n")

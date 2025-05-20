@@ -11,6 +11,7 @@ TESTS = {
     "timelines": ["universe", "earth", "universe_earth", "poster"],
     "piechart": ["pyramid", "day", "cpies", "rpies"],
     # XXX dendrogram
+    "plot": ["scatter", "scatter2"],
     "column": ["universe_earth", "cpies", "cnotes", "notes"],
     "row": ["rpies"],
     "note": ["declaration", "cnotes", "notes", "cpies", "poster"],
@@ -260,18 +261,28 @@ def test_declaration():
 
 
 def test_scatter():
-    plot = Plot("Scatter")
+    plot = Plot("Scattered points inline")
     plot += Scatter(
         [
             dict(x=5, y=20),
+            dict(x=12, y=12, color="red"),
+            dict(x=13, y=12, color="red"),
+            dict(x=14, y=11, color="red"),
             dict(x=20, y=10),
             dict(x=0, y=0),
             dict(x=1, y=1),
-            dict(x={"value": 5, "error": 1}, y=5),
+            dict(x=6, y={"value": 7, "error": 1}, color="green"),
         ]
     )
     plot.save("scatter.yaml")
     plot.render("scatter.svg")
+
+
+def test_scatter_csv():
+    plot = Plot("Scattered points from CSV")
+    plot += Scatter({"source": "scatter2.csv"})
+    plot.save("scatter2.yaml")
+    plot.render("scatter2.svg")
 
 
 def test_notes():
@@ -321,6 +332,7 @@ def run_tests():
         test_rpies()
         test_declaration()
         test_scatter()
+        test_scatter_csv()
         test_notes()
         test_poster()
     finally:

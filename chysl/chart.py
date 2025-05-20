@@ -4,6 +4,9 @@ import icecream
 
 icecream.install()
 
+import csv
+import io
+import json
 import pathlib
 import urllib.parse
 
@@ -311,23 +314,37 @@ class Reader:
         if self.scheme == "file":
             try:
                 with open(self.location) as infile:
-                    self.data = infile.read()
+                    self.text = infile.read()
             except OSError as error:
                 raise ValueError(str(error))
         else:
             try:
                 response = requests.get(self.location)
                 response.raise_for_status()
-                self.data = response.text
+                self.text = response.text
             except requests.exceptions.RequestException as error:
                 raise ValueError(str(error))
 
-    def parse_yaml(self):
-        "Parse the YAML data. Raise ValueError if any problem."
-        try:
-            self.yaml = yaml.safe_load(self.data)
-        except yaml.YAMLError as error:
-            raise ValueError(f"cannot interpret data as YAML: {error}")
+    def parse(self, format):
+        "Parse the text as YAML into data. Raise ValueError if any problem."
+        assert format in constants.FORMATS
+        match format:
+            case "csv":
+                reader = csv.DictReader(io.StringIO(self.text), dialect="excel")
+                self.data = list(reader)
+            case "tsv":
+                reader = csv.DictReader(io.StringIO(self.text), dialect="excel_tab")
+                self.data = list(reader)
+            case "json":
+                try:
+                    self.data = json.loads(self.text)
+                except json.JSONDecodeError as error:
+                    raise ValueError(f"cannot interpret data as JSON: {error}")
+            case "yaml":
+                try:
+                    self.data = yaml.safe_load(self.text)
+                except yaml.YAMLError as error:
+                    raise ValueError(f"cannot interpret data as YAML: {error}")
 
     def get_chart(self):
         """Return the instance of a Chart subclass from the YAML data.
@@ -337,8 +354,8 @@ class Reader:
         - The compatibility of the version of the file, if given.
         - Check the data against the appropriate schema.
         """
-        self.parse_yaml()
-        prepared = self.yaml.copy()
+        self.parse("yaml")
+        prepared = self.data.copy()
         try:
             self.meta = prepared.pop("chysl")
         except KeyError:

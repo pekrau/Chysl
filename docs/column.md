@@ -1,11 +1,12 @@
 # column
 
 - [Examples](#examples)
-- [Specification](#specification)
   - [universe_earth](#universe_earth)
   - [cpies](#cpies)
   - [cnotes](#cnotes)
   - [notes](#notes)
+
+- [Specification](#specification)
 
 ## Examples
 
@@ -15,8 +16,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: column
 title: Universe and Earth
 entries:
@@ -159,8 +160,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: column
 title: Pies in column
 entries:
@@ -216,8 +217,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: column
 entries:
 - chart: note
@@ -249,8 +250,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: board
 entries:
 - x: 0

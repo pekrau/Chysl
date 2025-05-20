@@ -41,35 +41,7 @@ class Timelines(Chart):
             },
             "axis": {
                 "title": "Time axis specification.",
-                "oneOf": [
-                    {
-                        "title": "Display default time axis.",
-                        "type": "boolean",
-                        "default": True,
-                    },
-                    {
-                        "title": "Time axis details.",
-                        "type": "object",
-                        "additionalProperties": False,
-                        "properties": {
-                            "absolute": {
-                                "title": "Display absolute values for ticks.",
-                                "type": "boolean",
-                                "default": False,
-                            },
-                            "color": {
-                                "title": "Color of grid lines.",
-                                "type": "string",
-                                "format": "color",
-                                "default": "gray",
-                            },
-                            "caption": {
-                                "title": "Time axis description.",
-                                "type": "string",
-                            },
-                        },
-                    },
-                ],
+                "$ref": "#axis",
             },
             "entries": {
                 "title": "Entries in the timelines.",

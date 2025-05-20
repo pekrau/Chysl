@@ -1,11 +1,12 @@
 # piechart
 
 - [Examples](#examples)
-- [Specification](#specification)
   - [pyramid](#pyramid)
   - [day](#day)
   - [cpies](#cpies)
   - [rpies](#rpies)
+
+- [Specification](#specification)
 
 ## Examples
 
@@ -15,8 +16,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: piechart
 title: Pyramid
 entries:
@@ -41,8 +42,8 @@ palette:
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: piechart
 title:
   text: Day
@@ -97,8 +98,8 @@ total: 24
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: column
 title: Pies in column
 entries:
@@ -154,8 +155,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: row
 title: Pies in row
 entries:

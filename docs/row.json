@@ -63,6 +63,7 @@
                 "timelines",
                 "piechart",
                 "note",
+                "plot",
                 "column",
                 "row",
                 "board"

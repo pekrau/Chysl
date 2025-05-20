@@ -1,9 +1,10 @@
 # board
 
 - [Examples](#examples)
-- [Specification](#specification)
   - [poster](#poster)
   - [notes](#notes)
+
+- [Specification](#specification)
 
 ## Examples
 
@@ -13,8 +14,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: board
 title: Poster
 entries:
@@ -43,8 +44,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.1
-  software: Chysl (Python) 0.2.1
+  version: 0.2.2
+  software: Chysl (Python) 0.2.2
 chart: board
 entries:
 - x: 0

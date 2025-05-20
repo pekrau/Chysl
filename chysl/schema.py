@@ -118,6 +118,11 @@ DEFS = {
                         "format": "color",
                         "default": "gray",
                     },
+                    "absolute": {
+                        "title": "Display absolute values for ticks.",
+                        "type": "boolean",
+                        "default": False,
+                    },
                     "caption": {
                         "title": "Axis description.",
                         "type": "string",

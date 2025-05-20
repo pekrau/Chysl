@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="617.800" viewBox="0 0 601 617.800" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.1 plot</desc>
+  <desc>Chysl 0.2.2 plot</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-    <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Scatter</text>
+    <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Scattered points inline</text>
     <g>
       <path d="M 20.760 600 V 23.600 M 116.967 600 V 23.600 M 213.173 600 V 23.600 M 309.380 600 V 23.600 M 405.587 600 V 23.600 M 501.793 600 V 23.600 M 598 600 V 23.600" stroke="gray" />
       <g text-anchor="middle" stroke="none" fill="black">
@@ -29,11 +29,14 @@
     </g>
     <g>
       <g stroke="none" fill="black">
-        <circle cx="213.17333333333332" cy="119.66666666666666" r="5" />
-        <circle cx="501.79333333333335" cy="311.8" r="5" />
-        <circle cx="116.96666666666667" cy="503.9333333333333" r="5" />
-        <circle cx="136.208" cy="484.71999999999997" r="5" />
-        <circle cx="213.17333333333332" cy="407.8666666666667" r="5" />
+        <circle cx="213.17333333333332" cy="119.66666666666666" r="5" fill="black" />
+        <circle cx="347.86266666666666" cy="273.37333333333333" r="5" fill="red" />
+        <circle cx="367.104" cy="273.37333333333333" r="5" fill="red" />
+        <circle cx="386.3453333333333" cy="292.58666666666664" r="5" fill="red" />
+        <circle cx="501.79333333333335" cy="311.8" r="5" fill="black" />
+        <circle cx="116.96666666666667" cy="503.9333333333333" r="5" fill="black" />
+        <circle cx="136.208" cy="484.71999999999997" r="5" fill="black" />
+        <circle cx="232.41466666666665" cy="369.44" r="5" fill="green" />
       </g>
     </g>
   </g>
