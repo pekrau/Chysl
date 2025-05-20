@@ -16,9 +16,9 @@
 
 ```yaml
 chysl:
-  version: 0.1.0
-  software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T13:58:21+00:00'
+  version: 0.2.0
+  software: Chysl (Python) 0.2.0
+  timestamp: '2025-05-20T14:09:35+00:00'
 chart: note
 title:
   text: Declaration
@@ -37,9 +37,9 @@ footer:
 
 ```yaml
 chysl:
-  version: 0.1.0
-  software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T13:58:21+00:00'
+  version: 0.2.0
+  software: Chysl (Python) 0.2.0
+  timestamp: '2025-05-20T14:09:35+00:00'
 chart: column
 entries:
 - chart: note
@@ -71,9 +71,9 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.1.0
-  software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T13:58:21+00:00'
+  version: 0.2.0
+  software: Chysl (Python) 0.2.0
+  timestamp: '2025-05-20T14:09:35+00:00'
 chart: board
 entries:
 - x: 0
@@ -111,9 +111,9 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.1.0
-  software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T13:58:21+00:00'
+  version: 0.2.0
+  software: Chysl (Python) 0.2.0
+  timestamp: '2025-05-20T14:09:35+00:00'
 chart: column
 title: Pies in column
 entries:
@@ -169,9 +169,9 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.1.0
-  software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T13:58:21+00:00'
+  version: 0.2.0
+  software: Chysl (Python) 0.2.0
+  timestamp: '2025-05-20T14:09:35+00:00'
 chart: board
 title: Poster
 entries:

@@ -28,9 +28,11 @@ def make_docs():
         f"where `{{version}}` is either `null` or the string representing the version of the software.\n\n"
     )
 
+    result.append("JSON Schema for (definitions)[../docs/schema_defs.md) used in chart JSON schema.\n\n")
+
     run_tests()
 
-    result.append("## Diagrams\n\n")
+    result.append("## Charts\n\n")
     for name in constants.CHARTS:
         chartschema = chart.get_class(name).SCHEMA
         result.append(f"- [{name}](docs/{name}.md): {chartschema['title']}\n\n")

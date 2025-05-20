@@ -153,29 +153,6 @@ DEFS = {
             },
         ],
     },
-    "include": {
-        "$anchor": "include",
-        "title": "Include another YAML file from the URI reference.",
-        "type": "object",
-        "required": ["include"],
-        "additionalProperties": False,
-        "properties": {
-            "include": {
-                "type": "string",
-                "format": "uri-reference",
-            },
-        },
-    },
-    "anychart": {
-        "$anchor": "anychart",
-        "title": "Specification of any chart.",
-        "type": "object",
-        "required": ["chart"],
-        "properties": {
-            "chart": {"enum": constants.CHARTS},
-            # No need to fully specify contents here.
-        },
-    },
 }
 
 

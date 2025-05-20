@@ -1,4 +1,4 @@
-# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.1.0
+# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.2.0
 
 Charts defined in YAML for rendering into SVG. Charts are hierarchically composable.
 
@@ -8,7 +8,9 @@ The YAML file must contain the software identification marker:
 
 where `{version}` is either `null` or the string representing the version of the software.
 
-## Diagrams
+JSON Schema for (definitions)[../docs/schema_defs.md) used in chart JSON schema.
+
+## Charts
 
 - [timelines](docs/timelines.md): Timelines having events and periods.
 
