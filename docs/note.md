@@ -18,7 +18,7 @@
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: note
 title:
   text: Declaration
@@ -39,7 +39,7 @@ footer:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: column
 entries:
 - chart: note
@@ -73,7 +73,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: board
 entries:
 - x: 0
@@ -113,7 +113,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: column
 title: Pies in column
 entries:
@@ -171,7 +171,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: board
 title: Poster
 entries:
@@ -202,12 +202,13 @@ Textual note with title, body and footer text.
 
 - **chart**:
   - *required*
+  - *const* 'note'
 - **title**: Title of the note.
-    - *definition*: See [here](timelines.md#specification)
+  - *See* [text](schema_defs.md#text).
 - **body**: Body of the note.
-    - *definition*: See [here](timelines.md#specification)
+  - *See* [text](schema_defs.md#text).
 - **footer**: Footer of the note.
-    - *definition*: See [here](timelines.md#specification)
+  - *See* [text](schema_defs.md#text).
 - **width**: Width of chart, in pixels.
   - *type*: float
   - *exclusiveMinimum*: 0

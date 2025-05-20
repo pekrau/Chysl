@@ -7,7 +7,7 @@
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="152" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Strawberry pie</text>
         <g transform="translate(152, 175.600)">
-          <circle r="150" />
+          <circle r="150.0" />
           <g stroke="black" stroke-width="1">
             <path d="M 0 0 L 0 -150 A 150 150 0 0 1 31.187 146.722 Z" fill="white" />
             <path d="M 0 0 L 31.187 146.722 A 150 150 0 0 1 -88.168 121.353 Z" fill="yellow" />
@@ -27,7 +27,7 @@
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="102" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Rhubarb pie</text>
         <g transform="translate(102, 125.600)">
-          <circle r="100" />
+          <circle r="100.0" />
           <g stroke="black" stroke-width="1">
             <path d="M 0 0 L 0 -100 A 100 100 0 0 1 20.791 97.815 Z" fill="white" />
             <path d="M 0 0 L 20.791 97.815 A 100 100 0 0 1 -58.779 80.902 Z" fill="yellow" />

@@ -1,0 +1,21 @@
+chysl:
+  version: 0.1.0
+  software: Chysl (Python) 0.1.0
+  timestamp: '2025-05-20T13:58:21+00:00'
+chart: plot
+title: Scatter
+entries:
+- entry: scatter
+  data:
+  - x: 5
+    y: 20
+  - x: 20
+    y: 10
+  - x: 0
+    y: 0
+  - x: 1
+    y: 1
+  - x:
+      value: 5
+      error: 1
+    y: 5

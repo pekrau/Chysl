@@ -60,7 +60,7 @@ class Piechart(Chart):
                 "type": "array",
                 "minItems": 1,
                 "items": {
-                    "anyOf": [
+                    "oneOf": [
                         {
                             "title": "Slice in the pie chart.",
                             "type": "object",
@@ -154,7 +154,7 @@ class Piechart(Chart):
         self.svg += (
             pie := Element("g", transform=f"translate({utils.N(x)}, {utils.N(y)})")
         )
-        pie += Element("circle", r=utils.N(radius))
+        pie += Element("circle", r=radius)
 
         # Prepare and create slices.
         if self.start is None:

@@ -15,7 +15,7 @@
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: board
 title: Poster
 entries:
@@ -46,7 +46,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: board
 entries:
 - x: 0
@@ -86,8 +86,9 @@ Chart to place charts at specified positions.
 
 - **chart**:
   - *required*
+  - *const* 'board'
 - **title**: Title of the board.
-    - *definition*: See [here](timelines.md#specification)
+  - *See* [text](schema_defs.md#text).
 - **entries**: Component charts at specified positions.
   - *required*
   - *type*: sequence
@@ -106,5 +107,6 @@ Chart to place charts at specified positions.
       - *exclusiveMinimum*: 0
       - *default*: 1
     - **component**:
-        - *definition*: See [here](column.md#specification)
+      - *See* [chart_or_include](schema_defs.md#chart_or_include).
+      - *required*
 

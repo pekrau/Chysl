@@ -11,6 +11,7 @@ import constants
 DEFS = {
     "text": {
         "$anchor": "text",
+        "title": "Text, with or without explicit styling.",
         "oneOf": [
             {
                 "title": "Text with default styling.",
@@ -63,30 +64,39 @@ DEFS = {
     },
     "fuzzy_number": {
         "$anchor": "fuzzy_number",
-        "title": "Number value with either low/high or error.",
-        "type": "object",
-        "required": ["value"],
-        "additionalProperties": False,
-        "minProperties": 2,
-        "properties": {
-            "value": {
-                "title": "Central value for the fuzzy number.",
+        "title": "Number value, exact, or fuzzy with either low/high or error.",
+        "oneOf": [
+            {
+                "title": "Exact number value.",
                 "type": "number",
             },
-            "low": {
-                "title": "Low value for the fuzzy number.",
-                "type": "number",
+            {
+                "title": "Fuzzy number value,  with either low/high or error",
+                "type": "object",
+                "required": ["value"],
+                "additionalProperties": False,
+                "minProperties": 2,
+                "properties": {
+                    "value": {
+                        "title": "Central value for the fuzzy number.",
+                        "type": "number",
+                    },
+                    "low": {
+                        "title": "Low value for the fuzzy number.",
+                        "type": "number",
+                    },
+                    "high": {
+                        "title": "High value for the fuzzy number.",
+                        "type": "number",
+                    },
+                    "error": {
+                        "title": "Symmetrical error around the central value.",
+                        "type": "number",
+                        "exclusiveMinimum": 0,
+                    },
+                },
             },
-            "high": {
-                "title": "High value for the fuzzy number.",
-                "type": "number",
-            },
-            "error": {
-                "title": "Symmetrical error around the central value.",
-                "type": "number",
-                "exclusiveMinimum": 0,
-            },
-        },
+        ],
     },
     "axis": {
         "$anchor": "axis",

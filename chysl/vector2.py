@@ -1,5 +1,10 @@
 "Two-dimensional vector (x, y). Immutable."
 
+# XXX cross product
+# XXX dot product
+# XXX rotate
+# XXX transform, general
+
 import math
 
 
@@ -47,13 +52,17 @@ class Vector2:
         assert isinstance(other, Vector2)
         return Vector2(self.x - other.x, self.y - other.y)
 
-    def __truediv__(self, other):
+    def __mul__(self, other):
         assert isinstance(other, (float, int))
-        return Vector2(self.x / other, self.y / other)
+        return Vector2(other * self.x, other * self.y)
 
     def __rmul__(self, other):
         assert isinstance(other, (float, int))
         return Vector2(other * self.x, other * self.y)
+
+    def __truediv__(self, other):
+        assert isinstance(other, (float, int))
+        return Vector2(self.x / other, self.y / other)
 
     def __float__(self):
         return abs(self)

@@ -14,7 +14,7 @@
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: row
 title: Pies in row
 entries:
@@ -69,8 +69,9 @@ Charts arranged in a row.
 
 - **chart**:
   - *required*
+  - *const* 'row'
 - **title**: Title of the column chart.
-    - *definition*: See [here](timelines.md#specification)
+  - *See* [text](schema_defs.md#text).
 - **align**: Align charts vertically within the row.
   - *one of*: 'bottom', 'middle', 'top'
   - *default*: 'middle'
@@ -78,5 +79,5 @@ Charts arranged in a row.
   - *required*
   - *type*: sequence
   - *items*:
-      - *definition*: See [here](column.md#specification)
+    - *See* [chart_or_include](schema_defs.md#chart_or_include).
 

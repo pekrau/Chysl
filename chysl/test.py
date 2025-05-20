@@ -131,8 +131,6 @@ def test_universe():
 
     universe2 = retrieve("universe.yaml")
     assert universe == universe2
-    universe.render("u1.svg", restart_unique_id=True)
-    universe2.render("u2.svg", restart_unique_id=True)
     assert universe.render(restart_unique_id=True) == universe2.render(
         restart_unique_id=True
     )
@@ -261,6 +259,21 @@ def test_declaration():
     decl.render("declaration.svg")
 
 
+def test_scatter():
+    plot = Plot("Scatter")
+    plot += Scatter(
+        [
+            dict(x=5, y=20),
+            dict(x=20, y=10),
+            dict(x=0, y=0),
+            dict(x=1, y=1),
+            dict(x={"value": 5, "error": 1}, y=5),
+        ]
+    )
+    plot.save("scatter.yaml")
+    plot.render("scatter.svg")
+
+
 def test_notes():
     column = Column()
     column += Note("Header", "Body", "Footer")
@@ -303,11 +316,11 @@ def run_tests():
         test_universe_earth()
         test_pyramid()
         test_day()
-        # XXX dendrogram
-        # test_tree()
+        # test_tree() XXX dendrogram
         test_cpies()
         test_rpies()
         test_declaration()
+        test_scatter()
         test_notes()
         test_poster()
     finally:

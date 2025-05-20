@@ -76,30 +76,21 @@ class Timelines(Chart):
                 "type": "array",
                 "minItems": 1,
                 "items": {
-                    "anyOf": [
+                    "oneOf": [
                         {
                             "title": "Event at an instant in time.",
                             "type": "object",
                             "required": ["entry", "label", "instant"],
                             "additionalProperties": False,
                             "properties": {
-                                "entry": dict(const="event"),
+                                "entry": {"const": "event"},
                                 "label": {
                                     "title": "Description of the event.",
                                     "type": "string",
                                 },
                                 "instant": {
                                     "title": "Time of the event.",
-                                    "oneOf": [
-                                        {
-                                            "title": "Exact time.",
-                                            "type": "number",
-                                        },
-                                        {
-                                            "title": "Imprecise time.",
-                                            "$ref": "#fuzzy_number",
-                                        },
-                                    ],
+                                    "$ref": "#fuzzy_number",
                                 },
                                 "timeline": {
                                     "title": "Timeline to place the event in.",
@@ -134,36 +125,18 @@ class Timelines(Chart):
                             "required": ["entry", "label", "begin", "end"],
                             "additionalProperties": False,
                             "properties": {
-                                "entry": dict(const="period"),
+                                "entry": {"const": "period"},
                                 "label": {
                                     "title": "Description of the period.",
                                     "type": "string",
                                 },
                                 "begin": {
                                     "title": "Starting time of the period.",
-                                    "oneOf": [
-                                        {
-                                            "title": "Exact time.",
-                                            "type": "number",
-                                        },
-                                        {
-                                            "title": "Imprecise time.",
-                                            "$ref": "#fuzzy_number",
-                                        },
-                                    ],
+                                    "$ref": "#fuzzy_number",
                                 },
                                 "end": {
                                     "title": "Ending time of the period.",
-                                    "oneOf": [
-                                        {
-                                            "title": "Exact time.",
-                                            "type": "number",
-                                        },
-                                        {
-                                            "title": "Imprecise time.",
-                                            "$ref": "#fuzzy_number",
-                                        },
-                                    ],
+                                    "$ref": "#fuzzy_number",
                                 },
                                 "timeline": {
                                     "title": "Timeline to place the period in.",
@@ -240,23 +213,23 @@ class Timelines(Chart):
         dimension = Dimension(width=self.width)
         timelines = dict()  # Key: timeline; value: height
 
-        # Set the heights for each timeline, and the offset for legends.
-        area_height = self.height
+        # Set the heights for each timeline and the left padding for legends.
+        height0 = self.height
         kwargs = dict(
             font=constants.DEFAULT_FONT_FAMILY,
             size=self.DEFAULT_FONT_SIZE,
         )
-
         for entry in self.entries:
             if self.legend:
-                dimension.update_offset(utils.get_text_length(entry.timeline, **kwargs))
+                dimension.update_left(utils.get_text_length(entry.timeline, **kwargs))
             dimension.update_span(entry.minmax)
             if entry.timeline not in timelines:
                 self.height += constants.DEFAULT_PADDING
                 timelines[entry.timeline] = self.height
                 self.height += constants.DEFAULT_SIZE + constants.DEFAULT_PADDING
+        dimension.update_right(constants.DEFAULT_PADDING)
 
-        # Time axis lines and their labels.
+        # Time axis grid and its labels.
         if self.axis:
             if isinstance(self.axis, dict):
                 absolute = bool(self.axis.get("absolute"))
@@ -268,10 +241,10 @@ class Timelines(Chart):
                 caption = None
             self.svg += (axis := Element("g"))
             ticks = dimension.get_ticks(absolute=absolute)
-            path = Path(ticks[0].pixel, area_height).V(self.height)
+            path = Path(ticks[0].pixel, height0).V(self.height)
             for tick in ticks[1:]:
-                path.M(tick.pixel, area_height).V(self.height)
-            path.M(ticks[0].pixel, area_height).H(self.width)
+                path.M(tick.pixel, height0).V(self.height)
+            path.M(ticks[0].pixel, height0).H(self.width)
             path.M(ticks[0].pixel, self.height).H(self.width)
             axis += Element("path", d=path, stroke=color)
 
@@ -293,10 +266,11 @@ class Timelines(Chart):
                     label["text-anchor"] = "start"
                 elif tick is ticks[-1]:
                     label["text-anchor"] = "end"
-            self.height += self.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
+            self.height += self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
             # Time axis caption, if any.
             if caption:
+                self.height += self.DEFAULT_FONT_SIZE
                 labels += Element(
                     "text",
                     caption,
@@ -334,10 +308,6 @@ class Timelines(Chart):
                     + (constants.DEFAULT_SIZE + self.DEFAULT_FONT_SIZE) / 2
                     - self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
                 )
-
-        # self.height += (
-        #     constants.DEFAULT_PADDING - self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
-        # )
 
 
 class _Temporal(Entry):

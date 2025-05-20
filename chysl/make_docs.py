@@ -14,14 +14,11 @@ def term(v):
     return TERMS.get(v, v)
 
 
-definitions = {}
-
-
 def make_docs():
-    global definitions
-
     result = []
-    result.append(f"# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo64.svg) Chysl {constants.__version__}\n\n")
+    result.append(
+        f"# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl {constants.__version__}\n\n"
+    )
     result.append(constants.__doc__)
     result.append("\n\n")
 
@@ -33,16 +30,20 @@ def make_docs():
 
     run_tests()
 
-    for key, value in schema.DEFS.items():
-        if anchor := value.get("$anchor"):
-            definitions[anchor] = value
-
     result.append("## Diagrams\n\n")
     for name in constants.CHARTS:
         chartschema = chart.get_class(name).SCHEMA
         result.append(f"- [{name}](docs/{name}.md): {chartschema['title']}\n\n")
 
     with open("../README.md", "w") as outfile:
+        outfile.write("".join(result))
+
+    result = []
+    result.append("# Schema definitions\n")
+    for name, subschema in schema.DEFS.items():
+        result.append(f"\n## {name}\n")
+        result.extend(output_schema(subschema))
+    with open("../docs/schema_defs.md", "w") as outfile:
         outfile.write("".join(result))
 
     for name in constants.CHARTS:
@@ -72,8 +73,6 @@ def make_docs():
 
 
 def output_schema(schema, level=0, required=False, href=None):
-    global definitions
-
     result = []
     prefix = "  " * level
 
@@ -81,31 +80,19 @@ def output_schema(schema, level=0, required=False, href=None):
         result.append(f"\n{prefix}{schema['title']}\n\n")
 
     if ref := schema.get("$ref"):
-        try:
-            schema = definitions[ref[1:]]
-            if schema.get("_has_been_output"):
-                result.append(
-                    f"{prefix}  - *definition*: See [here]({schema['_href']}#specification)\n"
-                )
-                return result
-            schema["_has_been_output"] = True
-            schema["_href"] = href
-        except KeyError:
-            # XXX This can be solved only by pre-processing the anchors.
-            result.append(f"{prefix}- *definition*: See elsewhere.\n")
+        result.append(f"{prefix}- *See* [{ref[1:]}](schema_defs.md{ref}).\n")
 
     if required:
         result.append(f"{prefix}- *required*\n")
+
+    if const := schema.get("const"):
+        result.append(f"{prefix}- *const* '{const}'\n")
 
     if type := schema.get("type"):
         match type:
             case "object":
                 if level != 0:
                     result.append(f"{prefix}- *type*: {term(type)}\n")
-                if anchor := schema.get("$anchor"):
-                    definitions[anchor] = schema
-                    schema["_has_been_output"] = True
-                    schema["_href"] = href
                 required = set(schema.get("required") or [])
                 for key, subschema in schema["properties"].items():
                     if title := subschema.get("title"):

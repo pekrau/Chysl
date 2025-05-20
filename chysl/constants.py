@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts are hierarchically composable."
 
-VERSION = (0, 1, 0)
+VERSION = (0, 2, 0)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"

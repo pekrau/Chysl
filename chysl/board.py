@@ -12,7 +12,6 @@ class Board(Chart):
 
     SCHEMA = {
         "title": __doc__,
-        "$anchor": "board",
         "type": "object",
         "required": ["chart", "entries"],
         "additionalProperties": False,

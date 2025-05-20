@@ -18,7 +18,6 @@ class Dendrogram(Chart):
 
     SCHEMA = {
         "title": __doc__,
-        "$anchor": "dendrogram",
         "type": "object",
         "required": ["entries"],
         "additionalProperties": False,

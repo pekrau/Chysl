@@ -52,7 +52,7 @@
       "type": "array",
       "minItems": 1,
       "items": {
-        "anyOf": [
+        "oneOf": [
           {
             "title": "Slice in the pie chart.",
             "type": "object",
@@ -89,6 +89,7 @@
   "$defs": {
     "text": {
       "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
       "oneOf": [
         {
           "title": "Text with default styling.",
@@ -147,9 +148,7 @@
             }
           }
         }
-      ],
-      "_has_been_output": true,
-      "_href": "timelines.md"
+      ]
     }
   }
 }

@@ -17,7 +17,7 @@
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: column
 title: Universe and Earth
 entries:
@@ -162,7 +162,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: column
 title: Pies in column
 entries:
@@ -220,7 +220,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: column
 entries:
 - chart: note
@@ -254,7 +254,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: board
 entries:
 - x: 0
@@ -294,8 +294,9 @@ Charts stacked in a column.
 
 - **chart**:
   - *required*
+  - *const* 'column'
 - **title**: Title of the column chart.
-    - *definition*: See [here](timelines.md#specification)
+  - *See* [text](schema_defs.md#text).
 - **align**: Align charts horizontally within the column.
   - *one of*: 'left', 'center', 'right'
   - *default*: 'center'
@@ -303,15 +304,5 @@ Charts stacked in a column.
   - *required*
   - *type*: sequence
   - *items*:
-    - Alternative 1: Include another YAML file from the URI reference.
-      - *type*: mapping
-      - **include**:
-        - *required*
-        - *type*: string
-        - *format*: uri-reference
-    - Alternative 2: Specification of any chart.
-      - *type*: mapping
-      - **chart**:
-        - *required*
-        - *one of*: 'timelines', 'piechart', 'note', 'column', 'row', 'board'
+    - *See* [chart_or_include](schema_defs.md#chart_or_include).
 

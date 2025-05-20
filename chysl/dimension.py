@@ -19,12 +19,16 @@ class Epoch(enum.StrEnum):
 class Dimension:
     "Store min/max and calculate base/first/last and ticks for the span."
 
-    def __init__(self, width, offset=0):
+    def __init__(self, width, left=0, right=0, reversed=False):
         assert isinstance(width, (int, float)) and width > 0
-        assert isinstance(offset, (int, float)) and offset >= 0
+        assert isinstance(left, (int, float)) and left >= 0
+        assert isinstance(right, (int, float)) and right >= 0
+        assert isinstance(reversed, bool)
 
         self.width = width
-        self.offset = offset
+        self.left = left
+        self.right = right
+        self.reversed = reversed
         self.min = None
         self.max = None
 
@@ -54,11 +58,22 @@ class Dimension:
         else:
             self.max = max(self.max, value)
 
-    def update_offset(self, value):
+    def expand_span(self, fraction):
+        expansion = fraction * (self.max - self.min)
+        self.min -= expansion
+        self.max += expansion
+
+    def update_left(self, value):
         if isinstance(value, (tuple, list)):
-            self.offset = max(self.offset, *value)
+            self.left = max(self.left, *value)
         else:
-            self.offset = max(self.offset, value)
+            self.left = max(self.left, value)
+
+    def update_right(self, value):
+        if isinstance(value, (tuple, list)):
+            self.right = max(self.right, *value)
+        else:
+            self.right = max(self.right, value)
 
     def get_ticks(self, number=8, absolute=False):
         "Return ticks for the current span (min and max)."
@@ -100,7 +115,7 @@ class Dimension:
         assert best[-2] < self.max
         self.first = best[0]
         self.last = best[-1]
-        self.scale = (self.width - self.offset) / (self.last - self.first)
+        self.scale = (self.width - self.left - self.right) / (self.last - self.first)
         step = 10**self.magnitude
         func = (lambda u: abs(u)) if absolute else (lambda u: u)
         result = [
@@ -110,7 +125,10 @@ class Dimension:
 
     def get_pixel(self, user):
         "Convert user coordinate to pixel coordinate."
-        return self.offset + self.scale * (user - self.first)
+        if self.reversed:
+            return self.right + self.scale * (self.last - user)
+        else:
+            return self.left + self.scale * (user - self.first)
 
     def get_width(self, begin, end):
         "Convert user width to pixel width."

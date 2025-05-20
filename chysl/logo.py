@@ -14,7 +14,9 @@ def logo(size=100):
         height=size,
         viewBox=f"0 0 {size} {size}",
     )
-    svg += (g := Element("g", transform=f"translate(0, {5*size/1000}) scale({size/10})"))
+    svg += (
+        g := Element("g", transform=f"translate(0, {5*size/1000}) scale({size/10})")
+    )
     g += (
         path := Element(
             "path", d=Path(0, 8).h(4).l(1, 1).l(1, -1).h(4), stroke="black", fill="none"
@@ -22,11 +24,19 @@ def logo(size=100):
     )
     path["stroke-width"] = 0.5
     g += (
-        path := Element("path", d=Path(0, 0).L(7, -1).C(8.5, -1.2, 8.5, 1.2, 7, 1).Z(),
-                        stroke="none", fill="black")
+        path := Element(
+            "path",
+            d=Path(0, 0).L(7, -1).C(8.5, -1.2, 8.5, 1.2, 7, 1).Z(),
+            stroke="none",
+            fill="black",
+        )
     )
     path["transform"] = "translate(5, 7.8) rotate(297)"
-    g += (line := Element("line", x1=0.6, y1=0.6, x2=1.2, y2=1.2, stroke="black", fill="none"))
+    g += (
+        line := Element(
+            "line", x1=0.6, y1=0.6, x2=1.2, y2=1.2, stroke="black", fill="none"
+        )
+    )
     line["stroke-width"] = 0.1
     line["stroke-linecap"] = "round"
     line["transform"] = "translate(5, 7.8) rotate(159)"

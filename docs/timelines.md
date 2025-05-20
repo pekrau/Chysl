@@ -17,7 +17,7 @@
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:43+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: timelines
 title:
   text: Universe
@@ -100,7 +100,7 @@ axis:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: timelines
 title: Earth
 entries:
@@ -167,7 +167,7 @@ axis:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: column
 title: Universe and Earth
 entries:
@@ -312,7 +312,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T07:06:44+00:00'
+  timestamp: '2025-05-20T13:58:21+00:00'
 chart: board
 title: Poster
 entries:
@@ -343,33 +343,9 @@ Timelines having events and periods.
 
 - **chart**:
   - *required*
+  - *const* 'timelines'
 - **title**: Title of the timelines chart.
-  - Alternative 1: Text with default styling.
-    - *type*: string
-  - Alternative 2: Text with styling options.
-    - *type*: mapping
-    - **text**: The text to display.
-      - *required*
-      - *type*: string
-    - **size**: Size of font. Default depends on context.
-      - *type*: float
-      - *exclusiveMinimum*: 0
-    - **bold**: Bold font.
-      - *type*: boolean
-      - *default*: false
-    - **italic**: Italics font.
-      - *type*: boolean
-      - *default*: false
-    - **color**: Color of text.
-      - *type*: string
-      - *format*: color
-      - *default*: 'black'
-    - **placement**: Placement of text. Ignored in some contexts.
-      - *one of*: 'left', 'center', 'right'
-      - *default*: 'center'
-    - **anchor**: Text anchor position. Ignored in some contexts.
-      - *one of*: 'start', 'middle', 'end'
-      - *default*: 'middle'
+  - *See* [text](schema_defs.md#text).
 - **width**: Width of chart, in pixels.
   - *type*: float
   - *exclusiveMinimum*: 0
@@ -396,29 +372,17 @@ Timelines having events and periods.
   - *required*
   - *type*: sequence
   - *items*:
-    - Option 1
+    - Alternative 1: Event at an instant in time.
       - *type*: mapping
       - **entry**:
         - *required*
+        - *const* 'event'
       - **label**: Description of the event.
         - *required*
         - *type*: string
       - **instant**: Time of the event.
+        - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
         - *required*
-        - Alternative 1: Exact time.
-          - *type*: float
-        - Alternative 2: Imprecise time.
-          - *type*: mapping
-          - **value**: Central value for the fuzzy number.
-            - *required*
-            - *type*: float
-          - **low**: Low value for the fuzzy number.
-            - *type*: float
-          - **high**: High value for the fuzzy number.
-            - *type*: float
-          - **error**: Symmetrical error around the central value.
-            - *type*: float
-            - *exclusiveMinimum*: 0
       - **timeline**: Timeline to place the event in.
         - *type*: string
       - **marker**: Marker for event.
@@ -434,25 +398,20 @@ Timelines having events and periods.
       - **fuzzy**: Error bar marker for fuzzy number.
         - *type*: boolean
         - *default*: true
-    - Option 2
+    - Alternative 2: Period of time.
       - *type*: mapping
       - **entry**:
         - *required*
+        - *const* 'period'
       - **label**: Description of the period.
         - *required*
         - *type*: string
       - **begin**: Starting time of the period.
+        - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
         - *required*
-        - Alternative 1: Exact time.
-          - *type*: float
-        - Alternative 2: Imprecise time.
-            - *definition*: See [here](timelines.md#specification)
       - **end**: Ending time of the period.
+        - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
         - *required*
-        - Alternative 1: Exact time.
-          - *type*: float
-        - Alternative 2: Imprecise time.
-            - *definition*: See [here](timelines.md#specification)
       - **timeline**: Timeline to place the period in.
         - *type*: string
       - **color**: Color of the period graphic.
