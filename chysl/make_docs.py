@@ -21,7 +21,7 @@ def make_docs():
     global definitions
 
     result = []
-    result.append(f"# Chysl {constants.__version__}\n\n")
+    result.append(f"# ![Chysl](logo64.svg) Chysl {constants.__version__}\n\n")
     result.append(constants.__doc__)
     result.append("\n\n")
 

@@ -1,4 +1,4 @@
-# Chysl 0.1.0
+# ![Chysl](logo64.svg) Chysl 0.1.0
 
 Charts defined in YAML for rendering into SVG. Charts are hierarchically composable.
 
