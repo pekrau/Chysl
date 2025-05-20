@@ -15,9 +15,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.0
-  software: Chysl (Python) 0.2.0
-  timestamp: '2025-05-20T14:09:35+00:00'
+  version: 0.2.1
+  software: Chysl (Python) 0.2.1
 chart: timelines
 title:
   text: Universe
@@ -98,9 +97,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.0
-  software: Chysl (Python) 0.2.0
-  timestamp: '2025-05-20T14:09:35+00:00'
+  version: 0.2.1
+  software: Chysl (Python) 0.2.1
 chart: timelines
 title: Earth
 entries:
@@ -165,9 +163,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.0
-  software: Chysl (Python) 0.2.0
-  timestamp: '2025-05-20T14:09:35+00:00'
+  version: 0.2.1
+  software: Chysl (Python) 0.2.1
 chart: column
 title: Universe and Earth
 entries:
@@ -310,9 +307,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.0
-  software: Chysl (Python) 0.2.0
-  timestamp: '2025-05-20T14:09:35+00:00'
+  version: 0.2.1
+  software: Chysl (Python) 0.2.1
 chart: board
 title: Poster
 entries:

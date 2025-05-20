@@ -4,7 +4,6 @@ import icecream
 
 icecream.install()
 
-import datetime
 import pathlib
 import urllib.parse
 
@@ -199,9 +198,6 @@ class Chart:
             "chysl": {
                 "version": constants.__version__,
                 "software": f"Chysl (Python) {constants.__version__}",
-                "timestamp": datetime.datetime.now(datetime.UTC)
-                .replace(microsecond=0)
-                .isoformat(),
             }
         }
         content.update(data)

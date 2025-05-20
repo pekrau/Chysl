@@ -13,9 +13,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.0
-  software: Chysl (Python) 0.2.0
-  timestamp: '2025-05-20T14:09:35+00:00'
+  version: 0.2.1
+  software: Chysl (Python) 0.2.1
 chart: board
 title: Poster
 entries:
@@ -44,9 +43,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.0
-  software: Chysl (Python) 0.2.0
-  timestamp: '2025-05-20T14:09:35+00:00'
+  version: 0.2.1
+  software: Chysl (Python) 0.2.1
 chart: board
 entries:
 - x: 0
