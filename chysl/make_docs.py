@@ -21,7 +21,7 @@ def make_docs():
     global definitions
 
     result = []
-    result.append(f"# ![Chysl](logo64.svg) Chysl {constants.__version__}\n\n")
+    result.append(f"# ![Chysl](blob/main/logo64.svg) Chysl {constants.__version__}\n\n")
     result.append(constants.__doc__)
     result.append("\n\n")
 
@@ -85,7 +85,7 @@ def output_schema(schema, level=0, required=False, href=None):
             schema = definitions[ref[1:]]
             if schema.get("_has_been_output"):
                 result.append(
-                    f"{prefix}  - *definition*: See [here]({schema['_href']})\n"
+                    f"{prefix}  - *definition*: See [here]({schema['_href']}#specification)\n"
                 )
                 return result
             schema["_has_been_output"] = True

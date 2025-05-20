@@ -216,6 +216,35 @@
     }
   },
   "$defs": {
+    "fuzzy_number": {
+      "$anchor": "fuzzy_number",
+      "title": "Number value with either low/high or error.",
+      "type": "object",
+      "required": [
+        "value"
+      ],
+      "additionalProperties": false,
+      "minProperties": 2,
+      "properties": {
+        "value": {
+          "title": "Central value for the fuzzy number.",
+          "type": "number"
+        },
+        "low": {
+          "title": "Low value for the fuzzy number.",
+          "type": "number"
+        },
+        "high": {
+          "title": "High value for the fuzzy number.",
+          "type": "number"
+        },
+        "error": {
+          "title": "Symmetrical error around the central value.",
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
     "text": {
       "$anchor": "text",
       "oneOf": [
@@ -277,35 +306,6 @@
           }
         }
       ]
-    },
-    "fuzzy_number": {
-      "$anchor": "fuzzy_number",
-      "title": "Number value with either low/high or error.",
-      "type": "object",
-      "required": [
-        "value"
-      ],
-      "additionalProperties": false,
-      "minProperties": 2,
-      "properties": {
-        "value": {
-          "title": "Central value for the fuzzy number.",
-          "type": "number"
-        },
-        "low": {
-          "title": "Low value for the fuzzy number.",
-          "type": "number"
-        },
-        "high": {
-          "title": "High value for the fuzzy number.",
-          "type": "number"
-        },
-        "error": {
-          "title": "Symmetrical error around the central value.",
-          "type": "number",
-          "exclusiveMinimum": 0
-        }
-      }
     }
   }
 }

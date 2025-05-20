@@ -17,7 +17,7 @@
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:53+00:00'
 chart: column
 title: Universe and Earth
 entries:
@@ -162,7 +162,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:53+00:00'
 chart: column
 title: Pies in column
 entries:
@@ -220,7 +220,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:54+00:00'
 chart: column
 entries:
 - chart: note
@@ -254,7 +254,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:54+00:00'
 chart: board
 entries:
 - x: 0
@@ -295,7 +295,7 @@ Charts stacked in a column.
 - **chart**:
   - *required*
 - **title**: Title of the column chart.
-    - *definition*: See [here](timelines.md)
+    - *definition*: See [here](timelines.md#specification)
 - **align**: Align charts horizontally within the column.
   - *one of*: 'left', 'center', 'right'
   - *default*: 'center'

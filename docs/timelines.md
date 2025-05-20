@@ -17,7 +17,7 @@
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:53+00:00'
 chart: timelines
 title:
   text: Universe
@@ -100,7 +100,7 @@ axis:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:53+00:00'
 chart: timelines
 title: Earth
 entries:
@@ -167,7 +167,7 @@ axis:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:53+00:00'
 chart: column
 title: Universe and Earth
 entries:
@@ -312,7 +312,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:54+00:00'
 chart: board
 title: Poster
 entries:
@@ -446,13 +446,13 @@ Timelines having events and periods.
         - Alternative 1: Exact time.
           - *type*: float
         - Alternative 2: Imprecise time.
-            - *definition*: See [here](timelines.md)
+            - *definition*: See [here](timelines.md#specification)
       - **end**: Ending time of the period.
         - *required*
         - Alternative 1: Exact time.
           - *type*: float
         - Alternative 2: Imprecise time.
-            - *definition*: See [here](timelines.md)
+            - *definition*: See [here](timelines.md#specification)
       - **timeline**: Timeline to place the period in.
         - *type*: string
       - **color**: Color of the period graphic.

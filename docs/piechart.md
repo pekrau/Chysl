@@ -17,7 +17,7 @@
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:53+00:00'
 chart: piechart
 title: Pyramid
 entries:
@@ -44,7 +44,7 @@ palette:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:53+00:00'
 chart: piechart
 title:
   text: Day
@@ -101,7 +101,7 @@ total: 24
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:53+00:00'
 chart: column
 title: Pies in column
 entries:
@@ -159,7 +159,7 @@ entries:
 chysl:
   version: 0.1.0
   software: Chysl (Python) 0.1.0
-  timestamp: '2025-05-20T06:45:53+00:00'
+  timestamp: '2025-05-20T07:03:53+00:00'
 chart: row
 title: Pies in row
 entries:
@@ -215,7 +215,7 @@ Pie chart containing slices.
 - **chart**:
   - *required*
 - **title**: Title of the pie chart.
-    - *definition*: See [here](timelines.md)
+    - *definition*: See [here](timelines.md#specification)
 - **diameter**: Diameter of the pie chart.
   - *type*: float
   - *exclusiveMinimum*: 0
