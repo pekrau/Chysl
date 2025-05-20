@@ -84,3 +84,30 @@ Chart specification, or 'include' of a file or web resource.
   - **chart**:
     - *required*
     - *one of*: 'timelines', 'piechart', 'note', 'plot', 'column', 'row', 'board'
+
+## data_or_source
+
+Data provided in-line, or from a file or web source.
+
+- Alternative 1: In-line data points.
+  - *type*: sequence
+  - *items*:
+    - *type*: mapping
+    - **x**:
+      - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
+      - *required*
+    - **y**:
+      - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
+      - *required*
+    - **color**:
+      - *type*: string
+      - *format*: color
+- Alternative 2: Data from file or web source.
+  - *type*: mapping
+  - **source**:
+    - *required*
+    - *type*: string
+    - *format*: uri-reference
+  - **format**: Format of data file.
+    - *one of*: 'csv', 'tsv', 'json', 'yaml'
+    - *default*: 'csv'

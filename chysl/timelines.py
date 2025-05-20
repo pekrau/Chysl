@@ -29,7 +29,7 @@ class Timelines(Chart):
                 "$ref": "#text",
             },
             "width": {
-                "title": "Width of chart, in pixels.",
+                "title": "Width of the chart, including legends etc.",
                 "type": "number",
                 "default": DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,

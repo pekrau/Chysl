@@ -33,46 +33,6 @@
     }
   },
   "$defs": {
-    "chart_or_include": {
-      "$anchor": "chart_or_include",
-      "title": "Chart specification, or 'include' of a file or web resource.",
-      "oneOf": [
-        {
-          "title": "Include another YAML file from the URI reference.",
-          "type": "object",
-          "required": [
-            "include"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "include": {
-              "type": "string",
-              "format": "uri-reference"
-            }
-          }
-        },
-        {
-          "title": "Specification of any chart.",
-          "type": "object",
-          "required": [
-            "chart"
-          ],
-          "properties": {
-            "chart": {
-              "enum": [
-                "timelines",
-                "piechart",
-                "note",
-                "plot",
-                "column",
-                "row",
-                "board"
-              ]
-            }
-          }
-        }
-      ]
-    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -131,6 +91,46 @@
                 "end"
               ],
               "default": "middle"
+            }
+          }
+        }
+      ]
+    },
+    "chart_or_include": {
+      "$anchor": "chart_or_include",
+      "title": "Chart specification, or 'include' of a file or web resource.",
+      "oneOf": [
+        {
+          "title": "Include another YAML file from the URI reference.",
+          "type": "object",
+          "required": [
+            "include"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "include": {
+              "type": "string",
+              "format": "uri-reference"
+            }
+          }
+        },
+        {
+          "title": "Specification of any chart.",
+          "type": "object",
+          "required": [
+            "chart"
+          ],
+          "properties": {
+            "chart": {
+              "enum": [
+                "timelines",
+                "piechart",
+                "note",
+                "plot",
+                "column",
+                "row",
+                "board"
+              ]
             }
           }
         }

@@ -37,7 +37,7 @@ def logo(size=100):
             "line", x1=0.8, y1=0.8, x2=1.8, y2=1.8, stroke="black", fill="none"
         )
     )
-    line["stroke-width"] = 0.1
+    line["stroke-width"] = 0.2
     line["stroke-linecap"] = "round"
     line["transform"] = "translate(5, 7.8) rotate(159)"
     g += (line := line.copy())

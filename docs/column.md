@@ -16,8 +16,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: column
 title: Universe and Earth
 entries:
@@ -160,8 +160,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: column
 title: Pies in column
 entries:
@@ -217,8 +217,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: column
 entries:
 - chart: note
@@ -250,8 +250,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: board
 entries:
 - x: 0

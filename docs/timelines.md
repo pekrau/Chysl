@@ -16,8 +16,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: timelines
 title:
   text: Universe
@@ -98,8 +98,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: timelines
 title: Earth
 entries:
@@ -164,8 +164,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: column
 title: Universe and Earth
 entries:
@@ -308,8 +308,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: board
 title: Poster
 entries:
@@ -343,7 +343,7 @@ Timelines having events and periods.
   - *const* 'timelines'
 - **title**: Title of the timelines chart.
   - *See* [text](schema_defs.md#text).
-- **width**: Width of chart, in pixels.
+- **width**: Width of the chart, including legends etc.
   - *type*: float
   - *exclusiveMinimum*: 0
   - *default*: 600

@@ -133,7 +133,7 @@ DEFS = {
     },
     "chart_or_include": {
         "$anchor": "chart_or_include",
-        "title": "Chart specification, or 'include' of a file or web resource.",
+        "title": "Chart specification, or 'include' of a file or web source.",
         "oneOf": [
             {
                 "title": "Include another YAML file from the URI reference.",
@@ -158,13 +158,60 @@ DEFS = {
             },
         ],
     },
+    "data_or_source": {
+        "$anchor": "data_or_source",
+        "title": "Data provided in-line, or from a file or web source.",
+        "oneOf": [
+            {
+                "title": "In-line data points.",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                    "type": "object",
+                    "required": ["x", "y"],
+                    "additionalProperties": False,
+                    "properties": {
+                        "x": {"$ref": "#fuzzy_number"},
+                        "y": {"$ref": "#fuzzy_number"},
+                        "color": {
+                            "type": "string",
+                            "format": "color",
+                        },
+                    },
+                },
+            },
+            {
+                "title": "Data from file or web source.",
+                "type": "object",
+                "required": ["source"],
+                "additionalProperties": False,
+                "properties": {
+                    "source": {
+                        "type": "string",
+                        "format": "uri-reference",
+                    },
+                    "format": {
+                        "title": "Format of data file.",
+                        "enum": constants.FORMATS,
+                        "default": "csv",
+                    },
+                },
+            },
+        ],
+    },
 }
 
 
 def add_defs(schema):
     "Add the defs that are used by the schema."
-    if refs := find_defs(schema):
-        schema["$defs"] = dict([(r, DEFS[r]) for r in refs])
+    while True:
+        if refs := find_defs(schema):
+            schema["$defs"] = dict([(r, DEFS[r]) for r in refs])
+        else:
+            break
+        # Newly included refs may refer to other, as yet un-included refs.
+        if refs == find_defs(schema):
+            break
 
 
 def find_defs(schema):

@@ -28,7 +28,7 @@ class Plot(Chart):
                 "$ref": "#text",
             },
             "width": {
-                "title": "Width of plot, in pixels.",
+                "title": "Width of the chart, including legends etc.",
                 "type": "number",
                 "default": DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
@@ -42,7 +42,7 @@ class Plot(Chart):
                 "$ref": "#axis",
             },
             "entries": {
-                "title": "Sets of data with visualization specifications.",
+                "title": "Sets of data with specified visualization.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
@@ -54,40 +54,7 @@ class Plot(Chart):
                             "additionalProperties": False,
                             "properties": {
                                 "entry": {"const": "scatter"},
-                                "data": {
-                                    "oneOf": [
-                                        {
-                                            "title": "Explicit data points.",
-                                            "type": "array",
-                                            "minItems": 1,
-                                            "items": {
-                                                "type": "object",
-                                                "required": ["x", "y"],
-                                                "properties": {
-                                                    "x": { "$ref": "#fuzzy_number" },
-                                                    "y": { "$ref": "#fuzzy_number" },
-                                                },
-                                            },
-                                        },
-                                        {
-                                            "title": "Data from file or web resource.",
-                                            "type": "object",
-                                            "required": ["source"],
-                                            "additionalProperties": False,
-                                            "properties": {
-                                                "source": {
-                                                    "type": "string",
-                                                    "format": "uri-reference",
-                                                },
-                                                "format": {
-                                                    "title": "Format of data file.",
-                                                    "enum": constants.FORMATS,
-                                                    "default": "csv",
-                                                },
-                                            },
-                                        },
-                                    ],
-                                },
+                                "data": {"$ref": "#data_or_source"},
                             },
                         },
                     ],
@@ -120,6 +87,16 @@ class Plot(Chart):
         if not isinstance(entry, Scatter):
             raise ValueError(f"invalid entry for plot: {entry}; not a Scatter")
         return entry
+
+    def as_dict(self):
+        result = super().as_dict()
+        if self.width != self.DEFAULT_WIDTH:
+            result["width"] = self.width
+        if self.xaxis is False or isinstance(self.xaxis, dict):
+            result["xaxis"] = self.xaxis
+        if self.yaxis is False or isinstance(self.yaxis, dict):
+            result["yaxis"] = self.yaxis
+        return result
 
     def build(self):
         """Create the SVG elements in the 'svg' attribute. Adds the title, if given.
@@ -252,7 +229,7 @@ class Scatter(Entry):
                 raise ValueError("First dict in the list does not contain 'y'.")
             self.data = copy.deepcopy(data)  # For safety.
 
-        # Data from file or web resource.
+        # Data from file or web source.
         else:
             self.source = data.copy()
             try:
@@ -278,7 +255,7 @@ class Scatter(Entry):
     def as_dict(self):
         result = super().as_dict()
         try:
-            # Data from file or web resource.
+            # Data from file or web source.
             result["data"] = self.source
         except AttributeError:
             # Explicit data points.
@@ -344,6 +321,6 @@ class Scatter(Entry):
                 cx=xdimension.get_pixel(xvalue),
                 cy=ydimension.get_pixel(yvalue),
                 r=self.DEFAULT_SIZE,
-                fill=point.get("color") or "black"
+                fill=point.get("color") or "black",
             )
         return g

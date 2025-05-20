@@ -14,8 +14,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: plot
 title: Scattered points inline
 entries:
@@ -50,8 +50,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.2
-  software: Chysl (Python) 0.2.2
+  version: 0.2.3
+  software: Chysl (Python) 0.2.3
 chart: plot
 title: Scattered points from CSV
 entries:
@@ -70,7 +70,7 @@ entries:
   - *const* 'plot'
 - **title**: Title of the plot.
   - *See* [text](schema_defs.md#text).
-- **width**: Width of plot, in pixels.
+- **width**: Width of the chart, including legends etc.
   - *type*: float
   - *exclusiveMinimum*: 0
   - *default*: 600
@@ -78,7 +78,7 @@ entries:
   - *See* [axis](schema_defs.md#axis).
 - **yaxis**: Y axis specification.
   - *See* [axis](schema_defs.md#axis).
-- **entries**: Sets of data with visualization specifications.
+- **entries**: Sets of data with specified visualization.
   - *required*
   - *type*: sequence
   - *items*:
@@ -88,24 +88,6 @@ entries:
         - *required*
         - *const* 'scatter'
       - **data**:
+        - *See* [data_or_source](schema_defs.md#data_or_source).
         - *required*
-        - Alternative 1: Explicit data points.
-          - *type*: sequence
-          - *items*:
-            - *type*: mapping
-            - **x**:
-              - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
-              - *required*
-            - **y**:
-              - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
-              - *required*
-        - Alternative 2: Data from file or web resource.
-          - *type*: mapping
-          - **source**:
-            - *required*
-            - *type*: string
-            - *format*: uri-reference
-          - **format**: Format of data file.
-            - *one of*: 'csv', 'tsv', 'json', 'yaml'
-            - *default*: 'csv'
 

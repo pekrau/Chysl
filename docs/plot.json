@@ -15,7 +15,7 @@
       "$ref": "#text"
     },
     "width": {
-      "title": "Width of plot, in pixels.",
+      "title": "Width of the chart, including legends etc.",
       "type": "number",
       "default": 600,
       "exclusiveMinimum": 0
@@ -29,7 +29,7 @@
       "$ref": "#axis"
     },
     "entries": {
-      "title": "Sets of data with visualization specifications.",
+      "title": "Sets of data with specified visualization.",
       "type": "array",
       "minItems": 1,
       "items": {
@@ -47,52 +47,7 @@
                 "const": "scatter"
               },
               "data": {
-                "oneOf": [
-                  {
-                    "title": "Explicit data points.",
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                      "type": "object",
-                      "required": [
-                        "x",
-                        "y"
-                      ],
-                      "properties": {
-                        "x": {
-                          "$ref": "#fuzzy_number"
-                        },
-                        "y": {
-                          "$ref": "#fuzzy_number"
-                        }
-                      }
-                    }
-                  },
-                  {
-                    "title": "Data from file or web resource.",
-                    "type": "object",
-                    "required": [
-                      "source"
-                    ],
-                    "additionalProperties": false,
-                    "properties": {
-                      "source": {
-                        "type": "string",
-                        "format": "uri-reference"
-                      },
-                      "format": {
-                        "title": "Format of data file.",
-                        "enum": [
-                          "csv",
-                          "tsv",
-                          "json",
-                          "yaml"
-                        ],
-                        "default": "csv"
-                      }
-                    }
-                  }
-                ]
+                "$ref": "#data_or_source"
               }
             }
           }
@@ -192,6 +147,61 @@
             "caption": {
               "title": "Axis description.",
               "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "data_or_source": {
+      "$anchor": "data_or_source",
+      "title": "Data provided in-line, or from a file or web source.",
+      "oneOf": [
+        {
+          "title": "In-line data points.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "x",
+              "y"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "$ref": "#fuzzy_number"
+              },
+              "y": {
+                "$ref": "#fuzzy_number"
+              },
+              "color": {
+                "type": "string",
+                "format": "color"
+              }
+            }
+          }
+        },
+        {
+          "title": "Data from file or web source.",
+          "type": "object",
+          "required": [
+            "source"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "source": {
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "format": {
+              "title": "Format of data file.",
+              "enum": [
+                "csv",
+                "tsv",
+                "json",
+                "yaml"
+              ],
+              "default": "csv"
             }
           }
         }
