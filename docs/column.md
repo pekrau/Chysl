@@ -16,8 +16,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: column
 title: Universe and Earth
 entries:
@@ -32,7 +32,7 @@ entries:
     timeline: Universe
     color: red
     instant: -13787000000
-    marker: star
+    marker: burst
   - entry: period
     label: Milky Way galaxy
     timeline: Universe
@@ -47,50 +47,6 @@ entries:
     color: lightgreen
     begin: -4567000000
     end: 0
-  - entry: event
-    label: Block
-    timeline: markers
-    instant:
-      value: -12000000000
-      error: 600000000
-    marker: block
-    placement: left
-  - entry: event
-    label: Circle
-    timeline: markers
-    color: cyan
-    instant: -10000000000
-    marker: circle
-    placement: center
-  - entry: event
-    label: Ellipse
-    timeline: markers
-    color: blue
-    instant: -8000000000
-    marker: ellipse
-    placement: left
-  - entry: event
-    label: Oval
-    timeline: markers
-    color: orange
-    instant:
-      value: -6200000000
-      low: -6500000000
-      high: -5500000000
-    placement: left
-  - entry: event
-    label: Pyramid
-    timeline: markers
-    color: gold
-    instant: -4000000000
-    marker: pyramid
-    placement: center
-  - entry: event
-    label: Triangle
-    timeline: markers
-    color: purple
-    instant: -2000000000
-    marker: triangle
   legend: false
   axis:
     absolute: true
@@ -160,8 +116,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: column
 title: Pies in column
 entries:
@@ -217,8 +173,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: column
 entries:
 - chart: note
@@ -250,8 +206,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: board
 entries:
 - x: 0

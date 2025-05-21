@@ -8,6 +8,7 @@ import utils
 from color import Color
 from chart import Chart, Entry, Element
 from dimension import Dimension
+from marker import Marker
 from path import Path
 from vector2 import Vector2
 
@@ -194,7 +195,7 @@ class Timelines(Chart):
         for entry in self.entries:
             if self.legend:
                 dimension.update_left(utils.get_text_length(entry.timeline, **kwargs))
-            dimension.update_span(entry.minmax)
+            dimension.update_span(entry.minmax())
             if entry.timeline not in timelines:
                 self.height += constants.DEFAULT_PADDING
                 timelines[entry.timeline] = self.height
@@ -256,7 +257,7 @@ class Timelines(Chart):
         # Graphics for entries.
         self.svg += (graphics := Element("g"))
         for entry in self.entries:
-            graphics += entry.render_graphic(timelines, dimension)
+            graphics += entry.render_graphic(timelines[entry.timeline], dimension)
 
         # Entry labels after graphics, to render on top.
         self.svg += (labels := Element("g"))
@@ -264,7 +265,7 @@ class Timelines(Chart):
         labels["stroke"] = "none"
         labels["fill"] = "black"
         for entry in self.entries:
-            if label := entry.render_label(timelines, dimension):
+            if label := entry.render_label(timelines[entry.timeline], dimension):
                 labels += label
 
         # Legend labels.
@@ -305,17 +306,16 @@ class _Temporal(Entry):
             result["color"] = self.color
         return result
 
-    @property
     def minmax(self):
         raise NotImplementedError
 
-    def render_graphic(self, timelines, dimension):
+    def render_graphic(self, y, dimension):
         raise NotImplementedError
 
-    def render_label(self, timelines, dimension):
+    def render_label(self, y, dimension):
         raise NotImplementedError
 
-    def render_graphic_error(self, instant, timelines, dimension):
+    def render_graphic_error(self, instant, y, dimension):
         "Get the error bars for the fuzzy instant."
         assert isinstance(instant, dict)
         x = dimension.get_pixel(instant["value"])
@@ -326,7 +326,7 @@ class _Temporal(Entry):
             xlow = dimension.get_pixel(instant["value"] - instant.get("error", 0))
         result += Element(
             "path",
-            d=Path(xlow, timelines[self.timeline] + 0.25 * constants.DEFAULT_SIZE)
+            d=Path(xlow, y + 0.25 * constants.DEFAULT_SIZE)
             .v(0.5 * constants.DEFAULT_SIZE)
             .m(0, -0.25 * constants.DEFAULT_SIZE)
             .H(x),
@@ -337,7 +337,7 @@ class _Temporal(Entry):
             xhigh = dimension.get_pixel(instant["value"] + instant.get("error", 0))
         result += Element(
             "path",
-            d=Path(xhigh, timelines[self.timeline] + 0.25 * constants.DEFAULT_SIZE)
+            d=Path(xhigh, y + 0.25 * constants.DEFAULT_SIZE)
             .v(0.5 * constants.DEFAULT_SIZE)
             .m(0, -0.25 * constants.DEFAULT_SIZE)
             .H(x),
@@ -383,7 +383,6 @@ class Event(_Temporal):
             result["fuzzy"] = False
         return result
 
-    @property
     def minmax(self):
         if isinstance(self.instant, dict):
             return (
@@ -393,158 +392,24 @@ class Event(_Temporal):
         else:
             return self.instant
 
-    def render_graphic(self, timelines, dimension):
+    def render_graphic(self, y, dimension):
         if isinstance(self.instant, dict):
             x = dimension.get_pixel(self.instant["value"])
         else:
             x = dimension.get_pixel(self.instant)
-        color = self.color or "black"
 
-        match self.marker:
-
-            case constants.DISC:
-                elem = Element(
-                    "circle",
-                    cx=utils.N(x),
-                    cy=utils.N(timelines[self.timeline] + constants.DEFAULT_SIZE / 2),
-                    r=constants.DEFAULT_SIZE / 2,
-                    fill=color,
-                    stroke="none",
-                )
-                self.label_x_offset = constants.DEFAULT_SIZE / 2
-
-            case constants.CIRCLE:
-                elem = Element(
-                    "circle",
-                    cx=utils.N(x),
-                    cy=utils.N(timelines[self.timeline] + constants.DEFAULT_SIZE / 2),
-                    r=constants.DEFAULT_SIZE / 2,
-                    fill="none",
-                    stroke=color,
-                )
-                self.label_x_offset = constants.DEFAULT_SIZE / 2
-
-            case constants.OVAL:
-                elem = Element(
-                    "ellipse",
-                    cx=utils.N(x),
-                    cy=utils.N(timelines[self.timeline] + constants.DEFAULT_SIZE / 2),
-                    rx=constants.DEFAULT_SIZE / 5,
-                    ry=constants.DEFAULT_SIZE / 2,
-                    fill=color,
-                    stroke="none",
-                )
-                self.label_x_offset = constants.DEFAULT_SIZE / 5
-
-            case constants.ELLIPSE:
-                elem = Element(
-                    "ellipse",
-                    cx=utils.N(x),
-                    cy=utils.N(timelines[self.timeline] + constants.DEFAULT_SIZE / 2),
-                    rx=constants.DEFAULT_SIZE / 5,
-                    ry=constants.DEFAULT_SIZE / 2,
-                    fill="none",
-                    stroke=color,
-                )
-                self.label_x_offset = constants.DEFAULT_SIZE / 5
-
-            case constants.BLOCK:
-                elem = Element(
-                    "rect",
-                    x=utils.N(x - constants.DEFAULT_SIZE / 2),
-                    y=utils.N(timelines[self.timeline]),
-                    width=utils.N(constants.DEFAULT_SIZE),
-                    height=utils.N(constants.DEFAULT_SIZE),
-                    fill=color,
-                    stroke="none",
-                )
-                self.label_x_offset = constants.DEFAULT_SIZE / 2
-
-            case constants.SQUARE:
-                elem = Element(
-                    "rect",
-                    x=utils.N(x - constants.DEFAULT_SIZE / 2),
-                    y=utils.N(timelines[self.timeline]),
-                    width=utils.N(constants.DEFAULT_SIZE),
-                    height=utils.N(constants.DEFAULT_SIZE),
-                    fill="none",
-                    stroke=color,
-                )
-                self.label_x_offset = constants.DEFAULT_SIZE / 2
-
-            case constants.BAR:
-                elem = Element(
-                    "rect",
-                    x=utils.N(x - constants.DEFAULT_SIZE / 8),
-                    y=utils.N(timelines[self.timeline]),
-                    width=utils.N(constants.DEFAULT_SIZE / 4),
-                    height=utils.N(constants.DEFAULT_SIZE),
-                    fill=color,
-                    stroke="none",
-                )
-                self.label_x_offset = constants.DEFAULT_SIZE / 8
-
-            case constants.PYRAMID:
-                path = (
-                    Path(x, timelines[self.timeline])
-                    .L(
-                        x - constants.DEFAULT_SIZE / 2,
-                        timelines[self.timeline] + constants.DEFAULT_SIZE,
-                    )
-                    .h(constants.DEFAULT_SIZE)
-                    .Z()
-                )
-                elem = Element("path", d=path, fill=color, stroke="none")
-                self.label_x_offset = constants.DEFAULT_SIZE / 2
-
-            case constants.TRIANGLE:
-                path = (
-                    Path(x, timelines[self.timeline] + constants.DEFAULT_SIZE)
-                    .L(
-                        x - constants.DEFAULT_SIZE / 2,
-                        timelines[self.timeline],
-                    )
-                    .h(constants.DEFAULT_SIZE)
-                    .Z()
-                )
-                elem = Element("path", d=path, fill=color, stroke="none")
-                self.label_x_offset = constants.DEFAULT_SIZE / 2
-
-            case constants.STAR:
-                center = Vector2(
-                    x, timelines[self.timeline] + constants.DEFAULT_SIZE / 2
-                )
-                length = constants.DEFAULT_SIZE * math.sqrt(2) / 4
-                path = (
-                    Path(
-                        x - constants.DEFAULT_SIZE / 2,
-                        timelines[self.timeline] + constants.DEFAULT_SIZE / 2,
-                    )
-                    .h(constants.DEFAULT_SIZE)
-                    .M(x, timelines[self.timeline])
-                    .v(constants.DEFAULT_SIZE)
-                    .M(center.x - length, center.y - length)
-                    .L(center.x + length, center.y + length)
-                    .M(center.x + length, center.y - length)
-                    .L(center.x - length, center.y + length)
-                )
-                elem = Element("path", d=path, fill="none", stroke=color)
-                self.label_x_offset = constants.DEFAULT_SIZE / 2
-
-            case constants.NONE:
-                elem = Element("g", fill=color, stroke="none")
-                self.label_x_offset = 0
-
-        elem["stroke-width"] = 2
+        marker = Marker(self.marker, color=self.color)
+        elem = marker.get_graphic(x, y + constants.DEFAULT_SIZE / 2)
+        self.label_x_offset = marker.label_x_offset
 
         # Get error bars if fuzzy value; place below marker itself.
         if self.fuzzy and isinstance(self.instant, dict):
             elem = Element(
-                "g", self.render_graphic_error(self.instant, timelines, dimension), elem
+                "g", self.render_graphic_error(self.instant, y, dimension), elem
             )
         return elem
 
-    def render_label(self, timelines, dimension):
+    def render_label(self, y, dimension):
         if not self.label:
             return None
 
@@ -591,7 +456,7 @@ class Event(_Temporal):
             self.label,
             x=utils.N(x),
             y=utils.N(
-                timelines[self.timeline]
+                y
                 + (constants.DEFAULT_SIZE + self.DEFAULT_FONT_SIZE) / 2
                 - self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
             ),
@@ -630,7 +495,6 @@ class Period(_Temporal):
             result["fuzzy"] = self.fuzzy
         return result
 
-    @property
     def minmax(self):
         if isinstance(self.begin, dict):
             low = self.begin.get("low", self.begin["value"])
@@ -642,7 +506,7 @@ class Period(_Temporal):
             high = self.end
         return (low, high)
 
-    def render_graphic(self, timelines, dimension):
+    def render_graphic(self, y, dimension):
         # Simple case: do not show fuzzy values, or no fuzzy values.
         if (
             self.fuzzy == constants.NONE
@@ -652,7 +516,7 @@ class Period(_Temporal):
             result = Element(
                 "rect",
                 x=utils.N(dimension.get_pixel(self.begin)),
-                y=utils.N(timelines[self.timeline]),
+                y=utils.N(y),
                 width=utils.N(dimension.get_width(self.begin, self.end)),
                 height=constants.DEFAULT_SIZE,
             )
@@ -699,7 +563,6 @@ class Period(_Temporal):
 
             # Graphics depends on how to show fuzzy values.
             result = Element("g")
-            y = timelines[self.timeline]
 
             match self.fuzzy:
 
@@ -713,13 +576,9 @@ class Period(_Temporal):
                         fill=self.color or "white",
                     )
                     if isinstance(self.begin, dict):
-                        result += self.render_graphic_error(
-                            self.begin, timelines, dimension
-                        )
+                        result += self.render_graphic_error(self.begin, y, dimension)
                     if isinstance(self.end, dict):
-                        result += self.render_graphic_error(
-                            self.end, timelines, dimension
-                        )
+                        result += self.render_graphic_error(self.end, y, dimension)
 
                 case constants.WEDGE:
                     path = (
@@ -851,7 +710,7 @@ class Period(_Temporal):
                     raise NotImplementedError
         return result
 
-    def render_label(self, timelines, dimension):
+    def render_label(self, y, dimension):
         if not self.label:
             return None
         if isinstance(self.begin, dict):
@@ -895,7 +754,7 @@ class Period(_Temporal):
             self.label,
             x=utils.N(x),
             y=utils.N(
-                timelines[self.timeline]
+                y
                 + (constants.DEFAULT_SIZE + self.DEFAULT_FONT_SIZE) / 2
                 - self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
             ),

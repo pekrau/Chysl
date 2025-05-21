@@ -116,7 +116,7 @@
     },
     "chart_or_include": {
       "$anchor": "chart_or_include",
-      "title": "Chart specification, or 'include' of a file or web resource.",
+      "title": "Chart specification, or 'include' of a file or web source.",
       "oneOf": [
         {
           "title": "Include another YAML file from the URI reference.",

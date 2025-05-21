@@ -191,7 +191,7 @@ DEFS = {
                         "format": "uri-reference",
                     },
                     "format": {
-                        "title": "Format of data file.",
+                        "title": "Format of data file. Inferred from file extension, if not provided.",
                         "enum": constants.FORMATS,
                         "default": "csv",
                     },

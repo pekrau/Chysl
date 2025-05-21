@@ -71,7 +71,7 @@ Coordinate axis specification.
 
 ## chart_or_include
 
-Chart specification, or 'include' of a file or web resource.
+Chart specification, or 'include' of a file or web source.
 
 - Alternative 1: Include another YAML file from the URI reference.
   - *type*: mapping
@@ -108,6 +108,6 @@ Data provided in-line, or from a file or web source.
     - *required*
     - *type*: string
     - *format*: uri-reference
-  - **format**: Format of data file.
+  - **format**: Format of data file. Inferred from file extension, if not provided.
     - *one of*: 'csv', 'tsv', 'json', 'yaml'
     - *default*: 'csv'

@@ -1,13 +1,12 @@
 x,y,color
-3,4,red
 1,2
-10,13,green
-12,7,cyan
-9,12,purple
-1,12,navy
+2,12,navy
+3,4,red
+6,7
 7,8,orange
 8,7,orange
-7,7,orange
-
+9,12,purple
+10,13,green
+12,7,cyan
 
 

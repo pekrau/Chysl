@@ -3,12 +3,14 @@
 from icecream import ic
 
 import os
+import itertools
 
+import constants
 from lib import *
 
 
 TESTS = {
-    "timelines": ["universe", "earth", "universe_earth", "poster"],
+    "timelines": ["universe", "earth", "universe_earth", "markers", "poster"],
     "piechart": ["pyramid", "day", "cpies", "rpies"],
     # XXX dendrogram
     "plot": ["scatter", "scatter2"],
@@ -26,7 +28,7 @@ def get_universe(legend=True):
         axis={"absolute": True, "caption": "Billion years ago"},
     )
     universe += Event(
-        "Big Bang", -13_787_000_000, timeline="Universe", marker="star", color="red"
+        "Big Bang", -13_787_000_000, timeline="Universe", marker="burst", color="red"
     )
     universe += Period(
         "Milky Way galaxy",
@@ -37,51 +39,6 @@ def get_universe(legend=True):
         fuzzy="gradient",
     )
     universe += Period("Earth", -4_567_000_000, 0, color="lightgreen")
-    universe += Event(
-        "Block",
-        {"value": -12_000_000_000, "error": 600_000_000},
-        timeline="markers",
-        marker="block",
-        placement="left",
-    )
-    universe += Event(
-        "Circle",
-        -10_000_000_000,
-        timeline="markers",
-        marker="circle",
-        color="cyan",
-        placement="center",
-    )
-    universe += Event(
-        "Ellipse",
-        -8_000_000_000,
-        timeline="markers",
-        marker="ellipse",
-        color="blue",
-        placement="left",
-    )
-    universe += Event(
-        "Oval",
-        {"value": -6_200_000_000, "low": -6_500_000_000, "high": -5_500_000_000},
-        timeline="markers",
-        placement="left",
-        color="orange",
-    )
-    universe += Event(
-        "Pyramid",
-        -4_000_000_000,
-        timeline="markers",
-        marker="pyramid",
-        color="gold",
-        placement="center",
-    )
-    universe += Event(
-        "Triangle",
-        -2_000_000_000,
-        timeline="markers",
-        marker="triangle",
-        color="purple",
-    )
     return universe
 
 
@@ -149,6 +106,26 @@ def test_universe_earth():
     both += get_earth(legend=False)
     both.save("universe_earth.yaml")
     both.render("universe_earth.svg")
+
+
+def test_markers():
+    N_PER_ROW = 3
+    markers = Timelines("Markers")
+    markers += Period("Length", 0, N_PER_ROW)
+
+    colors = itertools.cycle(["gray", "coral", "dodgerblue", "orange", "lime"])
+
+    for pos, marker in enumerate(constants.MARKERS):
+        markers += Event(
+            marker,
+            pos % N_PER_ROW + 0.25,
+            timeline=f"Row {1 + pos // N_PER_ROW}",
+            marker=marker,
+            color=next(colors),
+        )
+
+    markers.save("markers.yaml")
+    markers.render("markers.svg")
 
 
 def test_pyramid():
@@ -325,6 +302,7 @@ def run_tests():
         test_universe()
         test_earth()
         test_universe_earth()
+        test_markers()
         test_pyramid()
         test_day()
         # test_tree() XXX dendrogram

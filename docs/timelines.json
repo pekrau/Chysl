@@ -66,13 +66,58 @@
                   "disc",
                   "circle",
                   "oval",
+                  "ovalh",
                   "ellipse",
+                  "ellipseh",
                   "block",
                   "square",
-                  "bar",
+                  "diamond",
                   "pyramid",
                   "triangle",
+                  "wedge",
+                  "trigon",
+                  "pentagon",
+                  "bar",
+                  "barh",
+                  "x",
+                  "plus",
+                  "burst",
                   "star",
+                  "sun",
+                  "mercury",
+                  "venus",
+                  "earth",
+                  "moon",
+                  "mars",
+                  "jupiter",
+                  "saturn",
+                  "uranus",
+                  "neptune",
+                  "alpha",
+                  "beta",
+                  "gamma",
+                  "delta",
+                  "epsilon",
+                  "zeta",
+                  "eta",
+                  "theta",
+                  "iota",
+                  "kappa",
+                  "lambda",
+                  "mu",
+                  "nu",
+                  "xi",
+                  "omicron",
+                  "pi",
+                  "rho",
+                  "sigma1",
+                  "sigma2",
+                  "tau",
+                  "upsilon",
+                  "phi",
+                  "chi",
+                  "psi",
+                  "omega",
                   "none"
                 ],
                 "default": "oval"
@@ -161,6 +206,77 @@
     }
   },
   "$defs": {
+    "fuzzy_number": {
+      "$anchor": "fuzzy_number",
+      "title": "Number value, exact, or fuzzy with either low/high or error.",
+      "oneOf": [
+        {
+          "title": "Exact number value.",
+          "type": "number"
+        },
+        {
+          "title": "Fuzzy number value,  with either low/high or error",
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "additionalProperties": false,
+          "minProperties": 2,
+          "properties": {
+            "value": {
+              "title": "Central value for the fuzzy number.",
+              "type": "number"
+            },
+            "low": {
+              "title": "Low value for the fuzzy number.",
+              "type": "number"
+            },
+            "high": {
+              "title": "High value for the fuzzy number.",
+              "type": "number"
+            },
+            "error": {
+              "title": "Symmetrical error around the central value.",
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
+      "oneOf": [
+        {
+          "title": "Display default axis.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Axis details.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "gray"
+            },
+            "absolute": {
+              "title": "Display absolute values for ticks.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -219,77 +335,6 @@
                 "end"
               ],
               "default": "middle"
-            }
-          }
-        }
-      ]
-    },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
-      "oneOf": [
-        {
-          "title": "Display default axis.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Axis details.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "gray"
-            },
-            "absolute": {
-              "title": "Display absolute values for ticks.",
-              "type": "boolean",
-              "default": false
-            },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
-            }
-          }
-        }
-      ]
-    },
-    "fuzzy_number": {
-      "$anchor": "fuzzy_number",
-      "title": "Number value, exact, or fuzzy with either low/high or error.",
-      "oneOf": [
-        {
-          "title": "Exact number value.",
-          "type": "number"
-        },
-        {
-          "title": "Fuzzy number value,  with either low/high or error",
-          "type": "object",
-          "required": [
-            "value"
-          ],
-          "additionalProperties": false,
-          "minProperties": 2,
-          "properties": {
-            "value": {
-              "title": "Central value for the fuzzy number.",
-              "type": "number"
-            },
-            "low": {
-              "title": "Low value for the fuzzy number.",
-              "type": "number"
-            },
-            "high": {
-              "title": "High value for the fuzzy number.",
-              "type": "number"
-            },
-            "error": {
-              "title": "Symmetrical error around the central value.",
-              "type": "number",
-              "exclusiveMinimum": 0
             }
           }
         }

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="617.800" viewBox="0 0 601 617.800" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.3 plot</desc>
+  <desc>Chysl 0.2.4 plot</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Scattered points from CSV</text>
     <g>
@@ -31,15 +31,15 @@
     </g>
     <g>
       <g stroke="none" fill="black">
-        <circle cx="144.4542857142857" cy="435.31428571428575" r="5" fill="red" />
         <circle cx="61.99142857142857" cy="517.6571428571428" r="5" fill="black" />
-        <circle cx="433.07428571428574" cy="64.77142857142857" r="5" fill="green" />
-        <circle cx="515.5371428571428" cy="311.8" r="5" fill="cyan" />
-        <circle cx="391.84285714285716" cy="105.94285714285715" r="5" fill="purple" />
-        <circle cx="61.99142857142857" cy="105.94285714285715" r="5" fill="navy" />
+        <circle cx="103.22285714285715" cy="105.94285714285715" r="5" fill="navy" />
+        <circle cx="144.4542857142857" cy="435.31428571428575" r="5" fill="red" />
+        <circle cx="268.1485714285714" cy="311.8" r="5" fill="black" />
         <circle cx="309.38" cy="270.62857142857143" r="5" fill="orange" />
         <circle cx="350.6114285714286" cy="311.8" r="5" fill="orange" />
-        <circle cx="309.38" cy="311.8" r="5" fill="orange" />
+        <circle cx="391.84285714285716" cy="105.94285714285715" r="5" fill="purple" />
+        <circle cx="433.07428571428574" cy="64.77142857142857" r="5" fill="green" />
+        <circle cx="515.5371428571428" cy="311.8" r="5" fill="cyan" />
       </g>
     </g>
   </g>

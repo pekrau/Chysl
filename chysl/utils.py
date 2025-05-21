@@ -1,7 +1,25 @@
 "Various utility functions."
 
-import constants
 import itertools
+
+import webcolors
+
+import constants
+from minixml import Element
+
+
+def get_unique_id():
+    count = itertools.count(1)
+    while True:
+        yield f"id{next(count)}"
+
+
+unique_id = get_unique_id()
+
+
+def restart_unique_id():
+    global unique_id
+    unique_id = get_unique_id()
 
 
 def N(x):
@@ -11,6 +29,20 @@ def N(x):
         return f"{round(x):d}"
     else:
         return f"{x:.3f}"
+
+
+def is_color(value):
+    "Is the given value a valid color?"
+    if not isinstance(value, str):
+        return False
+    try:
+        webcolors.normalize_hex(value)
+    except ValueError:
+        try:
+            webcolors.name_to_hex(value)
+        except ValueError:
+            return False
+    return True
 
 
 def get_text_length(text, font, size, italic=False, bold=False):
@@ -30,20 +62,6 @@ def get_text_length(text, font, size, italic=False, bold=False):
         key = "n"
     total = sum([widths.get(c, widths["default"])[key] for c in text])
     return total * size / 100
-
-
-def get_unique_id():
-    count = itertools.count(1)
-    while True:
-        yield f"id{next(count)}"
-
-
-unique_id = get_unique_id()
-
-
-def restart_unique_id():
-    global unique_id
-    unique_id = get_unique_id()
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts are hierarchically composable."
 
-VERSION = (0, 2, 3)
+VERSION = (0, 2, 4)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -42,25 +42,115 @@ PLACEMENTS = [LEFT, CENTER, RIGHT]
 DISC = "disc"
 CIRCLE = "circle"
 OVAL = "oval"
+OVALH = "ovalh"
 ELLIPSE = "ellipse"
+ELLIPSEH = "ellipseh"
 BLOCK = "block"
 SQUARE = "square"
-BAR = "bar"
+DIAMOND = "diamond"
 PYRAMID = "pyramid"
 TRIANGLE = "triangle"
+WEDGE = "wedge"
+TRIGON = "trigon"
+PENTAGON = "pentagon"
+BAR = "bar"
+BARH = "barh"
+X = "x"
+PLUS = "plus"
+BURST = "burst"
 STAR = "star"
+SUN = "sun"
+MERCURY = "mercury"
+VENUS = "venus"
+EARTH = "earth"
+MOON = "moon"
+MARS = "mars"
+JUPITER = "jupiter"
+SATURN = "saturn"
+URANUS = "uranus"
+NEPTUNE = "neptune"
+ALPHA = "alpha"
+BETA = "beta"
+GAMMA = "gamma"
+DELTA = "delta"
+EPSILON = "epsilon"
+ZETA = "zeta"
+ETA = "eta"
+THETA = "theta"
+IOTA = "iota"
+KAPPA = "kappa"
+LAMBDA = "lambda"
+MU = "mu"
+NU = "nu"
+XI = "xi"
+OMICRON = "omicron"
+PI = "pi"
+RHO = "rho"
+SIGMA1 = "sigma1"
+SIGMA2 = "sigma2"
+TAU = "tau"
+UPSILON = "upsilon"
+PHI = "phi"
+CHI = "chi"
+PSI = "psi"
+OMEGA = "omega"
 NONE = "none"
 MARKERS = [
     DISC,
     CIRCLE,
     OVAL,
+    OVALH,
     ELLIPSE,
+    ELLIPSEH,
     BLOCK,
     SQUARE,
-    BAR,
+    DIAMOND,
     PYRAMID,
     TRIANGLE,
+    WEDGE,
+    TRIGON,
+    PENTAGON,
+    BAR,
+    BARH,
+    X,
+    PLUS,
+    BURST,
     STAR,
+    SUN,
+    MERCURY,
+    VENUS,
+    EARTH,
+    MOON,
+    MARS,
+    JUPITER,
+    SATURN,
+    URANUS,
+    NEPTUNE,
+    ALPHA,
+    BETA,
+    GAMMA,
+    DELTA,
+    EPSILON,
+    ZETA,
+    ETA,
+    THETA,
+    IOTA,
+    KAPPA,
+    LAMBDA,
+    MU,
+    NU,
+    XI,
+    OMICRON,
+    PI,
+    RHO,
+    SIGMA1,
+    SIGMA2,
+    TAU,
+    UPSILON,
+    PHI,
+    CHI,
+    PSI,
+    OMEGA,
     NONE,
 ]
 

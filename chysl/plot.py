@@ -109,8 +109,8 @@ class Plot(Chart):
         xdimension = Dimension(width=self.width)
         ydimension = Dimension(width=self.width, reversed=True)
         for entry in self.entries:
-            xdimension.update_span(entry.xminmax)
-            ydimension.update_span(entry.yminmax)
+            xdimension.update_span(entry.xminmax())
+            ydimension.update_span(entry.yminmax())
         xdimension.expand_span(0.05)
         ydimension.expand_span(0.05)
         ydimension.update_right(self.height)
@@ -209,8 +209,8 @@ class Plot(Chart):
             graphics += entry.render_graphic(xdimension, ydimension)
 
 
-class Scatter(Entry):
-    "Scatter plot."
+class _PlotEntry(Entry):
+    "Generic Entry class for Plot."
 
     DEFAULT_SIZE = 5
 
@@ -247,7 +247,7 @@ class Scatter(Entry):
             self.data = []
             for record in reader.data:
                 point = {"x": float(record["x"]), "y": float(record["y"])}
-                if (color := record.get("color")) is not None:
+                if color := record.get("color"):
                     point["color"] = color
                 # XXX Add other properties if any.
                 self.data.append(point)
@@ -268,11 +268,9 @@ class Scatter(Entry):
                 data.append(item)
         return result
 
-    @property
     def xminmax(self):
         return self.minmax("x")
 
-    @property
     def yminmax(self):
         return self.minmax("y")
 
@@ -306,6 +304,10 @@ class Scatter(Entry):
                 low = min(low, value)
                 high = max(high, value)
         return (low, high)
+
+
+class Scatter(_PlotEntry):
+    "Scatter plot."
 
     def render_graphic(self, xdimension, ydimension):
         g = Element("g", stroke="none", fill="black")

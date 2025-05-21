@@ -16,8 +16,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: piechart
 title: Pyramid
 entries:
@@ -42,8 +42,8 @@ palette:
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: piechart
 title:
   text: Day
@@ -98,8 +98,8 @@ total: 24
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: column
 title: Pies in column
 entries:
@@ -155,8 +155,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: row
 title: Pies in row
 entries:

@@ -4,6 +4,7 @@
   - [universe](#universe)
   - [earth](#earth)
   - [universe_earth](#universe_earth)
+  - [markers](#markers)
   - [poster](#poster)
 
 - [Specification](#specification)
@@ -16,8 +17,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: timelines
 title:
   text: Universe
@@ -29,7 +30,7 @@ entries:
   timeline: Universe
   color: red
   instant: -13787000000
-  marker: star
+  marker: burst
 - entry: period
   label: Milky Way galaxy
   timeline: Universe
@@ -44,50 +45,6 @@ entries:
   color: lightgreen
   begin: -4567000000
   end: 0
-- entry: event
-  label: Block
-  timeline: markers
-  instant:
-    value: -12000000000
-    error: 600000000
-  marker: block
-  placement: left
-- entry: event
-  label: Circle
-  timeline: markers
-  color: cyan
-  instant: -10000000000
-  marker: circle
-  placement: center
-- entry: event
-  label: Ellipse
-  timeline: markers
-  color: blue
-  instant: -8000000000
-  marker: ellipse
-  placement: left
-- entry: event
-  label: Oval
-  timeline: markers
-  color: orange
-  instant:
-    value: -6200000000
-    low: -6500000000
-    high: -5500000000
-  placement: left
-- entry: event
-  label: Pyramid
-  timeline: markers
-  color: gold
-  instant: -4000000000
-  marker: pyramid
-  placement: center
-- entry: event
-  label: Triangle
-  timeline: markers
-  color: purple
-  instant: -2000000000
-  marker: triangle
 axis:
   absolute: true
   caption: Billion years ago
@@ -98,8 +55,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: timelines
 title: Earth
 entries:
@@ -164,8 +121,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: column
 title: Universe and Earth
 entries:
@@ -180,7 +137,7 @@ entries:
     timeline: Universe
     color: red
     instant: -13787000000
-    marker: star
+    marker: burst
   - entry: period
     label: Milky Way galaxy
     timeline: Universe
@@ -195,50 +152,6 @@ entries:
     color: lightgreen
     begin: -4567000000
     end: 0
-  - entry: event
-    label: Block
-    timeline: markers
-    instant:
-      value: -12000000000
-      error: 600000000
-    marker: block
-    placement: left
-  - entry: event
-    label: Circle
-    timeline: markers
-    color: cyan
-    instant: -10000000000
-    marker: circle
-    placement: center
-  - entry: event
-    label: Ellipse
-    timeline: markers
-    color: blue
-    instant: -8000000000
-    marker: ellipse
-    placement: left
-  - entry: event
-    label: Oval
-    timeline: markers
-    color: orange
-    instant:
-      value: -6200000000
-      low: -6500000000
-      high: -5500000000
-    placement: left
-  - entry: event
-    label: Pyramid
-    timeline: markers
-    color: gold
-    instant: -4000000000
-    marker: pyramid
-    placement: center
-  - entry: event
-    label: Triangle
-    timeline: markers
-    color: purple
-    instant: -2000000000
-    marker: triangle
   legend: false
   axis:
     absolute: true
@@ -302,14 +215,365 @@ entries:
     absolute: true
     caption: Billion years ago
 ```
+### markers
+
+![markers SVG](markers.svg)
+
+```yaml
+chysl:
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
+chart: timelines
+title: Markers
+entries:
+- entry: period
+  label: Length
+  begin: 0
+  end: 3
+- entry: event
+  label: disc
+  timeline: Row 1
+  color: gray
+  instant: 0.25
+  marker: disc
+- entry: event
+  label: circle
+  timeline: Row 1
+  color: coral
+  instant: 1.25
+  marker: circle
+- entry: event
+  label: oval
+  timeline: Row 1
+  color: dodgerblue
+  instant: 2.25
+- entry: event
+  label: ovalh
+  timeline: Row 2
+  color: orange
+  instant: 0.25
+  marker: ovalh
+- entry: event
+  label: ellipse
+  timeline: Row 2
+  color: lime
+  instant: 1.25
+  marker: ellipse
+- entry: event
+  label: ellipseh
+  timeline: Row 2
+  color: gray
+  instant: 2.25
+  marker: ellipseh
+- entry: event
+  label: block
+  timeline: Row 3
+  color: coral
+  instant: 0.25
+  marker: block
+- entry: event
+  label: square
+  timeline: Row 3
+  color: dodgerblue
+  instant: 1.25
+  marker: square
+- entry: event
+  label: diamond
+  timeline: Row 3
+  color: orange
+  instant: 2.25
+  marker: diamond
+- entry: event
+  label: pyramid
+  timeline: Row 4
+  color: lime
+  instant: 0.25
+  marker: pyramid
+- entry: event
+  label: triangle
+  timeline: Row 4
+  color: gray
+  instant: 1.25
+  marker: triangle
+- entry: event
+  label: wedge
+  timeline: Row 4
+  color: coral
+  instant: 2.25
+  marker: wedge
+- entry: event
+  label: trigon
+  timeline: Row 5
+  color: dodgerblue
+  instant: 0.25
+  marker: trigon
+- entry: event
+  label: pentagon
+  timeline: Row 5
+  color: orange
+  instant: 1.25
+  marker: pentagon
+- entry: event
+  label: bar
+  timeline: Row 5
+  color: lime
+  instant: 2.25
+  marker: bar
+- entry: event
+  label: barh
+  timeline: Row 6
+  color: gray
+  instant: 0.25
+  marker: barh
+- entry: event
+  label: x
+  timeline: Row 6
+  color: coral
+  instant: 1.25
+  marker: x
+- entry: event
+  label: plus
+  timeline: Row 6
+  color: dodgerblue
+  instant: 2.25
+  marker: plus
+- entry: event
+  label: burst
+  timeline: Row 7
+  color: orange
+  instant: 0.25
+  marker: burst
+- entry: event
+  label: star
+  timeline: Row 7
+  color: lime
+  instant: 1.25
+  marker: star
+- entry: event
+  label: sun
+  timeline: Row 7
+  color: gray
+  instant: 2.25
+  marker: sun
+- entry: event
+  label: mercury
+  timeline: Row 8
+  color: coral
+  instant: 0.25
+  marker: mercury
+- entry: event
+  label: venus
+  timeline: Row 8
+  color: dodgerblue
+  instant: 1.25
+  marker: venus
+- entry: event
+  label: earth
+  timeline: Row 8
+  color: orange
+  instant: 2.25
+  marker: earth
+- entry: event
+  label: moon
+  timeline: Row 9
+  color: lime
+  instant: 0.25
+  marker: moon
+- entry: event
+  label: mars
+  timeline: Row 9
+  color: gray
+  instant: 1.25
+  marker: mars
+- entry: event
+  label: jupiter
+  timeline: Row 9
+  color: coral
+  instant: 2.25
+  marker: jupiter
+- entry: event
+  label: saturn
+  timeline: Row 10
+  color: dodgerblue
+  instant: 0.25
+  marker: saturn
+- entry: event
+  label: uranus
+  timeline: Row 10
+  color: orange
+  instant: 1.25
+  marker: uranus
+- entry: event
+  label: neptune
+  timeline: Row 10
+  color: lime
+  instant: 2.25
+  marker: neptune
+- entry: event
+  label: alpha
+  timeline: Row 11
+  color: gray
+  instant: 0.25
+  marker: alpha
+- entry: event
+  label: beta
+  timeline: Row 11
+  color: coral
+  instant: 1.25
+  marker: beta
+- entry: event
+  label: gamma
+  timeline: Row 11
+  color: dodgerblue
+  instant: 2.25
+  marker: gamma
+- entry: event
+  label: delta
+  timeline: Row 12
+  color: orange
+  instant: 0.25
+  marker: delta
+- entry: event
+  label: epsilon
+  timeline: Row 12
+  color: lime
+  instant: 1.25
+  marker: epsilon
+- entry: event
+  label: zeta
+  timeline: Row 12
+  color: gray
+  instant: 2.25
+  marker: zeta
+- entry: event
+  label: eta
+  timeline: Row 13
+  color: coral
+  instant: 0.25
+  marker: eta
+- entry: event
+  label: theta
+  timeline: Row 13
+  color: dodgerblue
+  instant: 1.25
+  marker: theta
+- entry: event
+  label: iota
+  timeline: Row 13
+  color: orange
+  instant: 2.25
+  marker: iota
+- entry: event
+  label: kappa
+  timeline: Row 14
+  color: lime
+  instant: 0.25
+  marker: kappa
+- entry: event
+  label: lambda
+  timeline: Row 14
+  color: gray
+  instant: 1.25
+  marker: lambda
+- entry: event
+  label: mu
+  timeline: Row 14
+  color: coral
+  instant: 2.25
+  marker: mu
+- entry: event
+  label: nu
+  timeline: Row 15
+  color: dodgerblue
+  instant: 0.25
+  marker: nu
+- entry: event
+  label: xi
+  timeline: Row 15
+  color: orange
+  instant: 1.25
+  marker: xi
+- entry: event
+  label: omicron
+  timeline: Row 15
+  color: lime
+  instant: 2.25
+  marker: omicron
+- entry: event
+  label: pi
+  timeline: Row 16
+  color: gray
+  instant: 0.25
+  marker: pi
+- entry: event
+  label: rho
+  timeline: Row 16
+  color: coral
+  instant: 1.25
+  marker: rho
+- entry: event
+  label: sigma1
+  timeline: Row 16
+  color: dodgerblue
+  instant: 2.25
+  marker: sigma1
+- entry: event
+  label: sigma2
+  timeline: Row 17
+  color: orange
+  instant: 0.25
+  marker: sigma2
+- entry: event
+  label: tau
+  timeline: Row 17
+  color: lime
+  instant: 1.25
+  marker: tau
+- entry: event
+  label: upsilon
+  timeline: Row 17
+  color: gray
+  instant: 2.25
+  marker: upsilon
+- entry: event
+  label: phi
+  timeline: Row 18
+  color: coral
+  instant: 0.25
+  marker: phi
+- entry: event
+  label: chi
+  timeline: Row 18
+  color: dodgerblue
+  instant: 1.25
+  marker: chi
+- entry: event
+  label: psi
+  timeline: Row 18
+  color: orange
+  instant: 2.25
+  marker: psi
+- entry: event
+  label: omega
+  timeline: Row 19
+  color: lime
+  instant: 0.25
+  marker: omega
+- entry: event
+  label: none
+  timeline: Row 19
+  color: gray
+  instant: 1.25
+  marker: none
+```
 ### poster
 
 ![poster SVG](poster.svg)
 
 ```yaml
 chysl:
-  version: 0.2.3
-  software: Chysl (Python) 0.2.3
+  version: 0.2.4
+  software: Chysl (Python) 0.2.4
 chart: board
 title: Poster
 entries:
@@ -370,7 +634,7 @@ Timelines having events and periods.
       - **timeline**: Timeline to place the event in.
         - *type*: string
       - **marker**: Marker for event.
-        - *one of*: 'disc', 'circle', 'oval', 'ellipse', 'block', 'square', 'bar', 'pyramid', 'triangle', 'star', 'none'
+        - *one of*: 'disc', 'circle', 'oval', 'ovalh', 'ellipse', 'ellipseh', 'block', 'square', 'diamond', 'pyramid', 'triangle', 'wedge', 'trigon', 'pentagon', 'bar', 'barh', 'x', 'plus', 'burst', 'star', 'sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma1', 'sigma2', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega', 'none'
         - *default*: 'oval'
       - **color**: Color of the event marker.
         - *type*: string
