@@ -13,8 +13,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.5
-  software: Chysl (Python) 0.2.5
+  version: 0.2.6
+  software: Chysl (Python) 0.2.6
 chart: row
 title: Pies in row
 entries:

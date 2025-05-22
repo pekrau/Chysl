@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts are hierarchically composable."
 
-VERSION = (0, 2, 5)
+VERSION = (0, 2, 6)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -39,6 +39,7 @@ HORIZONTAL = [LEFT, CENTER, RIGHT]
 # XXX Add: above, below, left-above, left-below, right-above, right-below.
 PLACEMENTS = [LEFT, CENTER, RIGHT]
 
+# Markers
 DISC = "disc"
 CIRCLE = "circle"
 OVAL = "oval"
@@ -66,52 +67,7 @@ OCTAGON_F = "octagon-fill"
 BAR = "bar"
 BAR_V = "bar-vertical"
 BAR_H = "bar-horizontal"
-X = "x"
-PLUS = "plus"
-CHECK = "check"
-BURST = "burst"
-INFINITY = "infinity"
-STAR = "star"
-STAR_F = "star-fill"
-GALAXY = "galaxy"
-SUN = "sun"
-MERCURY = "mercury"
-VENUS = "venus"
-EARTH = "earth"
-MOON = "moon"
-MARS = "mars"
-JUPITER = "jupiter"
-SATURN = "saturn"
-URANUS = "uranus"
-NEPTUNE = "neptune"
-ALPHA = "alpha"
-BETA = "beta"
-GAMMA = "gamma"
-DELTA = "delta"
-EPSILON = "epsilon"
-ZETA = "zeta"
-ETA = "eta"
-THETA = "theta"
-IOTA = "iota"
-KAPPA = "kappa"
-LAMBDA = "lambda"
-MU = "mu"
-NU = "nu"
-XI = "xi"
-OMICRON = "omicron"
-PI = "pi"
-RHO = "rho"
-SIGMA = "sigma"
-SIGMA1 = "sigma1"
-SIGMA2 = "sigma2"
-TAU = "tau"
-UPSILON = "upsilon"
-PHI = "phi"
-CHI = "chi"
-PSI = "psi"
-OMEGA = "omega"
-NONE = "none"
-MARKERS = [
+GEOMETRY_MARKERS = [
     DISC,
     CIRCLE,
     OVAL,
@@ -139,11 +95,35 @@ MARKERS = [
     BAR,
     BAR_V,
     BAR_H,
-    X,
+]
+CROSS = "cross"
+PLUS = "plus"
+CHECK = "check"
+BURST = "burst"
+INFINITY = "infinity"
+NONE = "none"
+SYMBOL_MARKERS = [
+    CROSS,
     PLUS,
     CHECK,
     BURST,
     INFINITY,
+    NONE,
+]
+STAR = "star"
+STAR_F = "star-fill"
+GALAXY = "galaxy"
+SUN = "sun"
+MERCURY = "mercury"
+VENUS = "venus"
+EARTH = "earth"
+MOON = "moon"
+MARS = "mars"
+JUPITER = "jupiter"
+SATURN = "saturn"
+URANUS = "uranus"
+NEPTUNE = "neptune"
+ASTRONOMY_MARKERS = [
     STAR,
     STAR_F,
     GALAXY,
@@ -157,6 +137,34 @@ MARKERS = [
     SATURN,
     URANUS,
     NEPTUNE,
+ ]
+ALPHA = "alpha"
+BETA = "beta"
+GAMMA = "gamma"
+DELTA = "delta"
+EPSILON = "epsilon"
+ZETA = "zeta"
+ETA = "eta"
+THETA = "theta"
+IOTA = "iota"
+KAPPA = "kappa"
+LAMBDA = "lambda"
+MU = "mu"
+NU = "nu"
+XI = "xi"
+OMICRON = "omicron"
+PI = "pi"
+RHO = "rho"
+SIGMA = "sigma"
+SIGMA1 = "sigma1"
+SIGMA2 = "sigma2"
+TAU = "tau"
+UPSILON = "upsilon"
+PHI = "phi"
+CHI = "chi"
+PSI = "psi"
+OMEGA = "omega"
+GREEK_MARKERS = [
     ALPHA,
     BETA,
     GAMMA,
@@ -183,8 +191,8 @@ MARKERS = [
     CHI,
     PSI,
     OMEGA,
-    NONE,
 ]
+MARKERS = GEOMETRY_MARKERS + SYMBOL_MARKERS + ASTRONOMY_MARKERS + GREEK_MARKERS
 
 # See: https://austingil.com/css-named-colors/#bold
 DEFAULT_PALETTE = [

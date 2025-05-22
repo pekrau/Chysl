@@ -12,14 +12,18 @@ from vector2 import Vector2
 class Marker:
     "Create graphics and label for a marker."
 
-    def __init__(self, marker, color=None, size=None):
-        assert marker in constants.MARKERS
+    def __init__(self, marker, size=None, color=None, opacity=None):
+        assert isinstance(marker, str) and len(marker) >= 1
         assert color is None or utils.is_color(color)
         assert size is None or (isinstance(size, (int, float)) and size > 0)
+        assert opacity is None or (isinstance(opacity, (int, float)) and opacity >= 0 and opacity <= 1)
 
+        if len(marker) > 1 and marker not in constants.MARKERS:
+            marker = "?"
         self.marker = marker
-        self.color = color or "black"
         self.size = size or constants.DEFAULT_SIZE
+        self.color = color or "black"
+        self.opacity = opacity
 
     def get_graphic(self, x, y):
         """Return the graphic element for the marker, given the coordinates in pixels.
@@ -205,7 +209,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(10 * scale)
+                elem["stroke-width"] = 5
                 self.label_x_offset = self.size / 2
 
             case constants.PENTAGON_F:
@@ -230,7 +234,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(1500 * scale)
+                elem["stroke-width"] = 54
                 self.label_x_offset = self.size / 2
 
             case constants.HEXAGON_F:
@@ -255,7 +259,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(10 * scale)
+                elem["stroke-width"] = 5
                 self.label_x_offset = self.size / 2
 
             case constants.HEPTAGON_F:
@@ -280,7 +284,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(2500 * scale)
+                elem["stroke-width"] = 75
                 self.label_x_offset = self.size / 2
 
             case constants.OCTAGON_F:
@@ -319,7 +323,7 @@ class Marker:
                 )
                 self.label_x_offset = self.size / 2
 
-            case constants.X:
+            case constants.CROSS:
                 center = Vector2(x, y)
                 length = self.size * math.sqrt(2) / 4
                 path = (
@@ -351,11 +355,11 @@ class Marker:
                 elem = Element(
                     "path",
                     d="M4 12.6111L8.92308 17.5L20 6.5",
-                    transform=f"translate({utils.N(x)}, {utils.N(y)}) scale({utils.N(scale)}) translate(-12, -12",
+                    transform=f"translate({utils.N(x)}, {utils.N(y)}) scale({utils.N(scale)}) translate(-12, -12)",
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(4 * scale)
+                elem["stroke-width"] = 3
                 self.label_x_offset = self.size / 3
 
             case constants.BURST:
@@ -382,11 +386,11 @@ class Marker:
                 elem = Element(
                     "path",
                     d="M18.1777 8C23.2737 8 23.2737 16 18.1777 16C13.0827 16 11.0447 8 5.43875 8C0.85375 8 0.85375 16 5.43875 16C11.0447 16 13.0828 8 18.1788 8H18.1777Z",
-                    transform=f"translate({utils.N(x)}, {utils.N(y)}) scale({utils.N(scale)}) translate(-12, -12",
+                    transform=f"translate({utils.N(x)}, {utils.N(y)}) scale({utils.N(scale)}) translate(-12, -12)",
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(4 * scale)
+                elem["stroke-width"] = 3
                 self.label_x_offset = self.size / 2.5
 
             case constants.STAR:
@@ -399,7 +403,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(16 * scale)
+                elem["stroke-width"] = 5
                 self.label_x_offset = self.size / 2
 
             case constants.STAR_F:
@@ -424,7 +428,8 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(0.6 * scale)
+                elem["stroke-width"] = 1
+                elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 3
 
             case constants.SUN:
@@ -437,7 +442,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                circle["stroke-width"] = utils.N(6 * scale)
+                circle["stroke-width"] = 9
                 circle["stroke-linecap"] = "round"
                 elem = Element(
                     "g",
@@ -462,7 +467,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(0.6 * scale)
+                elem["stroke-width"] = 1
                 elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 5
 
@@ -476,7 +481,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(0.6 * scale)
+                elem["stroke-width"] = 1
                 elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 4
 
@@ -490,7 +495,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(0.6 * scale)
+                elem["stroke-width"] = 1
                 elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 2.5
 
@@ -504,7 +509,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(0.6 * scale)
+                elem["stroke-width"] = 1
                 self.label_x_offset = self.size / 5
 
             case constants.MARS:
@@ -517,7 +522,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(0.6 * scale)
+                elem["stroke-width"] = 1
                 elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 2.5
 
@@ -531,7 +536,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(0.6 * scale)
+                elem["stroke-width"] = 1
                 elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 3
 
@@ -545,7 +550,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(0.6 * scale)
+                elem["stroke-width"] = 1
                 elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 4
 
@@ -559,7 +564,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                circle["stroke-width"] = 6 * scale
+                circle["stroke-width"] = 9
                 circle["stroke-linecap"] = "round"
                 elem = Element(
                     "g",
@@ -584,7 +589,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = utils.N(0.6 * scale)
+                elem["stroke-width"] = 1
                 elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 3
 
@@ -868,6 +873,21 @@ class Marker:
                 self.label_x_offset = 0
 
             case _:
-                raise NotImplementedError
+                if len(self.marker) != 1:
+                    raise NotImplementedError(self.marker)
+                elem = Element("text",
+                               self.marker,
+                               x=utils.N(x),
+                               y=utils.N(y + self.size / 3.5),
+                               fill=self.color,
+                               stroke="none")
+                elem["font-family"] = "sans-serif"
+                elem["font-weight"] = "bold"
+                elem["text-anchor"] = "middle"
+                elem["font-size"] = self.size
+                self.label_x_offset = self.size / 3
+                
+        if self.opacity is not None and self.opacity != 1:
+            elem["opacity"] = opacity
 
         return elem

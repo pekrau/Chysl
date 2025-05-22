@@ -314,35 +314,52 @@ class Reader:
         if self.scheme == "file":
             try:
                 with open(self.location) as infile:
-                    self.text = infile.read()
+                    self.content = infile.read()
             except OSError as error:
                 raise ValueError(str(error))
         else:
             try:
                 response = requests.get(self.location)
                 response.raise_for_status()
-                self.text = response.text
+                self.content = response.text
             except requests.exceptions.RequestException as error:
                 raise ValueError(str(error))
 
     def parse(self, format):
-        "Parse the text as YAML into data. Raise ValueError if any problem."
+        "Parse the content as YAML into data. Raise ValueError if any problem."
         assert format in constants.FORMATS
         match format:
-            case "csv":
-                reader = csv.DictReader(io.StringIO(self.text), dialect="excel")
+            case "csv" | "tsv":
+                dialect = "excel" if format == "csv" else "excel_tab"
+                # Check if the content seems to have a header.
+                # Tried 'Sniffer' but it didn't behave well.
+                peek_reader = csv.reader(io.StringIO(self.content), dialect= dialect)
+                first_record = next(peek_reader)
+                for part in first_record:
+                    try:
+                        float(part)
+                    except ValueError:
+                        pass
+                    else:
+                        # Does not seem to be a header; row numbers for map.
+                        fieldnames = list(range(1, len(first_record)+1))
+                        break
+                else:
+                    # Has a header; use its field names.
+                    fieldnames = None
+                reader = csv.DictReader(io.StringIO(self.content), dialect="excel")
                 self.data = list(reader)
             case "tsv":
-                reader = csv.DictReader(io.StringIO(self.text), dialect="excel_tab")
+                reader = csv.DictReader(io.StringIO(self.content), dialect="excel_tab")
                 self.data = list(reader)
             case "json":
                 try:
-                    self.data = json.loads(self.text)
+                    self.data = json.loads(self.content)
                 except json.JSONDecodeError as error:
                     raise ValueError(f"cannot interpret data as JSON: {error}")
             case "yaml":
                 try:
-                    self.data = yaml.safe_load(self.text)
+                    self.data = yaml.safe_load(self.content)
                 except yaml.YAMLError as error:
                     raise ValueError(f"cannot interpret data as YAML: {error}")
 

@@ -29,7 +29,7 @@ def make_docs():
     )
 
     result.append(
-        "[JSON Schema](docs/schema_defs.md) for definitions used in chart JSON schema.\n\n"
+        "[JSON Schema](docs/schema_defs.md) for general definitions used in JSON schema of different charts.\n\n"
     )
 
     run_tests()

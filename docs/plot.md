@@ -14,8 +14,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.5
-  software: Chysl (Python) 0.2.5
+  version: 0.2.6
+  software: Chysl (Python) 0.2.6
 chart: plot
 title: Scattered points inline
 entries:
@@ -24,25 +24,31 @@ entries:
   - x: 5
     y: 20
   - x: 12
-    y: 12
+    y: 12.5
     color: red
+    marker: alpha
   - x: 13
     y: 12
     color: red
+    marker: beta
   - x: 14
     y: 11
     color: red
-  - x: 20
-    y: 10
+    marker: gamma
+  - x: 19
+    y: 9
+    color: orange
+    marker: '#'
   - x: 0
     y: 0
+    size: 10
   - x: 1
     y: 1
   - x: 6
     y:
       value: 7
       error: 1
-    color: green
+    color: lime
 ```
 ### scatter2
 
@@ -50,8 +56,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.5
-  software: Chysl (Python) 0.2.5
+  version: 0.2.6
+  software: Chysl (Python) 0.2.6
 chart: plot
 title: Scattered points from CSV
 entries:
@@ -63,7 +69,7 @@ entries:
 
 [JSON Schema](plot.md)
 
-2D chart plotting x/y data.
+2D chart plotting x/y data; scatter, etc.
 
 - **chart**:
   - *required*

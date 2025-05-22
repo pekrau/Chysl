@@ -62,81 +62,7 @@
               },
               "marker": {
                 "title": "Marker for event.",
-                "enum": [
-                  "disc",
-                  "circle",
-                  "oval",
-                  "oval-vertical",
-                  "oval-horizontal",
-                  "ellipse",
-                  "ellipse-vertical",
-                  "ellipse-horizontal",
-                  "block",
-                  "square",
-                  "diamond",
-                  "diamond-fill",
-                  "pyramid",
-                  "triangle",
-                  "wedge",
-                  "trigon",
-                  "pentagon",
-                  "pentagon-fill",
-                  "hexagon",
-                  "hexagon-fill",
-                  "heptagon",
-                  "heptagon-fill",
-                  "octagon",
-                  "octagon-fill",
-                  "bar",
-                  "bar-vertical",
-                  "bar-horizontal",
-                  "x",
-                  "plus",
-                  "check",
-                  "burst",
-                  "infinity",
-                  "star",
-                  "star-fill",
-                  "galaxy",
-                  "sun",
-                  "mercury",
-                  "venus",
-                  "earth",
-                  "moon",
-                  "mars",
-                  "jupiter",
-                  "saturn",
-                  "uranus",
-                  "neptune",
-                  "alpha",
-                  "beta",
-                  "gamma",
-                  "delta",
-                  "epsilon",
-                  "zeta",
-                  "eta",
-                  "theta",
-                  "iota",
-                  "kappa",
-                  "lambda",
-                  "mu",
-                  "nu",
-                  "xi",
-                  "omicron",
-                  "pi",
-                  "rho",
-                  "sigma",
-                  "sigma1",
-                  "sigma2",
-                  "tau",
-                  "upsilon",
-                  "phi",
-                  "chi",
-                  "psi",
-                  "omega",
-                  "none"
-                ],
-                "default": "oval"
+                "$ref": "#marker"
               },
               "color": {
                 "title": "Color of the event marker.",
@@ -222,39 +148,6 @@
     }
   },
   "$defs": {
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
-      "oneOf": [
-        {
-          "title": "Display default axis.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Axis details.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "gray"
-            },
-            "absolute": {
-              "title": "Display absolute values for ticks.",
-              "type": "boolean",
-              "default": false
-            },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
-            }
-          }
-        }
-      ]
-    },
     "fuzzy_number": {
       "$anchor": "fuzzy_number",
       "title": "Number value, exact, or fuzzy with either low/high or error.",
@@ -288,6 +181,39 @@
               "title": "Symmetrical error around the central value.",
               "type": "number",
               "exclusiveMinimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
+      "oneOf": [
+        {
+          "title": "Display default axis.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Axis details.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "gray"
+            },
+            "absolute": {
+              "title": "Display absolute values for ticks.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
             }
           }
         }
@@ -353,6 +279,96 @@
               "default": "middle"
             }
           }
+        }
+      ]
+    },
+    "marker": {
+      "$anchor": "marker",
+      "title": "Symbol for use as a marker in a chart.",
+      "oneOf": [
+        {
+          "title": "Predefined symbols.",
+          "enum": [
+            "disc",
+            "circle",
+            "oval",
+            "oval-vertical",
+            "oval-horizontal",
+            "ellipse",
+            "ellipse-vertical",
+            "ellipse-horizontal",
+            "block",
+            "square",
+            "diamond",
+            "diamond-fill",
+            "pyramid",
+            "triangle",
+            "wedge",
+            "trigon",
+            "pentagon",
+            "pentagon-fill",
+            "hexagon",
+            "hexagon-fill",
+            "heptagon",
+            "heptagon-fill",
+            "octagon",
+            "octagon-fill",
+            "bar",
+            "bar-vertical",
+            "bar-horizontal",
+            "cross",
+            "plus",
+            "check",
+            "burst",
+            "infinity",
+            "none",
+            "star",
+            "star-fill",
+            "galaxy",
+            "sun",
+            "mercury",
+            "venus",
+            "earth",
+            "moon",
+            "mars",
+            "jupiter",
+            "saturn",
+            "uranus",
+            "neptune",
+            "alpha",
+            "beta",
+            "gamma",
+            "delta",
+            "epsilon",
+            "zeta",
+            "eta",
+            "theta",
+            "iota",
+            "kappa",
+            "lambda",
+            "mu",
+            "nu",
+            "xi",
+            "omicron",
+            "pi",
+            "rho",
+            "sigma",
+            "sigma1",
+            "sigma2",
+            "tau",
+            "upsilon",
+            "phi",
+            "chi",
+            "psi",
+            "omega"
+          ],
+          "default": "disc"
+        },
+        {
+          "title": "Single characters.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1
         }
       ]
     }

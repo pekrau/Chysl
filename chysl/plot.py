@@ -1,4 +1,4 @@
-"2D chart plotting x/y data."
+"2D chart plotting x/y data; scatter, etc."
 
 import copy
 import pathlib
@@ -8,11 +8,12 @@ import schema
 import utils
 from chart import Chart, Entry, Reader, Element
 from dimension import Dimension
+from marker import Marker
 from path import Path
 
 
 class Plot(Chart):
-    "2D chart plotting x/y data."
+    "2D chart plotting x/y data; scatter, etc."
 
     DEFAULT_WIDTH = 600
 
@@ -114,7 +115,7 @@ class Plot(Chart):
         xdimension.expand_span(0.05)
         ydimension.expand_span(0.05)
         ydimension.update_right(self.height)
-        # XXX This is a kludge.
+        # XXX This is a kludge, assuming legend label is two characters wide.
         xdimension.update_left(
             utils.get_text_length(
                 "99", constants.DEFAULT_FONT_FAMILY, self.DEFAULT_FONT_SIZE
@@ -245,11 +246,18 @@ class _PlotEntry(Entry):
             reader.read()
             reader.parse(format)
             self.data = []
+            # NOTE: all data from CSV/TSV files are string, so must be converted.
             for record in reader.data:
                 point = {"x": float(record["x"]), "y": float(record["y"])}
+                # Test is for empty string, which represents None.
                 if color := record.get("color"):
                     point["color"] = color
-                # XXX Add other properties if any.
+                if size := record.get("size"):
+                    point["size"] = max(0.0, float(size))
+                if marker := record.get("marker"):
+                    point["marker"] = marker
+                if opacity := record.get("opacity"):
+                    point["opacity"] = max(0.0, min(1.0, float(opacity)))
                 self.data.append(point)
 
     def as_dict(self):
@@ -264,7 +272,12 @@ class _PlotEntry(Entry):
                 item = {"x": point["x"], "y": point["y"]}
                 if (color := point.get("color")) is not None:
                     item["color"] = color
-                # XXX Add other properties if any.
+                if (size := point.get("size")) is not None:
+                    item["size"] = size
+                if (marker := point.get("marker")) is not None:
+                    item["marker"] = marker
+                if (opacity := point.get("opacity")) is not None and opacity != 1:
+                    item["opacity"] = opacity
                 data.append(item)
         return result
 
@@ -309,20 +322,23 @@ class _PlotEntry(Entry):
 class Scatter(_PlotEntry):
     "Scatter plot."
 
+    DEFAULT_MARKER = constants.DISC
+
     def render_graphic(self, xdimension, ydimension):
-        g = Element("g", stroke="none", fill="black")
+        g = Element("g")
         for point in self.data:
             xvalue = point["x"]
             if isinstance(xvalue, dict):
                 xvalue = xvalue["value"]
+                # XXX display error bar!
             yvalue = point["y"]
             if isinstance(yvalue, dict):
                 yvalue = yvalue["value"]
-            g += Element(
-                "circle",
-                cx=xdimension.get_pixel(xvalue),
-                cy=ydimension.get_pixel(yvalue),
-                r=self.DEFAULT_SIZE,
-                fill=point.get("color") or "black",
-            )
+                # XXX display error bar!
+            marker = Marker(point.get("marker", self.DEFAULT_MARKER),
+                            size=point.get("size"),
+                            color=point.get("color"),
+                            opacity=point.get("opacity"))
+            g += marker.get_graphic(xdimension.get_pixel(xvalue),
+                                    ydimension.get_pixel(yvalue))
         return g

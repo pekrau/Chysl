@@ -71,8 +71,7 @@ class Timelines(Chart):
                                 },
                                 "marker": {
                                     "title": "Marker for event.",
-                                    "enum": constants.MARKERS,
-                                    "default": constants.OVAL,
+                                    "$ref": "#marker",
                                 },
                                 "color": {
                                     "title": "Color of the event marker.",
@@ -363,7 +362,7 @@ class Event(_Temporal):
     ):
         super().__init__(label=label, timeline=timeline, color=color)
         assert isinstance(instant, (int, float, dict))
-        assert marker is None or marker in constants.MARKERS
+        # assert marker is None or marker in constants.MARKERS
         assert placement is None or placement in constants.PLACEMENTS
         assert fuzzy is None or isinstance(fuzzy, bool)
 
@@ -596,12 +595,13 @@ class Period(_Temporal):
                 case constants.GRADIENT:
                     # The constant-color part of the period.
                     if x2 < x3:
+                        tweak = 0.5 # In some viewers, there is a glitch between parts.
                         # The filled rectangle.
                         result += Element(
                             "rect",
-                            x=x2,
+                            x=x2 - tweak,
                             y=utils.N(y),
-                            width=utils.N(x3 - x2),
+                            width=utils.N(x3 - x2 + 2 * tweak),
                             height=constants.DEFAULT_SIZE,
                             stroke="none",
                             fill=self.color or "white",
@@ -609,7 +609,7 @@ class Period(_Temporal):
                         # The lines at the long edges of the filled rectangle.
                         result += Element(
                             "path",
-                            d=Path(x2, y).H(x3).m(0, constants.DEFAULT_SIZE).H(x2),
+                            d=Path(x2 - tweak, y).H(x3 + 2 * tweak).m(0, constants.DEFAULT_SIZE).H(x2 - tweak),
                             stroke="black",
                         )
                     # The left gradient of the period.

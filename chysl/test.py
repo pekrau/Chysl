@@ -2,8 +2,9 @@
 
 from icecream import ic
 
-import os
 import itertools
+import os
+import string
 
 import constants
 from lib import *
@@ -14,7 +15,7 @@ TESTS = {
     "piechart": ["pyramid", "day", "cpies", "rpies"],
     # XXX dendrogram
     "plot": ["scatter", "scatter2"],
-    "column": ["universe_earth", "cpies", "cnotes", "notes"],
+    "column": ["universe_earth", "cpies", "cnotes", "notes", "markers"],
     "row": ["rpies"],
     "note": ["declaration", "cnotes", "notes", "cpies", "poster"],
     "board": ["poster", "notes"],
@@ -35,8 +36,15 @@ def get_universe(legend=True):
         {"value": -7_500_000_000, "low": -8_500_000_000},
         0,
         timeline="Universe",
-        color="navy",
+        color="dodgerblue",
         fuzzy="gradient",
+    )
+    universe += Event(
+        "",
+        -8_500_000_000,
+        timeline="Universe",
+        color="navy",
+        marker="galaxy",
     )
     universe += Period("Earth", -4_567_000_000, 0, color="lightgreen")
     return universe
@@ -109,13 +117,15 @@ def test_universe_earth():
 
 
 def test_markers():
-    N_PER_ROW = 3
-    markers = Timelines("Markers")
-    markers += Period("Length", 0, N_PER_ROW)
-
     colors = itertools.cycle(["gray", "coral", "dodgerblue", "orange", "lime"])
+    N_PER_ROW = 3
+    all_markers = Row("Markers", align="top")
+    all_markers += (left_panel := Column())
+    all_markers += (right_panel := Column())
 
-    for pos, marker in enumerate(constants.MARKERS):
+    left_panel += (markers := Timelines("Geometry markers"))
+    markers += Period("Length", 0, N_PER_ROW)
+    for pos, marker in enumerate(constants.GEOMETRY_MARKERS):
         markers += Event(
             marker,
             pos % N_PER_ROW + 0.25,
@@ -124,8 +134,53 @@ def test_markers():
             color=next(colors),
         )
 
-    markers.save("markers.yaml")
-    markers.render("markers.svg")
+    left_panel += (markers := Timelines("Symbol markers"))
+    markers += Period("Length", 0, N_PER_ROW)
+    for pos, marker in enumerate(constants.SYMBOL_MARKERS):
+        markers += Event(
+            marker,
+            pos % N_PER_ROW + 0.25,
+            timeline=f"Row {1 + pos // N_PER_ROW}",
+            marker=marker,
+            color=next(colors),
+        )
+
+    left_panel += (markers := Timelines("Astronomy markers"))
+    markers += Period("Length", 0, N_PER_ROW)
+    for pos, marker in enumerate(constants.ASTRONOMY_MARKERS):
+        markers += Event(
+            marker,
+            pos % N_PER_ROW + 0.25,
+            timeline=f"Row {1 + pos // N_PER_ROW}",
+            marker=marker,
+            color=next(colors),
+        )
+ 
+    left_panel += (markers := Timelines("Greek markers"))
+    markers += Period("Length", 0, N_PER_ROW)
+    for pos, marker in enumerate(constants.GREEK_MARKERS):
+        markers += Event(
+            marker,
+            pos % N_PER_ROW + 0.25,
+            timeline=f"Row {1 + pos // N_PER_ROW}",
+            marker=marker,
+            color=next(colors),
+        )
+
+    right_panel += (markers := Timelines("Character markers"))
+    markers += Period("Length", 0, N_PER_ROW)
+    characters = string.ascii_letters + string.digits + string.punctuation
+    for pos, marker in enumerate(characters):
+        markers += Event(
+            marker,
+            pos % N_PER_ROW + 0.25,
+            timeline=f"Row {1 + pos // N_PER_ROW}",
+            marker=marker,
+            color=next(colors),
+        )
+
+    all_markers.save("markers.yaml")
+    all_markers.render("markers.svg")
 
 
 def test_pyramid():
@@ -242,13 +297,13 @@ def test_scatter():
     plot += Scatter(
         [
             dict(x=5, y=20),
-            dict(x=12, y=12, color="red"),
-            dict(x=13, y=12, color="red"),
-            dict(x=14, y=11, color="red"),
-            dict(x=20, y=10),
-            dict(x=0, y=0),
+            dict(x=12, y=12.5, color="red", marker="alpha"),
+            dict(x=13, y=12, color="red", marker="beta"),
+            dict(x=14, y=11, color="red", marker="gamma"),
+            dict(x=19, y=9, color="orange", marker="#"),
+            dict(x=0, y=0, size=10),
             dict(x=1, y=1),
-            dict(x=6, y={"value": 7, "error": 1}, color="green"),
+            dict(x=6, y={"value": 7, "error": 1}, color="lime"),
         ]
     )
     plot.save("scatter.yaml")

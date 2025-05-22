@@ -1,4 +1,4 @@
-# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.2.5
+# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.2.6
 
 Charts defined in YAML for rendering into SVG. Charts are hierarchically composable.
 
@@ -8,7 +8,7 @@ The YAML file must contain the software identification marker:
 
 where `{version}` is either `null` or the string representing the version of the software.
 
-[JSON Schema](docs/schema_defs.md) for definitions used in chart JSON schema.
+[JSON Schema](docs/schema_defs.md) for general definitions used in JSON schema of different charts.
 
 ## Charts
 
@@ -18,7 +18,7 @@ where `{version}` is either `null` or the string representing the version of the
 
 - [note](docs/note.md): Textual note with title, body and footer text.
 
-- [plot](docs/plot.md): 2D chart plotting x/y data.
+- [plot](docs/plot.md): 2D chart plotting x/y data; scatter, etc.
 
 - [column](docs/column.md): Charts stacked in a column.
 

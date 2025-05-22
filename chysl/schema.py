@@ -98,6 +98,23 @@ DEFS = {
             },
         ],
     },
+    "marker": {
+        "$anchor": "marker",
+        "title": "Symbol for use as a marker in a chart.",
+        "oneOf": [
+            {
+                "title": "Predefined symbols.",
+                "enum": constants.MARKERS,
+                "default": constants.DISC,
+            },
+            {
+                "title": "Single characters.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1,
+            },
+        ],
+    },
     "axis": {
         "$anchor": "axis",
         "title": "Coordinate axis specification.",
@@ -133,10 +150,10 @@ DEFS = {
     },
     "chart_or_include": {
         "$anchor": "chart_or_include",
-        "title": "Chart specification, or 'include' of a file or web source.",
+        "title": "In-line chart specification, or location (file of web resource) to read the chart specification from.",
         "oneOf": [
             {
-                "title": "Include another YAML file from the URI reference.",
+                "title": "Read the chart specification (YAML) from the URI reference.",
                 "type": "object",
                 "required": ["include"],
                 "additionalProperties": False,
@@ -148,7 +165,7 @@ DEFS = {
                 },
             },
             {
-                "title": "Specification of any chart.",
+                "title": "Specification of a chart.",
                 "type": "object",
                 "required": ["chart"],
                 "properties": {
@@ -173,10 +190,20 @@ DEFS = {
                     "properties": {
                         "x": {"$ref": "#fuzzy_number"},
                         "y": {"$ref": "#fuzzy_number"},
+                        "size": {
+                            "type": "number",
+                            "minimumExclusive": 0,
+                        },
                         "color": {
                             "type": "string",
                             "format": "color",
                         },
+                        "opacity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                        },
+                        "marker": {"$ref": "#marker"},
                     },
                 },
             },

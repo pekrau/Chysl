@@ -50,6 +50,16 @@ Number value, exact, or fuzzy with either low/high or error.
     - *type*: float
     - *exclusiveMinimum*: 0
 
+## marker
+
+Symbol for use as a marker in a chart.
+
+- Alternative 1: Predefined symbols.
+  - *one of*: 'disc', 'circle', 'oval', 'oval-vertical', 'oval-horizontal', 'ellipse', 'ellipse-vertical', 'ellipse-horizontal', 'block', 'square', 'diamond', 'diamond-fill', 'pyramid', 'triangle', 'wedge', 'trigon', 'pentagon', 'pentagon-fill', 'hexagon', 'hexagon-fill', 'heptagon', 'heptagon-fill', 'octagon', 'octagon-fill', 'bar', 'bar-vertical', 'bar-horizontal', 'cross', 'plus', 'check', 'burst', 'infinity', 'none', 'star', 'star-fill', 'galaxy', 'sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'sigma1', 'sigma2', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega'
+  - *default*: 'disc'
+- Alternative 2: Single characters.
+  - *type*: string
+
 ## axis
 
 Coordinate axis specification.
@@ -71,15 +81,15 @@ Coordinate axis specification.
 
 ## chart_or_include
 
-Chart specification, or 'include' of a file or web source.
+In-line chart specification, or location (file of web resource) to read the chart specification from.
 
-- Alternative 1: Include another YAML file from the URI reference.
+- Alternative 1: Read the chart specification (YAML) from the URI reference.
   - *type*: mapping
   - **include**:
     - *required*
     - *type*: string
     - *format*: uri-reference
-- Alternative 2: Specification of any chart.
+- Alternative 2: Specification of a chart.
   - *type*: mapping
   - **chart**:
     - *required*
@@ -99,9 +109,17 @@ Data provided in-line, or from a file or web source.
     - **y**:
       - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
       - *required*
+    - **size**:
+      - *type*: float
     - **color**:
       - *type*: string
       - *format*: color
+    - **opacity**:
+      - *type*: float
+      - *minimum*: 0
+      - *maximum*: 1
+    - **marker**:
+      - *See* [marker](schema_defs.md#marker).
 - Alternative 2: Data from file or web source.
   - *type*: mapping
   - **source**:

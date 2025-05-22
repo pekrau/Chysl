@@ -1,6 +1,6 @@
 chysl:
-  version: 0.2.5
-  software: Chysl (Python) 0.2.5
+  version: 0.2.6
+  software: Chysl (Python) 0.2.6
 chart: column
 title: Universe and Earth
 entries:
@@ -19,12 +19,18 @@ entries:
   - entry: period
     label: Milky Way galaxy
     timeline: Universe
-    color: navy
+    color: dodgerblue
     begin:
       value: -7500000000
       low: -8500000000
     end: 0
     fuzzy: gradient
+  - entry: event
+    label: ''
+    timeline: Universe
+    color: navy
+    instant: -8500000000
+    marker: galaxy
   - entry: period
     label: Earth
     color: lightgreen
