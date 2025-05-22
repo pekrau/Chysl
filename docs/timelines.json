@@ -66,23 +66,38 @@
                   "disc",
                   "circle",
                   "oval",
-                  "ovalh",
+                  "oval-vertical",
+                  "oval-horizontal",
                   "ellipse",
-                  "ellipseh",
+                  "ellipse-vertical",
+                  "ellipse-horizontal",
                   "block",
                   "square",
                   "diamond",
+                  "diamond-fill",
                   "pyramid",
                   "triangle",
                   "wedge",
                   "trigon",
                   "pentagon",
+                  "pentagon-fill",
+                  "hexagon",
+                  "hexagon-fill",
+                  "heptagon",
+                  "heptagon-fill",
+                  "octagon",
+                  "octagon-fill",
                   "bar",
-                  "barh",
+                  "bar-vertical",
+                  "bar-horizontal",
                   "x",
                   "plus",
+                  "check",
                   "burst",
+                  "infinity",
                   "star",
+                  "star-fill",
+                  "galaxy",
                   "sun",
                   "mercury",
                   "venus",
@@ -110,6 +125,7 @@
                   "omicron",
                   "pi",
                   "rho",
+                  "sigma",
                   "sigma1",
                   "sigma2",
                   "tau",
@@ -206,6 +222,39 @@
     }
   },
   "$defs": {
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
+      "oneOf": [
+        {
+          "title": "Display default axis.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Axis details.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "gray"
+            },
+            "absolute": {
+              "title": "Display absolute values for ticks.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
     "fuzzy_number": {
       "$anchor": "fuzzy_number",
       "title": "Number value, exact, or fuzzy with either low/high or error.",
@@ -239,39 +288,6 @@
               "title": "Symmetrical error around the central value.",
               "type": "number",
               "exclusiveMinimum": 0
-            }
-          }
-        }
-      ]
-    },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
-      "oneOf": [
-        {
-          "title": "Display default axis.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Axis details.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "gray"
-            },
-            "absolute": {
-              "title": "Display absolute values for ticks.",
-              "type": "boolean",
-              "default": false
-            },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
             }
           }
         }

@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts are hierarchically composable."
 
-VERSION = (0, 2, 4)
+VERSION = (0, 2, 5)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -42,23 +42,38 @@ PLACEMENTS = [LEFT, CENTER, RIGHT]
 DISC = "disc"
 CIRCLE = "circle"
 OVAL = "oval"
-OVALH = "ovalh"
+OVAL_V = "oval-vertical"
+OVAL_H = "oval-horizontal"
 ELLIPSE = "ellipse"
-ELLIPSEH = "ellipseh"
+ELLIPSE_V = "ellipse-vertical"
+ELLIPSE_H = "ellipse-horizontal"
 BLOCK = "block"
 SQUARE = "square"
 DIAMOND = "diamond"
+DIAMOND_F = "diamond-fill"
 PYRAMID = "pyramid"
 TRIANGLE = "triangle"
 WEDGE = "wedge"
 TRIGON = "trigon"
 PENTAGON = "pentagon"
+PENTAGON_F = "pentagon-fill"
+HEXAGON = "hexagon"
+HEXAGON_F = "hexagon-fill"
+HEPTAGON = "heptagon"
+HEPTAGON_F = "heptagon-fill"
+OCTAGON = "octagon"
+OCTAGON_F = "octagon-fill"
 BAR = "bar"
-BARH = "barh"
+BAR_V = "bar-vertical"
+BAR_H = "bar-horizontal"
 X = "x"
 PLUS = "plus"
+CHECK = "check"
 BURST = "burst"
+INFINITY = "infinity"
 STAR = "star"
+STAR_F = "star-fill"
+GALAXY = "galaxy"
 SUN = "sun"
 MERCURY = "mercury"
 VENUS = "venus"
@@ -86,6 +101,7 @@ XI = "xi"
 OMICRON = "omicron"
 PI = "pi"
 RHO = "rho"
+SIGMA = "sigma"
 SIGMA1 = "sigma1"
 SIGMA2 = "sigma2"
 TAU = "tau"
@@ -99,23 +115,38 @@ MARKERS = [
     DISC,
     CIRCLE,
     OVAL,
-    OVALH,
+    OVAL_V,
+    OVAL_H,
     ELLIPSE,
-    ELLIPSEH,
+    ELLIPSE_V,
+    ELLIPSE_H,
     BLOCK,
     SQUARE,
     DIAMOND,
+    DIAMOND_F,
     PYRAMID,
     TRIANGLE,
     WEDGE,
     TRIGON,
     PENTAGON,
+    PENTAGON_F,
+    HEXAGON,
+    HEXAGON_F,
+    HEPTAGON,
+    HEPTAGON_F,
+    OCTAGON,
+    OCTAGON_F,
     BAR,
-    BARH,
+    BAR_V,
+    BAR_H,
     X,
     PLUS,
+    CHECK,
     BURST,
+    INFINITY,
     STAR,
+    STAR_F,
+    GALAXY,
     SUN,
     MERCURY,
     VENUS,
@@ -143,6 +174,7 @@ MARKERS = [
     OMICRON,
     PI,
     RHO,
+    SIGMA,
     SIGMA1,
     SIGMA2,
     TAU,

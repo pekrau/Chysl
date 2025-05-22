@@ -17,8 +17,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: timelines
 title:
   text: Universe
@@ -55,8 +55,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: timelines
 title: Earth
 entries:
@@ -121,8 +121,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: column
 title: Universe and Earth
 entries:
@@ -221,8 +221,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: timelines
 title: Markers
 entries:
@@ -248,322 +248,418 @@ entries:
   color: dodgerblue
   instant: 2.25
 - entry: event
-  label: ovalh
+  label: oval-vertical
   timeline: Row 2
   color: orange
   instant: 0.25
-  marker: ovalh
+  marker: oval-vertical
+- entry: event
+  label: oval-horizontal
+  timeline: Row 2
+  color: lime
+  instant: 1.25
+  marker: oval-horizontal
 - entry: event
   label: ellipse
   timeline: Row 2
-  color: lime
-  instant: 1.25
-  marker: ellipse
-- entry: event
-  label: ellipseh
-  timeline: Row 2
   color: gray
   instant: 2.25
-  marker: ellipseh
+  marker: ellipse
 - entry: event
-  label: block
+  label: ellipse-vertical
   timeline: Row 3
   color: coral
   instant: 0.25
-  marker: block
+  marker: ellipse-vertical
 - entry: event
-  label: square
+  label: ellipse-horizontal
   timeline: Row 3
   color: dodgerblue
   instant: 1.25
-  marker: square
+  marker: ellipse-horizontal
 - entry: event
-  label: diamond
+  label: block
   timeline: Row 3
   color: orange
   instant: 2.25
-  marker: diamond
+  marker: block
 - entry: event
-  label: pyramid
+  label: square
   timeline: Row 4
   color: lime
+  instant: 0.25
+  marker: square
+- entry: event
+  label: diamond
+  timeline: Row 4
+  color: gray
+  instant: 1.25
+  marker: diamond
+- entry: event
+  label: diamond-fill
+  timeline: Row 4
+  color: coral
+  instant: 2.25
+  marker: diamond-fill
+- entry: event
+  label: pyramid
+  timeline: Row 5
+  color: dodgerblue
   instant: 0.25
   marker: pyramid
 - entry: event
   label: triangle
-  timeline: Row 4
-  color: gray
+  timeline: Row 5
+  color: orange
   instant: 1.25
   marker: triangle
 - entry: event
   label: wedge
-  timeline: Row 4
-  color: coral
+  timeline: Row 5
+  color: lime
   instant: 2.25
   marker: wedge
 - entry: event
   label: trigon
-  timeline: Row 5
-  color: dodgerblue
+  timeline: Row 6
+  color: gray
   instant: 0.25
   marker: trigon
 - entry: event
   label: pentagon
-  timeline: Row 5
-  color: orange
-  instant: 1.25
-  marker: pentagon
-- entry: event
-  label: bar
-  timeline: Row 5
-  color: lime
-  instant: 2.25
-  marker: bar
-- entry: event
-  label: barh
-  timeline: Row 6
-  color: gray
-  instant: 0.25
-  marker: barh
-- entry: event
-  label: x
   timeline: Row 6
   color: coral
   instant: 1.25
-  marker: x
+  marker: pentagon
 - entry: event
-  label: plus
+  label: pentagon-fill
   timeline: Row 6
   color: dodgerblue
   instant: 2.25
-  marker: plus
+  marker: pentagon-fill
 - entry: event
-  label: burst
+  label: hexagon
   timeline: Row 7
   color: orange
   instant: 0.25
-  marker: burst
+  marker: hexagon
 - entry: event
-  label: star
+  label: hexagon-fill
   timeline: Row 7
   color: lime
   instant: 1.25
+  marker: hexagon-fill
+- entry: event
+  label: heptagon
+  timeline: Row 7
+  color: gray
+  instant: 2.25
+  marker: heptagon
+- entry: event
+  label: heptagon-fill
+  timeline: Row 8
+  color: coral
+  instant: 0.25
+  marker: heptagon-fill
+- entry: event
+  label: octagon
+  timeline: Row 8
+  color: dodgerblue
+  instant: 1.25
+  marker: octagon
+- entry: event
+  label: octagon-fill
+  timeline: Row 8
+  color: orange
+  instant: 2.25
+  marker: octagon-fill
+- entry: event
+  label: bar
+  timeline: Row 9
+  color: lime
+  instant: 0.25
+  marker: bar
+- entry: event
+  label: bar-vertical
+  timeline: Row 9
+  color: gray
+  instant: 1.25
+  marker: bar-vertical
+- entry: event
+  label: bar-horizontal
+  timeline: Row 9
+  color: coral
+  instant: 2.25
+  marker: bar-horizontal
+- entry: event
+  label: x
+  timeline: Row 10
+  color: dodgerblue
+  instant: 0.25
+  marker: x
+- entry: event
+  label: plus
+  timeline: Row 10
+  color: orange
+  instant: 1.25
+  marker: plus
+- entry: event
+  label: check
+  timeline: Row 10
+  color: lime
+  instant: 2.25
+  marker: check
+- entry: event
+  label: burst
+  timeline: Row 11
+  color: gray
+  instant: 0.25
+  marker: burst
+- entry: event
+  label: infinity
+  timeline: Row 11
+  color: coral
+  instant: 1.25
+  marker: infinity
+- entry: event
+  label: star
+  timeline: Row 11
+  color: dodgerblue
+  instant: 2.25
   marker: star
 - entry: event
+  label: star-fill
+  timeline: Row 12
+  color: orange
+  instant: 0.25
+  marker: star-fill
+- entry: event
+  label: galaxy
+  timeline: Row 12
+  color: lime
+  instant: 1.25
+  marker: galaxy
+- entry: event
   label: sun
-  timeline: Row 7
+  timeline: Row 12
   color: gray
   instant: 2.25
   marker: sun
 - entry: event
   label: mercury
-  timeline: Row 8
+  timeline: Row 13
   color: coral
   instant: 0.25
   marker: mercury
 - entry: event
   label: venus
-  timeline: Row 8
+  timeline: Row 13
   color: dodgerblue
   instant: 1.25
   marker: venus
 - entry: event
   label: earth
-  timeline: Row 8
+  timeline: Row 13
   color: orange
   instant: 2.25
   marker: earth
 - entry: event
   label: moon
-  timeline: Row 9
+  timeline: Row 14
   color: lime
   instant: 0.25
   marker: moon
 - entry: event
   label: mars
-  timeline: Row 9
+  timeline: Row 14
   color: gray
   instant: 1.25
   marker: mars
 - entry: event
   label: jupiter
-  timeline: Row 9
+  timeline: Row 14
   color: coral
   instant: 2.25
   marker: jupiter
 - entry: event
   label: saturn
-  timeline: Row 10
+  timeline: Row 15
   color: dodgerblue
   instant: 0.25
   marker: saturn
 - entry: event
   label: uranus
-  timeline: Row 10
+  timeline: Row 15
   color: orange
   instant: 1.25
   marker: uranus
 - entry: event
   label: neptune
-  timeline: Row 10
+  timeline: Row 15
   color: lime
   instant: 2.25
   marker: neptune
 - entry: event
   label: alpha
-  timeline: Row 11
+  timeline: Row 16
   color: gray
   instant: 0.25
   marker: alpha
 - entry: event
   label: beta
-  timeline: Row 11
+  timeline: Row 16
   color: coral
   instant: 1.25
   marker: beta
 - entry: event
   label: gamma
-  timeline: Row 11
+  timeline: Row 16
   color: dodgerblue
   instant: 2.25
   marker: gamma
 - entry: event
   label: delta
-  timeline: Row 12
+  timeline: Row 17
   color: orange
   instant: 0.25
   marker: delta
 - entry: event
   label: epsilon
-  timeline: Row 12
+  timeline: Row 17
   color: lime
   instant: 1.25
   marker: epsilon
 - entry: event
   label: zeta
-  timeline: Row 12
+  timeline: Row 17
   color: gray
   instant: 2.25
   marker: zeta
 - entry: event
   label: eta
-  timeline: Row 13
+  timeline: Row 18
   color: coral
   instant: 0.25
   marker: eta
 - entry: event
   label: theta
-  timeline: Row 13
+  timeline: Row 18
   color: dodgerblue
   instant: 1.25
   marker: theta
 - entry: event
   label: iota
-  timeline: Row 13
+  timeline: Row 18
   color: orange
   instant: 2.25
   marker: iota
 - entry: event
   label: kappa
-  timeline: Row 14
+  timeline: Row 19
   color: lime
   instant: 0.25
   marker: kappa
 - entry: event
   label: lambda
-  timeline: Row 14
+  timeline: Row 19
   color: gray
   instant: 1.25
   marker: lambda
 - entry: event
   label: mu
-  timeline: Row 14
+  timeline: Row 19
   color: coral
   instant: 2.25
   marker: mu
 - entry: event
   label: nu
-  timeline: Row 15
+  timeline: Row 20
   color: dodgerblue
   instant: 0.25
   marker: nu
 - entry: event
   label: xi
-  timeline: Row 15
+  timeline: Row 20
   color: orange
   instant: 1.25
   marker: xi
 - entry: event
   label: omicron
-  timeline: Row 15
+  timeline: Row 20
   color: lime
   instant: 2.25
   marker: omicron
 - entry: event
   label: pi
-  timeline: Row 16
+  timeline: Row 21
   color: gray
   instant: 0.25
   marker: pi
 - entry: event
   label: rho
-  timeline: Row 16
+  timeline: Row 21
   color: coral
   instant: 1.25
   marker: rho
 - entry: event
-  label: sigma1
-  timeline: Row 16
+  label: sigma
+  timeline: Row 21
   color: dodgerblue
   instant: 2.25
+  marker: sigma
+- entry: event
+  label: sigma1
+  timeline: Row 22
+  color: orange
+  instant: 0.25
   marker: sigma1
 - entry: event
   label: sigma2
-  timeline: Row 17
-  color: orange
-  instant: 0.25
+  timeline: Row 22
+  color: lime
+  instant: 1.25
   marker: sigma2
 - entry: event
   label: tau
-  timeline: Row 17
-  color: lime
-  instant: 1.25
+  timeline: Row 22
+  color: gray
+  instant: 2.25
   marker: tau
 - entry: event
   label: upsilon
-  timeline: Row 17
-  color: gray
-  instant: 2.25
+  timeline: Row 23
+  color: coral
+  instant: 0.25
   marker: upsilon
 - entry: event
   label: phi
-  timeline: Row 18
-  color: coral
-  instant: 0.25
+  timeline: Row 23
+  color: dodgerblue
+  instant: 1.25
   marker: phi
 - entry: event
   label: chi
-  timeline: Row 18
-  color: dodgerblue
-  instant: 1.25
+  timeline: Row 23
+  color: orange
+  instant: 2.25
   marker: chi
 - entry: event
   label: psi
-  timeline: Row 18
-  color: orange
-  instant: 2.25
+  timeline: Row 24
+  color: lime
+  instant: 0.25
   marker: psi
 - entry: event
   label: omega
-  timeline: Row 19
-  color: lime
-  instant: 0.25
+  timeline: Row 24
+  color: gray
+  instant: 1.25
   marker: omega
 - entry: event
   label: none
-  timeline: Row 19
-  color: gray
-  instant: 1.25
+  timeline: Row 24
+  color: coral
+  instant: 2.25
   marker: none
 ```
 ### poster
@@ -572,8 +668,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: board
 title: Poster
 entries:
@@ -634,7 +730,7 @@ Timelines having events and periods.
       - **timeline**: Timeline to place the event in.
         - *type*: string
       - **marker**: Marker for event.
-        - *one of*: 'disc', 'circle', 'oval', 'ovalh', 'ellipse', 'ellipseh', 'block', 'square', 'diamond', 'pyramid', 'triangle', 'wedge', 'trigon', 'pentagon', 'bar', 'barh', 'x', 'plus', 'burst', 'star', 'sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma1', 'sigma2', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega', 'none'
+        - *one of*: 'disc', 'circle', 'oval', 'oval-vertical', 'oval-horizontal', 'ellipse', 'ellipse-vertical', 'ellipse-horizontal', 'block', 'square', 'diamond', 'diamond-fill', 'pyramid', 'triangle', 'wedge', 'trigon', 'pentagon', 'pentagon-fill', 'hexagon', 'hexagon-fill', 'heptagon', 'heptagon-fill', 'octagon', 'octagon-fill', 'bar', 'bar-vertical', 'bar-horizontal', 'x', 'plus', 'check', 'burst', 'infinity', 'star', 'star-fill', 'galaxy', 'sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'sigma1', 'sigma2', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega', 'none'
         - *default*: 'oval'
       - **color**: Color of the event marker.
         - *type*: string

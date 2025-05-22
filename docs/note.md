@@ -17,8 +17,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: note
 title:
   text: Declaration
@@ -37,8 +37,8 @@ footer:
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: column
 entries:
 - chart: note
@@ -70,8 +70,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: board
 entries:
 - x: 0
@@ -109,8 +109,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: column
 title: Pies in column
 entries:
@@ -166,8 +166,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.4
-  software: Chysl (Python) 0.2.4
+  version: 0.2.5
+  software: Chysl (Python) 0.2.5
 chart: board
 title: Poster
 entries:
