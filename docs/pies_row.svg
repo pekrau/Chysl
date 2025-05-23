@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="519" height="367" viewBox="0 0 519 367" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.6 row</desc>
+  <desc>Chysl 0.2.7 row</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="259" y="22" stroke="none" fill="black" font-size="22" text-anchor="middle">Pies in row</text>
-    <g transform="translate(0, 38.4)">
+    <g transform="translate(0, 38.400)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="152" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Strawberry pie</text>
         <g transform="translate(152, 175.600)">
           <circle r="150.0" />
           <g stroke="black" stroke-width="1">
-            <path d="M 0 0 L 0 -150 A 150 150 0 0 1 31.187 146.722 Z" fill="white" />
+            <path d="M 0 0 L 0.000 -150 A 150 150 0 0 1 31.187 146.722 Z" fill="white" />
             <path d="M 0 0 L 31.187 146.722 A 150 150 0 0 1 -88.168 121.353 Z" fill="yellow" />
             <path d="M 0 0 L -88.168 121.353 A 150 150 0 0 1 -142.658 -46.353 Z" fill="gold" />
-            <path d="M 0 0 L -142.658 -46.353 A 150 150 0 0 1 0 -150 Z" fill="red" />
+            <path d="M 0 0 L -142.658 -46.353 A 150 150 0 0 1 -0.000 -150 Z" fill="red" />
           </g>
           <g stroke="none" fill="black" text-anchor="middle">
             <text x="104.425" y="-10.975" fill="black">Flour</text>
@@ -23,16 +23,16 @@
         </g>
       </g>
     </g>
-    <g transform="translate(314, 88.4)">
+    <g transform="translate(314, 88.400)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="102" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Rhubarb pie</text>
         <g transform="translate(102, 125.600)">
           <circle r="100.0" />
           <g stroke="black" stroke-width="1">
-            <path d="M 0 0 L 0 -100 A 100 100 0 0 1 20.791 97.815 Z" fill="white" />
+            <path d="M 0 0 L 0.000 -100 A 100 100 0 0 1 20.791 97.815 Z" fill="white" />
             <path d="M 0 0 L 20.791 97.815 A 100 100 0 0 1 -58.779 80.902 Z" fill="yellow" />
             <path d="M 0 0 L -58.779 80.902 A 100 100 0 0 1 -95.106 -30.902 Z" fill="gold" />
-            <path d="M 0 0 L -95.106 -30.902 A 100 100 0 0 1 0 -100 Z" fill="green" />
+            <path d="M 0 0 L -95.106 -30.902 A 100 100 0 0 1 -0.000 -100 Z" fill="green" />
           </g>
           <g stroke="none" fill="black" text-anchor="middle">
             <text x="69.617" y="-7.317" fill="black">Flour</text>

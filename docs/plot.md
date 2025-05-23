@@ -14,8 +14,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: plot
 title: Scattered points inline
 entries:
@@ -56,8 +56,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: plot
 title: Scattered points from CSV
 entries:

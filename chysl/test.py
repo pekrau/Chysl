@@ -11,13 +11,13 @@ from lib import *
 
 
 TESTS = {
-    "timelines": ["universe", "earth", "universe_earth", "markers", "poster"],
-    "piechart": ["pyramid", "day", "cpies", "rpies"],
+    "timelines": ["universe", "earth", "universe_earth", "markers", "poster", "dimensions"],
+    "piechart": ["pyramid", "day", "pies_column", "pies_row"],
     # XXX dendrogram
     "plot": ["scatter", "scatter2"],
-    "column": ["universe_earth", "cpies", "cnotes", "notes", "markers"],
-    "row": ["rpies"],
-    "note": ["declaration", "cnotes", "notes", "cpies", "poster"],
+    "column": ["universe_earth", "pies_column", "notes_column", "notes", "markers", "dimensions"],
+    "row": ["pies_row", "markers"],
+    "note": ["declaration", "notes_column", "notes", "pies_column", "poster"],
     "board": ["poster", "notes"],
 }
 
@@ -123,7 +123,7 @@ def test_markers():
     all_markers += (left_panel := Column())
     all_markers += (right_panel := Column())
 
-    left_panel += (markers := Timelines("Geometry markers"))
+    left_panel += (markers := Timelines("Geometry markers", legend=False, axis=False))
     markers += Period("Length", 0, N_PER_ROW)
     for pos, marker in enumerate(constants.GEOMETRY_MARKERS):
         markers += Event(
@@ -134,7 +134,7 @@ def test_markers():
             color=next(colors),
         )
 
-    left_panel += (markers := Timelines("Symbol markers"))
+    left_panel += (markers := Timelines("Symbol markers", legend=False, axis=False))
     markers += Period("Length", 0, N_PER_ROW)
     for pos, marker in enumerate(constants.SYMBOL_MARKERS):
         markers += Event(
@@ -145,7 +145,7 @@ def test_markers():
             color=next(colors),
         )
 
-    left_panel += (markers := Timelines("Astronomy markers"))
+    left_panel += (markers := Timelines("Astronomy markers", legend=False, axis=False))
     markers += Period("Length", 0, N_PER_ROW)
     for pos, marker in enumerate(constants.ASTRONOMY_MARKERS):
         markers += Event(
@@ -156,7 +156,7 @@ def test_markers():
             color=next(colors),
         )
  
-    left_panel += (markers := Timelines("Greek markers"))
+    left_panel += (markers := Timelines("Greek markers", legend=False, axis=False))
     markers += Period("Length", 0, N_PER_ROW)
     for pos, marker in enumerate(constants.GREEK_MARKERS):
         markers += Event(
@@ -167,7 +167,7 @@ def test_markers():
             color=next(colors),
         )
 
-    right_panel += (markers := Timelines("Character markers"))
+    right_panel += (markers := Timelines("Character markers", legend=False, axis=False))
     markers += Period("Length", 0, N_PER_ROW)
     characters = string.ascii_letters + string.digits + string.punctuation
     for pos, marker in enumerate(characters):
@@ -218,17 +218,18 @@ def test_day():
 
 
 def test_tree():
-    tree = Dendrogram("Tree")
-    tree += {
-        "start": 0,
-        "length": 4,
-        "branches": [{"length": 5}, {"length": 6, "branches": [{"length": 4}]}],
-    }
-    tree.save("tree.yaml")
-    tree.render("tree.svg")
+    pass
+    # tree = Dendrogram("Tree")
+    # tree += {
+    #     "start": 0,
+    #     "length": 4,
+    #     "branches": [{"length": 5}, {"length": 6, "branches": [{"length": 4}]}],
+    # }
+    # tree.save("tree.yaml")
+    # tree.render("tree.svg")
 
 
-def test_cpies():
+def test_pies_column():
     pajer = Column("Pies in column")
 
     pajer += (paj := Piechart("Strawberry pie", diameter=100))
@@ -249,15 +250,15 @@ def test_cpies():
         footer={"text": "Copyright 2025 Per Kraulis", "italic": True},
     )
 
-    pajer.save("cpies.yaml")
-    pajer.render("cpies.svg")
+    pajer.save("pies_column.yaml")
+    pajer.render("pies_column.svg")
 
-    pajer2 = retrieve("cpies.yaml")
+    pajer2 = retrieve("pies_column.yaml")
     assert pajer == pajer2
     assert pajer.render() == pajer2.render()
 
 
-def test_rpies():
+def test_pies_row():
     pajer = Row("Pies in row")
 
     palette = ["white", "yellow", "gold", "red"]
@@ -273,10 +274,10 @@ def test_rpies():
     paj += Slice("Butter", 3)
     paj += Slice("Rhubarb", 3, color="green")
 
-    pajer.save("rpies.yaml")
-    pajer.render("rpies.svg")
+    pajer.save("pies_row.yaml")
+    pajer.render("pies_row.svg")
 
-    pajer2 = retrieve("rpies.yaml")
+    pajer2 = retrieve("pies_row.yaml")
     assert pajer == pajer2
     assert pajer.render() == pajer2.render()
 
@@ -328,8 +329,8 @@ def test_notes():
     column += Note("Header", "Body", "Footer", line=0)
     column += {"include": "declaration.yaml"}
 
-    column.save("cnotes.yaml")
-    column.render("cnotes.svg")
+    column.save("notes_column.yaml")
+    column.render("notes_column.svg")
 
     board = Board()
     board.append(x=0, y=0, scale=1.5, component=column)
@@ -350,6 +351,15 @@ def test_poster():
     poster.save("poster.yaml")
 
 
+def test_dimensions():
+    column = Column("Dimension tick ranges")
+    for last in [1.00001, 1.0001, 1.0002, 1.1, 2, 5, 10, 2000, 10_000_000, 10_000_000_000]:
+        column += (timelines := Timelines(f"1 - {last}"))
+        timelines += Period("Period", 1, last)
+    column.save("dimensions.yaml")
+    column.render("dimensions.svg")
+    
+               
 def run_tests():
     origdir = os.getcwd()
     try:
@@ -360,14 +370,15 @@ def run_tests():
         test_markers()
         test_pyramid()
         test_day()
-        # test_tree() XXX dendrogram
-        test_cpies()
-        test_rpies()
+        test_tree()
+        test_pies_column()
+        test_pies_row()
         test_declaration()
         test_scatter()
         test_scatter_csv()
         test_notes()
         test_poster()
+        test_dimensions()
     finally:
         os.chdir(origdir)
 

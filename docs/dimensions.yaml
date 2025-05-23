@@ -1,0 +1,76 @@
+chysl:
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
+chart: column
+title: Dimension tick ranges
+entries:
+- chart: timelines
+  title: 1 - 1.00001
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.00001
+- chart: timelines
+  title: 1 - 1.0001
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.0001
+- chart: timelines
+  title: 1 - 1.0002
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.0002
+- chart: timelines
+  title: 1 - 1.1
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.1
+- chart: timelines
+  title: 1 - 2
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 2
+- chart: timelines
+  title: 1 - 5
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 5
+- chart: timelines
+  title: 1 - 10
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 10
+- chart: timelines
+  title: 1 - 2000
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 2000
+- chart: timelines
+  title: 1 - 10000000
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 10000000
+- chart: timelines
+  title: 1 - 10000000000
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 10000000000

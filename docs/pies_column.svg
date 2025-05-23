@@ -1,18 +1,18 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="205" height="478" viewBox="0 0 205 478" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.6 column</desc>
+  <desc>Chysl 0.2.7 column</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="102" y="22" stroke="none" fill="black" font-size="22" text-anchor="middle">Pies in column</text>
-    <g transform="translate(50.0, 28.4)">
+    <g transform="translate(50, 28.400)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="52" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Strawberry pie</text>
         <g transform="translate(52, 75.600)">
           <circle r="50.0" />
           <g stroke="black" stroke-width="1">
-            <path d="M 0 0 L 0 -50 A 50 50 0 0 1 10.396 48.907 Z" fill="white" />
+            <path d="M 0 0 L 0.000 -50 A 50 50 0 0 1 10.396 48.907 Z" fill="white" />
             <path d="M 0 0 L 10.396 48.907 A 50 50 0 0 1 -29.389 40.451 Z" fill="yellow" />
             <path d="M 0 0 L -29.389 40.451 A 50 50 0 0 1 -47.553 -15.451 Z" fill="gold" />
-            <path d="M 0 0 L -47.553 -15.451 A 50 50 0 0 1 0 -50 Z" fill="orangered" />
+            <path d="M 0 0 L -47.553 -15.451 A 50 50 0 0 1 -0.000 -50 Z" fill="orangered" />
           </g>
           <g stroke="none" fill="black" text-anchor="middle">
             <text x="34.808" y="-3.658" fill="black">Flour</text>
@@ -23,16 +23,16 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0.0, 166.0)">
+    <g transform="translate(0, 166)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="102" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Rhubarb pie</text>
         <g transform="translate(102, 125.600)">
           <circle r="100.0" />
           <g stroke="black" stroke-width="1">
-            <path d="M 0 0 L 0 -100 A 100 100 0 0 1 20.791 97.815 Z" fill="white" />
+            <path d="M 0 0 L 0.000 -100 A 100 100 0 0 1 20.791 97.815 Z" fill="white" />
             <path d="M 0 0 L 20.791 97.815 A 100 100 0 0 1 -58.779 80.902 Z" fill="yellow" />
             <path d="M 0 0 L -58.779 80.902 A 100 100 0 0 1 -95.106 -30.902 Z" fill="gold" />
-            <path d="M 0 0 L -95.106 -30.902 A 100 100 0 0 1 0 -100 Z" fill="green" />
+            <path d="M 0 0 L -95.106 -30.902 A 100 100 0 0 1 -0.000 -100 Z" fill="green" />
           </g>
           <g stroke="none" fill="black" text-anchor="middle">
             <text x="69.617" y="-7.317" fill="black">Flour</text>
@@ -43,7 +43,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(2.0, 403.6)">
+    <g transform="translate(2, 403.600)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="100" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Comment</text>
         <rect x="2.5" y="2.5" rx="10" ry="10" width="195" fill="lightyellow" stroke="gold" stroke-width="5" height="68.400" />

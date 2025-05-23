@@ -157,12 +157,12 @@ class Chart:
 
         if self.title:
             if isinstance(self.title, dict):
-                title = self.title["text"] or ""
+                text = self.title["text"] or ""
                 size = self.title.get("size") or self.DEFAULT_TITLE_FONT_SIZE
                 color = self.title.get("color") or "black"
                 anchor = self.title.get("anchor") or "middle"
             else:
-                title = self.title
+                text = self.title
                 size = self.DEFAULT_TITLE_FONT_SIZE
                 color = "black"
                 anchor = "middle"
@@ -170,14 +170,14 @@ class Chart:
             self.svg += (
                 title := Element(
                     "text",
-                    title,
+                    text,
                     x=utils.N(self.width / 2),
                     y=utils.N(self.height),
                     stroke="none",
                     fill=color,
                 )
             )
-            title["font-size"] = size
+            title["font-size"] = utils.N(size)
             title["text-anchor"] = anchor
             if isinstance(self.title, dict):
                 if self.title.get("bold"):

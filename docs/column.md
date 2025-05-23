@@ -2,10 +2,11 @@
 
 - [Examples](#examples)
   - [universe_earth](#universe_earth)
-  - [cpies](#cpies)
-  - [cnotes](#cnotes)
+  - [pies_column](#pies_column)
+  - [notes_column](#notes_column)
   - [notes](#notes)
   - [markers](#markers)
+  - [dimensions](#dimensions)
 
 - [Specification](#specification)
 
@@ -17,8 +18,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: column
 title: Universe and Earth
 entries:
@@ -117,14 +118,14 @@ entries:
     absolute: true
     caption: Billion years ago
 ```
-### cpies
+### pies_column
 
-![cpies SVG](cpies.svg)
+![pies_column SVG](pies_column.svg)
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: column
 title: Pies in column
 entries:
@@ -174,14 +175,14 @@ entries:
     text: Copyright 2025 Per Kraulis
     italic: true
 ```
-### cnotes
+### notes_column
 
-![cnotes SVG](cnotes.svg)
+![notes_column SVG](notes_column.svg)
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: column
 entries:
 - chart: note
@@ -213,8 +214,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: board
 entries:
 - x: 0
@@ -252,8 +253,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: row
 title: Markers
 entries:
@@ -427,6 +428,8 @@ entries:
       color: coral
       instant: 2.25
       marker: bar-horizontal
+    legend: false
+    axis: false
   - chart: timelines
     title: Symbol markers
     entries:
@@ -470,6 +473,8 @@ entries:
       color: dodgerblue
       instant: 2.25
       marker: none
+    legend: false
+    axis: false
   - chart: timelines
     title: Astronomy markers
     entries:
@@ -555,6 +560,8 @@ entries:
       color: gray
       instant: 0.25
       marker: neptune
+    legend: false
+    axis: false
   - chart: timelines
     title: Greek markers
     entries:
@@ -718,6 +725,8 @@ entries:
       color: coral
       instant: 1.25
       marker: omega
+    legend: false
+    axis: false
 - chart: column
   entries:
   - chart: timelines
@@ -1291,7 +1300,91 @@ entries:
       color: gray
       instant: 0.25
       marker: '~'
+    legend: false
+    axis: false
 align: top
+```
+### dimensions
+
+![dimensions SVG](dimensions.svg)
+
+```yaml
+chysl:
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
+chart: column
+title: Dimension tick ranges
+entries:
+- chart: timelines
+  title: 1 - 1.00001
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.00001
+- chart: timelines
+  title: 1 - 1.0001
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.0001
+- chart: timelines
+  title: 1 - 1.0002
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.0002
+- chart: timelines
+  title: 1 - 1.1
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.1
+- chart: timelines
+  title: 1 - 2
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 2
+- chart: timelines
+  title: 1 - 5
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 5
+- chart: timelines
+  title: 1 - 10
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 10
+- chart: timelines
+  title: 1 - 2000
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 2000
+- chart: timelines
+  title: 1 - 10000000
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 10000000
+- chart: timelines
+  title: 1 - 10000000000
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 10000000000
 ```
 ## Specification
 

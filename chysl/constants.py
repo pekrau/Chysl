@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts are hierarchically composable."
 
-VERSION = (0, 2, 6)
+VERSION = (0, 2, 7)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -14,6 +14,7 @@ JSONSCHEMA_VERSION = "https://json-schema.org/draft/2020-12/schema"
 CHARTS = ["timelines", "piechart", "note", "plot", "column", "row", "board"]
 
 PRECISION = 0.0005
+
 FORMATS = ["csv", "tsv", "json", "yaml"]
 
 DEFAULT_SIZE = 18

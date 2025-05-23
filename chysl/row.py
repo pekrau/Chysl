@@ -2,6 +2,7 @@
 
 import constants
 import schema
+import utils
 from chart import Chart, Element, parse
 
 
@@ -89,7 +90,7 @@ class Row(Chart):
                     y = self.height + (max_height - entry.height) / 2
                 case constants.TOP:
                     y = self.height
-            self.svg += Element("g", entry.svg, transform=f"translate({x}, {y})")
+            self.svg += Element("g", entry.svg, transform=f"translate({utils.N(x)}, {utils.N(y)})")
             x += entry.width + self.DEFAULT_PADDING
 
         self.height += max_height

@@ -2,6 +2,7 @@
 
 import constants
 import schema
+import utils
 from chart import Chart, Element, parse
 
 
@@ -88,5 +89,5 @@ class Column(Chart):
                     x = (self.width - entry.width) / 2
                 case constants.RIGHT:
                     x = self.width - entry.width
-            self.svg += Element("g", entry.svg, transform=f"translate({x}, {height})")
+            self.svg += Element("g", entry.svg, transform=f"translate({utils.N(x)}, {utils.N(height)})")
             height += entry.height + self.DEFAULT_PADDING

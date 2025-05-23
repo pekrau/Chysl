@@ -5,7 +5,7 @@ import enum
 import itertools
 import math
 
-from utils import N
+import utils
 
 Tick = collections.namedtuple("Tick", ["user", "pixel", "label"], defaults=[None])
 
@@ -75,10 +75,14 @@ class Dimension:
         else:
             self.right = max(self.right, value)
 
-    def get_ticks(self, number=8, absolute=False):
+    def get_ticks(self, number=8, unit=None, absolute=False):
         "Return ticks for the current span (min and max)."
+        assert isinstance(number, int) and number > 1
+        assert unit is None or isinstance(unit, (int, float)) and unit >= 0
+
         span = self.max - self.min
         self.magnitude = math.log10(span / number)
+        self.unit = unit
         series = []
         for magnitude in [math.floor(self.magnitude), math.ceil(self.magnitude)]:
             for base in [1, 2, 5]:
@@ -93,13 +97,17 @@ class Dimension:
                 while value <= self.max:
                     value = first + next(i) * step
                     values.append(value)
-                while len(values) >= 2:
-                    if values[-1] > self.max and (
-                        values[-2] > self.max or math.isclose(values[-2], self.max)
+                prev_length = len(values) + 1
+                while len(values) >= 2 and len(values) != prev_length:
+                    prev_length = len(values)
+                    if values[0] < self.min and (
+                            values[1] < self.min or math.isclose(values[1], self.min)
                     ):
                         values.pop()
-                    else:
-                        break
+                    if values[-1] > self.max and (
+                            values[-2] > self.max or math.isclose(values[-2], self.max)
+                    ):
+                        values.pop()
                 series.append((magnitude, values))
         self.magnitude, best = series[0]
         score = abs(len(best) - number)
@@ -116,10 +124,19 @@ class Dimension:
         self.first = best[0]
         self.last = best[-1]
         self.scale = (self.width - self.left - self.right) / (self.last - self.first)
-        step = 10**self.magnitude
-        func = (lambda u: abs(u)) if absolute else (lambda u: u)
+        self.step = 10**self.magnitude
+        if self.magnitude < 0:
+            format = f"%.{-self.magnitude}f"
+        else:
+            format = "%d"
+        if self.unit is None:
+            if self.magnitude // 3 > 1:
+                self.unit = 10 ** (3 * (self.magnitude // 3))
+            else:
+                self.unit = 1
+        func = (lambda v: abs(v)) if absolute else (lambda v: v)
         result = [
-            Tick(u, self.get_pixel(u), label=N(round(func(u) / step))) for u in best
+            Tick(value, self.get_pixel(value), label=format % func(value/self.unit)) for value in best
         ]
         return result
 

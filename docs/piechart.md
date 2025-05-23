@@ -3,8 +3,8 @@
 - [Examples](#examples)
   - [pyramid](#pyramid)
   - [day](#day)
-  - [cpies](#cpies)
-  - [rpies](#rpies)
+  - [pies_column](#pies_column)
+  - [pies_row](#pies_row)
 
 - [Specification](#specification)
 
@@ -16,8 +16,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: piechart
 title: Pyramid
 entries:
@@ -42,8 +42,8 @@ palette:
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: piechart
 title:
   text: Day
@@ -92,14 +92,14 @@ entries:
 diameter: 400
 total: 24
 ```
-### cpies
+### pies_column
 
-![cpies SVG](cpies.svg)
+![pies_column SVG](pies_column.svg)
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: column
 title: Pies in column
 entries:
@@ -149,14 +149,14 @@ entries:
     text: Copyright 2025 Per Kraulis
     italic: true
 ```
-### rpies
+### pies_row
 
-![rpies SVG](rpies.svg)
+![pies_row SVG](pies_row.svg)
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: row
 title: Pies in row
 entries:

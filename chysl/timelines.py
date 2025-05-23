@@ -201,18 +201,29 @@ class Timelines(Chart):
                 self.height += constants.DEFAULT_SIZE + constants.DEFAULT_PADDING
         dimension.update_right(constants.DEFAULT_PADDING)
 
+        # Frame; ticks computation needed.
+        if isinstance(self.axis, dict):
+            absolute = bool(self.axis.get("absolute"))
+        else:
+            absolute = False
+        ticks = dimension.get_ticks(absolute=absolute)
+        self.svg += (frame := Element("rect",
+                            x=utils.N(ticks[0].pixel),
+                            y=utils.N(height0),
+                            width=utils.N(ticks[-1].pixel - ticks[0].pixel),
+                            height=utils.N(self.height - height0),
+                            stroke="black"))
+        frame["stroke-width"] = 1
+
         # Time axis grid and its labels.
         if self.axis:
             if isinstance(self.axis, dict):
-                absolute = bool(self.axis.get("absolute"))
                 color = self.axis.get("color") or "gray"
                 caption = self.axis.get("caption")
             else:
-                absolute = False
                 color = "gray"
                 caption = None
             self.svg += (axis := Element("g"))
-            ticks = dimension.get_ticks(absolute=absolute)
             path = Path(ticks[0].pixel, height0).V(self.height)
             for tick in ticks[1:]:
                 path.M(tick.pixel, height0).V(self.height)

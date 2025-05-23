@@ -2,9 +2,9 @@
 
 - [Examples](#examples)
   - [declaration](#declaration)
-  - [cnotes](#cnotes)
+  - [notes_column](#notes_column)
   - [notes](#notes)
-  - [cpies](#cpies)
+  - [pies_column](#pies_column)
   - [poster](#poster)
 
 - [Specification](#specification)
@@ -17,8 +17,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: note
 title:
   text: Declaration
@@ -31,14 +31,14 @@ footer:
   text: Copyright 2025 Per Kraulis
   italic: true
 ```
-### cnotes
+### notes_column
 
-![cnotes SVG](cnotes.svg)
+![notes_column SVG](notes_column.svg)
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: column
 entries:
 - chart: note
@@ -70,8 +70,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: board
 entries:
 - x: 0
@@ -103,14 +103,14 @@ entries:
       line: 0
     - include: declaration.yaml
 ```
-### cpies
+### pies_column
 
-![cpies SVG](cpies.svg)
+![pies_column SVG](pies_column.svg)
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: column
 title: Pies in column
 entries:
@@ -166,8 +166,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: board
 title: Poster
 entries:

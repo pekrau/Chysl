@@ -6,6 +6,7 @@
   - [universe_earth](#universe_earth)
   - [markers](#markers)
   - [poster](#poster)
+  - [dimensions](#dimensions)
 
 - [Specification](#specification)
 
@@ -17,8 +18,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: timelines
 title:
   text: Universe
@@ -61,8 +62,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: timelines
 title: Earth
 entries:
@@ -127,8 +128,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: column
 title: Universe and Earth
 entries:
@@ -233,8 +234,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: row
 title: Markers
 entries:
@@ -408,6 +409,8 @@ entries:
       color: coral
       instant: 2.25
       marker: bar-horizontal
+    legend: false
+    axis: false
   - chart: timelines
     title: Symbol markers
     entries:
@@ -451,6 +454,8 @@ entries:
       color: dodgerblue
       instant: 2.25
       marker: none
+    legend: false
+    axis: false
   - chart: timelines
     title: Astronomy markers
     entries:
@@ -536,6 +541,8 @@ entries:
       color: gray
       instant: 0.25
       marker: neptune
+    legend: false
+    axis: false
   - chart: timelines
     title: Greek markers
     entries:
@@ -699,6 +706,8 @@ entries:
       color: coral
       instant: 1.25
       marker: omega
+    legend: false
+    axis: false
 - chart: column
   entries:
   - chart: timelines
@@ -1272,6 +1281,8 @@ entries:
       color: gray
       instant: 0.25
       marker: '~'
+    legend: false
+    axis: false
 align: top
 ```
 ### poster
@@ -1280,8 +1291,8 @@ align: top
 
 ```yaml
 chysl:
-  version: 0.2.6
-  software: Chysl (Python) 0.2.6
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
 chart: board
 title: Poster
 entries:
@@ -1303,6 +1314,88 @@ entries:
   scale: 1
   component:
     include: earth.yaml
+```
+### dimensions
+
+![dimensions SVG](dimensions.svg)
+
+```yaml
+chysl:
+  version: 0.2.7
+  software: Chysl (Python) 0.2.7
+chart: column
+title: Dimension tick ranges
+entries:
+- chart: timelines
+  title: 1 - 1.00001
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.00001
+- chart: timelines
+  title: 1 - 1.0001
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.0001
+- chart: timelines
+  title: 1 - 1.0002
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.0002
+- chart: timelines
+  title: 1 - 1.1
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 1.1
+- chart: timelines
+  title: 1 - 2
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 2
+- chart: timelines
+  title: 1 - 5
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 5
+- chart: timelines
+  title: 1 - 10
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 10
+- chart: timelines
+  title: 1 - 2000
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 2000
+- chart: timelines
+  title: 1 - 10000000
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 10000000
+- chart: timelines
+  title: 1 - 10000000000
+  entries:
+  - entry: period
+    label: Period
+    begin: 1
+    end: 10000000000
 ```
 ## Specification
 
