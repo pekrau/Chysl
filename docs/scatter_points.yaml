@@ -1,18 +1,3 @@
-# plot
-
-- [Examples](#examples)
-  - [scatter_points](#scatter_points)
-  - [scatter_csv](#scatter_csv)
-
-- [Specification](#specification)
-
-## Examples
-
-### scatter_points
-
-![scatter_points SVG](scatter_points.svg)
-
-```yaml
 chysl:
   version: 0.2.8
   software: Chysl (Python) 0.2.8
@@ -141,53 +126,3 @@ entries:
     size: 52.095676972398344
     marker: alpha
     opacity: 0.6844281832234802
-```
-### scatter_csv
-
-[CSV data file](scatter_csv.csv)
-
-![scatter_csv SVG](scatter_csv.svg)
-
-```yaml
-chysl:
-  version: 0.2.8
-  software: Chysl (Python) 0.2.8
-chart: plot
-title: Scattered points from CSV
-entries:
-- entry: scatter
-  data:
-    source: scatter_csv.csv
-```
-## Specification
-
-[JSON Schema](plot.md)
-
-2D chart plotting x/y data; scatter, etc.
-
-- **chart**:
-  - *required*
-  - *const* 'plot'
-- **title**: Title of the plot.
-  - *See* [text](schema_defs.md#text).
-- **width**: Width of the chart, including legends etc.
-  - *type*: float
-  - *exclusiveMinimum*: 0
-  - *default*: 600
-- **xaxis**: X axis specification.
-  - *See* [axis](schema_defs.md#axis).
-- **yaxis**: Y axis specification.
-  - *See* [axis](schema_defs.md#axis).
-- **entries**: Sets of data with specified visualization.
-  - *required*
-  - *type*: sequence
-  - *items*:
-    - Alternative 1: Scatter plot.
-      - *type*: mapping
-      - **entry**:
-        - *required*
-        - *const* 'scatter'
-      - **data**:
-        - *See* [data_or_source](schema_defs.md#data_or_source).
-        - *required*
-

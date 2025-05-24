@@ -1,19 +1,19 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="201" height="88.400" viewBox="0 0 201 88.400" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.7 note</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="201" height="88.4" viewBox="0 0 201 88.4" transform="translate(0.5, 0.5)">
+  <desc>Chysl 0.2.8 note</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="100" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle" font-weight="bold">Declaration</text>
-    <rect x="2.5" y="2.5" rx="10" ry="10" width="195" fill="lightyellow" stroke="gold" stroke-width="5" height="82.400" />
+    <rect x="2.5" y="2.5" rx="10" ry="10" width="195" fill="lightyellow" stroke="gold" stroke-width="5" height="82.4" />
     <g stroke="none" fill="black" text-anchor="start" font-weight="bold" transform="translate(7, 20)">
       <text x="0" y="0">Declaration</text>
     </g>
-    <line x1="0" y1="24.800" x2="200" y2="24.800" stroke="gold" stroke-width="1" />
-    <g stroke="none" fill="black" text-anchor="end" transform="translate(193, 40.800)">
+    <line x1="0" y1="24.8" x2="200" y2="24.8" stroke="gold" stroke-width="1" />
+    <g stroke="none" fill="black" text-anchor="end" transform="translate(193, 40.8)">
       <text x="0" y="0">This software was</text>
       <text x="0" y="14">written by me.</text>
     </g>
-    <line x1="0" y1="60.600" x2="200" y2="60.600" stroke="gold" stroke-width="1" />
-    <g stroke="none" fill="black" text-anchor="middle" font-style="italic" transform="translate(102.500, 76.600)">
+    <line x1="0" y1="60.6" x2="200" y2="60.6" stroke="gold" stroke-width="1" />
+    <g stroke="none" fill="black" text-anchor="middle" font-style="italic" transform="translate(102.5, 76.6)">
       <text x="0" y="0">Copyright 2025 Per Kraulis</text>
     </g>
   </g>

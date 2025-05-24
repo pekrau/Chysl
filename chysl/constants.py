@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts are hierarchically composable."
 
-VERSION = (0, 2, 7)
+VERSION = (0, 2, 8)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -51,7 +51,9 @@ ELLIPSE_V = "ellipse-vertical"
 ELLIPSE_H = "ellipse-horizontal"
 BLOCK = "block"
 SQUARE = "square"
+SQUARE_CROSS = "square-cross"
 DIAMOND = "diamond"
+DIAMOND_CROSS = "diamond-cross"
 DIAMOND_F = "diamond-fill"
 PYRAMID = "pyramid"
 TRIANGLE = "triangle"
@@ -65,9 +67,6 @@ HEPTAGON = "heptagon"
 HEPTAGON_F = "heptagon-fill"
 OCTAGON = "octagon"
 OCTAGON_F = "octagon-fill"
-BAR = "bar"
-BAR_V = "bar-vertical"
-BAR_H = "bar-horizontal"
 GEOMETRY_MARKERS = [
     DISC,
     CIRCLE,
@@ -79,7 +78,9 @@ GEOMETRY_MARKERS = [
     ELLIPSE_H,
     BLOCK,
     SQUARE,
+    SQUARE_CROSS,
     DIAMOND,
+    DIAMOND_CROSS,
     DIAMOND_F,
     PYRAMID,
     TRIANGLE,
@@ -93,12 +94,11 @@ GEOMETRY_MARKERS = [
     HEPTAGON_F,
     OCTAGON,
     OCTAGON_F,
-    BAR,
-    BAR_V,
-    BAR_H,
 ]
 CROSS = "cross"
 PLUS = "plus"
+MINUS = "minus"
+BAR = "bar"
 CHECK = "check"
 BURST = "burst"
 INFINITY = "infinity"
@@ -106,6 +106,8 @@ NONE = "none"
 SYMBOL_MARKERS = [
     CROSS,
     PLUS,
+    MINUS,
+    BAR,
     CHECK,
     BURST,
     INFINITY,
@@ -138,7 +140,7 @@ ASTRONOMY_MARKERS = [
     SATURN,
     URANUS,
     NEPTUNE,
- ]
+]
 ALPHA = "alpha"
 BETA = "beta"
 GAMMA = "gamma"

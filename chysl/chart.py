@@ -333,7 +333,7 @@ class Reader:
                 dialect = "excel" if format == "csv" else "excel_tab"
                 # Check if the content seems to have a header.
                 # Tried 'Sniffer' but it didn't behave well.
-                peek_reader = csv.reader(io.StringIO(self.content), dialect= dialect)
+                peek_reader = csv.reader(io.StringIO(self.content), dialect=dialect)
                 first_record = next(peek_reader)
                 for part in first_record:
                     try:
@@ -342,7 +342,7 @@ class Reader:
                         pass
                     else:
                         # Does not seem to be a header; row numbers for map.
-                        fieldnames = list(range(1, len(first_record)+1))
+                        fieldnames = list(range(1, len(first_record) + 1))
                         break
                 else:
                     # Has a header; use its field names.

@@ -1,0 +1,12 @@
+x,y,color,marker,size
+1,2,,lambda,20
+2,12,navy,galaxy,100
+3,4,red
+5,7
+7,7,orange,sun,50
+8.5,4,orange,mercury,80
+9,7.5,purple,saturn,120
+10,13,green,earth,85
+12,7,cyan
+10.2,10.5,coral,garbage,40
+

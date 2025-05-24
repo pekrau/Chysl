@@ -56,154 +56,72 @@
     }
   },
   "$defs": {
-    "marker": {
-      "$anchor": "marker",
-      "title": "Symbol for use as a marker in a chart.",
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
       "oneOf": [
         {
-          "title": "Predefined symbols.",
-          "enum": [
-            "disc",
-            "circle",
-            "oval",
-            "oval-vertical",
-            "oval-horizontal",
-            "ellipse",
-            "ellipse-vertical",
-            "ellipse-horizontal",
-            "block",
-            "square",
-            "diamond",
-            "diamond-fill",
-            "pyramid",
-            "triangle",
-            "wedge",
-            "trigon",
-            "pentagon",
-            "pentagon-fill",
-            "hexagon",
-            "hexagon-fill",
-            "heptagon",
-            "heptagon-fill",
-            "octagon",
-            "octagon-fill",
-            "bar",
-            "bar-vertical",
-            "bar-horizontal",
-            "cross",
-            "plus",
-            "check",
-            "burst",
-            "infinity",
-            "none",
-            "star",
-            "star-fill",
-            "galaxy",
-            "sun",
-            "mercury",
-            "venus",
-            "earth",
-            "moon",
-            "mars",
-            "jupiter",
-            "saturn",
-            "uranus",
-            "neptune",
-            "alpha",
-            "beta",
-            "gamma",
-            "delta",
-            "epsilon",
-            "zeta",
-            "eta",
-            "theta",
-            "iota",
-            "kappa",
-            "lambda",
-            "mu",
-            "nu",
-            "xi",
-            "omicron",
-            "pi",
-            "rho",
-            "sigma",
-            "sigma1",
-            "sigma2",
-            "tau",
-            "upsilon",
-            "phi",
-            "chi",
-            "psi",
-            "omega"
-          ],
-          "default": "disc"
+          "title": "Display default axis.",
+          "type": "boolean",
+          "default": true
         },
         {
-          "title": "Single characters.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 1
+          "title": "Axis details.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "gray"
+            },
+            "absolute": {
+              "title": "Display absolute values for ticks.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
         }
       ]
     },
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
+    "fuzzy_number": {
+      "$anchor": "fuzzy_number",
+      "title": "Number value, exact, or fuzzy with either low/high or error.",
       "oneOf": [
         {
-          "title": "Text with default styling.",
-          "type": "string"
+          "title": "Exact number value.",
+          "type": "number"
         },
         {
-          "title": "Text with styling options.",
+          "title": "Fuzzy number value,  with either low/high or error",
           "type": "object",
           "required": [
-            "text"
+            "value"
           ],
           "additionalProperties": false,
+          "minProperties": 2,
           "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
+            "value": {
+              "title": "Central value for the fuzzy number.",
+              "type": "number"
             },
-            "size": {
-              "title": "Size of font. Default depends on context.",
+            "low": {
+              "title": "Low value for the fuzzy number.",
+              "type": "number"
+            },
+            "high": {
+              "title": "High value for the fuzzy number.",
+              "type": "number"
+            },
+            "error": {
+              "title": "Symmetrical error around the central value.",
               "type": "number",
               "exclusiveMinimum": 0
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
             }
           }
         }
@@ -276,72 +194,155 @@
         }
       ]
     },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
+    "marker": {
+      "$anchor": "marker",
+      "title": "Symbol for use as a marker in a chart.",
       "oneOf": [
         {
-          "title": "Display default axis.",
-          "type": "boolean",
-          "default": true
+          "title": "Predefined symbols denoted by names.",
+          "enum": [
+            "disc",
+            "circle",
+            "oval",
+            "oval-vertical",
+            "oval-horizontal",
+            "ellipse",
+            "ellipse-vertical",
+            "ellipse-horizontal",
+            "block",
+            "square",
+            "square-cross",
+            "diamond",
+            "diamond-cross",
+            "diamond-fill",
+            "pyramid",
+            "triangle",
+            "wedge",
+            "trigon",
+            "pentagon",
+            "pentagon-fill",
+            "hexagon",
+            "hexagon-fill",
+            "heptagon",
+            "heptagon-fill",
+            "octagon",
+            "octagon-fill",
+            "cross",
+            "plus",
+            "minus",
+            "bar",
+            "check",
+            "burst",
+            "infinity",
+            "none",
+            "star",
+            "star-fill",
+            "galaxy",
+            "sun",
+            "mercury",
+            "venus",
+            "earth",
+            "moon",
+            "mars",
+            "jupiter",
+            "saturn",
+            "uranus",
+            "neptune",
+            "alpha",
+            "beta",
+            "gamma",
+            "delta",
+            "epsilon",
+            "zeta",
+            "eta",
+            "theta",
+            "iota",
+            "kappa",
+            "lambda",
+            "mu",
+            "nu",
+            "xi",
+            "omicron",
+            "pi",
+            "rho",
+            "sigma",
+            "sigma1",
+            "sigma2",
+            "tau",
+            "upsilon",
+            "phi",
+            "chi",
+            "psi",
+            "omega"
+          ],
+          "default": "disc"
         },
         {
-          "title": "Axis details.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "gray"
-            },
-            "absolute": {
-              "title": "Display absolute values for ticks.",
-              "type": "boolean",
-              "default": false
-            },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
-            }
-          }
+          "title": "A single character as marker.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1
         }
       ]
     },
-    "fuzzy_number": {
-      "$anchor": "fuzzy_number",
-      "title": "Number value, exact, or fuzzy with either low/high or error.",
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
       "oneOf": [
         {
-          "title": "Exact number value.",
-          "type": "number"
+          "title": "Text with default styling.",
+          "type": "string"
         },
         {
-          "title": "Fuzzy number value,  with either low/high or error",
+          "title": "Text with styling options.",
           "type": "object",
           "required": [
-            "value"
+            "text"
           ],
           "additionalProperties": false,
-          "minProperties": 2,
           "properties": {
-            "value": {
-              "title": "Central value for the fuzzy number.",
-              "type": "number"
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
             },
-            "low": {
-              "title": "Low value for the fuzzy number.",
-              "type": "number"
-            },
-            "high": {
-              "title": "High value for the fuzzy number.",
-              "type": "number"
-            },
-            "error": {
-              "title": "Symmetrical error around the central value.",
+            "size": {
+              "title": "Size of font. Default depends on context.",
               "type": "number",
               "exclusiveMinimum": 0
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            },
+            "anchor": {
+              "title": "Text anchor position. Ignored in some contexts.",
+              "enum": [
+                "start",
+                "middle",
+                "end"
+              ],
+              "default": "middle"
             }
           }
         }

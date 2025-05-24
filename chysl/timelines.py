@@ -193,26 +193,32 @@ class Timelines(Chart):
         )
         for entry in self.entries:
             if self.legend:
-                dimension.update_left(utils.get_text_length(entry.timeline, **kwargs))
+                dimension.update_start(utils.get_text_length(entry.timeline, **kwargs))
             dimension.update_span(entry.minmax())
             if entry.timeline not in timelines:
                 self.height += constants.DEFAULT_PADDING
                 timelines[entry.timeline] = self.height
                 self.height += constants.DEFAULT_SIZE + constants.DEFAULT_PADDING
-        dimension.update_right(constants.DEFAULT_PADDING)
+        dimension.update_end(constants.DEFAULT_PADDING)
 
-        # Frame; ticks computation needed.
         if isinstance(self.axis, dict):
             absolute = bool(self.axis.get("absolute"))
         else:
             absolute = False
-        ticks = dimension.get_ticks(absolute=absolute)
-        self.svg += (frame := Element("rect",
-                            x=utils.N(ticks[0].pixel),
-                            y=utils.N(height0),
-                            width=utils.N(ticks[-1].pixel - ticks[0].pixel),
-                            height=utils.N(self.height - height0),
-                            stroke="black"))
+        dimension.prepare(absolute=absolute)
+
+        # Frame; ticks computation needed.
+        ticks = dimension.get_ticks()
+        self.svg += (
+            frame := Element(
+                "rect",
+                x=utils.N(ticks[0].pixel),
+                y=utils.N(height0),
+                width=utils.N(ticks[-1].pixel - ticks[0].pixel),
+                height=utils.N(self.height - height0),
+                stroke="black",
+            )
+        )
         frame["stroke-width"] = 1
 
         # Time axis grid and its labels.
@@ -260,7 +266,7 @@ class Timelines(Chart):
                     x=utils.N(
                         dimension.get_pixel((dimension.first + dimension.last) / 2)
                     ),
-                    y=self.height,
+                    y=utils.N(self.height),
                 )
             self.height += self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
@@ -606,11 +612,11 @@ class Period(_Temporal):
                 case constants.GRADIENT:
                     # The constant-color part of the period.
                     if x2 < x3:
-                        tweak = 0.5 # In some viewers, there is a glitch between parts.
+                        tweak = 0.5  # In some viewers, there is a glitch between parts.
                         # The filled rectangle.
                         result += Element(
                             "rect",
-                            x=x2 - tweak,
+                            x=utils.N(x2 - tweak),
                             y=utils.N(y),
                             width=utils.N(x3 - x2 + 2 * tweak),
                             height=constants.DEFAULT_SIZE,
@@ -620,7 +626,10 @@ class Period(_Temporal):
                         # The lines at the long edges of the filled rectangle.
                         result += Element(
                             "path",
-                            d=Path(x2 - tweak, y).H(x3 + 2 * tweak).m(0, constants.DEFAULT_SIZE).H(x2 - tweak),
+                            d=Path(x2 - tweak, y)
+                            .H(x3 + 2 * tweak)
+                            .m(0, constants.DEFAULT_SIZE)
+                            .H(x2 - tweak),
                             stroke="black",
                         )
                     # The left gradient of the period.
@@ -637,7 +646,7 @@ class Period(_Temporal):
                         stop["stop-opacity"] = 1
                         result += Element(
                             "rect",
-                            x=x1,
+                            x=utils.N(x1),
                             y=utils.N(y),
                             width=utils.N(x2 - x1),
                             height=constants.DEFAULT_SIZE,

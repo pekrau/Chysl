@@ -1,6 +1,7 @@
 "Create documentation from JSON Schema."
 
 import json
+import os.path
 
 import constants
 import chart
@@ -64,7 +65,10 @@ def make_docs():
         result.append("## Examples\n\n")
         for test in TESTS[name]:
             result.append(f"### {test}\n\n")
+            if os.path.exists(f"../docs/{test}.csv"):
+                result.append(f"[CSV data file]({test}.csv)\n\n")
             result.append(f"![{test} SVG]({test}.svg)\n\n")
+                
             with open(f"../docs/{test}.yaml") as infile:
                 code = infile.read()
             result.append(f"```yaml\n{code}```\n")

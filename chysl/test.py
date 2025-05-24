@@ -4,19 +4,36 @@ from icecream import ic
 
 import itertools
 import os
+import random
 import string
 
 import constants
 from lib import *
 
+random.seed(12345)
+
 
 TESTS = {
-    "timelines": ["universe", "earth", "universe_earth", "markers", "poster", "dimensions"],
+    "timelines": [
+        "universe",
+        "earth",
+        "universe_earth",
+        "markers",
+        "poster",
+        "dimensions",
+    ],
     "piechart": ["pyramid", "day", "pies_column", "pies_row"],
     # XXX dendrogram
-    "plot": ["scatter", "scatter2"],
-    "column": ["universe_earth", "pies_column", "notes_column", "notes", "markers", "dimensions"],
-    "row": ["pies_row", "markers"],
+    "plot": ["scatter_points", "scatter_csv"],
+    "column": [
+        "universe_earth",
+        "pies_column",
+        "notes_column",
+        "notes",
+        "markers",
+        "dimensions",
+    ],
+    "row": ["pies_row"],
     "note": ["declaration", "notes_column", "notes", "pies_column", "poster"],
     "board": ["poster", "notes"],
 }
@@ -119,11 +136,10 @@ def test_universe_earth():
 def test_markers():
     colors = itertools.cycle(["gray", "coral", "dodgerblue", "orange", "lime"])
     N_PER_ROW = 3
-    all_markers = Row("Markers", align="top")
-    all_markers += (left_panel := Column())
-    all_markers += (right_panel := Column())
 
-    left_panel += (markers := Timelines("Geometry markers", legend=False, axis=False))
+    all_markers = Column("Predefined markers")
+
+    all_markers += (markers := Timelines("Geometry markers", legend=False, axis=False))
     markers += Period("Length", 0, N_PER_ROW)
     for pos, marker in enumerate(constants.GEOMETRY_MARKERS):
         markers += Event(
@@ -134,7 +150,7 @@ def test_markers():
             color=next(colors),
         )
 
-    left_panel += (markers := Timelines("Symbol markers", legend=False, axis=False))
+    all_markers += (markers := Timelines("Symbol markers", legend=False, axis=False))
     markers += Period("Length", 0, N_PER_ROW)
     for pos, marker in enumerate(constants.SYMBOL_MARKERS):
         markers += Event(
@@ -145,7 +161,7 @@ def test_markers():
             color=next(colors),
         )
 
-    left_panel += (markers := Timelines("Astronomy markers", legend=False, axis=False))
+    all_markers += (markers := Timelines("Astronomy markers", legend=False, axis=False))
     markers += Period("Length", 0, N_PER_ROW)
     for pos, marker in enumerate(constants.ASTRONOMY_MARKERS):
         markers += Event(
@@ -155,22 +171,10 @@ def test_markers():
             marker=marker,
             color=next(colors),
         )
- 
-    left_panel += (markers := Timelines("Greek markers", legend=False, axis=False))
+
+    all_markers += (markers := Timelines("Greek markers", legend=False, axis=False))
     markers += Period("Length", 0, N_PER_ROW)
     for pos, marker in enumerate(constants.GREEK_MARKERS):
-        markers += Event(
-            marker,
-            pos % N_PER_ROW + 0.25,
-            timeline=f"Row {1 + pos // N_PER_ROW}",
-            marker=marker,
-            color=next(colors),
-        )
-
-    right_panel += (markers := Timelines("Character markers", legend=False, axis=False))
-    markers += Period("Length", 0, N_PER_ROW)
-    characters = string.ascii_letters + string.digits + string.punctuation
-    for pos, marker in enumerate(characters):
         markers += Event(
             marker,
             pos % N_PER_ROW + 0.25,
@@ -293,29 +297,34 @@ def test_declaration():
     decl.render("declaration.svg")
 
 
-def test_scatter():
+def test_scatter_points():
+    colors = itertools.cycle(
+        ["blue", "red", "green", "purple", "cyan", "orange", "lime", "black"]
+    )
+    markers = itertools.cycle(["disc", "alpha", "mars"])
     plot = Plot("Scattered points inline")
     plot += Scatter(
         [
-            dict(x=5, y=20),
-            dict(x=12, y=12.5, color="red", marker="alpha"),
-            dict(x=13, y=12, color="red", marker="beta"),
-            dict(x=14, y=11, color="red", marker="gamma"),
-            dict(x=19, y=9, color="orange", marker="#"),
-            dict(x=0, y=0, size=10),
-            dict(x=1, y=1),
-            dict(x=6, y={"value": 7, "error": 1}, color="lime"),
+            dict(
+                x=random.uniform(0, 100),
+                y=random.uniform(0, 100),
+                color=next(colors),
+                marker=next(markers),
+                size=random.uniform(40, 100),
+                opacity=random.uniform(0.3, 0.8),
+            )
+            for i in range(20)
         ]
     )
-    plot.save("scatter.yaml")
-    plot.render("scatter.svg")
+    plot.save("scatter_points.yaml")
+    plot.render("scatter_points.svg")
 
 
 def test_scatter_csv():
     plot = Plot("Scattered points from CSV")
-    plot += Scatter({"source": "scatter2.csv"})
-    plot.save("scatter2.yaml")
-    plot.render("scatter2.svg")
+    plot += Scatter({"source": "scatter_csv.csv"})
+    plot.save("scatter_csv.yaml")
+    plot.render("scatter_csv.svg")
 
 
 def test_notes():
@@ -353,13 +362,24 @@ def test_poster():
 
 def test_dimensions():
     column = Column("Dimension tick ranges")
-    for last in [1.00001, 1.0001, 1.0002, 1.1, 2, 5, 10, 2000, 10_000_000, 10_000_000_000]:
+    for last in [
+        1.00001,
+        1.0001,
+        1.0002,
+        1.1,
+        2,
+        5,
+        10,
+        2000,
+        10_000_000,
+        10_000_000_000,
+    ]:
         column += (timelines := Timelines(f"1 - {last}"))
         timelines += Period("Period", 1, last)
     column.save("dimensions.yaml")
     column.render("dimensions.svg")
-    
-               
+
+
 def run_tests():
     origdir = os.getcwd()
     try:
@@ -374,7 +394,7 @@ def run_tests():
         test_pies_column()
         test_pies_row()
         test_declaration()
-        test_scatter()
+        test_scatter_points()
         test_scatter_csv()
         test_notes()
         test_poster()

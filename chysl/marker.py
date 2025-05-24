@@ -16,7 +16,9 @@ class Marker:
         assert isinstance(marker, str) and len(marker) >= 1
         assert color is None or utils.is_color(color)
         assert size is None or (isinstance(size, (int, float)) and size > 0)
-        assert opacity is None or (isinstance(opacity, (int, float)) and opacity >= 0 and opacity <= 1)
+        assert opacity is None or (
+            isinstance(opacity, (int, float)) and opacity >= 0 and opacity <= 1
+        )
 
         if len(marker) > 1 and marker not in constants.MARKERS:
             marker = "?"
@@ -134,6 +136,25 @@ class Marker:
                 elem["stroke-width"] = stroke_width
                 self.label_x_offset = self.size / 2
 
+            case constants.SQUARE_CROSS:
+                elem = Element("g", fill="none", stroke=self.color)
+                elem["stroke-width"] = stroke_width
+                elem += Element(
+                    "rect",
+                    x=utils.N(x - 0.9 * self.size / 2),
+                    y=utils.N(y - 0.9 * self.size / 2),
+                    width=utils.N(0.9 * self.size),
+                    height=utils.N(0.9 * self.size),
+                )
+                elem += Element(
+                    "path",
+                    d=Path(x - 0.9 * self.size / 2, y - 0.9 * self.size / 2)
+                    .l(1.8 * self.size / 2, 1.8 * self.size / 2)
+                    .M(x - 0.9 * self.size / 2, y + 0.9 * self.size / 2)
+                    .l(1.8 * self.size / 2, -1.8 * self.size / 2),
+                )
+                self.label_x_offset = self.size / 2
+
             case constants.DIAMOND:
                 path = (
                     Path(x, y - self.size / 2)
@@ -141,6 +162,22 @@ class Marker:
                     .L(x, y + self.size / 2)
                     .L(x + self.size / 2, y)
                     .Z()
+                )
+                elem = Element("path", d=path, fill="none", stroke=self.color)
+                elem["stroke-width"] = stroke_width
+                self.label_x_offset = self.size / 2
+
+            case constants.DIAMOND_CROSS:
+                path = (
+                    Path(x, y - self.size / 2)
+                    .L(x - self.size / 2, y)
+                    .L(x, y + self.size / 2)
+                    .L(x + self.size / 2, y)
+                    .Z()
+                    .M(x, y - self.size / 2)
+                    .v(self.size)
+                    .M(x - self.size / 2, y)
+                    .h(self.size)
                 )
                 elem = Element("path", d=path, fill="none", stroke=self.color)
                 elem["stroke-width"] = stroke_width
@@ -299,30 +336,6 @@ class Marker:
                 )
                 self.label_x_offset = self.size / 2
 
-            case constants.BAR | constants.BAR_V:
-                elem = Element(
-                    "rect",
-                    x=utils.N(x - self.size / 8),
-                    y=utils.N(y - self.size / 2),
-                    width=utils.N(self.size / 4),
-                    height=utils.N(self.size),
-                    fill=self.color,
-                    stroke="none",
-                )
-                self.label_x_offset = self.size / 8
-
-            case constants.BAR_H:
-                elem = Element(
-                    "rect",
-                    x=utils.N(x - self.size / 2),
-                    y=utils.N(y - self.size / 8),
-                    width=utils.N(self.size),
-                    height=utils.N(self.size / 4),
-                    fill=self.color,
-                    stroke="none",
-                )
-                self.label_x_offset = self.size / 2
-
             case constants.CROSS:
                 center = Vector2(x, y)
                 length = self.size * math.sqrt(2) / 4
@@ -348,6 +361,30 @@ class Marker:
                 elem = Element("path", d=path, fill="none", stroke=self.color)
                 elem["stroke-width"] = utils.N(3 * self.size / constants.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2
+
+            case constants.MINUS:
+                elem = Element(
+                    "rect",
+                    x=utils.N(x - self.size / 2),
+                    y=utils.N(y - self.size / 8),
+                    width=utils.N(self.size),
+                    height=utils.N(self.size / 4),
+                    fill=self.color,
+                    stroke="none",
+                )
+                self.label_x_offset = self.size / 2
+
+            case constants.BAR:
+                elem = Element(
+                    "rect",
+                    x=utils.N(x - self.size / 8),
+                    y=utils.N(y - self.size / 2),
+                    width=utils.N(self.size / 4),
+                    height=utils.N(self.size),
+                    fill=self.color,
+                    stroke="none",
+                )
+                self.label_x_offset = self.size / 8
 
             case constants.CHECK:
                 # https://www.svgrepo.com/svg/532154/check
@@ -550,7 +587,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = 1
+                elem["stroke-width"] = 0.8
                 elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 4
 
@@ -875,19 +912,21 @@ class Marker:
             case _:
                 if len(self.marker) != 1:
                     raise NotImplementedError(self.marker)
-                elem = Element("text",
-                               self.marker,
-                               x=utils.N(x),
-                               y=utils.N(y + self.size / 3.5),
-                               fill=self.color,
-                               stroke="none")
+                elem = Element(
+                    "text",
+                    self.marker,
+                    x=utils.N(x),
+                    y=utils.N(y + self.size / 3.5),
+                    fill=self.color,
+                    stroke="none",
+                )
                 elem["font-family"] = "sans-serif"
                 elem["font-weight"] = "bold"
                 elem["text-anchor"] = "middle"
                 elem["font-size"] = self.size
                 self.label_x_offset = self.size / 3
-                
+
         if self.opacity is not None and self.opacity != 1:
-            elem["opacity"] = opacity
+            elem["opacity"] = self.opacity
 
         return elem

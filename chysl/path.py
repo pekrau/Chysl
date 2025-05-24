@@ -1,6 +1,6 @@
 "SVG path synthesizer."
 
-from utils import N
+import utils
 
 
 class Path:
@@ -43,25 +43,25 @@ class Path:
     def H(self, x):
         "Horizontal lineto. Absolute coordinates."
         assert isinstance(x, (int, float))
-        self.parts.append(f"H {N(x)}")
+        self.append("H", x)
         return self
 
     def h(self, x):
         "Horizontal lineto. Relative coordinates."
         assert isinstance(x, (int, float))
-        self.parts.append(f"h {N(x)}")
+        self.append("h", x)
         return self
 
     def V(self, y):
         "Vertical lineto. Absolute coordinates."
         assert isinstance(y, (int, float))
-        self.parts.append(f"V {N(y)}")
+        self.append("V", y)
         return self
 
     def v(self, y):
         "Vertical lineto. Relative coordinates."
         assert isinstance(y, (int, float))
-        self.parts.append(f"v {N(y)}")
+        self.append("v", y)
         return self
 
     def C(self, x1, y1, x2, y2, x, y):
@@ -137,7 +137,7 @@ class Path:
         assert isinstance(sf, int)
         assert isinstance(x, (int, float))
         assert isinstance(y, (int, float))
-        self.parts.append(f"A {N(xr)} {N(yr)} {N(xrot)} {N(laf)} {N(sf)} {N(x)} {N(y)}")
+        self.append("A", xr, yr, xrot, laf, sf, x, y)
         return self
 
     def a(self, xr, yr, xrot, laf, sf, x, y):
@@ -149,7 +149,7 @@ class Path:
         assert isinstance(sf, int)
         assert isinstance(x, (int, float))
         assert isinstance(y, (int, float))
-        self.parts.append(f"a {N(xr)} {N(yr)} {N(xrot)} {N(laf)} {N(sf)} {N(x)} {N(y)}")
+        self.append("a", xr, yr, xrot, laf, sf, x, y)
         return self
 
     def Z(self):
@@ -161,6 +161,6 @@ class Path:
         bits = []
         if not (concatenate and self.parts[-1][0] == command):
             bits.append(command)
-        bits.append(" ".join([f"{N(w)}" for w in v]))
+        bits.append(" ".join([f"{utils.N(w)}" for w in v]))
         self.parts.append(" ".join(bits))
         return self

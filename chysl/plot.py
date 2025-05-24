@@ -114,31 +114,38 @@ class Plot(Chart):
             ydimension.update_span(entry.yminmax())
         xdimension.expand_span(0.05)
         ydimension.expand_span(0.05)
-        ydimension.update_right(self.height)
+        ydimension.update_end(self.height)
         # XXX This is a kludge, assuming legend label is two characters wide.
-        xdimension.update_left(
+        xdimension.update_start(
             utils.get_text_length(
                 "99", constants.DEFAULT_FONT_FAMILY, self.DEFAULT_FONT_SIZE
             )
             + constants.DEFAULT_PADDING
         )
-        xdimension.update_right(constants.DEFAULT_PADDING)
-        xticks = xdimension.get_ticks()
-        yticks = ydimension.get_ticks()
+        xdimension.update_end(constants.DEFAULT_PADDING)
+        if isinstance(self.xaxis, dict):
+            absolute = bool(self.xaxis.get("absolute"))
+        else:
+            absolute = False
+        xdimension.prepare(absolute=absolute)
+        if isinstance(self.yaxis, dict):
+            absolute = bool(self.yaxis.get("absolute"))
+        else:
+            absolute = False
+        ydimension.prepare(absolute=absolute)
+
         self.height += self.width - self.height
 
         # X axis grid and its labels.
         if self.xaxis:
             if isinstance(self.xaxis, dict):
-                absolute = bool(self.xaxis.get("absolute"))
                 color = self.xaxis.get("color") or "gray"
                 caption = self.xaxis.get("caption")
             else:
-                absolute = False
                 color = "gray"
                 caption = None
             self.svg += (xaxis := Element("g"))
-            ticks = xdimension.get_ticks(absolute=absolute)
+            ticks = xdimension.get_ticks()
             top = ydimension.get_pixel(ydimension.first)
             bottom = ydimension.get_pixel(ydimension.last)
             path = Path(ticks[0].pixel, top).V(bottom)
@@ -169,21 +176,19 @@ class Plot(Chart):
         # Y axis grid and its labels.
         if self.yaxis:
             if isinstance(self.yaxis, dict):
-                absolute = bool(self.yaxis.get("absolute"))
                 color = self.yaxis.get("color") or "gray"
                 caption = self.yaxis.get("caption")
             else:
-                absolute = False
                 color = "gray"
                 caption = None
             self.svg += (yaxis := Element("g"))
-            ticks = ydimension.get_ticks(absolute=absolute)
-            left = xdimension.get_pixel(xdimension.first)
-            right = xdimension.get_pixel(xdimension.last)
-            path = Path(left, ticks[0].pixel)
-            path.H(right)
+            ticks = ydimension.get_ticks()
+            start = xdimension.get_pixel(xdimension.first)
+            end = xdimension.get_pixel(xdimension.last)
+            path = Path(start, ticks[0].pixel)
+            path.H(end)
             for tick in ticks[1:]:
-                path.M(left, tick.pixel).H(right)
+                path.M(start, tick.pixel).H(end)
             yaxis += Element("path", d=path, stroke=color)
 
             yaxis += (labels := Element("g"))
@@ -195,7 +200,7 @@ class Plot(Chart):
                     label := Element(
                         "text",
                         tick.label,
-                        x=utils.N(xdimension.left - constants.DEFAULT_PADDING),
+                        x=utils.N(xdimension.start - constants.DEFAULT_PADDING),
                         y=utils.N(tick.pixel + self.DEFAULT_FONT_SIZE / 3),
                     )
                 )
@@ -335,10 +340,13 @@ class Scatter(_PlotEntry):
             if isinstance(yvalue, dict):
                 yvalue = yvalue["value"]
                 # XXX display error bar!
-            marker = Marker(point.get("marker", self.DEFAULT_MARKER),
-                            size=point.get("size"),
-                            color=point.get("color"),
-                            opacity=point.get("opacity"))
-            g += marker.get_graphic(xdimension.get_pixel(xvalue),
-                                    ydimension.get_pixel(yvalue))
+            marker = Marker(
+                point.get("marker", self.DEFAULT_MARKER),
+                size=point.get("size"),
+                color=point.get("color"),
+                opacity=point.get("opacity"),
+            )
+            g += marker.get_graphic(
+                xdimension.get_pixel(xvalue), ydimension.get_pixel(yvalue)
+            )
         return g

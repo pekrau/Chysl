@@ -103,12 +103,12 @@ DEFS = {
         "title": "Symbol for use as a marker in a chart.",
         "oneOf": [
             {
-                "title": "Predefined symbols.",
+                "title": "Predefined symbols denoted by names.",
                 "enum": constants.MARKERS,
                 "default": constants.DISC,
             },
             {
-                "title": "Single characters.",
+                "title": "A single character as marker.",
                 "type": "string",
                 "minLength": 1,
                 "maxLength": 1,

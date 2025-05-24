@@ -19,15 +19,15 @@ class Epoch(enum.StrEnum):
 class Dimension:
     "Store min/max and calculate base/first/last and ticks for the span."
 
-    def __init__(self, width, left=0, right=0, reversed=False):
+    def __init__(self, width, start=0, end=0, reversed=False):
         assert isinstance(width, (int, float)) and width > 0
-        assert isinstance(left, (int, float)) and left >= 0
-        assert isinstance(right, (int, float)) and right >= 0
+        assert isinstance(start, (int, float)) and start >= 0
+        assert isinstance(end, (int, float)) and end >= 0
         assert isinstance(reversed, bool)
 
         self.width = width
-        self.left = left
-        self.right = right
+        self.start = start
+        self.end = end
         self.reversed = reversed
         self.min = None
         self.max = None
@@ -63,26 +63,26 @@ class Dimension:
         self.min -= expansion
         self.max += expansion
 
-    def update_left(self, value):
+    def update_start(self, value):
         if isinstance(value, (tuple, list)):
-            self.left = max(self.left, *value)
+            self.start = max(self.start, *value)
         else:
-            self.left = max(self.left, value)
+            self.start = max(self.start, value)
 
-    def update_right(self, value):
+    def update_end(self, value):
         if isinstance(value, (tuple, list)):
-            self.right = max(self.right, *value)
+            self.end = max(self.end, *value)
         else:
-            self.right = max(self.right, value)
+            self.end = max(self.end, value)
 
-    def get_ticks(self, number=8, unit=None, absolute=False):
-        "Return ticks for the current span (min and max)."
+    def prepare(self, number=8, factor=None, absolute=False):
+        "Prepare for returning graphics and labels by computing tick positions."
         assert isinstance(number, int) and number > 1
-        assert unit is None or isinstance(unit, (int, float)) and unit >= 0
+        assert factor is None or isinstance(factor, (int, float)) and factor >= 0
 
         span = self.max - self.min
         self.magnitude = math.log10(span / number)
-        self.unit = unit
+        self.factor = factor
         series = []
         for magnitude in [math.floor(self.magnitude), math.ceil(self.magnitude)]:
             for base in [1, 2, 5]:
@@ -101,51 +101,57 @@ class Dimension:
                 while len(values) >= 2 and len(values) != prev_length:
                     prev_length = len(values)
                     if values[0] < self.min and (
-                            values[1] < self.min or math.isclose(values[1], self.min)
+                        values[1] < self.min or math.isclose(values[1], self.min)
                     ):
                         values.pop()
                     if values[-1] > self.max and (
-                            values[-2] > self.max or math.isclose(values[-2], self.max)
+                        values[-2] > self.max or math.isclose(values[-2], self.max)
                     ):
                         values.pop()
                 series.append((magnitude, values))
-        self.magnitude, best = series[0]
-        score = abs(len(best) - number)
+        self.magnitude, self.positions = series[0]
+        score = abs(len(self.positions) - number)
         for magnitude, values in series[1:]:
             s = abs(len(values) - number)
             if s < score:
                 self.magnitude = magnitude
-                best = values
+                self.positions = values
                 score = s
-        assert best[0] <= self.min
-        assert best[1] > self.min
-        assert best[-1] >= self.max
-        assert best[-2] < self.max
-        self.first = best[0]
-        self.last = best[-1]
-        self.scale = (self.width - self.left - self.right) / (self.last - self.first)
+        assert self.positions[0] <= self.min
+        assert self.positions[1] > self.min
+        assert self.positions[-1] >= self.max
+        assert self.positions[-2] < self.max
+        self.first = self.positions[0]
+        self.last = self.positions[-1]
+        self.scale = (self.width - self.start - self.end) / (self.last - self.first)
         self.step = 10**self.magnitude
         if self.magnitude < 0:
-            format = f"%.{-self.magnitude}f"
+            self.format = f"%.{-self.magnitude}f"
         else:
-            format = "%d"
-        if self.unit is None:
+            self.format = "%d"
+        if self.factor is None:
             if self.magnitude // 3 > 1:
-                self.unit = 10 ** (3 * (self.magnitude // 3))
+                self.factor = 10 ** (3 * (self.magnitude // 3))
             else:
-                self.unit = 1
-        func = (lambda v: abs(v)) if absolute else (lambda v: v)
-        result = [
-            Tick(value, self.get_pixel(value), label=format % func(value/self.unit)) for value in best
+                self.factor = 1
+        self.func = (lambda v: abs(v)) if absolute else (lambda v: v)
+
+    def get_ticks(self):
+        return [
+            Tick(
+                value,
+                self.get_pixel(value),
+                label=self.format % self.func(value / self.factor),
+            )
+            for value in self.positions
         ]
-        return result
 
     def get_pixel(self, user):
         "Convert user coordinate to pixel coordinate."
         if self.reversed:
-            return self.right + self.scale * (self.last - user)
+            return self.end + self.scale * (self.last - user)
         else:
-            return self.left + self.scale * (user - self.first)
+            return self.start + self.scale * (user - self.first)
 
     def get_width(self, begin, end):
         "Convert user width to pixel width."
