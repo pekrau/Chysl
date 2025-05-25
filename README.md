@@ -1,4 +1,4 @@
-# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.2.8
+# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.2.9
 
 Charts defined in YAML for rendering into SVG. Charts are hierarchically composable.
 
@@ -10,6 +10,8 @@ where `{version}` is either `null` or the string representing the version of the
 
 [JSON Schema](docs/schema_defs.md) for general definitions used in JSON schema of different charts.
 
+This code has been lovingly hand-crafted. No AI tools were used in its development.
+
 ## Charts
 
 - [timelines](docs/timelines.md): Timelines having events and periods.
@@ -18,7 +20,7 @@ where `{version}` is either `null` or the string representing the version of the
 
 - [note](docs/note.md): Textual note with title, body and footer text.
 
-- [plot](docs/plot.md): 2D chart plotting x/y data; scatter, etc.
+- [plot2d](docs/plot2d.md): 2D chart plotting x/y data; scatter, etc.
 
 - [column](docs/column.md): Charts stacked in a column.
 

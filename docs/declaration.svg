@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="201" height="88.4" viewBox="0 0 201 88.4" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.8 note</desc>
+  <desc>Chysl 0.2.9 note</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="100" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle" font-weight="bold">Declaration</text>
     <rect x="2.5" y="2.5" rx="10" ry="10" width="195" fill="lightyellow" stroke="gold" stroke-width="5" height="82.4" />

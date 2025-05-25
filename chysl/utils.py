@@ -46,6 +46,13 @@ def is_color(value):
     return True
 
 
+def is_marker(value):
+    "Is the given value a valid marker?"
+    if not isinstance(value, str):
+        return False
+    return value in constants.MARKERS or len(value) == 1
+
+
 def get_text_length(text, font, size, italic=False, bold=False):
     """Compute length of string given the size in points (pt).
     Uses empirically based measurements.

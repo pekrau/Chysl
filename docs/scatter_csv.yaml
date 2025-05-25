@@ -1,9 +1,0 @@
-chysl:
-  version: 0.2.8
-  software: Chysl (Python) 0.2.8
-chart: plot
-title: Scattered points from CSV
-entries:
-- entry: scatter
-  data:
-    source: scatter_csv.csv

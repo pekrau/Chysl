@@ -326,13 +326,17 @@ class Reader:
                 raise ValueError(str(error))
 
     def parse(self, format):
-        "Parse the content as YAML into data. Raise ValueError if any problem."
+        """Parse the content given th format into data.
+        Raise ValueError if any problem.
+        """
         assert format in constants.FORMATS
+
         match format:
+
             case "csv" | "tsv":
                 dialect = "excel" if format == "csv" else "excel_tab"
                 # Check if the content seems to have a header.
-                # Tried 'Sniffer' but it didn't behave well.
+                # (Tried 'csv.Sniffer' but it didn't behave well.)
                 peek_reader = csv.reader(io.StringIO(self.content), dialect=dialect)
                 first_record = next(peek_reader)
                 for part in first_record:
@@ -341,22 +345,23 @@ class Reader:
                     except ValueError:
                         pass
                     else:
-                        # Does not seem to be a header; row numbers for map.
+                        # Not a header; use column numbers for dict keys.
                         fieldnames = list(range(1, len(first_record) + 1))
                         break
                 else:
                     # Has a header; use its field names.
                     fieldnames = None
-                reader = csv.DictReader(io.StringIO(self.content), dialect="excel")
+                reader = csv.DictReader(
+                    io.StringIO(self.content), fieldnames=fieldnames, dialect="excel"
+                )
                 self.data = list(reader)
-            case "tsv":
-                reader = csv.DictReader(io.StringIO(self.content), dialect="excel_tab")
-                self.data = list(reader)
+
             case "json":
                 try:
                     self.data = json.loads(self.content)
                 except json.JSONDecodeError as error:
                     raise ValueError(f"cannot interpret data as JSON: {error}")
+
             case "yaml":
                 try:
                     self.data = yaml.safe_load(self.content)
@@ -364,7 +369,7 @@ class Reader:
                     raise ValueError(f"cannot interpret data as YAML: {error}")
 
     def get_chart(self):
-        """Return the instance of a Chart subclass from the YAML data.
+        """Return the instance of a Chart subclass from the data parsed as YAML.
         The meta information is stored in attribute 'meta'.
         If any of the following tests fail, raises ValueError:
         - The presence and validity of the 'chysl' format identification marker.
@@ -400,3 +405,127 @@ class Reader:
         schema.validate(prepared, cls.SCHEMA)
         # Create the class instance from the data lacking the identification marker.
         return parse(prepared)
+
+    def map_parameters_fields(self, parameters):
+        """Convert the source data fields to the plot parameters.
+        Also converts the values from string to float, where needed.
+        """
+        if not parameters:
+            return
+        for key in ("x", "y", "size", "color", "opacity", "marker"):
+            if field := parameters.get(key):
+                getattr(self, f"map_{key}_field")(field)
+
+    def map_x_field(self, field):
+        if isinstance(field, (str, int)):
+            fieldname = field
+        else:
+            fieldname = field["field"]
+        try:
+            for record in self.data:
+                record["x"] = float(record[fieldname])
+        except (KeyError, IndexError):
+            raise ValueError(f"no such field '{fieldname}' in data for parameter 'x'")
+        except (ValueError, TypeError):
+            raise ValueError(
+                f"invalid value in field '{fieldname}' in data for parameter 'x'"
+            )
+
+    def map_y_field(self, field):
+        if isinstance(field, (str, int)):
+            fieldname = field
+        else:
+            fieldname = field["field"]
+        try:
+            for record in self.data:
+                record["y"] = float(record[fieldname])
+        except (KeyError, IndexError):
+            raise ValueError(f"no such field '{fieldname}' in data for parameter 'y'")
+        except (ValueError, TypeError):
+            raise ValueError(
+                f"invalid value in field '{fieldname}' in data for parameter 'y'"
+            )
+
+    def map_size_field(self, field):
+        if isinstance(field, (str, int)):
+            fieldname = field
+        else:
+            fieldname = field["field"]
+        try:
+            for record in self.data:
+                try:
+                    record["size"] = float(record[fieldname])
+                except (KeyError, IndexError):
+                    pass
+                else:
+                    if record["size"] <= 0.0:
+                        raise ValueError
+        except (ValueError, TypeError):
+            raise ValueError(
+                f"invalid value in field '{fieldname}' in data for parameter 'size'"
+            )
+
+    def map_color_field(self, field):
+        if isinstance(field, (str, int)):
+            fieldname = field
+            convert = lambda v: v
+        else:
+            fieldname = field["field"]
+            convert = _Converter(field)
+        for record in self.data:
+            try:
+                record["color"] = convert(record[fieldname])
+            except (KeyError, IndexError):
+                pass
+            else:
+                if not utils.is_color(record["color"]):
+                    raise ValueError(
+                        f"invalid value in field '{fieldname}' in data for parameter 'color'"
+                    )
+
+    def map_opacity_field(self, field):
+        if isinstance(field, (str, int)):
+            fieldname = field
+        else:
+            fieldname = field["field"]
+        try:
+            for record in self.data:
+                record["opacity"] = float(record[fieldname])
+                if 1.0 < record["opacity"] < 0.0:
+                    raise ValueError
+        except (KeyError, IndexError):
+            pass
+        except (ValueError, TypeError):
+            raise ValueError(
+                f"invalid value in field '{fieldname}' in data for parameter 'opacity'"
+            )
+
+    def map_marker_field(self, field):
+        if isinstance(field, (str, int)):
+            fieldname = field
+            convert = lambda v: v
+        else:
+            fieldname = field["field"]
+            convert = _Converter(field)
+        for record in self.data:
+            try:
+                record["marker"] = convert(record[fieldname])
+            except (KeyError, IndexError):
+                pass
+            if not utils.is_marker(record["marker"]):
+                raise ValueError(
+                    f"invalid value in field '{fieldname}' in data for parameter 'marker'"
+                )
+
+
+class _Converter:
+    "Map or compute new value from old."
+
+    def __init__(self, field):
+        self.map = field.get("map")
+
+    def __call__(self, value):
+        if self.map is None:
+            return value
+        # Yes, if no match, then raise KeyError.
+        return self.map[value]

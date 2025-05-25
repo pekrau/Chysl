@@ -1,5 +1,36 @@
 # Schema definitions
 
+## size
+
+Size of graphical item, in approximate pixel units.
+
+- *type*: float
+
+## color
+
+Color specification; hex code '#rrggbb' or CSS3 color name.
+
+- *type*: string
+- *format*: color
+
+## opacity
+
+Opacity in range [0.0, 1.0].
+
+- *type*: float
+- *minimum*: 0
+- *maximum*: 1
+
+## marker
+
+Symbol for use as a marker in a chart.
+
+- Alternative 1: Predefined symbols denoted by names.
+  - *one of*: 'disc', 'circle', 'oval', 'oval-vertical', 'oval-horizontal', 'ellipse', 'ellipse-vertical', 'ellipse-horizontal', 'block', 'square', 'square-cross', 'diamond', 'diamond-cross', 'diamond-fill', 'pyramid', 'triangle', 'wedge', 'trigon', 'pentagon', 'pentagon-fill', 'hexagon', 'hexagon-fill', 'heptagon', 'heptagon-fill', 'octagon', 'octagon-fill', 'cross', 'plus', 'minus', 'bar', 'check', 'burst', 'infinity', 'none', 'star', 'star-fill', 'galaxy', 'sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'sigma1', 'sigma2', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega'
+  - *default*: 'disc'
+- Alternative 2: A single character as marker.
+  - *type*: string
+
 ## text
 
 Text, with or without explicit styling.
@@ -12,8 +43,7 @@ Text, with or without explicit styling.
     - *required*
     - *type*: string
   - **size**: Size of font. Default depends on context.
-    - *type*: float
-    - *exclusiveMinimum*: 0
+    - *See* [size](schema_defs.md#size).
   - **bold**: Bold font.
     - *type*: boolean
     - *default*: false
@@ -50,16 +80,6 @@ Number value, exact, or fuzzy with either low/high or error.
     - *type*: float
     - *exclusiveMinimum*: 0
 
-## marker
-
-Symbol for use as a marker in a chart.
-
-- Alternative 1: Predefined symbols denoted by names.
-  - *one of*: 'disc', 'circle', 'oval', 'oval-vertical', 'oval-horizontal', 'ellipse', 'ellipse-vertical', 'ellipse-horizontal', 'block', 'square', 'square-cross', 'diamond', 'diamond-cross', 'diamond-fill', 'pyramid', 'triangle', 'wedge', 'trigon', 'pentagon', 'pentagon-fill', 'hexagon', 'hexagon-fill', 'heptagon', 'heptagon-fill', 'octagon', 'octagon-fill', 'cross', 'plus', 'minus', 'bar', 'check', 'burst', 'infinity', 'none', 'star', 'star-fill', 'galaxy', 'sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'sigma1', 'sigma2', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega'
-  - *default*: 'disc'
-- Alternative 2: A single character as marker.
-  - *type*: string
-
 ## axis
 
 Coordinate axis specification.
@@ -93,7 +113,24 @@ In-line chart specification, or location (file of web resource) to read the char
   - *type*: mapping
   - **chart**:
     - *required*
-    - *one of*: 'timelines', 'piechart', 'note', 'plot', 'column', 'row', 'board'
+    - *one of*: 'timelines', 'piechart', 'note', 'plot2d', 'column', 'row', 'board'
+
+## field
+
+Mapping of a plot parameter to a field in source data.
+
+- Alternative 1: Name of the field in the source data; CSV column header. The values are used directly.
+  - *type*: string
+- Alternative 2: Number of the field in the source data; CSV column number, starting with 1. The values are used directly.
+  - *type*: integer
+  - *minimum*: 1
+- Alternative 3: Mapping of values in source data to a plot parameter.
+  - *type*: mapping
+  - **field**: Name of the field in the source data; CSV column header.
+    - *required*
+    - *type*: string
+  - **map**: Map a string value in the source data to a value for the plot parameter.
+    - *type*: mapping
 
 ## data_or_source
 
@@ -110,22 +147,20 @@ Data provided in-line, or from a file or web source.
       - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
       - *required*
     - **size**:
-      - *type*: float
+      - *See* [size](schema_defs.md#size).
     - **color**:
-      - *type*: string
-      - *format*: color
+      - *See* [color](schema_defs.md#color).
     - **opacity**:
-      - *type*: float
-      - *minimum*: 0
-      - *maximum*: 1
+      - *See* [opacity](schema_defs.md#opacity).
     - **marker**:
       - *See* [marker](schema_defs.md#marker).
 - Alternative 2: Data from file or web source.
   - *type*: mapping
-  - **source**:
+  - **source**: File path or href for the source.
     - *required*
     - *type*: string
     - *format*: uri-reference
   - **format**: Format of data file. Inferred from file extension, if not provided.
     - *one of*: 'csv', 'tsv', 'json', 'yaml'
     - *default*: 'csv'
+  - **parameters**: Mapping of plot parameters to the fields in the source data.

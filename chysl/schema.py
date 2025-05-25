@@ -9,6 +9,42 @@ import constants
 
 # Subschema for defs to be used in chart schemas.
 DEFS = {
+    "size": {
+        "$anchor": "size",
+        "title": "Size of graphical item, in approximate pixel units.",
+        "type": "number",
+        "minimumExclusive": 0,
+    },
+    "color": {
+        "$anchor": "color",
+        "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
+        "type": "string",
+        "format": "color",
+    },
+    "opacity": {
+        "$anchor": "opacity",
+        "title": "Opacity in range [0.0, 1.0].",
+        "type": "number",
+        "minimum": 0,
+        "maximum": 1,
+    },
+    "marker": {
+        "$anchor": "marker",
+        "title": "Symbol for use as a marker in a chart.",
+        "oneOf": [
+            {
+                "title": "Predefined symbols denoted by names.",
+                "enum": constants.MARKERS,
+                "default": constants.DISC,
+            },
+            {
+                "title": "A single character as marker.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1,
+            },
+        ],
+    },
     "text": {
         "$anchor": "text",
         "title": "Text, with or without explicit styling.",
@@ -29,8 +65,7 @@ DEFS = {
                     },
                     "size": {
                         "title": "Size of font. Default depends on context.",
-                        "type": "number",
-                        "exclusiveMinimum": 0,
+                        "$ref": "#size",
                     },
                     "bold": {
                         "title": "Bold font.",
@@ -98,23 +133,6 @@ DEFS = {
             },
         ],
     },
-    "marker": {
-        "$anchor": "marker",
-        "title": "Symbol for use as a marker in a chart.",
-        "oneOf": [
-            {
-                "title": "Predefined symbols denoted by names.",
-                "enum": constants.MARKERS,
-                "default": constants.DISC,
-            },
-            {
-                "title": "A single character as marker.",
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 1,
-            },
-        ],
-    },
     "axis": {
         "$anchor": "axis",
         "title": "Coordinate axis specification.",
@@ -175,6 +193,42 @@ DEFS = {
             },
         ],
     },
+    "field": {
+        "$anchor": "field",
+        "title": "Mapping of a plot parameter to a field in source data.",
+        "oneOf": [
+            {
+                "title": "Name of the field in the source data; CSV column header. The values are used directly.",
+                "type": "string",
+                "minLength": 1,
+            },
+            {
+                "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
+                "type": "integer",
+                "minimum": 1,
+            },
+            {
+                "title": "Mapping of values in source data to a plot parameter.",
+                "type": "object",
+                "required": ["field"],
+                "additionalProperties": False,
+                "properties": {
+                    "field": {
+                        "title": "Name of the field in the source data; CSV column header.",
+                        "type": "string",
+                        "minLength": 1,
+                    },
+                    "map": {
+                        "title": "Map a string value in the source data to a value for the plot parameter.",
+                        "type": "object",
+                        "properties": {
+                            # Any.
+                        },
+                    },
+                },
+            },
+        ],
+    },
     "data_or_source": {
         "$anchor": "data_or_source",
         "title": "Data provided in-line, or from a file or web source.",
@@ -190,19 +244,9 @@ DEFS = {
                     "properties": {
                         "x": {"$ref": "#fuzzy_number"},
                         "y": {"$ref": "#fuzzy_number"},
-                        "size": {
-                            "type": "number",
-                            "minimumExclusive": 0,
-                        },
-                        "color": {
-                            "type": "string",
-                            "format": "color",
-                        },
-                        "opacity": {
-                            "type": "number",
-                            "minimum": 0,
-                            "maximum": 1,
-                        },
+                        "size": {"$ref": "#size"},
+                        "color": {"$ref": "#color"},
+                        "opacity": {"$ref": "#opacity"},
                         "marker": {"$ref": "#marker"},
                     },
                 },
@@ -214,6 +258,7 @@ DEFS = {
                 "additionalProperties": False,
                 "properties": {
                     "source": {
+                        "title": "File path or href for the source.",
                         "type": "string",
                         "format": "uri-reference",
                     },
@@ -221,6 +266,18 @@ DEFS = {
                         "title": "Format of data file. Inferred from file extension, if not provided.",
                         "enum": constants.FORMATS,
                         "default": "csv",
+                    },
+                    "parameters": {
+                        "title": "Mapping of plot parameters to the fields in the source data.",
+                        "additionalProperties": False,
+                        "properties": {
+                            "x": {"$ref": "#field"},
+                            "y": {"$ref": "#field"},
+                            "size": {"$ref": "#field"},
+                            "color": {"$ref": "#field"},
+                            "opacity": {"$ref": "#field"},
+                            "marker": {"$ref": "#field"},
+                        },
                     },
                 },
             },

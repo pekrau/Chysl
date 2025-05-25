@@ -1,0 +1,443 @@
+{
+  "title": "2D chart plotting x/y data; scatter, etc.",
+  "type": "object",
+  "required": [
+    "chart",
+    "entries"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "chart": {
+      "const": "plot2d"
+    },
+    "title": {
+      "title": "Title of the plot.",
+      "$ref": "#text"
+    },
+    "width": {
+      "title": "Width of the chart, including legends etc.",
+      "type": "number",
+      "default": 600,
+      "exclusiveMinimum": 0
+    },
+    "xaxis": {
+      "title": "X axis specification.",
+      "$ref": "#axis"
+    },
+    "yaxis": {
+      "title": "Y axis specification.",
+      "$ref": "#axis"
+    },
+    "entries": {
+      "title": "Sets of data with specified visualization.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "title": "2D scatter plot.",
+            "type": "object",
+            "required": [
+              "entry",
+              "data"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "entry": {
+                "const": "scatter2d"
+              },
+              "data": {
+                "$ref": "#data_or_source"
+              },
+              "size": {
+                "title": "Default value when not given by data.",
+                "$ref": "#size"
+              },
+              "color": {
+                "title": "Default value when not given by data.",
+                "$ref": "#color"
+              },
+              "opacity": {
+                "title": "Default value when not given by data.",
+                "$ref": "#opacity"
+              },
+              "marker": {
+                "title": "Default value when not given by data.",
+                "$ref": "#marker"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "color": {
+      "$anchor": "color",
+      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
+      "type": "string",
+      "format": "color"
+    },
+    "opacity": {
+      "$anchor": "opacity",
+      "title": "Opacity in range [0.0, 1.0].",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "data_or_source": {
+      "$anchor": "data_or_source",
+      "title": "Data provided in-line, or from a file or web source.",
+      "oneOf": [
+        {
+          "title": "In-line data points.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "x",
+              "y"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "$ref": "#fuzzy_number"
+              },
+              "y": {
+                "$ref": "#fuzzy_number"
+              },
+              "size": {
+                "$ref": "#size"
+              },
+              "color": {
+                "$ref": "#color"
+              },
+              "opacity": {
+                "$ref": "#opacity"
+              },
+              "marker": {
+                "$ref": "#marker"
+              }
+            }
+          }
+        },
+        {
+          "title": "Data from file or web source.",
+          "type": "object",
+          "required": [
+            "source"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "source": {
+              "title": "File path or href for the source.",
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "format": {
+              "title": "Format of data file. Inferred from file extension, if not provided.",
+              "enum": [
+                "csv",
+                "tsv",
+                "json",
+                "yaml"
+              ],
+              "default": "csv"
+            },
+            "parameters": {
+              "title": "Mapping of plot parameters to the fields in the source data.",
+              "additionalProperties": false,
+              "properties": {
+                "x": {
+                  "$ref": "#field"
+                },
+                "y": {
+                  "$ref": "#field"
+                },
+                "size": {
+                  "$ref": "#field"
+                },
+                "color": {
+                  "$ref": "#field"
+                },
+                "opacity": {
+                  "$ref": "#field"
+                },
+                "marker": {
+                  "$ref": "#field"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "field": {
+      "$anchor": "field",
+      "title": "Mapping of a plot parameter to a field in source data.",
+      "oneOf": [
+        {
+          "title": "Name of the field in the source data; CSV column header. The values are used directly.",
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "title": "Mapping of values in source data to a plot parameter.",
+          "type": "object",
+          "required": [
+            "field"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "field": {
+              "title": "Name of the field in the source data; CSV column header.",
+              "type": "string",
+              "minLength": 1
+            },
+            "map": {
+              "title": "Map a string value in the source data to a value for the plot parameter.",
+              "type": "object",
+              "properties": {}
+            }
+          }
+        }
+      ]
+    },
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "size": {
+              "title": "Size of font. Default depends on context.",
+              "$ref": "#size"
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            },
+            "anchor": {
+              "title": "Text anchor position. Ignored in some contexts.",
+              "enum": [
+                "start",
+                "middle",
+                "end"
+              ],
+              "default": "middle"
+            }
+          }
+        }
+      ]
+    },
+    "fuzzy_number": {
+      "$anchor": "fuzzy_number",
+      "title": "Number value, exact, or fuzzy with either low/high or error.",
+      "oneOf": [
+        {
+          "title": "Exact number value.",
+          "type": "number"
+        },
+        {
+          "title": "Fuzzy number value,  with either low/high or error",
+          "type": "object",
+          "required": [
+            "value"
+          ],
+          "additionalProperties": false,
+          "minProperties": 2,
+          "properties": {
+            "value": {
+              "title": "Central value for the fuzzy number.",
+              "type": "number"
+            },
+            "low": {
+              "title": "Low value for the fuzzy number.",
+              "type": "number"
+            },
+            "high": {
+              "title": "High value for the fuzzy number.",
+              "type": "number"
+            },
+            "error": {
+              "title": "Symmetrical error around the central value.",
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
+      "oneOf": [
+        {
+          "title": "Display default axis.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Axis details.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "gray"
+            },
+            "absolute": {
+              "title": "Display absolute values for ticks.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
+    },
+    "marker": {
+      "$anchor": "marker",
+      "title": "Symbol for use as a marker in a chart.",
+      "oneOf": [
+        {
+          "title": "Predefined symbols denoted by names.",
+          "enum": [
+            "disc",
+            "circle",
+            "oval",
+            "oval-vertical",
+            "oval-horizontal",
+            "ellipse",
+            "ellipse-vertical",
+            "ellipse-horizontal",
+            "block",
+            "square",
+            "square-cross",
+            "diamond",
+            "diamond-cross",
+            "diamond-fill",
+            "pyramid",
+            "triangle",
+            "wedge",
+            "trigon",
+            "pentagon",
+            "pentagon-fill",
+            "hexagon",
+            "hexagon-fill",
+            "heptagon",
+            "heptagon-fill",
+            "octagon",
+            "octagon-fill",
+            "cross",
+            "plus",
+            "minus",
+            "bar",
+            "check",
+            "burst",
+            "infinity",
+            "none",
+            "star",
+            "star-fill",
+            "galaxy",
+            "sun",
+            "mercury",
+            "venus",
+            "earth",
+            "moon",
+            "mars",
+            "jupiter",
+            "saturn",
+            "uranus",
+            "neptune",
+            "alpha",
+            "beta",
+            "gamma",
+            "delta",
+            "epsilon",
+            "zeta",
+            "eta",
+            "theta",
+            "iota",
+            "kappa",
+            "lambda",
+            "mu",
+            "nu",
+            "xi",
+            "omicron",
+            "pi",
+            "rho",
+            "sigma",
+            "sigma1",
+            "sigma2",
+            "tau",
+            "upsilon",
+            "phi",
+            "chi",
+            "psi",
+            "omega"
+          ],
+          "default": "disc"
+        },
+        {
+          "title": "A single character as marker.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1
+        }
+      ]
+    }
+  }
+}

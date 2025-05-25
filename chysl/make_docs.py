@@ -33,6 +33,10 @@ def make_docs():
         "[JSON Schema](docs/schema_defs.md) for general definitions used in JSON schema of different charts.\n\n"
     )
 
+    result.append(
+        "This code has been lovingly hand-crafted. No AI tools were used in its development.\n\n"
+    )
+
     run_tests()
 
     result.append("## Charts\n\n")
@@ -68,7 +72,7 @@ def make_docs():
             if os.path.exists(f"../docs/{test}.csv"):
                 result.append(f"[CSV data file]({test}.csv)\n\n")
             result.append(f"![{test} SVG]({test}.svg)\n\n")
-                
+
             with open(f"../docs/{test}.yaml") as infile:
                 code = infile.read()
             result.append(f"```yaml\n{code}```\n")

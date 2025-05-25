@@ -22,9 +22,9 @@ TESTS = {
         "poster",
         "dimensions",
     ],
-    "piechart": ["pyramid", "day", "pies_column", "pies_row"],
+    "piechart": ["pyramid", "day", "pies_column", "pies_row",],
     # XXX dendrogram
-    "plot": ["scatter_points", "scatter_csv"],
+    "plot2d": ["scatter_points", "scatter_iris",],
     "column": [
         "universe_earth",
         "pies_column",
@@ -32,25 +32,26 @@ TESTS = {
         "notes",
         "markers",
         "dimensions",
+        "scatter_iris",
     ],
-    "row": ["pies_row"],
-    "note": ["declaration", "notes_column", "notes", "pies_column", "poster"],
-    "board": ["poster", "notes"],
+    "row": ["pies_row", "scatter_iris",],
+    "note": ["declaration", "notes_column", "notes", "pies_column", "poster",],
+    "board": ["poster", "notes",],
 }
 
 
 def get_universe(legend=True):
     universe = Timelines(
-        {"text": "Universe", "bold": True, "color": "blue"},
+        dict(text="Universe", bold=True, color="blue"),
         legend=legend,
-        axis={"absolute": True, "caption": "Billion years ago"},
+        axis=dict(absolute=True, caption="Billion years ago"),
     )
     universe += Event(
         "Big Bang", -13_787_000_000, timeline="Universe", marker="burst", color="red"
     )
     universe += Period(
         "Milky Way galaxy",
-        {"value": -7_500_000_000, "low": -8_500_000_000},
+        dict(value=-7_500_000_000, low=-8_500_000_000),
         0,
         timeline="Universe",
         color="dodgerblue",
@@ -69,20 +70,20 @@ def get_universe(legend=True):
 
 def get_earth(legend=True):
     earth = Timelines(
-        "Earth", legend=legend, axis={"absolute": True, "caption": "Billion years ago"}
+        "Earth", legend=legend, axis=dict(absolute=True, caption="Billion years ago")
     )
     earth += Period("Earth", -4_567_000_000, 0)
     earth += Period(
         "Archean",
-        {"value": -4_000_000_000, "low": -4_100_000_000, "high": -3_950_000_000},
-        {"value": -2_500_000_000, "error": 200_000_000},
+        dict(value=-4_000_000_000, low=-4_100_000_000, high=-3_950_000_000),
+        dict(value=-2_500_000_000, error=200_000_000),
         color="wheat",
         fuzzy="gradient",
     )
     earth += Event("LUCA?", -4_200_000_000, timeline="Unicellular")
     earth += Period(
         "Unicellular organisms",
-        {"value": -3_480_000_000, "low": -4_200_000_000},
+        dict(value=-3_480_000_000, low=-4_200_000_000),
         0,
         timeline="Unicellular",
         fuzzy="gradient",
@@ -90,7 +91,7 @@ def get_earth(legend=True):
     earth += Period("Eukaryotes", -1_650_000_000, 0)
     earth += Period(
         "Engineers",
-        {"value": -3_300_000_000, "error": 200_000_000},
+        dict(value=-3_300_000_000, error=200_000_000),
         -1_650_000_000,
         color="lightgray",
         fuzzy="wedge",
@@ -201,7 +202,7 @@ def test_pyramid():
 
 
 def test_day():
-    day = Piechart({"text": "Day", "size": 30}, total=24, diameter=400)
+    day = Piechart(dict(text="Day", size=30), total=24, diameter=400)
     day += Slice("Sleep", 8, color="gray")
     day += Slice("Breakfast", 1, color="lightgreen")
     day += Slice("Gym", 2, color="lightblue")
@@ -251,7 +252,7 @@ def test_pies_column():
     pajer += Note(
         title="Comment",
         body="Strawberry pie is good.",
-        footer={"text": "Copyright 2025 Per Kraulis", "italic": True},
+        footer=dict(text="Copyright 2025 Per Kraulis", italic=True),
     )
 
     pajer.save("pies_column.yaml")
@@ -288,9 +289,9 @@ def test_pies_row():
 
 def test_declaration():
     decl = Note(
-        title={"text": "Declaration", "placement": "left", "bold": True},
-        body={"text": "This software was\nwritten by me.", "placement": "right"},
-        footer={"text": "Copyright 2025 Per Kraulis", "italic": True},
+        title=dict(text="Declaration", placement="left", bold=True),
+        body=dict(text="This software was\nwritten by me.", placement="right"),
+        footer=dict(text="Copyright 2025 Per Kraulis", italic=True),
     )
 
     decl.save("declaration.yaml")
@@ -302,8 +303,8 @@ def test_scatter_points():
         ["blue", "red", "green", "purple", "cyan", "orange", "lime", "black"]
     )
     markers = itertools.cycle(["disc", "alpha", "mars"])
-    plot = Plot("Scattered points inline")
-    plot += Scatter(
+    plot = Plot2d("Scattered points inline")
+    plot += Scatter2d(
         [
             dict(
                 x=random.uniform(0, 100),
@@ -313,18 +314,69 @@ def test_scatter_points():
                 size=random.uniform(40, 100),
                 opacity=random.uniform(0.3, 0.8),
             )
-            for i in range(20)
+            for i in range(25)
         ]
     )
     plot.save("scatter_points.yaml")
     plot.render("scatter_points.svg")
 
 
-def test_scatter_csv():
-    plot = Plot("Scattered points from CSV")
-    plot += Scatter({"source": "scatter_csv.csv"})
-    plot.save("scatter_csv.yaml")
-    plot.render("scatter_csv.svg")
+def test_scatter_iris():
+    "Plots of the classic iris dataset published by R.A. Fisher, 1936."
+    all_plots = Column(dict(text="Iris flower measurements", size=30))
+    for field1 in ["sepal length", "sepal width", "petal length", "petal width"]:
+        all_plots += (row := Row())
+        for field2 in ["sepal length", "sepal width", "petal length", "petal width"]:
+            if field1 == field2:
+                row += Note(
+                    body=dict(text=field1.capitalize(), size=24),
+                    background="white",
+                    width=300,
+                    frame=0,
+                )
+            else:
+                row += (plot := Plot2d(width=300))
+                plot += Scatter2d(
+                    dict(
+                        source="scatter_iris.csv",
+                        parameters=dict(
+                            x=field2,
+                            y=field1,
+                            color=dict(
+                                field="class",
+                                map={
+                                    "Iris-setosa": "red",
+                                    "Iris-versicolor": "green",
+                                    "Iris-virginica": "blue",
+                                },
+                            ),
+                            marker=dict(
+                                field="class",
+                                map={
+                                    "Iris-setosa": "circle",
+                                    "Iris-versicolor": "triangle",
+                                    "Iris-virginica": "square",
+                                },
+                            ),
+                        ),
+                    ),
+                    size=6,
+                )
+    all_plots += (caption := Column())
+    caption += Note(
+        body=dict(text="Iris setosa: red circles", size=24, color="red"),
+        background="white",
+        frame=0)
+    caption += Note(
+        body=dict(text="Iris versicolor: green triangles", size=24, color="green"),
+        background="white",
+        frame=0)
+    caption += Note(
+        body=dict(text="Iris virginica: blue squares", size=24, color="blue"),
+        background="white",
+        frame=0)
+    all_plots.save("scatter_iris.yaml")
+    all_plots.render("scatter_iris.svg")
 
 
 def test_notes():
@@ -336,7 +388,7 @@ def test_notes():
     column += Note(body="Body")
     column += Note(footer="Footer")
     column += Note("Header", "Body", "Footer", line=0)
-    column += {"include": "declaration.yaml"}
+    column += dict(include="declaration.yaml")
 
     column.save("notes_column.yaml")
     column.render("notes_column.svg")
@@ -354,8 +406,8 @@ def test_poster():
         y=10,
         component=Note("By Per Kraulis", body="Ph.D.", footer="Stockholm University"),
     )
-    poster.append(dict(x=0, y=100, component={"include": "universe.yaml"}))
-    poster.append(dict(x=50, y=230, component={"include": "earth.yaml"}))
+    poster.append(dict(x=0, y=100, component=dict(include="universe.yaml")))
+    poster.append(dict(x=50, y=230, component=dict(include="earth.yaml")))
     poster.render("poster.svg")
     poster.save("poster.yaml")
 
@@ -395,7 +447,7 @@ def run_tests():
         test_pies_row()
         test_declaration()
         test_scatter_points()
-        test_scatter_csv()
+        test_scatter_iris()
         test_notes()
         test_poster()
         test_dimensions()

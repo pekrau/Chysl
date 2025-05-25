@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts are hierarchically composable."
 
-VERSION = (0, 2, 8)
+VERSION = (0, 2, 9)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -11,13 +11,15 @@ JSONSCHEMA_ID = "https://github.com/pekrau/Chysl/blob/main/docs/schema.json"
 JSONSCHEMA_VERSION = "https://json-schema.org/draft/2020-12/schema"
 
 # XXX dendrogram
-CHARTS = ["timelines", "piechart", "note", "plot", "column", "row", "board"]
+CHARTS = ["timelines", "piechart", "note", "plot2d", "column", "row", "board"]
 
 PRECISION = 0.0005
 
 FORMATS = ["csv", "tsv", "json", "yaml"]
 
 DEFAULT_SIZE = 18
+DEFAULT_COLOR = "black"
+DEFAULT_MARKER = "disc"
 DEFAULT_PADDING = 2
 DEFAULT_FONT_FAMILY = "sans-serif"
 FONT_DESCEND = 0.2

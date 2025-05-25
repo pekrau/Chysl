@@ -16,10 +16,10 @@ register(Slice)
 # from dendrogram import Dendrogram
 # register(Dendrogram)
 
-from plot import Plot, Scatter
+from plot2d import Plot2d, Scatter2d
 
-register(Plot)
-register(Scatter)
+register(Plot2d)
+register(Scatter2d)
 
 from note import Note
 

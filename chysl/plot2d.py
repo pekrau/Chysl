@@ -12,7 +12,7 @@ from marker import Marker
 from path import Path
 
 
-class Plot(Chart):
+class Plot2d(Chart):
     "2D chart plotting x/y data; scatter, etc."
 
     DEFAULT_WIDTH = 600
@@ -23,7 +23,7 @@ class Plot(Chart):
         "required": ["chart", "entries"],
         "additionalProperties": False,
         "properties": {
-            "chart": {"const": "plot"},
+            "chart": {"const": "plot2d"},
             "title": {
                 "title": "Title of the plot.",
                 "$ref": "#text",
@@ -49,13 +49,29 @@ class Plot(Chart):
                 "items": {
                     "oneOf": [
                         {
-                            "title": "Scatter plot.",
+                            "title": "2D scatter plot.",
                             "type": "object",
                             "required": ["entry", "data"],
                             "additionalProperties": False,
                             "properties": {
-                                "entry": {"const": "scatter"},
+                                "entry": {"const": "scatter2d"},
                                 "data": {"$ref": "#data_or_source"},
+                                "size": {
+                                    "title": "Default value when not given by data.",
+                                    "$ref": "#size",
+                                },
+                                "color": {
+                                    "title": "Default value when not given by data.",
+                                    "$ref": "#color",
+                                },
+                                "opacity": {
+                                    "title": "Default value when not given by data.",
+                                    "$ref": "#opacity",
+                                },
+                                "marker": {
+                                    "title": "Default value when not given by data.",
+                                    "$ref": "#marker",
+                                },
                             },
                         },
                     ],
@@ -85,8 +101,8 @@ class Plot(Chart):
 
     def convert_entry(self, entry):
         entry = super().convert_entry(entry)
-        if not isinstance(entry, Scatter):
-            raise ValueError(f"invalid entry for plot: {entry}; not a Scatter")
+        if not isinstance(entry, Scatter2d):
+            raise ValueError(f"invalid entry for plot: {entry}; not a Scatter2d")
         return entry
 
     def as_dict(self):
@@ -215,13 +231,22 @@ class Plot(Chart):
             graphics += entry.render_graphic(xdimension, ydimension)
 
 
-class _PlotEntry(Entry):
-    "Generic Entry class for Plot."
+class _Plot2dEntry(Entry):
+    "Generic Entry class for Plot2d."
 
-    DEFAULT_SIZE = 5
-
-    def __init__(self, data):
+    def __init__(self, data, size=None, color=None, opacity=None, marker=None):
         assert isinstance(data, (list, dict))
+        assert size is None or (isinstance(size, (int, float)) and size > 0)
+        assert color is None or utils.is_color(color)
+        assert opacity is None or (
+            isinstance(opacity, (int, float)) and opacity >= 0 and opacity <= 1
+        )
+        assert marker is None or utils.is_marker(marker)
+
+        self.size = size or constants.DEFAULT_SIZE
+        self.color = color or constants.DEFAULT_COLOR
+        self.opacity = opacity or 1
+        self.marker = marker or constants.DEFAULT_MARKER
 
         # Explicit data points.
         if isinstance(data, list):
@@ -250,23 +275,19 @@ class _PlotEntry(Entry):
             reader = Reader(source)
             reader.read()
             reader.parse(format)
-            self.data = []
-            # NOTE: all data from CSV/TSV files are string, so must be converted.
-            for record in reader.data:
-                point = {"x": float(record["x"]), "y": float(record["y"])}
-                # Test is for empty string, which represents None.
-                if color := record.get("color"):
-                    point["color"] = color
-                if size := record.get("size"):
-                    point["size"] = max(0.0, float(size))
-                if marker := record.get("marker"):
-                    point["marker"] = marker
-                if opacity := record.get("opacity"):
-                    point["opacity"] = max(0.0, min(1.0, float(opacity)))
-                self.data.append(point)
+            reader.map_parameters_fields(data.get("parameters"))
+            self.data = reader.data
 
     def as_dict(self):
         result = super().as_dict()
+        if self.size != constants.DEFAULT_SIZE:
+            result["size"] = self.size
+        if self.color != constants.DEFAULT_COLOR:
+            result["color"] = self.color
+        if self.opacity != 1:
+            result["opacity"] = self.opacity
+        if self.marker != constants.DEFAULT_MARKER:
+            result["marker"] = self.marker
         try:
             # Data from file or web source.
             result["data"] = self.source
@@ -275,14 +296,14 @@ class _PlotEntry(Entry):
             result["data"] = data = []
             for point in self.data:
                 item = {"x": point["x"], "y": point["y"]}
-                if (color := point.get("color")) is not None:
-                    item["color"] = color
                 if (size := point.get("size")) is not None:
                     item["size"] = size
-                if (marker := point.get("marker")) is not None:
-                    item["marker"] = marker
+                if (color := point.get("color")) is not None:
+                    item["color"] = color
                 if (opacity := point.get("opacity")) is not None and opacity != 1:
                     item["opacity"] = opacity
+                if (marker := point.get("marker")) is not None:
+                    item["marker"] = marker
                 data.append(item)
         return result
 
@@ -324,10 +345,8 @@ class _PlotEntry(Entry):
         return (low, high)
 
 
-class Scatter(_PlotEntry):
-    "Scatter plot."
-
-    DEFAULT_MARKER = constants.DISC
+class Scatter2d(_Plot2dEntry):
+    "2D scatter plot."
 
     def render_graphic(self, xdimension, ydimension):
         g = Element("g")
@@ -340,11 +359,13 @@ class Scatter(_PlotEntry):
             if isinstance(yvalue, dict):
                 yvalue = yvalue["value"]
                 # XXX display error bar!
+            if (opacity := point.get("opacity")) is None:
+                opacity = self.opacity
             marker = Marker(
-                point.get("marker", self.DEFAULT_MARKER),
-                size=point.get("size"),
-                color=point.get("color"),
-                opacity=point.get("opacity"),
+                point.get("marker") or self.marker,
+                size=point.get("size") or self.size,
+                color=point.get("color") or self.color,
+                opacity=opacity,
             )
             g += marker.get_graphic(
                 xdimension.get_pixel(xvalue), ydimension.get_pixel(yvalue)

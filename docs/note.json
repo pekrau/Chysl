@@ -82,8 +82,7 @@
             },
             "size": {
               "title": "Size of font. Default depends on context.",
-              "type": "number",
-              "exclusiveMinimum": 0
+              "$ref": "#size"
             },
             "bold": {
               "title": "Bold font.",
@@ -122,6 +121,12 @@
           }
         }
       ]
+    },
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
     }
   }
 }

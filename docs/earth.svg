@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="190.2" viewBox="0 0 601 190.2" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.8 timelines</desc>
+  <desc>Chysl 0.2.9 timelines</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Earth</text>
     <rect x="110" y="23.6" width="488" height="132" stroke="black" stroke-width="1" />
@@ -48,7 +48,7 @@
         <rect x="334.5016" y="47.6" width="39.0368" height="18" stroke="none" fill="url(#id5)" />
         <path d="M 334.5016 47.6 H 373.5384 m 0 18 H 334.5016" stroke="url(#id6)" />
       </g>
-      <ellipse cx="188.1136" cy="78.6" rx="3.6" ry="9.0" fill="black" stroke="none" />
+      <ellipse cx="188.1136" cy="78.6" rx="3.6" ry="9" fill="black" stroke="none" />
       <g>
         <rect x="258" y="69.6" width="340.6202" height="18" stroke="none" fill="white" />
         <path d="M 258 69.6 H 599 m 0 18 H 258" stroke="black" />
