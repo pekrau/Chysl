@@ -2,7 +2,7 @@
 
 ## size
 
-Size of graphical item, in approximate pixel units.
+Size of graphical item, in approximate display pixel units.
 
 - *type*: float
 
@@ -101,7 +101,7 @@ Coordinate axis specification.
 
 ## chart_or_include
 
-In-line chart specification, or location (file of web resource) to read the chart specification from.
+Inline chart specification, or location (file of web resource) to read the chart specification from.
 
 - Alternative 1: Read the chart specification (YAML) from the URI reference.
   - *type*: mapping
@@ -132,11 +132,11 @@ Mapping of a plot parameter to a field in source data.
   - **map**: Map a string value in the source data to a value for the plot parameter.
     - *type*: mapping
 
-## data_or_source
+## items_or_source
 
-Data provided in-line, or from a file or web source.
+Data provided inline, or from a file, web resource or database.
 
-- Alternative 1: In-line data points.
+- Alternative 1: Inline data points.
   - *type*: sequence
   - *items*:
     - *type*: mapping
@@ -145,7 +145,6 @@ Data provided in-line, or from a file or web source.
       - *required*
     - **y**:
       - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
-      - *required*
     - **size**:
       - *See* [size](schema_defs.md#size).
     - **color**:
@@ -154,13 +153,32 @@ Data provided in-line, or from a file or web source.
       - *See* [opacity](schema_defs.md#opacity).
     - **marker**:
       - *See* [marker](schema_defs.md#marker).
-- Alternative 2: Data from file or web source.
+- Alternative 2: Data from file, web resource or database.
   - *type*: mapping
-  - **source**: File path or href for the source.
+  - **source**:
     - *required*
-    - *type*: string
-    - *format*: uri-reference
-  - **format**: Format of data file. Inferred from file extension, if not provided.
-    - *one of*: 'csv', 'tsv', 'json', 'yaml'
-    - *default*: 'csv'
+    - Alternative 1: File path or href. File format is deduced from the extension, or set as CSV if not recognized.
+      - *type*: string
+      - *format*: uri-reference
+    - Alternative 2: File path or href, with explicit file format.
+      - *type*: mapping
+      - **location**: File path or href.
+        - *required*
+        - *type*: string
+        - *format*: uri-reference
+      - **format**: File format.
+        - *required*
+        - *one of*: 'csv', 'tsv', 'json', 'yaml'
+    - Alternative 3: Sqlite database.
+      - *type*: mapping
+      - **database**:
+        - *required*
+        - *const* 'sqlite'
+      - **location**: File path or href.
+        - *required*
+        - *type*: string
+        - *format*: uri-reference
+      - **select**: SQL 'select' statement retrieving the data from the database.
+        - *required*
+        - *type*: string
   - **parameters**: Mapping of plot parameters to the fields in the source data.

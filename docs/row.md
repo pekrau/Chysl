@@ -14,8 +14,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: row
 title: Pies in row
 entries:
@@ -70,8 +70,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: column
 title:
   text: Iris flower measurements
@@ -88,7 +88,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -110,7 +109,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -132,7 +130,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -156,7 +153,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -184,7 +180,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -206,7 +201,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -230,7 +224,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -252,7 +245,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -280,7 +272,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -304,7 +295,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -326,7 +316,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -348,7 +337,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:

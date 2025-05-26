@@ -1,0 +1,25 @@
+chysl:
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
+chart: plot2d
+title: 'Random walks (source: db)'
+entries:
+- entry: scatter2d
+  data:
+    source:
+      database: sqlite
+      location: scatter_random_walks.db
+      select: SELECT x, y, run FROM walks
+    parameters:
+      color:
+        field: run
+        map:
+          1: red
+          2: green
+          3: blue
+          4: lime
+          5: orange
+          6: cyan
+          7: gold
+          8: dodgerblue
+          9: gray

@@ -115,13 +115,13 @@
     },
     "size": {
       "$anchor": "size",
-      "title": "Size of graphical item, in approximate pixel units.",
+      "title": "Size of graphical item, in approximate display pixel units.",
       "type": "number",
       "minimumExclusive": 0
     },
     "chart_or_include": {
       "$anchor": "chart_or_include",
-      "title": "In-line chart specification, or location (file of web resource) to read the chart specification from.",
+      "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
       "oneOf": [
         {
           "title": "Read the chart specification (YAML) from the URI reference.",

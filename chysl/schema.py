@@ -11,7 +11,7 @@ import constants
 DEFS = {
     "size": {
         "$anchor": "size",
-        "title": "Size of graphical item, in approximate pixel units.",
+        "title": "Size of graphical item, in approximate display pixel units.",
         "type": "number",
         "minimumExclusive": 0,
     },
@@ -168,7 +168,7 @@ DEFS = {
     },
     "chart_or_include": {
         "$anchor": "chart_or_include",
-        "title": "In-line chart specification, or location (file of web resource) to read the chart specification from.",
+        "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
         "oneOf": [
             {
                 "title": "Read the chart specification (YAML) from the URI reference.",
@@ -229,17 +229,17 @@ DEFS = {
             },
         ],
     },
-    "data_or_source": {
-        "$anchor": "data_or_source",
-        "title": "Data provided in-line, or from a file or web source.",
+    "items_or_source": {
+        "$anchor": "items_or_source",
+        "title": "Data provided inline, or from a file, web resource or database.",
         "oneOf": [
             {
-                "title": "In-line data points.",
+                "title": "Inline data points.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
                     "type": "object",
-                    "required": ["x", "y"],
+                    "required": ["x"],
                     "additionalProperties": False,
                     "properties": {
                         "x": {"$ref": "#fuzzy_number"},
@@ -252,20 +252,54 @@ DEFS = {
                 },
             },
             {
-                "title": "Data from file or web source.",
+                "title": "Data from file, web resource or database.",
                 "type": "object",
                 "required": ["source"],
                 "additionalProperties": False,
                 "properties": {
                     "source": {
-                        "title": "File path or href for the source.",
-                        "type": "string",
-                        "format": "uri-reference",
-                    },
-                    "format": {
-                        "title": "Format of data file. Inferred from file extension, if not provided.",
-                        "enum": constants.FORMATS,
-                        "default": "csv",
+                        "oneOf": [
+                            {
+                                "title": "File path or href. File format is deduced from the extension, or set as CSV if not recognized.",
+                                "type": "string",
+                                "format": "uri-reference",
+                            },
+                            {
+                                "title": "File path or href, with explicit file format.",
+                                "type": "object",
+                                "required": ["location", "format"],
+                                "additionalProperties": False,
+                                "properties": {
+                                    "location": {
+                                        "title": "File path or href.",
+                                        "type": "string",
+                                        "format": "uri-reference",
+                                    },
+                                    "format": {
+                                        "title": "File format.",
+                                        "enum": constants.FORMATS,
+                                    },
+                                },
+                            },
+                            {
+                                "title": "Sqlite database.",
+                                "type": "object",
+                                "required": ["database", "location", "select"],
+                                "additionalProperties": False,
+                                "properties": {
+                                    "database": {"const": "sqlite"},
+                                    "location": {
+                                        "title": "File path or href.",
+                                        "type": "string",
+                                        "format": "uri-reference",
+                                    },
+                                    "select": {
+                                        "title": "SQL 'select' statement retrieving the data from the database.",
+                                        "type": "string",
+                                    },
+                                },
+                            },
+                        ],
                     },
                     "parameters": {
                         "title": "Mapping of plot parameters to the fields in the source data.",

@@ -24,7 +24,7 @@ TESTS = {
     ],
     "piechart": ["pyramid", "day", "pies_column", "pies_row",],
     # XXX dendrogram
-    "plot2d": ["scatter_points", "scatter_iris",],
+    "plot2d": ["scatter_points", "scatter_iris", "scatter_random_walks"],
     "column": [
         "universe_earth",
         "pies_column",
@@ -360,7 +360,6 @@ def test_scatter_iris():
                             ),
                         ),
                     ),
-                    size=6,
                 )
     all_plots += (caption := Column())
     caption += Note(
@@ -378,6 +377,32 @@ def test_scatter_iris():
     all_plots.save("scatter_iris.yaml")
     all_plots.render("scatter_iris.svg")
 
+
+def test_scatter_random_walks():
+    plot = Plot2d("Random walks (source: db)")
+    plot += Scatter2d(dict(source=dict(database="sqlite",
+                                       location="scatter_random_walks.db",
+                                       select="SELECT x, y, run FROM walks"),
+                           parameters=dict(
+                               color=dict(
+                                   field="run",
+                                   map={1: "red",
+                                        2: "green",
+                                        3: "blue",
+                                        4: "lime",
+                                        5: "orange",
+                                        6: "cyan",
+                                        7: "gold",
+                                        8: "dodgerblue",
+                                        9: "gray",
+                                        }
+                                   )
+                               )
+                           )
+                      )
+
+    plot.save("scatter_random_walks.yaml")
+    plot.render("scatter_random_walks.svg")
 
 def test_notes():
     column = Column()
@@ -448,6 +473,7 @@ def run_tests():
         test_declaration()
         test_scatter_points()
         test_scatter_iris()
+        test_scatter_random_walks()
         test_notes()
         test_poster()
         test_dimensions()

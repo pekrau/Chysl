@@ -18,8 +18,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: timelines
 title:
   text: Universe
@@ -62,8 +62,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: timelines
 title: Earth
 entries:
@@ -128,8 +128,8 @@ axis:
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: column
 title: Universe and Earth
 entries:
@@ -234,8 +234,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: column
 title: Predefined markers
 entries:
@@ -719,8 +719,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: board
 title: Poster
 entries:
@@ -749,8 +749,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: column
 title: Dimension tick ranges
 entries:

@@ -3,6 +3,7 @@
 - [Examples](#examples)
   - [scatter_points](#scatter_points)
   - [scatter_iris](#scatter_iris)
+  - [scatter_random_walks](#scatter_random_walks)
 
 - [Specification](#specification)
 
@@ -14,8 +15,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: plot2d
 title: Scattered points inline
 entries:
@@ -180,8 +181,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.9
-  software: Chysl (Python) 0.2.9
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
 chart: column
 title:
   text: Iris flower measurements
@@ -198,7 +199,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -220,7 +220,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -242,7 +241,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -266,7 +264,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -294,7 +291,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -316,7 +312,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -340,7 +335,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -362,7 +356,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -390,7 +383,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -414,7 +406,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -436,7 +427,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -458,7 +448,6 @@ entries:
   - chart: plot2d
     entries:
     - entry: scatter2d
-      size: 6
       data:
         source: scatter_iris.csv
         parameters:
@@ -507,6 +496,37 @@ entries:
     frame: 0
     background: white
 ```
+### scatter_random_walks
+
+![scatter_random_walks SVG](scatter_random_walks.svg)
+
+```yaml
+chysl:
+  version: 0.2.10
+  software: Chysl (Python) 0.2.10
+chart: plot2d
+title: 'Random walks (source: db)'
+entries:
+- entry: scatter2d
+  data:
+    source:
+      database: sqlite
+      location: scatter_random_walks.db
+      select: SELECT x, y, run FROM walks
+    parameters:
+      color:
+        field: run
+        map:
+          1: red
+          2: green
+          3: blue
+          4: lime
+          5: orange
+          6: cyan
+          7: gold
+          8: dodgerblue
+          9: gray
+```
 ## Specification
 
 [JSON Schema](plot2d.md)
@@ -536,7 +556,7 @@ entries:
         - *required*
         - *const* 'scatter2d'
       - **data**:
-        - *See* [data_or_source](schema_defs.md#data_or_source).
+        - *See* [items_or_source](schema_defs.md#items_or_source).
         - *required*
       - **size**: Default value when not given by data.
         - *See* [size](schema_defs.md#size).

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="771.4" viewBox="0 0 601 771.4" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.9 column</desc>
+  <desc>Chysl 0.2.10 column</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="22" stroke="none" fill="black" font-size="22" text-anchor="middle">Dimension tick ranges</text>
     <g transform="translate(0, 28.4)">

@@ -6,7 +6,7 @@ import pathlib
 import constants
 import schema
 import utils
-from chart import Chart, Entry, Reader, Element
+from chart import Chart, Entry, DataReader, Element
 from dimension import Dimension
 from marker import Marker
 from path import Path
@@ -55,7 +55,7 @@ class Plot2d(Chart):
                             "additionalProperties": False,
                             "properties": {
                                 "entry": {"const": "scatter2d"},
-                                "data": {"$ref": "#data_or_source"},
+                                "data": {"$ref": "#items_or_source"},
                                 "size": {
                                     "title": "Default value when not given by data.",
                                     "$ref": "#size",
@@ -234,6 +234,8 @@ class Plot2d(Chart):
 class _Plot2dEntry(Entry):
     "Generic Entry class for Plot2d."
 
+    DEFAULT_SIZE = 10
+
     def __init__(self, data, size=None, color=None, opacity=None, marker=None):
         assert isinstance(data, (list, dict))
         assert size is None or (isinstance(size, (int, float)) and size > 0)
@@ -243,7 +245,7 @@ class _Plot2dEntry(Entry):
         )
         assert marker is None or utils.is_marker(marker)
 
-        self.size = size or constants.DEFAULT_SIZE
+        self.size = size or self.DEFAULT_SIZE
         self.color = color or constants.DEFAULT_COLOR
         self.opacity = opacity or 1
         self.marker = marker or constants.DEFAULT_MARKER
@@ -260,27 +262,22 @@ class _Plot2dEntry(Entry):
                 raise ValueError("First dict in the list does not contain 'y'.")
             self.data = copy.deepcopy(data)  # For safety.
 
-        # Data from file or web source.
+        # Data from file, web resource or database.
         else:
-            self.source = data.copy()
             try:
-                source = data["source"]
+                self.source = data["source"]
             except KeyError:
                 raise ValueError("No 'source' given in data.")
-            format = data.get("format")
-            if not format:
-                format = pathlib.Path(source).suffix.lstrip(".") or "csv"
-            if format not in constants.FORMATS:
-                raise ValueError(f"Unknown format '{format}' specified.")
-            reader = Reader(source)
+            reader = DataReader(self.source)
             reader.read()
-            reader.parse(format)
-            reader.map_parameters_fields(data.get("parameters"))
+            self.parameters = data.get("parameters")
+            if self.parameters:
+                reader.map_parameters_fields(self.parameters)
             self.data = reader.data
 
     def as_dict(self):
         result = super().as_dict()
-        if self.size != constants.DEFAULT_SIZE:
+        if self.size != self.DEFAULT_SIZE:
             result["size"] = self.size
         if self.color != constants.DEFAULT_COLOR:
             result["color"] = self.color
@@ -290,7 +287,9 @@ class _Plot2dEntry(Entry):
             result["marker"] = self.marker
         try:
             # Data from file or web source.
-            result["data"] = self.source
+            result["data"] = dict(source=self.source)
+            if self.parameters:
+                result["data"]["parameters"] = self.parameters
         except AttributeError:
             # Explicit data points.
             result["data"] = data = []

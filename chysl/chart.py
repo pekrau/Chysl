@@ -8,6 +8,7 @@ import csv
 import io
 import json
 import pathlib
+import sqlite3
 import urllib.parse
 
 import requests
@@ -256,10 +257,9 @@ def parse(data):
     assert isinstance(data, dict), data
     if "include" in data:
         location = data["include"]
-        reader = Reader(location)
-        reader.read()
-        memo.check_add(reader)
+        reader = ChartReader(location)
         try:
+            memo.check_add(reader)
             entry = reader.get_chart()
             entry.location = location  # Record the location for later output.
         except ValueError as error:
@@ -286,58 +286,168 @@ def retrieve(location):
     """Read and parse the YAML file given by its path or URI.
     Return a Chart instance.
     """
-    reader = Reader(location)
-    reader.read()
-    return reader.get_chart()
+    reader = ChartReader(location)
+    try:
+        memo.check_add(reader)
+        return reader.get_chart()
+    except ValueError as error:
+        raise ValueError(f"error reading from '{reader}': {error}")
+    finally:
+        memo.remove(reader)
 
 
-class Reader:
-    "Read data from a location; URI or file path."
+class ChartReader:
+    "Read the chart specification from a location; file path or href."
 
     def __init__(self, location):
         self.location = str(location)
-        parts = urllib.parse.urlparse(self.location)
-        self.scheme = parts.scheme
-        if self.scheme:
-            self.location = self.location
-        elif pathlib.Path(self.location).is_absolute():
-            self.scheme = "file"
-        else:
-            self.location = str(pathlib.Path.cwd().joinpath(self.location).resolve())
-            self.scheme = "file"
 
-    def __repr__(self):
+    def __str__(self):
         return f"Reader('{self.location}')"
 
-    def read(self):
-        "Read the data from the location. Raise ValueError if any problem."
-        if self.scheme == "file":
+    def get_chart(self):
+        """Read the data, parse as YAML, and return the instance of a Chart subclass.
+        The meta information is stored in attribute 'meta'.
+        If any of the following tests fail, raises ValueError:
+        - The presence and validity of the 'chysl' format identification marker.
+        - The compatibility of the version of the file, if given.
+        - Check the data against the appropriate schema.
+        """
+        parts = urllib.parse.urlparse(self.location)
+        if not parts.scheme or parts.scheme == "file":
             try:
                 with open(self.location) as infile:
-                    self.content = infile.read()
+                    content = infile.read()
             except OSError as error:
                 raise ValueError(str(error))
-        else:
+        else:                   # Assume URL such as 'http' or 'https'.
             try:
                 response = requests.get(self.location)
                 response.raise_for_status()
-                self.content = response.text
+                content = response.text
             except requests.exceptions.RequestException as error:
                 raise ValueError(str(error))
 
-    def parse(self, format):
-        """Parse the content given th format into data.
+        try:
+            self.data = yaml.safe_load(content)
+        except yaml.YAMLError as error:
+            raise ValueError(f"cannot interpret data as YAML: {error}")
+        # Process and remove the meta information.
+        try:
+            self.meta = self.data.pop("chysl")
+        except KeyError:
+            raise ValueError(
+                "YAML data lacks the Chysl format identifiation marker 'chysl'"
+            )
+        if self.meta:
+            if isinstance(self.meta, dict):
+                version = self.meta.get("version")
+            else:
+                version = self.meta
+                self.meta = dict(version=version)
+            # XXX Currently checks for strict equality.
+            if version != constants.__version__:
+                raise ValueError(f"YAML data incompatible version {version}")
+        # Do schema validation on the data.
+        try:
+            name = self.data["chart"]
+        except KeyError:
+            raise ValueError("no 'chart' defined in the YAML file")
+        try:
+            cls = _entity_lookup[name]
+        except KeyError:
+            raise ValueError(f"unknown chart '{name}' specified in the YAML file")
+        schema.validate(self.data, cls.SCHEMA)
+        # Create the class instance from the data.
+        return parse(self.data)
+
+
+class DataReader:
+    "Read data from a location; URI or file path."
+
+    def __init__(self, source):
+        if isinstance(source, str):
+            self.location = source
+            self.format = pathlib.Path(source).suffix.lstrip(".")
+            if self.format not in constants.FORMATS:
+                self.format = "csv"
+            self.database = None
+
+        elif isinstance(source, dict):
+            try:
+                self.location = source["location"]
+            except KeyError:
+                raise ValueError("no location specified for data source")
+            self.database = source.get("database")
+            if self.database:
+                if self.database != "sqlite":
+                    raise NotImplementedError(f"database interface '{self.database}'")
+                try:
+                    self.select = source["select"]
+                except KeyError:
+                    raise ValueError("no select specified for database data source")
+            else:
+                self.format = source["format"]
+                if self.format not in constants.FORMATS:
+                    raise ValueError(f"invalid format '{self.format}' specified for data source")
+        else:
+            raise ValueError("invalid data source specification")
+
+    def __str__(self):
+        if self.database:
+            return f"DataReader('{self.database}:{self.location}')"
+        else:
+            return f"DataReader('{self.location}')"
+
+    def read(self):
+        "Read the data from the location. Raise ValueError if any problem."
+        if self.database == "sqlite":
+            cnx = sqlite3.connect(f"file:{self.location}?mode=ro", uri=True)
+            cnx.row_factory = self.sqlite_dict_factory
+            cursor = cnx.execute(self.select)
+            self.data = list(cursor)
+            try:
+                del self.sqlite_dict_factory
+            except AttributeError:
+                pass
+
+        else:
+            # Tabular data; needs further parsing.
+            if urllib.parse.urlparse(self.location).scheme: # Assume http or https.
+                try:
+                    response = requests.get(self.location)
+                    response.raise_for_status()
+                    self.parse(response.text)
+                except requests.exceptions.RequestException as error:
+                    raise ValueError(str(error))
+                self.parse(content)
+            else:
+                try:
+                    with open(self.location) as infile:
+                        self.parse(infile.read())
+                except OSError as error:
+                    raise ValueError(str(error))
+
+    def sqlite_dict_factory(self, cursor, row):
+        try:
+            fields = self.sqlite_dict_factory_fields
+        except AttributeError:
+            self.sqlite_dict_factory_fields = fields = [column[0] for column in cursor.description]
+        return {key: value for key, value in zip(fields, row)}
+
+    def parse(self, content):
+        """Parse the content given the format into data.
         Raise ValueError if any problem.
         """
-        assert format in constants.FORMATS
+        assert self.format in constants.FORMATS
 
-        match format:
+        match self.format:
 
             case "csv" | "tsv":
-                dialect = "excel" if format == "csv" else "excel_tab"
+                dialect = "excel" if self.format == "csv" else "excel_tab"
                 # Check if the content seems to have a header.
                 # (Tried 'csv.Sniffer' but it didn't behave well.)
-                peek_reader = csv.reader(io.StringIO(self.content), dialect=dialect)
+                peek_reader = csv.reader(io.StringIO(content), dialect=dialect)
                 first_record = next(peek_reader)
                 for part in first_record:
                     try:
@@ -352,62 +462,24 @@ class Reader:
                     # Has a header; use its field names.
                     fieldnames = None
                 reader = csv.DictReader(
-                    io.StringIO(self.content), fieldnames=fieldnames, dialect="excel"
+                    io.StringIO(content), fieldnames=fieldnames, dialect="excel"
                 )
                 self.data = list(reader)
 
             case "json":
                 try:
-                    self.data = json.loads(self.content)
+                    self.data = json.loads(content)
                 except json.JSONDecodeError as error:
                     raise ValueError(f"cannot interpret data as JSON: {error}")
 
             case "yaml":
                 try:
-                    self.data = yaml.safe_load(self.content)
+                    self.data = yaml.safe_load(content)
                 except yaml.YAMLError as error:
                     raise ValueError(f"cannot interpret data as YAML: {error}")
 
-    def get_chart(self):
-        """Return the instance of a Chart subclass from the data parsed as YAML.
-        The meta information is stored in attribute 'meta'.
-        If any of the following tests fail, raises ValueError:
-        - The presence and validity of the 'chysl' format identification marker.
-        - The compatibility of the version of the file, if given.
-        - Check the data against the appropriate schema.
-        """
-        self.parse("yaml")
-        prepared = self.data.copy()
-        try:
-            self.meta = prepared.pop("chysl")
-        except KeyError:
-            raise ValueError(
-                "YAML data lacks the Chysl format identifiation marker 'chysl'"
-            )
-        if self.meta:
-            if isinstance(self.meta, dict):
-                version = self.meta.get("version")
-            else:
-                version = self.meta
-                self.meta = dict(version=version)
-            # XXX Currently checks for strict equality.
-            if version != constants.__version__:
-                raise ValueError(f"YAML data incompatible version {version}")
-        # Do proper schema validation on the original data.
-        try:
-            name = prepared["chart"]
-        except KeyError:
-            raise ValueError("no 'chart' defined in the YAML file")
-        try:
-            cls = _entity_lookup[name]
-        except KeyError:
-            raise ValueError(f"unknown chart '{name}' specified in the YAML file")
-        schema.validate(prepared, cls.SCHEMA)
-        # Create the class instance from the data lacking the identification marker.
-        return parse(prepared)
-
     def map_parameters_fields(self, parameters):
-        """Convert the source data fields to the plot parameters.
+        """Map the source data fields to the plot parameters.
         Also converts the values from string to float, where needed.
         """
         if not parameters:
