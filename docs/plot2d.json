@@ -51,7 +51,8 @@
               },
               "size": {
                 "title": "Default value when not given by data.",
-                "$ref": "#size"
+                "$ref": "#size",
+                "default": 10
               },
               "color": {
                 "title": "Default value when not given by data.",
@@ -66,12 +67,114 @@
                 "$ref": "#marker"
               }
             }
+          },
+          {
+            "title": "2D line plot.",
+            "type": "object",
+            "required": [
+              "entry",
+              "data"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "entry": {
+                "const": "line2d"
+              },
+              "data": {
+                "$ref": "#items_or_source"
+              },
+              "linewidth": {
+                "title": "Width of the line.",
+                "type": "number",
+                "minimumExclusive": 0,
+                "default": 2
+              },
+              "color": {
+                "title": "Color of the line.",
+                "$ref": "#color",
+                "default": "black"
+              },
+              "opacity": {
+                "title": "Opacity of the line.",
+                "$ref": "#opacity"
+              }
+            }
           }
         ]
       }
     }
   },
   "$defs": {
+    "opacity": {
+      "$anchor": "opacity",
+      "title": "Opacity in range [0.0, 1.0].",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 1
+    },
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "size": {
+              "title": "Size of font. Default depends on context.",
+              "$ref": "#size"
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            },
+            "anchor": {
+              "title": "Text anchor position. Ignored in some contexts.",
+              "enum": [
+                "start",
+                "middle",
+                "end"
+              ],
+              "default": "middle"
+            }
+          }
+        }
+      ]
+    },
     "items_or_source": {
       "$anchor": "items_or_source",
       "title": "Data provided inline, or from a file, web resource or database.",
@@ -202,43 +305,11 @@
         }
       ]
     },
-    "fuzzy_number": {
-      "$anchor": "fuzzy_number",
-      "title": "Number value, exact, or fuzzy with either low/high or error.",
-      "oneOf": [
-        {
-          "title": "Exact number value.",
-          "type": "number"
-        },
-        {
-          "title": "Fuzzy number value,  with either low/high or error",
-          "type": "object",
-          "required": [
-            "value"
-          ],
-          "additionalProperties": false,
-          "minProperties": 2,
-          "properties": {
-            "value": {
-              "title": "Central value for the fuzzy number.",
-              "type": "number"
-            },
-            "low": {
-              "title": "Low value for the fuzzy number.",
-              "type": "number"
-            },
-            "high": {
-              "title": "High value for the fuzzy number.",
-              "type": "number"
-            },
-            "error": {
-              "title": "Symmetrical error around the central value.",
-              "type": "number",
-              "exclusiveMinimum": 0
-            }
-          }
-        }
-      ]
+    "color": {
+      "$anchor": "color",
+      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
+      "type": "string",
+      "format": "color"
     },
     "marker": {
       "$anchor": "marker",
@@ -331,37 +402,39 @@
         }
       ]
     },
-    "field": {
-      "$anchor": "field",
-      "title": "Mapping of a plot parameter to a field in source data.",
+    "fuzzy_number": {
+      "$anchor": "fuzzy_number",
+      "title": "Number value, exact, or fuzzy with either low/high or error.",
       "oneOf": [
         {
-          "title": "Name of the field in the source data; CSV column header. The values are used directly.",
-          "type": "string",
-          "minLength": 1
+          "title": "Exact number value.",
+          "type": "number"
         },
         {
-          "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
-          "type": "integer",
-          "minimum": 1
-        },
-        {
-          "title": "Mapping of values in source data to a plot parameter.",
+          "title": "Fuzzy number value,  with either low/high or error",
           "type": "object",
           "required": [
-            "field"
+            "value"
           ],
           "additionalProperties": false,
+          "minProperties": 2,
           "properties": {
-            "field": {
-              "title": "Name of the field in the source data; CSV column header.",
-              "type": "string",
-              "minLength": 1
+            "value": {
+              "title": "Central value for the fuzzy number.",
+              "type": "number"
             },
-            "map": {
-              "title": "Map a string value in the source data to a value for the plot parameter.",
-              "type": "object",
-              "properties": {}
+            "low": {
+              "title": "Low value for the fuzzy number.",
+              "type": "number"
+            },
+            "high": {
+              "title": "High value for the fuzzy number.",
+              "type": "number"
+            },
+            "error": {
+              "title": "Symmetrical error around the central value.",
+              "type": "number",
+              "exclusiveMinimum": 0
             }
           }
         }
@@ -400,70 +473,37 @@
         }
       ]
     },
-    "opacity": {
-      "$anchor": "opacity",
-      "title": "Opacity in range [0.0, 1.0].",
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1
-    },
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
+    "field": {
+      "$anchor": "field",
+      "title": "Mapping of a plot parameter to a field in source data.",
       "oneOf": [
         {
-          "title": "Text with default styling.",
-          "type": "string"
+          "title": "Name of the field in the source data; CSV column header. The values are used directly.",
+          "type": "string",
+          "minLength": 1
         },
         {
-          "title": "Text with styling options.",
+          "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "title": "Mapping of values in source data to a plot parameter.",
           "type": "object",
           "required": [
-            "text"
+            "field"
           ],
           "additionalProperties": false,
           "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "size": {
-              "title": "Size of font. Default depends on context.",
-              "$ref": "#size"
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
+            "field": {
+              "title": "Name of the field in the source data; CSV column header.",
               "type": "string",
-              "format": "color",
-              "default": "black"
+              "minLength": 1
             },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
+            "map": {
+              "title": "Map a string value in the source data to a value for the plot parameter.",
+              "type": "object",
+              "properties": {}
             }
           }
         }
@@ -474,12 +514,6 @@
       "title": "Size of graphical item, in approximate display pixel units.",
       "type": "number",
       "minimumExclusive": 0
-    },
-    "color": {
-      "$anchor": "color",
-      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
-      "type": "string",
-      "format": "color"
     }
   }
 }

@@ -3,7 +3,7 @@
 - [Examples](#examples)
   - [scatter_points](#scatter_points)
   - [scatter_iris](#scatter_iris)
-  - [scatter_random_walks](#scatter_random_walks)
+  - [line_random_walks](#line_random_walks)
 
 - [Specification](#specification)
 
@@ -15,8 +15,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.10
-  software: Chysl (Python) 0.2.10
+  version: 0.2.11
+  software: Chysl (Python) 0.2.11
 chart: plot2d
 title: Scattered points inline
 entries:
@@ -181,8 +181,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.10
-  software: Chysl (Python) 0.2.10
+  version: 0.2.11
+  software: Chysl (Python) 0.2.11
 chart: column
 title:
   text: Iris flower measurements
@@ -496,36 +496,82 @@ entries:
     frame: 0
     background: white
 ```
-### scatter_random_walks
+### line_random_walks
 
-![scatter_random_walks SVG](scatter_random_walks.svg)
+[Sqlite database file](line_random_walks.db)
+
+![line_random_walks SVG](line_random_walks.svg)
 
 ```yaml
 chysl:
-  version: 0.2.10
-  software: Chysl (Python) 0.2.10
+  version: 0.2.11
+  software: Chysl (Python) 0.2.11
 chart: plot2d
 title: 'Random walks (source: db)'
 entries:
-- entry: scatter2d
+- entry: line2d
+  color: red
   data:
     source:
       database: sqlite
-      location: scatter_random_walks.db
-      select: SELECT x, y, run FROM walks
-    parameters:
-      color:
-        field: run
-        map:
-          1: red
-          2: green
-          3: blue
-          4: lime
-          5: orange
-          6: cyan
-          7: gold
-          8: dodgerblue
-          9: gray
+      location: line_random_walks.db
+      select: SELECT x, y FROM walks WHERE run=1 ORDER BY i
+- entry: line2d
+  color: green
+  data:
+    source:
+      database: sqlite
+      location: line_random_walks.db
+      select: SELECT x, y FROM walks WHERE run=2 ORDER BY i
+- entry: line2d
+  color: blue
+  data:
+    source:
+      database: sqlite
+      location: line_random_walks.db
+      select: SELECT x, y FROM walks WHERE run=3 ORDER BY i
+- entry: line2d
+  color: lime
+  data:
+    source:
+      database: sqlite
+      location: line_random_walks.db
+      select: SELECT x, y FROM walks WHERE run=4 ORDER BY i
+- entry: line2d
+  color: orange
+  data:
+    source:
+      database: sqlite
+      location: line_random_walks.db
+      select: SELECT x, y FROM walks WHERE run=5 ORDER BY i
+- entry: line2d
+  color: cyan
+  data:
+    source:
+      database: sqlite
+      location: line_random_walks.db
+      select: SELECT x, y FROM walks WHERE run=6 ORDER BY i
+- entry: line2d
+  color: gold
+  data:
+    source:
+      database: sqlite
+      location: line_random_walks.db
+      select: SELECT x, y FROM walks WHERE run=7 ORDER BY i
+- entry: line2d
+  color: dodgerblue
+  data:
+    source:
+      database: sqlite
+      location: line_random_walks.db
+      select: SELECT x, y FROM walks WHERE run=8 ORDER BY i
+- entry: line2d
+  color: gray
+  data:
+    source:
+      database: sqlite
+      location: line_random_walks.db
+      select: SELECT x, y FROM walks WHERE run=9 ORDER BY i
 ```
 ## Specification
 
@@ -560,10 +606,27 @@ entries:
         - *required*
       - **size**: Default value when not given by data.
         - *See* [size](schema_defs.md#size).
+        - *default*: 10
       - **color**: Default value when not given by data.
         - *See* [color](schema_defs.md#color).
       - **opacity**: Default value when not given by data.
         - *See* [opacity](schema_defs.md#opacity).
       - **marker**: Default value when not given by data.
         - *See* [marker](schema_defs.md#marker).
+    - Alternative 2: 2D line plot.
+      - *type*: mapping
+      - **entry**:
+        - *required*
+        - *const* 'line2d'
+      - **data**:
+        - *See* [items_or_source](schema_defs.md#items_or_source).
+        - *required*
+      - **linewidth**: Width of the line.
+        - *type*: float
+        - *default*: 2
+      - **color**: Color of the line.
+        - *See* [color](schema_defs.md#color).
+        - *default*: 'black'
+      - **opacity**: Opacity of the line.
+        - *See* [opacity](schema_defs.md#opacity).
 

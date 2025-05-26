@@ -14,8 +14,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.10
-  software: Chysl (Python) 0.2.10
+  version: 0.2.11
+  software: Chysl (Python) 0.2.11
 chart: board
 title: Poster
 entries:
@@ -44,8 +44,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.10
-  software: Chysl (Python) 0.2.10
+  version: 0.2.11
+  software: Chysl (Python) 0.2.11
 chart: board
 entries:
 - x: 0

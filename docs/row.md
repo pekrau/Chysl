@@ -14,8 +14,8 @@
 
 ```yaml
 chysl:
-  version: 0.2.10
-  software: Chysl (Python) 0.2.10
+  version: 0.2.11
+  software: Chysl (Python) 0.2.11
 chart: row
 title: Pies in row
 entries:
@@ -70,8 +70,8 @@ entries:
 
 ```yaml
 chysl:
-  version: 0.2.10
-  software: Chysl (Python) 0.2.10
+  version: 0.2.11
+  software: Chysl (Python) 0.2.11
 chart: column
 title:
   text: Iris flower measurements

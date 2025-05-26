@@ -20,6 +20,7 @@ Opacity in range [0.0, 1.0].
 - *type*: float
 - *minimum*: 0
 - *maximum*: 1
+- *default*: 1
 
 ## marker
 

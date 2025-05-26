@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="618" viewBox="0 0 601 618" transform="translate(0.5, 0.5)">
-  <desc>Chysl 0.2.10 plot2d</desc>
+  <desc>Chysl 0.2.11 plot2d</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Scattered points inline</text>
     <g>

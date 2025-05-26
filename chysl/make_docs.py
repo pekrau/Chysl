@@ -71,6 +71,8 @@ def make_docs():
             result.append(f"### {test}\n\n")
             if os.path.exists(f"../docs/{test}.csv"):
                 result.append(f"[CSV data file]({test}.csv)\n\n")
+            if os.path.exists(f"../docs/{test}.db"):
+                result.append(f"[Sqlite database file]({test}.db)\n\n")
             result.append(f"![{test} SVG]({test}.svg)\n\n")
 
             with open(f"../docs/{test}.yaml") as infile:

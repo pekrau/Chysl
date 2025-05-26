@@ -5,6 +5,7 @@ from icecream import ic
 import itertools
 import os
 import random
+import sqlite3
 import string
 
 import constants
@@ -24,7 +25,7 @@ TESTS = {
     ],
     "piechart": ["pyramid", "day", "pies_column", "pies_row",],
     # XXX dendrogram
-    "plot2d": ["scatter_points", "scatter_iris", "scatter_random_walks"],
+    "plot2d": ["scatter_points", "scatter_iris", "line_random_walks",],
     "column": [
         "universe_earth",
         "pies_column",
@@ -378,31 +379,36 @@ def test_scatter_iris():
     all_plots.render("scatter_iris.svg")
 
 
-def test_scatter_random_walks():
-    plot = Plot2d("Random walks (source: db)")
-    plot += Scatter2d(dict(source=dict(database="sqlite",
-                                       location="scatter_random_walks.db",
-                                       select="SELECT x, y, run FROM walks"),
-                           parameters=dict(
-                               color=dict(
-                                   field="run",
-                                   map={1: "red",
-                                        2: "green",
-                                        3: "blue",
-                                        4: "lime",
-                                        5: "orange",
-                                        6: "cyan",
-                                        7: "gold",
-                                        8: "dodgerblue",
-                                        9: "gray",
-                                        }
-                                   )
-                               )
-                           )
-                      )
+def test_line_random_walks():
+    # Prepare database.
+    random.seed(12345)
+    cnx = sqlite3.connect("line_random_walks.db")
+    cnx.execute("CREATE TABLE IF NOT EXISTS walks(i INTEGER PRIMARY KEY, x REAL, y REAL, run INTEGER)")
+    cnx.execute("DELETE FROM walks")
+    counter = itertools.count()
+    runs = list(range(1, 10))
+    for run in runs:
+        x = 0
+        y = 0
+        for i in range(1, 200):
+            x += random.uniform(-1.0, 1.0)
+            y += random.uniform(-1.0, 1.0)
+            cnx.execute("INSERT INTO walks VALUES(?, ?, ?, ?)", (next(counter), x, y, run))
+        cnx.commit()
+    cnx.close()
 
-    plot.save("scatter_random_walks.yaml")
-    plot.render("scatter_random_walks.svg")
+    plot = Plot2d("Random walks (source: db)")
+    colors = itertools.cycle(["red", "green", "blue", "lime",  "orange",
+                              "cyan", "gold",  "dodgerblue",  "gray"])
+    for run in runs:
+        plot += Line2d(dict(source=dict(database="sqlite",
+                                        location="line_random_walks.db",
+                                        select=f"SELECT x, y FROM walks WHERE run={run} ORDER BY i")),
+                       color=next(colors)
+                       )
+
+    plot.save("line_random_walks.yaml")
+    plot.render("line_random_walks.svg")
 
 def test_notes():
     column = Column()
@@ -473,7 +479,7 @@ def run_tests():
         test_declaration()
         test_scatter_points()
         test_scatter_iris()
-        test_scatter_random_walks()
+        test_line_random_walks()
         test_notes()
         test_poster()
         test_dimensions()

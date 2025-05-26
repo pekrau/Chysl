@@ -27,6 +27,7 @@ DEFS = {
         "type": "number",
         "minimum": 0,
         "maximum": 1,
+        "default": 1,
     },
     "marker": {
         "$anchor": "marker",

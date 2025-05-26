@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts are hierarchically composable."
 
-VERSION = (0, 2, 10)
+VERSION = (0, 2, 11)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -20,6 +20,8 @@ FORMATS = ["csv", "tsv", "json", "yaml"]
 DEFAULT_SIZE = 18
 DEFAULT_COLOR = "black"
 DEFAULT_MARKER = "disc"
+DEFAULT_MARKER_SIZE = 10
+DEFAULT_LINEWIDTH = 2
 DEFAULT_PADDING = 2
 DEFAULT_FONT_FAMILY = "sans-serif"
 FONT_DESCEND = 0.2

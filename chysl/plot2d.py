@@ -1,4 +1,4 @@
-"2D chart plotting x/y data; scatter, etc."
+"2D chart plotting x/y data; scatter, line, etc."
 
 import copy
 import pathlib
@@ -10,6 +10,7 @@ from chart import Chart, Entry, DataReader, Element
 from dimension import Dimension
 from marker import Marker
 from path import Path
+from utils import N
 
 
 class Plot2d(Chart):
@@ -59,6 +60,7 @@ class Plot2d(Chart):
                                 "size": {
                                     "title": "Default value when not given by data.",
                                     "$ref": "#size",
+                                    "default": constants.DEFAULT_MARKER_SIZE,
                                 },
                                 "color": {
                                     "title": "Default value when not given by data.",
@@ -71,6 +73,31 @@ class Plot2d(Chart):
                                 "marker": {
                                     "title": "Default value when not given by data.",
                                     "$ref": "#marker",
+                                },
+                            },
+                        },
+                        {
+                            "title": "2D line plot.",
+                            "type": "object",
+                            "required": ["entry", "data"],
+                            "additionalProperties": False,
+                            "properties": {
+                                "entry": {"const": "line2d"},
+                                "data": {"$ref": "#items_or_source"},
+                                "linewidth": {
+                                    "title": "Width of the line.",
+                                    "type": "number",
+                                    "minimumExclusive": 0,
+                                    "default": constants.DEFAULT_LINEWIDTH,
+                                },
+                                "color": {
+                                    "title": "Color of the line.",
+                                    "$ref": "#color",
+                                    "default": "black",
+                                },
+                                "opacity": {
+                                    "title": "Opacity of the line.",
+                                    "$ref": "#opacity",
                                 },
                             },
                         },
@@ -101,8 +128,8 @@ class Plot2d(Chart):
 
     def convert_entry(self, entry):
         entry = super().convert_entry(entry)
-        if not isinstance(entry, Scatter2d):
-            raise ValueError(f"invalid entry for plot: {entry}; not a Scatter2d")
+        if not isinstance(entry, _Plot2dEntry):
+            raise ValueError(f"invalid entry for plot: {entry}; not a subclass of Plot2dEntry")
         return entry
 
     def as_dict(self):
@@ -179,8 +206,8 @@ class Plot2d(Chart):
                     label := Element(
                         "text",
                         tick.label,
-                        x=utils.N(tick.pixel),
-                        y=utils.N(self.height),
+                        x=N(tick.pixel),
+                        y=N(self.height),
                     )
                 )
                 if tick is ticks[0]:
@@ -216,14 +243,14 @@ class Plot2d(Chart):
                     label := Element(
                         "text",
                         tick.label,
-                        x=utils.N(xdimension.start - constants.DEFAULT_PADDING),
-                        y=utils.N(tick.pixel + self.DEFAULT_FONT_SIZE / 3),
+                        x=N(xdimension.start - constants.DEFAULT_PADDING),
+                        y=N(tick.pixel + self.DEFAULT_FONT_SIZE / 3),
                     )
                 )
                 if tick is ticks[0]:
-                    label["y"] = utils.N(tick.pixel)
+                    label["y"] = N(tick.pixel)
                 elif tick is ticks[-1]:
-                    label["y"] = utils.N(tick.pixel + self.DEFAULT_FONT_SIZE)
+                    label["y"] = N(tick.pixel + self.DEFAULT_FONT_SIZE)
 
         # Graphics for entries.
         self.svg += (graphics := Element("g"))
@@ -234,21 +261,15 @@ class Plot2d(Chart):
 class _Plot2dEntry(Entry):
     "Generic Entry class for Plot2d."
 
-    DEFAULT_SIZE = 10
-
     def __init__(self, data, size=None, color=None, opacity=None, marker=None):
         assert isinstance(data, (list, dict))
-        assert size is None or (isinstance(size, (int, float)) and size > 0)
         assert color is None or utils.is_color(color)
         assert opacity is None or (
             isinstance(opacity, (int, float)) and opacity >= 0 and opacity <= 1
         )
-        assert marker is None or utils.is_marker(marker)
 
-        self.size = size or self.DEFAULT_SIZE
         self.color = color or constants.DEFAULT_COLOR
         self.opacity = opacity or 1
-        self.marker = marker or constants.DEFAULT_MARKER
 
         # Explicit data points.
         if isinstance(data, list):
@@ -277,14 +298,10 @@ class _Plot2dEntry(Entry):
 
     def as_dict(self):
         result = super().as_dict()
-        if self.size != self.DEFAULT_SIZE:
-            result["size"] = self.size
         if self.color != constants.DEFAULT_COLOR:
             result["color"] = self.color
         if self.opacity != 1:
             result["opacity"] = self.opacity
-        if self.marker != constants.DEFAULT_MARKER:
-            result["marker"] = self.marker
         try:
             # Data from file or web source.
             result["data"] = dict(source=self.source)
@@ -347,17 +364,31 @@ class _Plot2dEntry(Entry):
 class Scatter2d(_Plot2dEntry):
     "2D scatter plot."
 
+    def __init__(self, data, size=None, color=None, opacity=None, marker=None):
+        super().__init__(data, color=color, opacity=opacity)
+        assert size is None or (isinstance(size, (int, float)) and size > 0)
+        assert marker is None or utils.is_marker(marker)
+
+        self.size = size or constants.DEFAULT_MARKER_SIZE
+        self.marker = marker or constants.DEFAULT_MARKER
+
+    def as_dict(self):
+        result = super().as_dict()
+        if self.size != constants.DEFAULT_MARKER_SIZE:
+            result["size"] = self.size
+        if self.marker != constants.DEFAULT_MARKER:
+            result["marker"] = self.marker
+        return result
+
     def render_graphic(self, xdimension, ydimension):
         g = Element("g")
         for point in self.data:
             xvalue = point["x"]
             if isinstance(xvalue, dict):
                 xvalue = xvalue["value"]
-                # XXX display error bar!
             yvalue = point["y"]
             if isinstance(yvalue, dict):
                 yvalue = yvalue["value"]
-                # XXX display error bar!
             if (opacity := point.get("opacity")) is None:
                 opacity = self.opacity
             marker = Marker(
@@ -370,3 +401,33 @@ class Scatter2d(_Plot2dEntry):
                 xdimension.get_pixel(xvalue), ydimension.get_pixel(yvalue)
             )
         return g
+
+
+class Line2d(_Plot2dEntry):
+    "2D line plot."
+
+    def __init__(self, data, linewidth=None, color=None, opacity=None):
+        super().__init__(data, color=color, opacity=opacity)
+
+        assert linewidth is None or (isinstance(linewidth (int, float)) and linewidth > 0)
+
+        self.linewidth = linewidth or constants.DEFAULT_LINEWIDTH
+
+    def render_graphic(self, xdimension, ydimension):
+        points = []
+        for point in self.data:
+            xvalue = point["x"]
+            if isinstance(xvalue, dict):
+                xvalue = xvalue["value"]
+            yvalue = point["y"]
+            if isinstance(yvalue, dict):
+                yvalue = yvalue["value"]
+            points.append(f"{N(xdimension.get_pixel(xvalue))} {N(ydimension.get_pixel(yvalue))}")
+        result = Element("polyline",
+                         points=",".join(points),
+                         fill="none",
+                         stroke=self.color)
+        if self.opacity != 1:
+            result["opacity"] = self.opacity
+        result["stroke-width"] = self.linewidth
+        return result
