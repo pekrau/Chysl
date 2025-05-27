@@ -304,6 +304,7 @@ DEFS = {
                     },
                     "parameters": {
                         "title": "Mapping of plot parameters to the fields in the source data.",
+                        "type": "object",
                         "additionalProperties": False,
                         "properties": {
                             "x": {"$ref": "#field"},

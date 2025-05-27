@@ -4,6 +4,7 @@
   - [scatter_points](#scatter_points)
   - [scatter_iris](#scatter_iris)
   - [line_random_walks](#line_random_walks)
+  - [overlay](#overlay)
 
 - [Specification](#specification)
 
@@ -14,9 +15,7 @@
 ![scatter_points SVG](scatter_points.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: plot2d
 title: Scattered points inline
 entries:
@@ -180,9 +179,7 @@ entries:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 title:
   text: Iris flower measurements
@@ -503,9 +500,7 @@ entries:
 ![line_random_walks SVG](line_random_walks.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: plot2d
 title: 'Random walks (source: db)'
 entries:
@@ -572,6 +567,48 @@ entries:
       database: sqlite
       location: line_random_walks.db
       select: SELECT x, y FROM walks WHERE run=9 ORDER BY i
+```
+### overlay
+
+![overlay SVG](overlay.svg)
+
+```yaml
+chysl: 0.2.12
+chart: overlay
+title: Overlaid two scatterplots
+entries:
+- item:
+    chart: plot2d
+    entries:
+    - entry: scatter2d
+      data:
+      - x: 1
+        y: 1
+        color: gold
+      - x: 2
+        y: 2
+        color: blue
+      - x: 3
+        y: 3
+        color: red
+      size: 60
+- opacity: 0.5
+  item:
+    chart: plot2d
+    entries:
+    - entry: scatter2d
+      data:
+      - x: 1
+        y: 1
+        marker: alpha
+      - x: 2
+        y: 2
+        color: white
+        marker: beta
+      - x: 3
+        y: 3
+        marker: gamma
+      size: 30
 ```
 ## Specification
 

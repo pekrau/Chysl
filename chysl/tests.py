@@ -25,7 +25,7 @@ TESTS = {
     ],
     "piechart": ["pyramid", "day", "pies_column", "pies_row",],
     # XXX dendrogram
-    "plot2d": ["scatter_points", "scatter_iris", "line_random_walks",],
+    "plot2d": ["scatter_points", "scatter_iris", "line_random_walks", "overlay",],
     "column": [
         "universe_earth",
         "pies_column",
@@ -36,6 +36,7 @@ TESTS = {
         "scatter_iris",
     ],
     "row": ["pies_row", "scatter_iris",],
+    "overlay": ["overlay",],
     "note": ["declaration", "notes_column", "notes", "pies_column", "poster",],
     "board": ["poster", "notes",],
 }
@@ -191,9 +192,9 @@ def test_markers():
 
 def test_pyramid():
     pyramid = Piechart("Pyramid", start=132, palette=["#4c78a8", "#9ecae9", "#f58518"])
-    pyramid += Slice("Shadow", 7)
-    pyramid += Slice("Sunny", 18)
-    pyramid += Slice("Sky", 70)
+    pyramid += Slice(7, "Shadow")
+    pyramid += Slice(18, "Sunny")
+    pyramid += Slice(70, "Sky")
     pyramid.save("pyramid.yaml")
     pyramid.render("pyramid.svg")
 
@@ -204,16 +205,16 @@ def test_pyramid():
 
 def test_day():
     day = Piechart(dict(text="Day", size=30), total=24, diameter=400)
-    day += Slice("Sleep", 8, color="gray")
-    day += Slice("Breakfast", 1, color="lightgreen")
-    day += Slice("Gym", 2, color="lightblue")
-    day += Slice("Read", 1, color="navy")
-    day += Slice("Lunch", 1, color="lightgreen")
-    day += Slice("Shuteye", 0.4, color="gray")
-    day += Slice("Write", 4.6, color="pink")
-    day += Slice("Dinner", 1, color="lightgreen")
-    day += Slice("TV", 3, color="orange")
-    day += Slice("Read", 2, color="navy")
+    day += Slice(8, "Sleep", color="gray")
+    day += Slice(1, "Breakfast", color="lightgreen")
+    day += Slice(2, "Gym", color="lightblue")
+    day += Slice(1, "Read", color="navy")
+    day += Slice(1, "Lunch", color="lightgreen")
+    day += Slice(0.4, "Shuteye", color="gray")
+    day += Slice(4.6, "Write", color="pink")
+    day += Slice(1, "Dinner", color="lightgreen")
+    day += Slice(3, "TV", color="orange")
+    day += Slice(2, "Read", color="navy")
 
     day.save("day.yaml")
     day.render("day.svg")
@@ -238,17 +239,17 @@ def test_tree():
 def test_pies_column():
     pajer = Column("Pies in column")
 
-    pajer += (paj := Piechart("Strawberry pie", diameter=100))
-    paj += Slice("Flour", 7, color="white")
-    paj += Slice("Eggs", 2, color="yellow")
-    paj += Slice("Butter", 3, color="gold")
-    paj += Slice("Strawberries", 3, color="orangered")
+    pajer += (paj := Piechart("Strawberry pie", diameter=200))
+    paj += Slice(7, "Flour", color="white")
+    paj += Slice(2, "Eggs", color="yellow")
+    paj += Slice(3, "Butter", color="gold")
+    paj += Slice(3, "Strawberries", color="orangered")
 
-    pajer += (paj := Piechart("Rhubarb pie"))
-    paj += Slice("Flour", 7, color="white")
-    paj += Slice("Eggs", 2, color="yellow")
-    paj += Slice("Butter", 3, color="gold")
-    paj += Slice("Rhubarb", 3, color="green")
+    pajer += (paj := Piechart("Rhubarb pie", diameter=250))
+    paj += Slice(7, "Flour", color="white")
+    paj += Slice(2, "Eggs", color="yellow")
+    paj += Slice(3, "Butter", color="gold")
+    paj += Slice(3, "Rhubarb", color="green")
 
     pajer += Note(
         title="Comment",
@@ -269,16 +270,16 @@ def test_pies_row():
 
     palette = ["white", "yellow", "gold", "red"]
     pajer += (paj := Piechart("Strawberry pie", diameter=300, palette=palette))
-    paj += Slice("Flour", 7)
-    paj += Slice("Eggs", 2)
-    paj += Slice("Butter", 3)
-    paj += Slice("Strawberries", 3)
+    paj += Slice(7, "Flour")
+    paj += Slice(2, "Eggs")
+    paj += Slice(3, "Butter")
+    paj += Slice(3, "Strawberries")
 
     pajer += (paj := Piechart("Rhubarb pie", palette=palette))
-    paj += Slice("Flour", 7)
-    paj += Slice("Eggs", 2)
-    paj += Slice("Butter", 3)
-    paj += Slice("Rhubarb", 3, color="green")
+    paj += Slice(7, "Flour")
+    paj += Slice(2, "Eggs")
+    paj += Slice(3, "Butter")
+    paj += Slice(3, "Rhubarb", color="green")
 
     pajer.save("pies_row.yaml")
     pajer.render("pies_row.svg")
@@ -425,7 +426,7 @@ def test_notes():
     column.render("notes_column.svg")
 
     board = Board()
-    board.append(x=0, y=0, scale=1.5, component=column)
+    board.append(item=column, x=0, y=0, scale=1.5)
     board.save("notes.yaml")
     board.render("notes.svg")
 
@@ -433,12 +434,12 @@ def test_notes():
 def test_poster():
     poster = Board("Poster")
     poster.append(
+        item=Note("By Per Kraulis", body="Ph.D.", footer="Stockholm University"),
         x=250,
         y=10,
-        component=Note("By Per Kraulis", body="Ph.D.", footer="Stockholm University"),
     )
-    poster.append(dict(x=0, y=100, component=dict(include="universe.yaml")))
-    poster.append(dict(x=50, y=230, component=dict(include="earth.yaml")))
+    poster.append(dict(item=dict(include="universe.yaml"), x=0, y=100))
+    poster.append(dict(item=dict(include="earth.yaml"), x=50, y=230))
     poster.render("poster.svg")
     poster.save("poster.yaml")
 
@@ -463,6 +464,27 @@ def test_dimensions():
     column.render("dimensions.svg")
 
 
+def test_overlay():
+    overlay = Overlay("Overlaid two scatterplots")
+    plot1 = Plot2d()
+    plot1 += Scatter2d([dict(x=1, y=1, color="gold"),
+                       dict(x=2, y=2, color="blue"),
+                       dict(x=3, y=3, color="red"),
+                        ],
+                       size=60,
+                      )
+    overlay += plot1            # Using syntactic sugar.
+    plot2 = Plot2d()
+    plot2 += Scatter2d([dict(x=1, y=1, marker="alpha"),
+                       dict(x=2, y=2, marker="beta", color="white"),
+                       dict(x=3, y=3, marker="gamma"),
+                        ],
+                       size=30,
+                      )
+    overlay += dict(item=plot2, opacity=0.5)
+    overlay.save("overlay.yaml")
+    overlay.render("overlay.svg")
+
 def run_tests():
     origdir = os.getcwd()
     try:
@@ -483,6 +505,7 @@ def run_tests():
         test_notes()
         test_poster()
         test_dimensions()
+        test_overlay()
     finally:
         os.chdir(origdir)
 

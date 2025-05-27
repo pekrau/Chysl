@@ -13,16 +13,14 @@
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: board
 title: Poster
 entries:
 - x: 250
   y: 10
   scale: 1
-  component:
+  item:
     chart: note
     title: By Per Kraulis
     body: Ph.D.
@@ -30,12 +28,12 @@ entries:
 - x: 0
   y: 100
   scale: 1
-  component:
+  item:
     include: universe.yaml
 - x: 50
   y: 230
   scale: 1
-  component:
+  item:
     include: earth.yaml
 ```
 ### notes
@@ -43,15 +41,13 @@ entries:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: board
 entries:
 - x: 0
   y: 0
   scale: 1.5
-  component:
+  item:
     chart: column
     entries:
     - chart: note
@@ -88,24 +84,26 @@ Chart to place charts at specified positions.
   - *const* 'board'
 - **title**: Title of the board.
   - *See* [text](schema_defs.md#text).
-- **entries**: Component charts at specified positions.
+- **entries**: Charts at specified positions.
   - *required*
   - *type*: sequence
   - *items*:
     - *type*: mapping
-    - **x**: Absolute position of component. Left is 0.
+    - **item**:
+      - *See* [chart_or_include](schema_defs.md#chart_or_include).
+      - *required*
+    - **x**: Absolute position of item. Left is 0.
       - *required*
       - *type*: float
       - *minimum*: 0
-    - **y**: Absolute position of component. Top is 0.
+    - **y**: Absolute position of item. Top is 0.
       - *required*
       - *type*: float
       - *minimum*: 0
-    - **scale**: Scaling of the component chart.
+    - **scale**: Scaling of the item chart.
       - *type*: float
       - *exclusiveMinimum*: 0
       - *default*: 1
-    - **component**:
-      - *See* [chart_or_include](schema_defs.md#chart_or_include).
-      - *required*
+    - **opacity**:
+      - *See* [opacity](schema_defs.md#opacity).
 

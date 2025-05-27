@@ -58,7 +58,6 @@
             "type": "object",
             "required": [
               "entry",
-              "label",
               "value"
             ],
             "additionalProperties": false,
@@ -66,17 +65,17 @@
               "entry": {
                 "const": "slice"
               },
+              "value": {
+                "title": "The value visualized by the slice.",
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
               "label": {
                 "title": "Description of the value.",
                 "type": "string"
               },
-              "value": {
-                "title": "The value shown by the slice.",
-                "type": "number",
-                "exclusiveMinimum": 0
-              },
               "color": {
-                "title": "Color of the slice. Use palette if not defined.",
+                "title": "Color of the slice. Palette used if not defined.",
                 "type": "string",
                 "format": "color"
               }

@@ -64,26 +64,27 @@ class Piechart(Chart):
                         {
                             "title": "Slice in the pie chart.",
                             "type": "object",
-                            "required": ["entry", "label", "value"],
+                            "required": ["entry", "value"],
                             "additionalProperties": False,
                             "properties": {
                                 "entry": {"const": "slice"},
+                                "value": {
+                                    "title": "The value visualized by the slice.",
+                                    "type": "number",
+                                    "exclusiveMinimum": 0,
+                                },
                                 "label": {
                                     "title": "Description of the value.",
                                     "type": "string",
                                 },
-                                "value": {
-                                    "title": "The value shown by the slice.",
-                                    "type": "number",
-                                    "exclusiveMinimum": 0,
-                                },
                                 "color": {
-                                    "title": "Color of the slice. Use palette if not defined.",
+                                    "title": "Color of the slice. Palette used if not defined.",
                                     "type": "string",
                                     "format": "color",
                                 },
                             },
                         },
+                        # Sector
                     ],
                 },
             },
@@ -175,15 +176,16 @@ class Piechart(Chart):
         pie += (labels := Element("g", stroke="none", fill="black"))
         labels["text-anchor"] = "middle"
         for entry in self.entries:
-            labels += entry.render_label(radius)
+            if (label := entry.render_label(radius)):
+                labels += label
 
 
 class Slice(Entry):
     "A slice in a pie chart."
 
-    def __init__(self, label, value, color=None):
+    def __init__(self, value, label=None, color=None):
         assert isinstance(value, (int, float))
-        assert isinstance(label, str)
+        assert label is None or isinstance(label, str)
         assert color is None or isinstance(color, str)
 
         self.value = value
@@ -192,8 +194,9 @@ class Slice(Entry):
 
     def as_dict(self):
         result = super().as_dict()
-        result["label"] = self.label
         result["value"] = self.value
+        if self.label:
+            result["label"] = self.label
         if self.color:
             result["color"] = self.color
         return result
@@ -213,6 +216,8 @@ class Slice(Entry):
         return result
 
     def render_label(self, radius):
+        if not self.label:
+            return
         middle = self.start + 0.5 * self.fraction * Degrees(360)
         pos = Vector2.from_polar(0.7 * radius, float(middle))
         result = Element("text", self.label, x=utils.N(pos.x), y=utils.N(pos.y))

@@ -1,6 +1,4 @@
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: timelines
 title:
   text: Universe

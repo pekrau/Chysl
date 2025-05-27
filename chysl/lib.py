@@ -3,37 +3,26 @@
 from chart import register, retrieve
 
 from timelines import Timelines, Event, Period
+from piechart import Piechart, Slice
+from plot2d import Plot2d, Scatter2d, Line2d
+# from dendrogram import Dendrogram
+from note import Note
+from column import Column
+from row import Row
+from overlay import Overlay
+from board import Board
 
 register(Timelines)
 register(Event)
 register(Period)
-
-from piechart import Piechart, Slice
-
 register(Piechart)
 register(Slice)
-
-# from dendrogram import Dendrogram
-# register(Dendrogram)
-
-from plot2d import Plot2d, Scatter2d, Line2d
-
 register(Plot2d)
 register(Scatter2d)
 register(Line2d)
-
-from note import Note
-
+# register(Dendrogram)
 register(Note)
-
-from column import Column
-
 register(Column)
-
-from row import Row
-
 register(Row)
-
-from board import Board
-
+register(Overlay)
 register(Board)

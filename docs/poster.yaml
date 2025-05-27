@@ -1,13 +1,11 @@
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: board
 title: Poster
 entries:
 - x: 250
   y: 10
   scale: 1
-  component:
+  item:
     chart: note
     title: By Per Kraulis
     body: Ph.D.
@@ -15,10 +13,10 @@ entries:
 - x: 0
   y: 100
   scale: 1
-  component:
+  item:
     include: universe.yaml
 - x: 50
   y: 230
   scale: 1
-  component:
+  item:
     include: earth.yaml

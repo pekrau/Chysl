@@ -15,21 +15,19 @@
 ![pyramid SVG](pyramid.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: piechart
 title: Pyramid
 entries:
 - entry: slice
-  label: Shadow
   value: 7
+  label: Shadow
 - entry: slice
-  label: Sunny
   value: 18
+  label: Sunny
 - entry: slice
-  label: Sky
   value: 70
+  label: Sky
 start: 132
 palette:
 - '#4c78a8'
@@ -41,53 +39,51 @@ palette:
 ![day SVG](day.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: piechart
 title:
   text: Day
   size: 30
 entries:
 - entry: slice
-  label: Sleep
   value: 8
+  label: Sleep
   color: gray
 - entry: slice
-  label: Breakfast
   value: 1
+  label: Breakfast
   color: lightgreen
 - entry: slice
-  label: Gym
   value: 2
+  label: Gym
   color: lightblue
 - entry: slice
-  label: Read
   value: 1
+  label: Read
   color: navy
 - entry: slice
-  label: Lunch
   value: 1
+  label: Lunch
   color: lightgreen
 - entry: slice
-  label: Shuteye
   value: 0.4
+  label: Shuteye
   color: gray
 - entry: slice
-  label: Write
   value: 4.6
+  label: Write
   color: pink
 - entry: slice
-  label: Dinner
   value: 1
+  label: Dinner
   color: lightgreen
 - entry: slice
-  label: TV
   value: 3
+  label: TV
   color: orange
 - entry: slice
-  label: Read
   value: 2
+  label: Read
   color: navy
 diameter: 400
 total: 24
@@ -97,9 +93,7 @@ total: 24
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 title: Pies in column
 entries:
@@ -107,41 +101,41 @@ entries:
   title: Strawberry pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
     color: white
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
     color: yellow
   - entry: slice
-    label: Butter
     value: 3
+    label: Butter
     color: gold
   - entry: slice
-    label: Strawberries
     value: 3
+    label: Strawberries
     color: orangered
-  diameter: 100
 - chart: piechart
   title: Rhubarb pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
     color: white
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
     color: yellow
   - entry: slice
-    label: Butter
     value: 3
+    label: Butter
     color: gold
   - entry: slice
-    label: Rhubarb
     value: 3
+    label: Rhubarb
     color: green
+  diameter: 250
 - chart: note
   title: Comment
   body: Strawberry pie is good.
@@ -154,9 +148,7 @@ entries:
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: row
 title: Pies in row
 entries:
@@ -164,17 +156,17 @@ entries:
   title: Strawberry pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
   - entry: slice
+    value: 3
     label: Butter
-    value: 3
   - entry: slice
-    label: Strawberries
     value: 3
+    label: Strawberries
   diameter: 300
   palette:
   - white
@@ -185,17 +177,17 @@ entries:
   title: Rhubarb pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
   - entry: slice
+    value: 3
     label: Butter
-    value: 3
   - entry: slice
-    label: Rhubarb
     value: 3
+    label: Rhubarb
     color: green
   palette:
   - white
@@ -238,14 +230,13 @@ Pie chart containing slices.
       - **entry**:
         - *required*
         - *const* 'slice'
-      - **label**: Description of the value.
-        - *required*
-        - *type*: string
-      - **value**: The value shown by the slice.
+      - **value**: The value visualized by the slice.
         - *required*
         - *type*: float
         - *exclusiveMinimum*: 0
-      - **color**: Color of the slice. Use palette if not defined.
+      - **label**: Description of the value.
+        - *type*: string
+      - **color**: Color of the slice. Palette used if not defined.
         - *type*: string
         - *format*: color
 

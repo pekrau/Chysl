@@ -1,6 +1,6 @@
-# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.2.11
+# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.2.12
 
-Charts defined in YAML for rendering into SVG. Charts are hierarchically composable.
+Charts defined in YAML for rendering into SVG. Charts can be combined in many different ways.
 
 The YAML file must contain the software identification marker:
 
@@ -25,6 +25,8 @@ This code has been lovingly hand-crafted. No AI tools were used in its developme
 - [column](docs/column.md): Charts stacked in a column.
 
 - [row](docs/row.md): Charts arranged in a row.
+
+- [overlay](docs/overlay.md): Charts overlayed over one another, with optional opacity.
 
 - [board](docs/board.md): Chart to place charts at specified positions.
 

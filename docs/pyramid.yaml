@@ -1,18 +1,16 @@
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: piechart
 title: Pyramid
 entries:
 - entry: slice
-  label: Shadow
   value: 7
+  label: Shadow
 - entry: slice
-  label: Sunny
   value: 18
+  label: Sunny
 - entry: slice
-  label: Sky
   value: 70
+  label: Sky
 start: 132
 palette:
 - '#4c78a8'

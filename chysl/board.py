@@ -22,31 +22,32 @@ class Board(Chart):
                 "$ref": "#text",
             },
             "entries": {
-                "title": "Component charts at specified positions.",
+                "title": "Charts at specified positions.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
                     "type": "object",
-                    "required": ["x", "y", "component"],
+                    "required": ["x", "y", "item"],
                     "additionalProperties": False,
                     "properties": {
+                        "item": {"$ref": "#chart_or_include"},
                         "x": {
-                            "title": "Absolute position of component. Left is 0.",
+                            "title": "Absolute position of item. Left is 0.",
                             "type": "number",
                             "minimum": 0,
                         },
                         "y": {
-                            "title": "Absolute position of component. Top is 0.",
+                            "title": "Absolute position of item. Top is 0.",
                             "type": "number",
                             "minimum": 0,
                         },
                         "scale": {
-                            "title": "Scaling of the component chart.",
+                            "title": "Scaling of the item chart.",
                             "type": "number",
                             "exclusiveMinimum": 0,
                             "default": 1,
                         },
-                        "component": {"$ref": "#chart_or_include"},
+                        "opacity": {"$ref": "#opacity"},
                     },
                 },
             },
@@ -84,25 +85,25 @@ class Board(Chart):
                 )
         except KeyError:
             scale = 1
-        component = entry["component"]
-        if isinstance(component, dict):
-            component = parse(component)
-        if not isinstance(component, Chart):
+        item = entry["item"]
+        if isinstance(item, dict):
+            item = parse(item)
+        if not isinstance(item, Chart):
             raise ValueError(f"invalid entry '{entry}' for {self.name}")
-        return {"x": x, "y": y, "scale": scale, "component": component}
+        return {"x": x, "y": y, "scale": scale, "item": item}
 
     def entries_as_dict(self):
         result = []
         for entry in self.entries:
-            entry2 = {"x": entry["x"], "y": entry["y"]}
+            e = {"x": entry["x"], "y": entry["y"]}
             if scale := entry.get("scale"):
-                entry2["scale"] = scale
-            component = entry["component"]
+                e["scale"] = scale
+            item = entry["item"]
             try:
-                entry2["component"] = {"include": component.location}
+                e["item"] = {"include": item.location}
             except AttributeError:
-                entry2["component"] = component.as_dict()
-            result.append(entry2)
+                e["item"] = item.as_dict()
+            result.append(e)
         return {"entries": result}
 
     def build(self):
@@ -111,29 +112,31 @@ class Board(Chart):
         Sets the 'width' attribute.
         """
         for entry in self.entries:
-            entry["component"].build()
+            entry["item"].build()
 
         self.width = 0
         for entry in self.entries:
-            component = entry["component"]
             scale = entry.get("scale") or 1
-            self.width = max(self.width, entry["x"] + scale * component.width)
+            self.width = max(self.width, entry["x"] + scale * entry["item"].width)
 
         super().build()
 
         offset = self.height
         for entry in self.entries:
-            component = entry["component"]
             scale = entry.get("scale") or 1
-            transform = []
+            transforms = []
             try:
-                transform.append(f"scale({entry['scale']})")
+                transforms.append(f"scale({entry['scale']})")
             except KeyError:
                 pass
-            transform.append(f"translate({entry['x']}, {entry['y'] + offset})")
-            g = Element("g", transform=" ".join(transform))
-            g.append(component.svg)
+            transforms.append(f"translate({entry['x']}, {entry['y'] + offset})")
+            g = Element("g", transform=" ".join(transforms))
+            try:
+                g["opacity"] = entry["opacity"]
+            except KeyError:
+                pass
+            g.append(entry["item"].svg)
             self.svg += g
             self.height = max(
-                self.height, entry["y"] + offset + scale * component.height
+                self.height, entry["y"] + offset + scale * entry["item"].height
             )

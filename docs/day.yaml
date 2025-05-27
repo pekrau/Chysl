@@ -1,50 +1,48 @@
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: piechart
 title:
   text: Day
   size: 30
 entries:
 - entry: slice
-  label: Sleep
   value: 8
+  label: Sleep
   color: gray
 - entry: slice
-  label: Breakfast
   value: 1
+  label: Breakfast
   color: lightgreen
 - entry: slice
-  label: Gym
   value: 2
+  label: Gym
   color: lightblue
 - entry: slice
-  label: Read
   value: 1
+  label: Read
   color: navy
 - entry: slice
-  label: Lunch
   value: 1
+  label: Lunch
   color: lightgreen
 - entry: slice
-  label: Shuteye
   value: 0.4
+  label: Shuteye
   color: gray
 - entry: slice
-  label: Write
   value: 4.6
+  label: Write
   color: pink
 - entry: slice
-  label: Dinner
   value: 1
+  label: Dinner
   color: lightgreen
 - entry: slice
-  label: TV
   value: 3
+  label: TV
   color: orange
 - entry: slice
-  label: Read
   value: 2
+  label: Read
   color: navy
 diameter: 400
 total: 24

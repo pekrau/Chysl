@@ -21,6 +21,7 @@ import schema
 import utils
 from minixml import Element
 from vector2 import Vector2
+from utils import N
 
 
 class Chart:
@@ -127,12 +128,12 @@ class Chart:
         document = Element(
             "svg",
             xmlns=constants.SVG_XMLNS,
-            width=utils.N(extent.x),
-            height=utils.N(extent.y),
-            viewBox=f"0 0 {utils.N(extent.x)} {utils.N(extent.y)}",
+            width=N(extent.x),
+            height=N(extent.y),
+            viewBox=f"0 0 {N(extent.x)} {N(extent.y)}",
             transform=transform,
         )
-        document += Element("desc", f"Chysl {constants.__version__} {self.name}")
+        document += Element("desc", f"{self.name}; Chysl {constants.__version__}")
         document += self.svg
         document.repr_indent = indent
         if isinstance(target, (str, pathlib.Path)):
@@ -172,13 +173,13 @@ class Chart:
                 title := Element(
                     "text",
                     text,
-                    x=utils.N(self.width / 2),
-                    y=utils.N(self.height),
+                    x=N(self.width / 2),
+                    y=N(self.height),
                     stroke="none",
                     fill=color,
                 )
             )
-            title["font-size"] = utils.N(size)
+            title["font-size"] = N(size)
             title["text-anchor"] = anchor
             if isinstance(self.title, dict):
                 if self.title.get("bold"):
@@ -198,12 +199,7 @@ class Chart:
             with open("error.yaml", "w") as outfile:
                 yaml.dump(data, outfile, allow_unicode=True, sort_keys=False)
             raise
-        content = {
-            "chysl": {
-                "version": constants.__version__,
-                "software": f"Chysl (Python) {constants.__version__}",
-            }
-        }
+        content = dict(chysl=constants.__version__)
         content.update(data)
         if isinstance(target, (str, pathlib.Path)):
             with open(target, "w") as outfile:

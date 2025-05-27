@@ -13,9 +13,7 @@
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: row
 title: Pies in row
 entries:
@@ -23,17 +21,17 @@ entries:
   title: Strawberry pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
   - entry: slice
+    value: 3
     label: Butter
-    value: 3
   - entry: slice
-    label: Strawberries
     value: 3
+    label: Strawberries
   diameter: 300
   palette:
   - white
@@ -44,17 +42,17 @@ entries:
   title: Rhubarb pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
   - entry: slice
+    value: 3
     label: Butter
-    value: 3
   - entry: slice
-    label: Rhubarb
     value: 3
+    label: Rhubarb
     color: green
   palette:
   - white
@@ -69,9 +67,7 @@ entries:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 title:
   text: Iris flower measurements
@@ -399,7 +395,7 @@ Charts arranged in a row.
 - **align**: Align charts vertically within the row.
   - *one of*: 'bottom', 'middle', 'top'
   - *default*: 'middle'
-- **entries**: Component charts in the row.
+- **entries**: Charts in the row.
   - *required*
   - *type*: sequence
   - *items*:

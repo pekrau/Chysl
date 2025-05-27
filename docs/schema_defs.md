@@ -114,7 +114,7 @@ Inline chart specification, or location (file of web resource) to read the chart
   - *type*: mapping
   - **chart**:
     - *required*
-    - *one of*: 'timelines', 'piechart', 'note', 'plot2d', 'column', 'row', 'board'
+    - *one of*: 'timelines', 'piechart', 'note', 'plot2d', 'column', 'row', 'overlay', 'board'
 
 ## field
 
@@ -183,3 +183,16 @@ Data provided inline, or from a file, web resource or database.
         - *required*
         - *type*: string
   - **parameters**: Mapping of plot parameters to the fields in the source data.
+    - *type*: mapping
+    - **x**:
+      - *See* [field](schema_defs.md#field).
+    - **y**:
+      - *See* [field](schema_defs.md#field).
+    - **size**:
+      - *See* [field](schema_defs.md#field).
+    - **color**:
+      - *See* [field](schema_defs.md#field).
+    - **opacity**:
+      - *See* [field](schema_defs.md#field).
+    - **marker**:
+      - *See* [field](schema_defs.md#field).

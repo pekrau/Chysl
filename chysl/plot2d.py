@@ -170,12 +170,12 @@ class Plot2d(Chart):
             absolute = bool(self.xaxis.get("absolute"))
         else:
             absolute = False
-        xdimension.prepare(absolute=absolute)
+        xdimension.build(absolute=absolute)
         if isinstance(self.yaxis, dict):
             absolute = bool(self.yaxis.get("absolute"))
         else:
             absolute = False
-        ydimension.prepare(absolute=absolute)
+        ydimension.build(absolute=absolute)
 
         self.height += self.width - self.height
 
@@ -188,7 +188,7 @@ class Plot2d(Chart):
                 color = "gray"
                 caption = None
             self.svg += (xaxis := Element("g"))
-            ticks = xdimension.get_ticks()
+            ticks = xdimension.ticks
             top = ydimension.get_pixel(ydimension.first)
             bottom = ydimension.get_pixel(ydimension.last)
             path = Path(ticks[0].pixel, top).V(bottom)
@@ -225,7 +225,7 @@ class Plot2d(Chart):
                 color = "gray"
                 caption = None
             self.svg += (yaxis := Element("g"))
-            ticks = ydimension.get_ticks()
+            ticks = ydimension.ticks
             start = xdimension.get_pixel(xdimension.first)
             end = xdimension.get_pixel(xdimension.last)
             path = Path(start, ticks[0].pixel)
@@ -430,4 +430,6 @@ class Line2d(_Plot2dEntry):
         if self.opacity != 1:
             result["opacity"] = self.opacity
         result["stroke-width"] = self.linewidth
+        result["stroke-linejoin"] = "round"
+        result["stroke-linecap"] = "round"
         return result

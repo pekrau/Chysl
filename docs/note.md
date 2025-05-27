@@ -16,9 +16,7 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: note
 title:
   text: Declaration
@@ -36,9 +34,7 @@ footer:
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 entries:
 - chart: note
@@ -69,15 +65,13 @@ entries:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: board
 entries:
 - x: 0
   y: 0
   scale: 1.5
-  component:
+  item:
     chart: column
     entries:
     - chart: note
@@ -108,9 +102,7 @@ entries:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 title: Pies in column
 entries:
@@ -118,41 +110,41 @@ entries:
   title: Strawberry pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
     color: white
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
     color: yellow
   - entry: slice
-    label: Butter
     value: 3
+    label: Butter
     color: gold
   - entry: slice
-    label: Strawberries
     value: 3
+    label: Strawberries
     color: orangered
-  diameter: 100
 - chart: piechart
   title: Rhubarb pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
     color: white
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
     color: yellow
   - entry: slice
-    label: Butter
     value: 3
+    label: Butter
     color: gold
   - entry: slice
-    label: Rhubarb
     value: 3
+    label: Rhubarb
     color: green
+  diameter: 250
 - chart: note
   title: Comment
   body: Strawberry pie is good.
@@ -165,16 +157,14 @@ entries:
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: board
 title: Poster
 entries:
 - x: 250
   y: 10
   scale: 1
-  component:
+  item:
     chart: note
     title: By Per Kraulis
     body: Ph.D.
@@ -182,12 +172,12 @@ entries:
 - x: 0
   y: 100
   scale: 1
-  component:
+  item:
     include: universe.yaml
 - x: 50
   y: 230
   scale: 1
-  component:
+  item:
     include: earth.yaml
 ```
 ## Specification

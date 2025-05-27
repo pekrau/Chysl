@@ -2,8 +2,8 @@
 
 import constants
 import schema
-import utils
 from chart import Chart, Element, parse
+from utils import N
 
 
 class Column(Chart):
@@ -31,7 +31,7 @@ class Column(Chart):
                 "default": DEFAULT_ALIGN,
             },
             "entries": {
-                "title": "Component charts in the column.",
+                "title": "Charts in the column.",
                 "type": "array",
                 "minItems": 1,
                 "items": {"$ref": "#chart_or_include"},
@@ -90,6 +90,6 @@ class Column(Chart):
                 case constants.RIGHT:
                     x = self.width - entry.width
             self.svg += Element(
-                "g", entry.svg, transform=f"translate({utils.N(x)}, {utils.N(height)})"
+                "g", entry.svg, transform=f"translate({N(x)}, {N(height)})"
             )
             height += entry.height + self.DEFAULT_PADDING

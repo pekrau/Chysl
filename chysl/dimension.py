@@ -75,8 +75,8 @@ class Dimension:
         else:
             self.end = max(self.end, value)
 
-    def prepare(self, number=8, factor=None, absolute=False):
-        "Prepare for returning graphics and labels by computing tick positions."
+    def build(self, number=8, factor=None, absolute=False):
+        "Compute tick positions and prepare graphics and labels."
         assert isinstance(number, int) and number > 1
         assert factor is None or isinstance(factor, (int, float)) and factor >= 0
 
@@ -135,6 +135,14 @@ class Dimension:
             else:
                 self.factor = 1
         self.func = (lambda v: abs(v)) if absolute else (lambda v: v)
+        self.ticks = [
+            Tick(
+                value,
+                self.get_pixel(value),
+                label=self.format % self.func(value / self.factor),
+            )
+            for value in self.positions
+        ]
 
     def get_ticks(self):
         return [
@@ -156,6 +164,18 @@ class Dimension:
     def get_width(self, begin, end):
         "Convert user width to pixel width."
         return self.scale * abs(end - begin)
+
+
+class Xdimension(Dimension):
+    "Label graphics for the x axis."
+
+    pass
+
+
+class Ydimension(Dimension):
+    "Label graphics for the y axis."
+
+    pass
 
 
 if __name__ == "__main__":

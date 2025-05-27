@@ -6,7 +6,7 @@ import os.path
 import constants
 import chart
 import schema
-from test import run_tests, TESTS
+from tests import run_tests, TESTS
 
 TERMS = {"array": "sequence", "object": "mapping", "number": "float"}
 

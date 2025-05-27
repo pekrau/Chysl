@@ -205,10 +205,10 @@ class Timelines(Chart):
             absolute = bool(self.axis.get("absolute"))
         else:
             absolute = False
-        dimension.prepare(absolute=absolute)
+        dimension.build(absolute=absolute)
 
-        # Frame; ticks computation needed.
-        ticks = dimension.get_ticks()
+        # Chart frame.
+        ticks = dimension.ticks
         self.svg += (
             frame := Element(
                 "rect",

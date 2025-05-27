@@ -1,12 +1,10 @@
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: board
 entries:
 - x: 0
   y: 0
   scale: 1.5
-  component:
+  item:
     chart: column
     entries:
     - chart: note

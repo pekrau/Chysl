@@ -18,9 +18,7 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 title: Universe and Earth
 entries:
@@ -124,9 +122,7 @@ entries:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 title: Pies in column
 entries:
@@ -134,41 +130,41 @@ entries:
   title: Strawberry pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
     color: white
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
     color: yellow
   - entry: slice
-    label: Butter
     value: 3
+    label: Butter
     color: gold
   - entry: slice
-    label: Strawberries
     value: 3
+    label: Strawberries
     color: orangered
-  diameter: 100
 - chart: piechart
   title: Rhubarb pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
     color: white
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
     color: yellow
   - entry: slice
-    label: Butter
     value: 3
+    label: Butter
     color: gold
   - entry: slice
-    label: Rhubarb
     value: 3
+    label: Rhubarb
     color: green
+  diameter: 250
 - chart: note
   title: Comment
   body: Strawberry pie is good.
@@ -181,9 +177,7 @@ entries:
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 entries:
 - chart: note
@@ -214,15 +208,13 @@ entries:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: board
 entries:
 - x: 0
   y: 0
   scale: 1.5
-  component:
+  item:
     chart: column
     entries:
     - chart: note
@@ -253,9 +245,7 @@ entries:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 title: Predefined markers
 entries:
@@ -738,9 +728,7 @@ entries:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 title: Dimension tick ranges
 entries:
@@ -822,9 +810,7 @@ entries:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: column
 title:
   text: Iris flower measurements
@@ -1152,7 +1138,7 @@ Charts stacked in a column.
 - **align**: Align charts horizontally within the column.
   - *one of*: 'left', 'center', 'right'
   - *default*: 'center'
-- **entries**: Component charts in the column.
+- **entries**: Charts in the column.
   - *required*
   - *type*: sequence
   - *items*:

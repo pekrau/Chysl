@@ -1,6 +1,4 @@
-chysl:
-  version: 0.2.11
-  software: Chysl (Python) 0.2.11
+chysl: 0.2.12
 chart: row
 title: Pies in row
 entries:
@@ -8,17 +6,17 @@ entries:
   title: Strawberry pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
   - entry: slice
+    value: 3
     label: Butter
-    value: 3
   - entry: slice
-    label: Strawberries
     value: 3
+    label: Strawberries
   diameter: 300
   palette:
   - white
@@ -29,17 +27,17 @@ entries:
   title: Rhubarb pie
   entries:
   - entry: slice
-    label: Flour
     value: 7
+    label: Flour
   - entry: slice
-    label: Eggs
     value: 2
+    label: Eggs
   - entry: slice
+    value: 3
     label: Butter
-    value: 3
   - entry: slice
-    label: Rhubarb
     value: 3
+    label: Rhubarb
     color: green
   palette:
   - white
