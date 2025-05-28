@@ -44,8 +44,8 @@ class Row(Chart):
     def __init__(
         self,
         title=None,
-        entries=None,
         align=None,
+        entries=None,
     ):
         super().__init__(title=title, entries=entries)
         assert align is None or align in self.ALIGN_VALUES
@@ -90,9 +90,7 @@ class Row(Chart):
                     y = self.height + (max_height - entry.height) / 2
                 case constants.TOP:
                     y = self.height
-            self.svg += Element(
-                "g", entry.svg, transform=f"translate({N(x)}, {N(y)})"
-            )
+            self.svg += Element("g", entry.svg, transform=f"translate({N(x)}, {N(y)})")
             x += entry.width + self.DEFAULT_PADDING
 
         self.height += max_height

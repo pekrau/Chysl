@@ -1,67 +1,72 @@
-chysl: 0.2.12
-chart: plot2d
+chysl: 0.3.0
+chart: lines2d
 title: 'Random walks (source: db)'
-entries:
-- entry: line2d
-  color: red
-  data:
+lines:
+- linewidth: 10
+  color: black
+  opacity: 0.25
+  line:
+  - x: -15
+    y: -15
+  - x: -15
+    y: 15
+  - x: 15
+    y: 15
+  - x: 15
+    y: -15
+  - x: -15
+    y: -15
+- color: red
+  line:
     source:
       database: sqlite
-      location: line_random_walks.db
+      location: lines_random_walks.db
       select: SELECT x, y FROM walks WHERE run=1 ORDER BY i
-- entry: line2d
-  color: green
-  data:
+- color: green
+  line:
     source:
       database: sqlite
-      location: line_random_walks.db
+      location: lines_random_walks.db
       select: SELECT x, y FROM walks WHERE run=2 ORDER BY i
-- entry: line2d
-  color: blue
-  data:
+- color: blue
+  line:
     source:
       database: sqlite
-      location: line_random_walks.db
+      location: lines_random_walks.db
       select: SELECT x, y FROM walks WHERE run=3 ORDER BY i
-- entry: line2d
-  color: lime
-  data:
+- color: lime
+  line:
     source:
       database: sqlite
-      location: line_random_walks.db
+      location: lines_random_walks.db
       select: SELECT x, y FROM walks WHERE run=4 ORDER BY i
-- entry: line2d
-  color: orange
-  data:
+- color: orange
+  line:
     source:
       database: sqlite
-      location: line_random_walks.db
+      location: lines_random_walks.db
       select: SELECT x, y FROM walks WHERE run=5 ORDER BY i
-- entry: line2d
-  color: cyan
-  data:
+- color: cyan
+  line:
     source:
       database: sqlite
-      location: line_random_walks.db
+      location: lines_random_walks.db
       select: SELECT x, y FROM walks WHERE run=6 ORDER BY i
-- entry: line2d
-  color: gold
-  data:
+- color: gold
+  line:
     source:
       database: sqlite
-      location: line_random_walks.db
+      location: lines_random_walks.db
       select: SELECT x, y FROM walks WHERE run=7 ORDER BY i
-- entry: line2d
-  color: dodgerblue
-  data:
+- color: dodgerblue
+  line:
     source:
       database: sqlite
-      location: line_random_walks.db
+      location: lines_random_walks.db
       select: SELECT x, y FROM walks WHERE run=8 ORDER BY i
-- entry: line2d
-  color: gray
-  data:
+- color: gray
+  line:
     source:
       database: sqlite
-      location: line_random_walks.db
+      location: lines_random_walks.db
       select: SELECT x, y FROM walks WHERE run=9 ORDER BY i

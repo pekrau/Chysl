@@ -16,7 +16,7 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.0
 chart: note
 title:
   text: Declaration
@@ -34,7 +34,7 @@ footer:
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.0
 chart: column
 entries:
 - chart: note
@@ -65,7 +65,7 @@ entries:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.0
 chart: board
 entries:
 - x: 0
@@ -102,7 +102,7 @@ entries:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.0
 chart: column
 title: Pies in column
 entries:
@@ -157,7 +157,7 @@ entries:
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.0
 chart: board
 title: Poster
 entries:

@@ -176,7 +176,7 @@ class Piechart(Chart):
         pie += (labels := Element("g", stroke="none", fill="black"))
         labels["text-anchor"] = "middle"
         for entry in self.entries:
-            if (label := entry.render_label(radius)):
+            if label := entry.render_label(radius):
                 labels += label
 
 

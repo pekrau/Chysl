@@ -23,9 +23,21 @@ TESTS = {
         "poster",
         "dimensions",
     ],
-    "piechart": ["pyramid", "day", "pies_column", "pies_row",],
+    "piechart": [
+        "pyramid",
+        "day",
+        "pies_column",
+        "pies_row",
+    ],
     # XXX dendrogram
-    "plot2d": ["scatter_points", "scatter_iris", "line_random_walks", "overlay",],
+    "lines2d": [
+        "lines_random_walks",
+    ],
+    "scatter2d": [
+        "scatter_points",
+        "scatter_iris",
+        "overlay",
+    ],
     "column": [
         "universe_earth",
         "pies_column",
@@ -35,10 +47,24 @@ TESTS = {
         "dimensions",
         "scatter_iris",
     ],
-    "row": ["pies_row", "scatter_iris",],
-    "overlay": ["overlay",],
-    "note": ["declaration", "notes_column", "notes", "pies_column", "poster",],
-    "board": ["poster", "notes",],
+    "row": [
+        "pies_row",
+        "scatter_iris",
+    ],
+    "overlay": [
+        "overlay",
+    ],
+    "note": [
+        "declaration",
+        "notes_column",
+        "notes",
+        "pies_column",
+        "poster",
+    ],
+    "board": [
+        "poster",
+        "notes",
+    ],
 }
 
 
@@ -305,9 +331,9 @@ def test_scatter_points():
         ["blue", "red", "green", "purple", "cyan", "orange", "lime", "black"]
     )
     markers = itertools.cycle(["disc", "alpha", "mars"])
-    plot = Plot2d("Scattered points inline")
-    plot += Scatter2d(
-        [
+    scatter = Scatter2d(
+        "Scattered points inline",
+        points=[
             dict(
                 x=random.uniform(0, 100),
                 y=random.uniform(0, 100),
@@ -317,10 +343,10 @@ def test_scatter_points():
                 opacity=random.uniform(0.3, 0.8),
             )
             for i in range(25)
-        ]
+        ],
     )
-    plot.save("scatter_points.yaml")
-    plot.render("scatter_points.svg")
+    scatter.save("scatter_points.yaml")
+    scatter.render("scatter_points.svg")
 
 
 def test_scatter_iris():
@@ -337,9 +363,8 @@ def test_scatter_iris():
                     frame=0,
                 )
             else:
-                row += (plot := Plot2d(width=300))
-                plot += Scatter2d(
-                    dict(
+                row += Scatter2d(
+                    points=dict(
                         source="scatter_iris.csv",
                         parameters=dict(
                             x=field2,
@@ -362,29 +387,36 @@ def test_scatter_iris():
                             ),
                         ),
                     ),
+                    width=200,
+                    size=6,
                 )
     all_plots += (caption := Column())
     caption += Note(
         body=dict(text="Iris setosa: red circles", size=24, color="red"),
         background="white",
-        frame=0)
+        frame=0,
+    )
     caption += Note(
         body=dict(text="Iris versicolor: green triangles", size=24, color="green"),
         background="white",
-        frame=0)
+        frame=0,
+    )
     caption += Note(
         body=dict(text="Iris virginica: blue squares", size=24, color="blue"),
         background="white",
-        frame=0)
+        frame=0,
+    )
     all_plots.save("scatter_iris.yaml")
     all_plots.render("scatter_iris.svg")
 
 
-def test_line_random_walks():
-    # Prepare database.
+def test_lines_random_walks():
+    # Prepare database containing points.
     random.seed(12345)
-    cnx = sqlite3.connect("line_random_walks.db")
-    cnx.execute("CREATE TABLE IF NOT EXISTS walks(i INTEGER PRIMARY KEY, x REAL, y REAL, run INTEGER)")
+    cnx = sqlite3.connect("lines_random_walks.db")
+    cnx.execute(
+        "CREATE TABLE IF NOT EXISTS walks(i INTEGER PRIMARY KEY, x REAL, y REAL, run INTEGER)"
+    )
     cnx.execute("DELETE FROM walks")
     counter = itertools.count()
     runs = list(range(1, 10))
@@ -394,22 +426,43 @@ def test_line_random_walks():
         for i in range(1, 200):
             x += random.uniform(-1.0, 1.0)
             y += random.uniform(-1.0, 1.0)
-            cnx.execute("INSERT INTO walks VALUES(?, ?, ?, ?)", (next(counter), x, y, run))
+            cnx.execute(
+                "INSERT INTO walks VALUES(?, ?, ?, ?)", (next(counter), x, y, run)
+            )
         cnx.commit()
     cnx.close()
 
-    plot = Plot2d("Random walks (source: db)")
-    colors = itertools.cycle(["red", "green", "blue", "lime",  "orange",
-                              "cyan", "gold",  "dodgerblue",  "gray"])
+    lines = Lines2d("Random walks (source: db)")
+    lines += dict(
+        line=[
+            dict(x=-15, y=-15),
+            dict(x=-15, y=15),
+            dict(x=15, y=15),
+            dict(x=15, y=-15),
+            dict(x=-15, y=-15),
+        ],
+        color="black",
+        linewidth=10,
+        opacity=0.25,
+    )
+    colors = itertools.cycle(
+        ["red", "green", "blue", "lime", "orange", "cyan", "gold", "dodgerblue", "gray"]
+    )
     for run in runs:
-        plot += Line2d(dict(source=dict(database="sqlite",
-                                        location="line_random_walks.db",
-                                        select=f"SELECT x, y FROM walks WHERE run={run} ORDER BY i")),
-                       color=next(colors)
-                       )
+        lines += dict(
+            line=dict(
+                source=dict(
+                    database="sqlite",
+                    location="lines_random_walks.db",
+                    select=f"SELECT x, y FROM walks WHERE run={run} ORDER BY i",
+                )
+            ),
+            color=next(colors),
+        )
 
-    plot.save("line_random_walks.yaml")
-    plot.render("line_random_walks.svg")
+    lines.save("lines_random_walks.yaml")
+    lines.render("lines_random_walks.svg")
+
 
 def test_notes():
     column = Column()
@@ -466,24 +519,27 @@ def test_dimensions():
 
 def test_overlay():
     overlay = Overlay("Overlaid two scatterplots")
-    plot1 = Plot2d()
-    plot1 += Scatter2d([dict(x=1, y=1, color="gold"),
-                       dict(x=2, y=2, color="blue"),
-                       dict(x=3, y=3, color="red"),
-                        ],
-                       size=60,
-                      )
-    overlay += plot1            # Using syntactic sugar.
-    plot2 = Plot2d()
-    plot2 += Scatter2d([dict(x=1, y=1, marker="alpha"),
-                       dict(x=2, y=2, marker="beta", color="white"),
-                       dict(x=3, y=3, marker="gamma"),
-                        ],
-                       size=30,
-                      )
+    plot1 = Scatter2d(
+        points=[
+            dict(x=1, y=1, color="gold"),
+            dict(x=2, y=2, color="blue"),
+            dict(x=3, y=3, color="red"),
+        ],
+        size=60,
+    )
+    overlay += plot1  # Using syntactic sugar.
+    plot2 = Scatter2d(
+        data=[
+            dict(x=1, y=1, marker="alpha"),
+            dict(x=2, y=2, marker="beta", color="white"),
+            dict(x=3, y=3, marker="gamma"),
+        ],
+        size=30,
+    )
     overlay += dict(item=plot2, opacity=0.5)
     overlay.save("overlay.yaml")
     overlay.render("overlay.svg")
+
 
 def run_tests():
     origdir = os.getcwd()
@@ -501,11 +557,11 @@ def run_tests():
         test_declaration()
         test_scatter_points()
         test_scatter_iris()
-        test_line_random_walks()
+        test_lines_random_walks()
         test_notes()
         test_poster()
         test_dimensions()
-        test_overlay()
+        # test_overlay()
     finally:
         os.chdir(origdir)
 

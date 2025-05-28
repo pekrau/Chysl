@@ -44,8 +44,8 @@ class Column(Chart):
     def __init__(
         self,
         title=None,
-        entries=None,
         align=None,
+        entries=None,
     ):
         super().__init__(title=title, entries=entries)
         assert align is None or align in self.ALIGN_VALUES

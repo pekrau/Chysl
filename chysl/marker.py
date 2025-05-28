@@ -18,7 +18,7 @@ class Marker:
         assert color is None or utils.is_color(color)
         assert size is None or (isinstance(size, (int, float)) and size > 0)
         assert opacity is None or (
-            isinstance(opacity, (int, float)) and opacity >= 0 and opacity <= 1
+            isinstance(opacity, (int, float)) and 0 <= opacity <= 1
         )
 
         self.marker = marker

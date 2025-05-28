@@ -36,7 +36,6 @@ DEFS = {
             {
                 "title": "Predefined symbols denoted by names.",
                 "enum": constants.MARKERS,
-                "default": constants.DISC,
             },
             {
                 "title": "A single character as marker.",
@@ -230,8 +229,8 @@ DEFS = {
             },
         ],
     },
-    "items_or_source": {
-        "$anchor": "items_or_source",
+    "datapoints": {
+        "$anchor": "datapoints",
         "title": "Data provided inline, or from a file, web resource or database.",
         "oneOf": [
             {
@@ -240,11 +239,10 @@ DEFS = {
                 "minItems": 1,
                 "items": {
                     "type": "object",
-                    "required": ["x"],
                     "additionalProperties": False,
                     "properties": {
-                        "x": {"$ref": "#fuzzy_number"},
-                        "y": {"$ref": "#fuzzy_number"},
+                        "x": {"type": "number"},
+                        "y": {"type": "number"},
                         "size": {"$ref": "#size"},
                         "color": {"$ref": "#color"},
                         "opacity": {"$ref": "#opacity"},
@@ -261,7 +259,7 @@ DEFS = {
                     "source": {
                         "oneOf": [
                             {
-                                "title": "File path or href. File format is deduced from the extension, or set as CSV if not recognized.",
+                                "title": "File path or href. File format is deduced from the extension, or 'csv' if not recognized.",
                                 "type": "string",
                                 "format": "uri-reference",
                             },

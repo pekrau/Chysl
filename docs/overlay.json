@@ -37,6 +37,12 @@
     }
   },
   "$defs": {
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate display pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
+    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -99,14 +105,6 @@
         }
       ]
     },
-    "opacity": {
-      "$anchor": "opacity",
-      "title": "Opacity in range [0.0, 1.0].",
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "default": 1
-    },
     "chart_or_include": {
       "$anchor": "chart_or_include",
       "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
@@ -137,7 +135,8 @@
                 "timelines",
                 "piechart",
                 "note",
-                "plot2d",
+                "lines2d",
+                "scatter2d",
                 "column",
                 "row",
                 "overlay",
@@ -148,11 +147,13 @@
         }
       ]
     },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
+    "opacity": {
+      "$anchor": "opacity",
+      "title": "Opacity in range [0.0, 1.0].",
       "type": "number",
-      "minimumExclusive": 0
+      "minimum": 0,
+      "maximum": 1,
+      "default": 1
     }
   }
 }

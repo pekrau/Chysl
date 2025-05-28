@@ -15,7 +15,7 @@
 ![pyramid SVG](pyramid.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.0
 chart: piechart
 title: Pyramid
 entries:
@@ -39,7 +39,7 @@ palette:
 ![day SVG](day.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.0
 chart: piechart
 title:
   text: Day
@@ -93,7 +93,7 @@ total: 24
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.0
 chart: column
 title: Pies in column
 entries:
@@ -148,7 +148,7 @@ entries:
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.0
 chart: row
 title: Pies in row
 entries:

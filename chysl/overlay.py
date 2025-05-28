@@ -40,7 +40,7 @@ class Overlay(Chart):
     schema.add_defs(SCHEMA)
 
     def convert_entry(self, entry):
-        if isinstance(entry, Chart): # Python syntactic sugar; not allowed in YAML.
+        if isinstance(entry, Chart):  # Python syntactic sugar; not allowed in YAML.
             return dict(item=entry, opacity=1)
         try:
             item = entry["item"]
@@ -82,10 +82,10 @@ class Overlay(Chart):
 
         for entry in self.entries:
             self.svg += Element(
-                "g", 
+                "g",
                 entry["item"].svg,
                 transform=f"translate(0,{N(self.height)})",
-                opacity=entry["opacity"]
+                opacity=entry["opacity"],
             )
 
         self.height += max([e["item"].height for e in self.entries])

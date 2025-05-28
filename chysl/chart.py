@@ -4,6 +4,7 @@ import icecream
 
 icecream.install()
 
+import copy
 import csv
 import io
 import json
@@ -101,6 +102,7 @@ class Chart:
         return {key: result}
 
     def entries_as_dict(self):
+        "Default implementation; to be overridden when required."
         result = []
         for entry in self.entries:
             try:  # This entry was included from another source.
@@ -316,7 +318,7 @@ class ChartReader:
                     content = infile.read()
             except OSError as error:
                 raise ValueError(str(error))
-        else:                   # Assume URL such as 'http' or 'https'.
+        else:  # Assume URL such as 'http' or 'https'.
             try:
                 response = requests.get(self.location)
                 response.raise_for_status()
@@ -358,85 +360,116 @@ class ChartReader:
         return parse(self.data)
 
 
-class DataReader:
-    "Read data from a location; URI or file path."
+class DatapointsReader:
+    """Datapoints reader, YAML inline or read from a source:
+    file, web resource, database.
+    """
 
-    def __init__(self, source):
-        if isinstance(source, str):
-            self.location = source
-            self.format = pathlib.Path(source).suffix.lstrip(".")
-            if self.format not in constants.FORMATS:
-                self.format = "csv"
-            self.database = None
+    def __init__(self, data, required=None):
+        assert data is None or isinstance(data, (list, dict))
+        self.source = None
+        self.location = "inline"
+        self.required = required
 
-        elif isinstance(source, dict):
-            try:
-                self.location = source["location"]
-            except KeyError:
-                raise ValueError("no location specified for data source")
-            self.database = source.get("database")
-            if self.database:
-                if self.database != "sqlite":
-                    raise NotImplementedError(f"database interface '{self.database}'")
-                try:
-                    self.select = source["select"]
-                except KeyError:
-                    raise ValueError("no select specified for database data source")
-            else:
-                self.format = source["format"]
-                if self.format not in constants.FORMATS:
-                    raise ValueError(f"invalid format '{self.format}' specified for data source")
-        else:
-            raise ValueError("invalid data source specification")
+        if data is None:
+            self.datapoints = []
+
+        # YAML inline.
+        if isinstance(data, list):
+            if len(data) == 0:
+                raise ValueError("No data in the list.")
+            if not isinstance(data[0], dict):
+                raise ValueError("First item in the list is not a dict.")
+            self.datapoints = copy.deepcopy(data)  # For safety.
+
+        # Data from file, web resource or database.
+        elif isinstance(data, dict):
+            self.read(data)
+
+        if self.required and self.datapoints:
+            for req in self.required:
+                if req not in self.datapoints[0]:
+                    raise ValueError(f"First datapoint does not contain '{req}'.")
 
     def __str__(self):
         if self.database:
-            return f"DataReader('{self.database}:{self.location}')"
+            return f"DatapointsReader('{self.database}:{self.location}')"
         else:
-            return f"DataReader('{self.location}')"
+            return f"DatapointsReader('{self.location}')"
 
-    def read(self):
-        "Read the data from the location. Raise ValueError if any problem."
-        if self.database == "sqlite":
-            cnx = sqlite3.connect(f"file:{self.location}?mode=ro", uri=True)
-            cnx.row_factory = self.sqlite_dict_factory
-            cursor = cnx.execute(self.select)
-            self.data = list(cursor)
-            try:
-                del self.sqlite_dict_factory
-            except AttributeError:
-                pass
+    def __iter__(self):
+        return iter(self.datapoints)
 
-        else:
-            # Tabular data; needs further parsing.
-            if urllib.parse.urlparse(self.location).scheme: # Assume http or https.
-                try:
-                    response = requests.get(self.location)
-                    response.raise_for_status()
-                    self.parse(response.text)
-                except requests.exceptions.RequestException as error:
-                    raise ValueError(str(error))
-                self.parse(content)
-            else:
-                try:
-                    with open(self.location) as infile:
-                        self.parse(infile.read())
-                except OSError as error:
-                    raise ValueError(str(error))
+    def append(self, datapoint):
+        isinstance(datapoint, dict)
+        if self.required:
+            for req in self.required:
+                if req not in datapoint:
+                    raise ValueError(f"Datapoint does not contain '{req}'.")
+        self.datapoints.append(datapoint)
 
-    def sqlite_dict_factory(self, cursor, row):
+    def read(self, data):
+        assert isinstance(data, dict)
         try:
-            fields = self.sqlite_dict_factory_fields
-        except AttributeError:
-            self.sqlite_dict_factory_fields = fields = [column[0] for column in cursor.description]
-        return {key: value for key, value in zip(fields, row)}
+            self.source = data["source"]
+        except KeyError:
+            raise ValueError("No 'source' given in data.")
+        assert isinstance(self.source, (str, dict))
 
-    def parse(self, content):
-        """Parse the content given the format into data.
-        Raise ValueError if any problem.
-        """
+        # Optional mapping of parameters to the data fields.
+        self.parameters = data.get("parameters")
+
+        # File or web resource with implicit format.
+        if isinstance(self.source, str):
+            self.location = self.source
+            self.format = pathlib.Path(self.location).suffix.lstrip(".")
+            if self.format not in constants.FORMATS:
+                self.format = "csv"
+            self.read_file()
+
+        elif isinstance(self.source, dict):
+            try:
+                self.location = self.source["location"]
+            except KeyError:
+                raise ValueError("no location specified for data source")
+            try:
+                self.database = self.source["database"]
+            except KeyError:
+                try:
+                    self.format = self.source["format"]
+                except KeyError:
+                    raise ValueError("no format specified for data source")
+                if self.format not in constants.FORMATS:
+                    raise ValueError(
+                        f"invalid format '{self.format}' specified for data source"
+                    )
+                self.read_file()
+            else:
+                self.read_database()
+
+        # When data from external source, then apply given mapping.
+        if self.parameters:
+            for key in ("x", "y", "size", "color", "opacity", "marker"):
+                if field := self.parameters.get(key):
+                    getattr(self, f"map_{key}_field")(field)
+
+    def read_file(self):
+        # Tabular data; needs further parsing.
+        if urllib.parse.urlparse(self.location).scheme:  # Probably http or https.
+            try:
+                response = requests.get(self.location)
+                response.raise_for_status()
+                content = response.text
+            except requests.exceptions.RequestException as error:
+                raise ValueError(str(error))
+        else:
+            try:
+                with open(self.location) as infile:
+                    content = infile.read()
+            except OSError as error:
+                raise ValueError(str(error))
+
         assert self.format in constants.FORMATS
-
         match self.format:
 
             case "csv" | "tsv":
@@ -460,29 +493,40 @@ class DataReader:
                 reader = csv.DictReader(
                     io.StringIO(content), fieldnames=fieldnames, dialect="excel"
                 )
-                self.data = list(reader)
+                self.datapoints = list(reader)
 
             case "json":
                 try:
-                    self.data = json.loads(content)
+                    self.datapoints = json.loads(content)
                 except json.JSONDecodeError as error:
                     raise ValueError(f"cannot interpret data as JSON: {error}")
 
             case "yaml":
                 try:
-                    self.data = yaml.safe_load(content)
+                    self.datapoints = yaml.safe_load(content)
                 except yaml.YAMLError as error:
                     raise ValueError(f"cannot interpret data as YAML: {error}")
 
-    def map_parameters_fields(self, parameters):
-        """Map the source data fields to the plot parameters.
-        Also converts the values from string to float, where needed.
-        """
-        if not parameters:
-            return
-        for key in ("x", "y", "size", "color", "opacity", "marker"):
-            if field := parameters.get(key):
-                getattr(self, f"map_{key}_field")(field)
+    def read_database(self):
+        # Currently only db interface available.
+        assert self.database == "sqlite"
+        try:
+            self.select = self.source["select"]
+        except KeyError:
+            raise ValueError("no select specified for database data source")
+        cnx = sqlite3.connect(f"file:{self.location}?mode=ro", uri=True)
+        cnx.row_factory = self.sqlite_dict_factory
+        cursor = cnx.execute(self.select)
+        self.datapoints = list(cursor)
+
+    def sqlite_dict_factory(self, cursor, row):
+        try:
+            fields = self.sqlite_dict_factory_fields
+        except AttributeError:
+            self.sqlite_dict_factory_fields = fields = [
+                column[0] for column in cursor.description
+            ]
+        return {key: value for key, value in zip(fields, row)}
 
     def map_x_field(self, field):
         if isinstance(field, (str, int)):
@@ -490,8 +534,8 @@ class DataReader:
         else:
             fieldname = field["field"]
         try:
-            for record in self.data:
-                record["x"] = float(record[fieldname])
+            for dp in self.datapoints:
+                dp["x"] = float(dp[fieldname])
         except (KeyError, IndexError):
             raise ValueError(f"no such field '{fieldname}' in data for parameter 'x'")
         except (ValueError, TypeError):
@@ -505,8 +549,8 @@ class DataReader:
         else:
             fieldname = field["field"]
         try:
-            for record in self.data:
-                record["y"] = float(record[fieldname])
+            for dp in self.datapoints:
+                dp["y"] = float(dp[fieldname])
         except (KeyError, IndexError):
             raise ValueError(f"no such field '{fieldname}' in data for parameter 'y'")
         except (ValueError, TypeError):
@@ -520,13 +564,13 @@ class DataReader:
         else:
             fieldname = field["field"]
         try:
-            for record in self.data:
+            for dp in self.datapoints:
                 try:
-                    record["size"] = float(record[fieldname])
+                    dp["size"] = float(dp[fieldname])
                 except (KeyError, IndexError):
                     pass
                 else:
-                    if record["size"] <= 0.0:
+                    if dp["size"] <= 0.0:
                         raise ValueError
         except (ValueError, TypeError):
             raise ValueError(
@@ -540,13 +584,13 @@ class DataReader:
         else:
             fieldname = field["field"]
             convert = _Converter(field)
-        for record in self.data:
+        for dp in self.datapoints:
             try:
-                record["color"] = convert(record[fieldname])
+                dp["color"] = convert(dp[fieldname])
             except (KeyError, IndexError):
                 pass
             else:
-                if not utils.is_color(record["color"]):
+                if not utils.is_color(dp["color"]):
                     raise ValueError(
                         f"invalid value in field '{fieldname}' in data for parameter 'color'"
                     )
@@ -557,9 +601,9 @@ class DataReader:
         else:
             fieldname = field["field"]
         try:
-            for record in self.data:
-                record["opacity"] = float(record[fieldname])
-                if 1.0 < record["opacity"] < 0.0:
+            for dp in self.datapoints:
+                dp["opacity"] = float(dp[fieldname])
+                if 1.0 < dp["opacity"] < 0.0:
                     raise ValueError
         except (KeyError, IndexError):
             pass
@@ -575,19 +619,60 @@ class DataReader:
         else:
             fieldname = field["field"]
             convert = _Converter(field)
-        for record in self.data:
+        for dp in self.datapoints:
             try:
-                record["marker"] = convert(record[fieldname])
+                dp["marker"] = convert(dp[fieldname])
             except (KeyError, IndexError):
                 pass
-            if not utils.is_marker(record["marker"]):
+            if not utils.is_marker(dp["marker"]):
                 raise ValueError(
                     f"invalid value in field '{fieldname}' in data for parameter 'marker'"
                 )
 
+    def as_dict(self):
+        "Return the data as a dictionary."
+        if self.source:
+            result = dict(source=self.source)
+            if self.parameters:
+                result["parameters"] = self.parameters
+        else:
+            result = self.datapoints
+        return result
+
+    def minmax(self, field):
+        dp = self.datapoints[0]
+        value = dp[field]
+        if isinstance(value, dict):
+            try:
+                low = value["low"]
+            except KeyError:
+                low = value["value"] - value["error"]
+            try:
+                high = value["high"]
+            except KeyError:
+                high = value["value"] + value["error"]
+        else:
+            low = value
+            high = value
+        for dp in self.datapoints[1:]:
+            value = dp[field]
+            if isinstance(value, dict):
+                try:
+                    low = min(low, value["low"])
+                except KeyError:
+                    low = min(low, value["value"] - value["error"])
+                try:
+                    high = max(high, value["high"])
+                except KeyError:
+                    high = max(high, value["value"] + value["error"])
+            else:
+                low = min(low, value)
+                high = max(high, value)
+        return (low, high)
+
 
 class _Converter:
-    "Map or compute new value from old."
+    "Map or compute new value from a value as given."
 
     def __init__(self, field):
         self.map = field.get("map")
@@ -595,5 +680,5 @@ class _Converter:
     def __call__(self, value):
         if self.map is None:
             return value
-        # Yes, if no match, then raise KeyError.
+        # Yes: if no match, then raise KeyError.
         return self.map[value]

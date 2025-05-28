@@ -1,4 +1,4 @@
-# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.2.12
+# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.3.0
 
 Charts defined in YAML for rendering into SVG. Charts can be combined in many different ways.
 
@@ -20,7 +20,9 @@ This code has been lovingly hand-crafted. No AI tools were used in its developme
 
 - [note](docs/note.md): Textual note with title, body and footer text.
 
-- [plot2d](docs/plot2d.md): 2D chart plotting x/y data; scatter, etc.
+- [lines2d](docs/lines2d.md): 2D lines chart.
+
+- [scatter2d](docs/scatter2d.md): 2D scatter chart.
 
 - [column](docs/column.md): Charts stacked in a column.
 

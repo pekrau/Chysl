@@ -28,7 +28,6 @@ Symbol for use as a marker in a chart.
 
 - Alternative 1: Predefined symbols denoted by names.
   - *one of*: 'disc', 'circle', 'oval', 'oval-vertical', 'oval-horizontal', 'ellipse', 'ellipse-vertical', 'ellipse-horizontal', 'block', 'square', 'square-cross', 'diamond', 'diamond-cross', 'diamond-fill', 'pyramid', 'triangle', 'wedge', 'trigon', 'pentagon', 'pentagon-fill', 'hexagon', 'hexagon-fill', 'heptagon', 'heptagon-fill', 'octagon', 'octagon-fill', 'cross', 'plus', 'minus', 'bar', 'check', 'burst', 'infinity', 'none', 'star', 'star-fill', 'galaxy', 'sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'sigma1', 'sigma2', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega'
-  - *default*: 'disc'
 - Alternative 2: A single character as marker.
   - *type*: string
 
@@ -114,7 +113,7 @@ Inline chart specification, or location (file of web resource) to read the chart
   - *type*: mapping
   - **chart**:
     - *required*
-    - *one of*: 'timelines', 'piechart', 'note', 'plot2d', 'column', 'row', 'overlay', 'board'
+    - *one of*: 'timelines', 'piechart', 'note', 'lines2d', 'scatter2d', 'column', 'row', 'overlay', 'board'
 
 ## field
 
@@ -133,7 +132,7 @@ Mapping of a plot parameter to a field in source data.
   - **map**: Map a string value in the source data to a value for the plot parameter.
     - *type*: mapping
 
-## items_or_source
+## datapoints
 
 Data provided inline, or from a file, web resource or database.
 
@@ -142,10 +141,9 @@ Data provided inline, or from a file, web resource or database.
   - *items*:
     - *type*: mapping
     - **x**:
-      - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
-      - *required*
+      - *type*: float
     - **y**:
-      - *See* [fuzzy_number](schema_defs.md#fuzzy_number).
+      - *type*: float
     - **size**:
       - *See* [size](schema_defs.md#size).
     - **color**:
@@ -158,7 +156,7 @@ Data provided inline, or from a file, web resource or database.
   - *type*: mapping
   - **source**:
     - *required*
-    - Alternative 1: File path or href. File format is deduced from the extension, or set as CSV if not recognized.
+    - Alternative 1: File path or href. File format is deduced from the extension, or 'csv' if not recognized.
       - *type*: string
       - *format*: uri-reference
     - Alternative 2: File path or href, with explicit file format.

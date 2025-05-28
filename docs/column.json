@@ -33,6 +33,12 @@
     }
   },
   "$defs": {
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate display pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
+    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -125,7 +131,8 @@
                 "timelines",
                 "piechart",
                 "note",
-                "plot2d",
+                "lines2d",
+                "scatter2d",
                 "column",
                 "row",
                 "overlay",
@@ -135,12 +142,6 @@
           }
         }
       ]
-    },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
     }
   }
 }
