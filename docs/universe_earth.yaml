@@ -1,7 +1,7 @@
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Universe and Earth
-entries:
+subcharts:
 - chart: timelines
   title:
     text: Universe

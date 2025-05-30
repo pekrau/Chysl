@@ -14,7 +14,7 @@
 ![scatter_points SVG](scatter_points.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: scatter2d
 title: Scattered points inline
 points:
@@ -176,22 +176,23 @@ points:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title:
   text: Iris flower measurements
   size: 30
-entries:
+subcharts:
 - chart: row
-  entries:
+  subcharts:
   - chart: note
     body:
       text: Sepal length
       size: 24
+    width: 300
     frame: 0
     background: white
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -211,7 +212,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -231,7 +232,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -251,9 +252,9 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
 - chart: row
-  entries:
+  subcharts:
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -276,10 +277,11 @@ entries:
     body:
       text: Sepal width
       size: 24
+    width: 300
     frame: 0
     background: white
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -299,7 +301,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -319,9 +321,9 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
 - chart: row
-  entries:
+  subcharts:
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -341,7 +343,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -364,10 +366,11 @@ entries:
     body:
       text: Petal length
       size: 24
+    width: 300
     frame: 0
     background: white
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -387,9 +390,9 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
 - chart: row
-  entries:
+  subcharts:
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -409,7 +412,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -429,7 +432,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -452,10 +455,11 @@ entries:
     body:
       text: Petal width
       size: 24
+    width: 300
     frame: 0
     background: white
 - chart: column
-  entries:
+  subcharts:
   - chart: note
     body:
       text: 'Iris setosa: red circles'
@@ -483,42 +487,38 @@ entries:
 ![overlay SVG](overlay.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.1
 chart: overlay
-title: Overlaid two scatterplots
-entries:
-- item:
-    chart: plot2d
-    entries:
-    - entry: scatter2d
-      data:
-      - x: 1
-        y: 1
-        color: gold
-      - x: 2
-        y: 2
-        color: blue
-      - x: 3
-        y: 3
-        color: red
-      size: 60
+title: One scatterplot on top of another
+layers:
+- subchart:
+    chart: scatter2d
+    size: 60
+    points:
+    - x: 1
+      y: 1
+      color: gold
+    - x: 2
+      y: 2
+      color: blue
+    - x: 3
+      y: 3
+      color: red
 - opacity: 0.5
-  item:
-    chart: plot2d
-    entries:
-    - entry: scatter2d
-      data:
-      - x: 1
-        y: 1
-        marker: alpha
-      - x: 2
-        y: 2
-        color: white
-        marker: beta
-      - x: 3
-        y: 3
-        marker: gamma
-      size: 30
+  subchart:
+    chart: scatter2d
+    size: 30
+    points:
+    - x: 1
+      y: 1
+      marker: alpha
+    - x: 2
+      y: 2
+      marker: beta
+      color: white
+    - x: 3
+      y: 3
+      marker: gamma
 ```
 ## Specification
 
@@ -545,7 +545,7 @@ entries:
 - **size**: Default size.
   - *See* [size](schema_defs.md#size).
   - *default*: 10
-- **color**: Default color
+- **color**: Default color.
   - *See* [color](schema_defs.md#color).
   - *default*: 'black'
 - **opacity**: Default opacity.

@@ -18,10 +18,10 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Universe and Earth
-entries:
+subcharts:
 - chart: timelines
   title:
     text: Universe
@@ -122,49 +122,41 @@ entries:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Pies in column
-entries:
+subcharts:
 - chart: piechart
   title: Strawberry pie
-  entries:
-  - entry: slice
-    value: 7
+  slices:
+  - value: 7
     label: Flour
     color: white
-  - entry: slice
-    value: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - entry: slice
-    value: 3
+  - value: 3
     label: Butter
     color: gold
-  - entry: slice
-    value: 3
+  - value: 3
     label: Strawberries
     color: orangered
 - chart: piechart
   title: Rhubarb pie
-  entries:
-  - entry: slice
-    value: 7
+  diameter: 250
+  slices:
+  - value: 7
     label: Flour
     color: white
-  - entry: slice
-    value: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - entry: slice
-    value: 3
+  - value: 3
     label: Butter
     color: gold
-  - entry: slice
-    value: 3
+  - value: 3
     label: Rhubarb
     color: green
-  diameter: 250
 - chart: note
   title: Comment
   body: Strawberry pie is good.
@@ -245,10 +237,10 @@ entries:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Predefined markers
-entries:
+subcharts:
 - chart: timelines
   title: Geometry markers
   entries:
@@ -728,10 +720,10 @@ entries:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Dimension tick ranges
-entries:
+subcharts:
 - chart: timelines
   title: 1 - 1.00001
   entries:
@@ -810,22 +802,23 @@ entries:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title:
   text: Iris flower measurements
   size: 30
-entries:
+subcharts:
 - chart: row
-  entries:
+  subcharts:
   - chart: note
     body:
       text: Sepal length
       size: 24
+    width: 300
     frame: 0
     background: white
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -845,7 +838,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -865,7 +858,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -885,9 +878,9 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
 - chart: row
-  entries:
+  subcharts:
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -910,10 +903,11 @@ entries:
     body:
       text: Sepal width
       size: 24
+    width: 300
     frame: 0
     background: white
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -933,7 +927,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -953,9 +947,9 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
 - chart: row
-  entries:
+  subcharts:
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -975,7 +969,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -998,10 +992,11 @@ entries:
     body:
       text: Petal length
       size: 24
+    width: 300
     frame: 0
     background: white
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -1021,9 +1016,9 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
 - chart: row
-  entries:
+  subcharts:
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -1043,7 +1038,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -1063,7 +1058,7 @@ entries:
             Iris-versicolor: triangle
             Iris-virginica: square
   - chart: scatter2d
-    width: 200
+    width: 300
     size: 6
     points:
       source: scatter_iris.csv
@@ -1086,10 +1081,11 @@ entries:
     body:
       text: Petal width
       size: 24
+    width: 300
     frame: 0
     background: white
 - chart: column
-  entries:
+  subcharts:
   - chart: note
     body:
       text: 'Iris setosa: red circles'
@@ -1126,7 +1122,7 @@ Charts stacked in a column.
 - **align**: Align charts horizontally within the column.
   - *one of*: 'left', 'center', 'right'
   - *default*: 'center'
-- **entries**: Charts in the column.
+- **subcharts**: Charts in the column.
   - *required*
   - *type*: sequence
   - *items*:

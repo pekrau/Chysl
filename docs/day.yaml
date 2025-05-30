@@ -1,48 +1,38 @@
-chysl: 0.3.0
+chysl: 0.3.1
 chart: piechart
 title:
   text: Day
   size: 30
-entries:
-- entry: slice
-  value: 8
-  label: Sleep
-  color: gray
-- entry: slice
-  value: 1
-  label: Breakfast
-  color: lightgreen
-- entry: slice
-  value: 2
-  label: Gym
-  color: lightblue
-- entry: slice
-  value: 1
-  label: Read
-  color: navy
-- entry: slice
-  value: 1
-  label: Lunch
-  color: lightgreen
-- entry: slice
-  value: 0.4
-  label: Shuteye
-  color: gray
-- entry: slice
-  value: 4.6
-  label: Write
-  color: pink
-- entry: slice
-  value: 1
-  label: Dinner
-  color: lightgreen
-- entry: slice
-  value: 3
-  label: TV
-  color: orange
-- entry: slice
-  value: 2
-  label: Read
-  color: navy
 diameter: 400
 total: 24
+slices:
+- value: 8
+  label: Sleep
+  color: gray
+- value: 1
+  label: Breakfast
+  color: lightgreen
+- value: 2
+  label: Gym
+  color: lightblue
+- value: 1
+  label: Read
+  color: navy
+- value: 1
+  label: Lunch
+  color: lightgreen
+- value: 0.4
+  label: Shuteye
+  color: gray
+- value: 4.6
+  label: Write
+  color: pink
+- value: 1
+  label: Dinner
+  color: lightgreen
+- value: 3
+  label: TV
+  color: orange
+- value: 2
+  label: Read
+  color: navy

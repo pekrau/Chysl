@@ -6,7 +6,7 @@ import constants
 import schema
 import utils
 from color import Color
-from chart import Chart, Entry, Element
+from chart import Chart, parse, Entry, Element
 from dimension import Dimension
 from marker import Marker
 from path import Path
@@ -15,8 +15,6 @@ from vector2 import Vector2
 
 class Timelines(Chart):
     "Timelines having events and periods."
-
-    DEFAULT_WIDTH = 600
 
     SCHEMA = {
         "title": __doc__,
@@ -32,7 +30,7 @@ class Timelines(Chart):
             "width": {
                 "title": "Width of the chart, including legends etc.",
                 "type": "number",
-                "default": DEFAULT_WIDTH,
+                "default": constants.DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
             },
             "legend": {
@@ -45,7 +43,7 @@ class Timelines(Chart):
                 "$ref": "#axis",
             },
             "entries": {
-                "title": "Entries in the timelines.",
+                "title": "Entries (events, periods) in the timelines.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
@@ -148,26 +146,35 @@ class Timelines(Chart):
         legend=None,
         axis=None,
     ):
-        super().__init__(title=title, entries=entries)
+        super().__init__(title=title)
+        assert entries is None or isinstance(entries, list)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
         assert legend is None or isinstance(legend, bool)
         assert axis is None or isinstance(axis, (bool, dict))
 
-        self.width = width or self.DEFAULT_WIDTH
+        self.entries = []
+        if entries:
+            for entry in entries:
+                self.add(entry)
+        self.width = width or constants.DEFAULT_WIDTH
         self.legend = True if legend is None else legend
         self.axis = True if axis is None else axis
 
-    def convert_entry(self, entry):
-        entry = super().convert_entry(entry)
-        if not isinstance(entry, (Event, Period)):
-            raise ValueError(
-                f"invalid entry for timelines: {entry}; not an Event or Period"
-            )
-        return entry
+    def __iadd__(self, entry):
+        self.add(entry)
+        return self
+
+    def add(self, entry):
+        assert isinstance(entry, (dict, Event, Period))
+        if isinstance(entry, dict):
+            entry = parse(entry)
+        assert isinstance(entry, (Event, Period))
+        self.entries.append(entry)
 
     def as_dict(self):
         result = super().as_dict()
-        if self.width != self.DEFAULT_WIDTH:
+        result["entries"] = [e.as_dict() for e in self.entries]
+        if self.width != constants.DEFAULT_WIDTH:
             result["width"] = self.width
         if self.legend is not None and not self.legend:
             result["legend"] = False
@@ -176,8 +183,9 @@ class Timelines(Chart):
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute. Adds the title, if given.
-        Set the 'svg' and 'height' attributes.
+        """Create the SVG elements in the 'svg' attribute.
+        Adds the title, if defined.
+        Sets the 'svg' and 'height' attributes.
         Requires the 'width' attribute.
         """
         super().build()
@@ -189,7 +197,7 @@ class Timelines(Chart):
         height0 = self.height
         kwargs = dict(
             font=constants.DEFAULT_FONT_FAMILY,
-            size=self.DEFAULT_FONT_SIZE,
+            size=constants.DEFAULT_FONT_SIZE,
         )
         for entry in self.entries:
             if self.legend:
@@ -241,7 +249,7 @@ class Timelines(Chart):
             labels["text-anchor"] = "middle"
             labels["stroke"] = "none"
             labels["fill"] = "black"
-            self.height += self.DEFAULT_FONT_SIZE
+            self.height += constants.DEFAULT_FONT_SIZE
             for tick in ticks:
                 labels += (
                     label := Element(
@@ -255,11 +263,11 @@ class Timelines(Chart):
                     label["text-anchor"] = "start"
                 elif tick is ticks[-1]:
                     label["text-anchor"] = "end"
-            self.height += self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
             # Time axis caption, if any.
             if caption:
-                self.height += self.DEFAULT_FONT_SIZE
+                self.height += constants.DEFAULT_FONT_SIZE
                 labels += Element(
                     "text",
                     caption,
@@ -268,7 +276,7 @@ class Timelines(Chart):
                     ),
                     y=utils.N(self.height),
                 )
-            self.height += self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
         # Graphics for entries.
         self.svg += (graphics := Element("g"))
@@ -294,15 +302,13 @@ class Timelines(Chart):
                 legend["x"] = utils.N(constants.DEFAULT_PADDING)
                 legend["y"] = utils.N(
                     height
-                    + (constants.DEFAULT_SIZE + self.DEFAULT_FONT_SIZE) / 2
-                    - self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+                    + (constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE) / 2
+                    - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
                 )
 
 
 class _Temporal(Entry):
     "Abstract temporal entry in a timelines chart."
-
-    DEFAULT_FONT_SIZE = Timelines.DEFAULT_FONT_SIZE
 
     def __init__(self, label, timeline=None, color=None):
         assert isinstance(label, str)
@@ -473,8 +479,8 @@ class Event(_Temporal):
             x=utils.N(x),
             y=utils.N(
                 y
-                + (constants.DEFAULT_SIZE + self.DEFAULT_FONT_SIZE) / 2
-                - self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+                + (constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE) / 2
+                - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
             ),
         )
         label["text-anchor"] = anchor
@@ -775,8 +781,8 @@ class Period(_Temporal):
             x=utils.N(x),
             y=utils.N(
                 y
-                + (constants.DEFAULT_SIZE + self.DEFAULT_FONT_SIZE) / 2
-                - self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+                + (constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE) / 2
+                - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
             ),
             fill=color,
         )

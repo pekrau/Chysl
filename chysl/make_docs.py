@@ -23,6 +23,11 @@ def make_docs():
     result.append(constants.__doc__)
     result.append("\n\n")
 
+    result.append(
+        "This code has been lovingly hand-crafted. No AI tools were used in its development.\n\n"
+    )
+
+    result.append("## YAML format\n\n")
     result.append("The YAML file must contain the software identification marker:\n\n")
     result.append("    chysl: {version}\n\n")
     result.append(
@@ -31,10 +36,6 @@ def make_docs():
 
     result.append(
         "[JSON Schema](docs/schema_defs.md) for general definitions used in JSON schema of different charts.\n\n"
-    )
-
-    result.append(
-        "This code has been lovingly hand-crafted. No AI tools were used in its development.\n\n"
     )
 
     run_tests()

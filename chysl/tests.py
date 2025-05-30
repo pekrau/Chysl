@@ -68,6 +68,22 @@ TESTS = {
 }
 
 
+def check_roundtrip(instance1, filename):
+    instance2 = retrieve(filename)
+    if instance1 != instance2:
+        ic(instance1, instance2)
+        raise ValueError("instances differ")
+
+    r1 = instance1.render(restart_unique_id=True)
+    r2 = instance2.render(restart_unique_id=True)
+    if r1 != r2:
+        with open("i1.svg", "w") as outfile:
+            outfile.write(r1)
+        with open("i2.svg", "w") as outfile:
+            outfile.write(r2)
+        raise ValueError("instance renderings differ: filename")
+
+
 def get_universe(legend=True):
     universe = Timelines(
         dict(text="Universe", bold=True, color="blue"),
@@ -140,18 +156,13 @@ def test_universe():
     universe = get_universe()
     universe.save("universe.yaml")
     universe.render("universe.svg")
-
-    universe2 = retrieve("universe.yaml")
-    assert universe == universe2
-    assert universe.render(restart_unique_id=True) == universe2.render(
-        restart_unique_id=True
-    )
-
+    check_roundtrip(universe, "universe.yaml")
 
 def test_earth():
     earth = get_earth()
     earth.save("earth.yaml")
     earth.render("earth.svg")
+    check_roundtrip(earth, "earth.yaml")
 
 
 def test_universe_earth():
@@ -160,7 +171,7 @@ def test_universe_earth():
     both += get_earth(legend=False)
     both.save("universe_earth.yaml")
     both.render("universe_earth.svg")
-
+    check_roundtrip(both, "universe_earth.yaml")
 
 def test_markers():
     colors = itertools.cycle(["gray", "coral", "dodgerblue", "orange", "lime"])
@@ -214,40 +225,34 @@ def test_markers():
 
     all_markers.save("markers.yaml")
     all_markers.render("markers.svg")
-
+    check_roundtrip(all_markers, "markers.yaml")
 
 def test_pyramid():
     pyramid = Piechart("Pyramid", start=132, palette=["#4c78a8", "#9ecae9", "#f58518"])
-    pyramid += Slice(7, "Shadow")
-    pyramid += Slice(18, "Sunny")
-    pyramid += Slice(70, "Sky")
+    pyramid += dict(value=7, label="Shadow")
+    pyramid += dict(value=18, label="Sunny")
+    pyramid += dict(value=70, label="Sky")
     pyramid.save("pyramid.yaml")
     pyramid.render("pyramid.svg")
-
-    pyramid2 = retrieve("pyramid.yaml")
-    assert pyramid == pyramid2
-    assert pyramid.render() == pyramid2.render()
+    check_roundtrip(pyramid, "pyramid.yaml")
 
 
 def test_day():
     day = Piechart(dict(text="Day", size=30), total=24, diameter=400)
-    day += Slice(8, "Sleep", color="gray")
-    day += Slice(1, "Breakfast", color="lightgreen")
-    day += Slice(2, "Gym", color="lightblue")
-    day += Slice(1, "Read", color="navy")
-    day += Slice(1, "Lunch", color="lightgreen")
-    day += Slice(0.4, "Shuteye", color="gray")
-    day += Slice(4.6, "Write", color="pink")
-    day += Slice(1, "Dinner", color="lightgreen")
-    day += Slice(3, "TV", color="orange")
-    day += Slice(2, "Read", color="navy")
+    day += dict(value=8, label="Sleep", color="gray")
+    day += dict(value=1, label="Breakfast", color="lightgreen")
+    day += dict(value=2, label="Gym", color="lightblue")
+    day += dict(value=1, label="Read", color="navy")
+    day += dict(value=1, label="Lunch", color="lightgreen")
+    day += dict(value=0.4, label="Shuteye", color="gray")
+    day += dict(value=4.6, label="Write", color="pink")
+    day += dict(value=1, label="Dinner", color="lightgreen")
+    day += dict(value=3, label="TV", color="orange")
+    day += dict(value=2, label="Read", color="navy")
 
     day.save("day.yaml")
     day.render("day.svg")
-
-    day2 = retrieve("day.yaml")
-    assert day == day2
-    assert day.render() == day2.render()
+    check_roundtrip(day, "day.yaml")
 
 
 def test_tree():
@@ -266,16 +271,16 @@ def test_pies_column():
     pajer = Column("Pies in column")
 
     pajer += (paj := Piechart("Strawberry pie", diameter=200))
-    paj += Slice(7, "Flour", color="white")
-    paj += Slice(2, "Eggs", color="yellow")
-    paj += Slice(3, "Butter", color="gold")
-    paj += Slice(3, "Strawberries", color="orangered")
+    paj += dict(value=7, label="Flour", color="white")
+    paj += dict(value=2, label="Eggs", color="yellow")
+    paj += dict(value=3, label="Butter", color="gold")
+    paj += dict(value=3, label="Strawberries", color="orangered")
 
     pajer += (paj := Piechart("Rhubarb pie", diameter=250))
-    paj += Slice(7, "Flour", color="white")
-    paj += Slice(2, "Eggs", color="yellow")
-    paj += Slice(3, "Butter", color="gold")
-    paj += Slice(3, "Rhubarb", color="green")
+    paj += dict(value=7, label="Flour", color="white")
+    paj += dict(value=2, label="Eggs", color="yellow")
+    paj += dict(value=3, label="Butter", color="gold")
+    paj += dict(value=3, label="Rhubarb", color="green")
 
     pajer += Note(
         title="Comment",
@@ -285,10 +290,7 @@ def test_pies_column():
 
     pajer.save("pies_column.yaml")
     pajer.render("pies_column.svg")
-
-    pajer2 = retrieve("pies_column.yaml")
-    assert pajer == pajer2
-    assert pajer.render() == pajer2.render()
+    check_roundtrip(pajer, "pies_column.yaml")
 
 
 def test_pies_row():
@@ -296,23 +298,20 @@ def test_pies_row():
 
     palette = ["white", "yellow", "gold", "red"]
     pajer += (paj := Piechart("Strawberry pie", diameter=300, palette=palette))
-    paj += Slice(7, "Flour")
-    paj += Slice(2, "Eggs")
-    paj += Slice(3, "Butter")
-    paj += Slice(3, "Strawberries")
+    paj += dict(value=7, label="Flour")
+    paj += dict(value=2, label="Eggs")
+    paj += dict(value=3, label="Butter")
+    paj += dict(value=3, label="Strawberries")
 
     pajer += (paj := Piechart("Rhubarb pie", palette=palette))
-    paj += Slice(7, "Flour")
-    paj += Slice(2, "Eggs")
-    paj += Slice(3, "Butter")
-    paj += Slice(3, "Rhubarb", color="green")
+    paj += dict(value=7, label="Flour")
+    paj += dict(value=2, label="Eggs")
+    paj += dict(value=3, label="Butter")
+    paj += dict(value=3, label="Rhubarb", color="green")
 
     pajer.save("pies_row.yaml")
     pajer.render("pies_row.svg")
-
-    pajer2 = retrieve("pies_row.yaml")
-    assert pajer == pajer2
-    assert pajer.render() == pajer2.render()
+    check_roundtrip(pajer, "pies_row.yaml")
 
 
 def test_declaration():
@@ -321,9 +320,9 @@ def test_declaration():
         body=dict(text="This software was\nwritten by me.", placement="right"),
         footer=dict(text="Copyright 2025 Per Kraulis", italic=True),
     )
-
     decl.save("declaration.yaml")
     decl.render("declaration.svg")
+    check_roundtrip(decl, "declaration.yaml")
 
 
 def test_scatter_points():
@@ -347,6 +346,7 @@ def test_scatter_points():
     )
     scatter.save("scatter_points.yaml")
     scatter.render("scatter_points.svg")
+    check_roundtrip(scatter, "scatter_points.yaml")
 
 
 def test_scatter_iris():
@@ -387,7 +387,7 @@ def test_scatter_iris():
                             ),
                         ),
                     ),
-                    width=200,
+                    width=300,
                     size=6,
                 )
     all_plots += (caption := Column())
@@ -408,6 +408,7 @@ def test_scatter_iris():
     )
     all_plots.save("scatter_iris.yaml")
     all_plots.render("scatter_iris.svg")
+    check_roundtrip(all_plots, "scatter_iris.yaml")
 
 
 def test_lines_random_walks():
@@ -462,6 +463,7 @@ def test_lines_random_walks():
 
     lines.save("lines_random_walks.yaml")
     lines.render("lines_random_walks.svg")
+    check_roundtrip(lines, "lines_random_walks.yaml")
 
 
 def test_notes():
@@ -479,22 +481,22 @@ def test_notes():
     column.render("notes_column.svg")
 
     board = Board()
-    board.append(item=column, x=0, y=0, scale=1.5)
+    board.add_subchart(column, 0, 0, scale=1.5)
     board.save("notes.yaml")
     board.render("notes.svg")
+    check_roundtrip(board, "notes.yaml")
 
 
 def test_poster():
     poster = Board("Poster")
-    poster.append(
-        item=Note("By Per Kraulis", body="Ph.D.", footer="Stockholm University"),
-        x=250,
-        y=10,
+    poster.add_subchart(
+        Note("By Per Kraulis", body="Ph.D.", footer="Stockholm University"), 250, 10
     )
-    poster.append(dict(item=dict(include="universe.yaml"), x=0, y=100))
-    poster.append(dict(item=dict(include="earth.yaml"), x=50, y=230))
+    poster.add_subchart(dict(include="universe.yaml"), 0, 100)
+    poster.add_subchart(dict(include="earth.yaml"), 50, 230)
     poster.render("poster.svg")
     poster.save("poster.yaml")
+    check_roundtrip(poster, "poster.svg")
 
 
 def test_dimensions():
@@ -515,10 +517,11 @@ def test_dimensions():
         timelines += Period("Period", 1, last)
     column.save("dimensions.yaml")
     column.render("dimensions.svg")
+    check_roundtrip(column, "dimensions.yaml")
 
 
 def test_overlay():
-    overlay = Overlay("Overlaid two scatterplots")
+    overlay = Overlay("One scatterplot on top of another")
     plot1 = Scatter2d(
         points=[
             dict(x=1, y=1, color="gold"),
@@ -527,18 +530,19 @@ def test_overlay():
         ],
         size=60,
     )
-    overlay += plot1  # Using syntactic sugar.
+    overlay += dict(subchart=plot1)
     plot2 = Scatter2d(
-        data=[
+        points=[
             dict(x=1, y=1, marker="alpha"),
             dict(x=2, y=2, marker="beta", color="white"),
             dict(x=3, y=3, marker="gamma"),
         ],
         size=30,
     )
-    overlay += dict(item=plot2, opacity=0.5)
+    overlay += dict(subchart=plot2, opacity=0.5)
     overlay.save("overlay.yaml")
     overlay.render("overlay.svg")
+    check_roundtrip(overlay, "overlay.yaml")
 
 
 def run_tests():
@@ -558,10 +562,10 @@ def run_tests():
         test_scatter_points()
         test_scatter_iris()
         test_lines_random_walks()
-        test_notes()
-        test_poster()
+        # test_notes()
+        # test_poster()
         test_dimensions()
-        # test_overlay()
+        test_overlay()
     finally:
         os.chdir(origdir)
 

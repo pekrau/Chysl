@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="601" height="771.4" viewBox="0 0 601 771.4" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.0</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="601" height="766.6" viewBox="0 0 601 766.6" transform="translate(0.5, 0.5)">
+  <desc>column; Chysl 0.3.1</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-    <text x="300" y="22" stroke="none" fill="black" font-size="22" text-anchor="middle">Dimension tick ranges</text>
-    <g transform="translate(0, 28.4)">
+    <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Dimension tick ranges</text>
+    <g transform="translate(0, 23.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.00001</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
@@ -31,7 +31,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 103.6)">
+    <g transform="translate(0, 98.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.0001</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
@@ -56,7 +56,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 178.8)">
+    <g transform="translate(0, 174)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.0002</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
@@ -83,7 +83,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 254)">
+    <g transform="translate(0, 249.2)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.1</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
@@ -111,7 +111,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 329.2)">
+    <g transform="translate(0, 324.4)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 2</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
@@ -139,7 +139,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 404.4)">
+    <g transform="translate(0, 399.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 5</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
@@ -170,7 +170,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 479.6)">
+    <g transform="translate(0, 475)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 10</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
@@ -202,7 +202,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 555)">
+    <g transform="translate(0, 550)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 2000</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
@@ -235,7 +235,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 630)">
+    <g transform="translate(0, 625)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 10000000</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
@@ -263,7 +263,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 705)">
+    <g transform="translate(0, 700.4)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 10000000000</text>
         <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />

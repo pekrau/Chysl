@@ -16,15 +16,17 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: note
 title:
   text: Declaration
   bold: true
+  placement: left
 body:
   text: 'This software was
 
     written by me.'
+  placement: right
 footer:
   text: Copyright 2025 Per Kraulis
   italic: true
@@ -102,49 +104,41 @@ entries:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Pies in column
-entries:
+subcharts:
 - chart: piechart
   title: Strawberry pie
-  entries:
-  - entry: slice
-    value: 7
+  slices:
+  - value: 7
     label: Flour
     color: white
-  - entry: slice
-    value: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - entry: slice
-    value: 3
+  - value: 3
     label: Butter
     color: gold
-  - entry: slice
-    value: 3
+  - value: 3
     label: Strawberries
     color: orangered
 - chart: piechart
   title: Rhubarb pie
-  entries:
-  - entry: slice
-    value: 7
+  diameter: 250
+  slices:
+  - value: 7
     label: Flour
     color: white
-  - entry: slice
-    value: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - entry: slice
-    value: 3
+  - value: 3
     label: Butter
     color: gold
-  - entry: slice
-    value: 3
+  - value: 3
     label: Rhubarb
     color: green
-  diameter: 250
 - chart: note
   title: Comment
   body: Strawberry pie is good.

@@ -3,7 +3,7 @@
 from chart import register, retrieve
 
 from timelines import Timelines, Event, Period
-from piechart import Piechart, Slice
+from piechart import Piechart
 from scatter2d import Scatter2d
 from lines2d import Lines2d
 
@@ -18,12 +18,8 @@ register(Timelines)
 register(Event)
 register(Period)
 register(Piechart)
-register(Slice)
 register(Scatter2d)
 register(Lines2d)
-# register(Plot2d)
-# register(Scatter2d)
-# register(Line2d)
 # register(Dendrogram)
 register(Note)
 register(Column)

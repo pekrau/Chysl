@@ -3,7 +3,8 @@
 import constants
 import schema
 import utils
-from chart import Chart, DatapointsReader, Element
+from chart import Chart, Element
+from datapoints import DatapointsReader
 from dimension import Dimension
 from path import Path
 from utils import N
@@ -11,8 +12,6 @@ from utils import N
 
 class Lines2d(Chart):
     "2D lines chart."
-
-    DEFAULT_WIDTH = 600
 
     SCHEMA = {
         "title": __doc__,
@@ -28,7 +27,7 @@ class Lines2d(Chart):
             "width": {
                 "title": "Width of the chart, including legends etc.",
                 "type": "number",
-                "default": DEFAULT_WIDTH,
+                "default": constants.DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
             },
             "xaxis": {
@@ -90,13 +89,16 @@ class Lines2d(Chart):
         self.lines = []
         if lines:
             for line in lines:
-                self.append(line)
-        self.width = width or self.DEFAULT_WIDTH
+                self.add(line)
+        self.width = width or constants.DEFAULT_WIDTH
         self.xaxis = True if xaxis is None else xaxis
         self.yaxis = True if yaxis is None else yaxis
 
-    def append(self, line):
-        "Append the line to the chart."
+    def __iadd__(self, line):
+        self.add(line)
+        return self
+
+    def add(self, line):
         assert isinstance(line, dict)
         line["line"] = DatapointsReader(line["line"], required=["x", "y"])
         self.lines.append(line)
@@ -104,7 +106,7 @@ class Lines2d(Chart):
     def as_dict(self):
         result = super().as_dict()
         result["lines"] = lines = []
-        if self.width != self.DEFAULT_WIDTH:
+        if self.width != constants.DEFAULT_WIDTH:
             result["width"] = self.width
         if self.xaxis is False or isinstance(self.xaxis, dict):
             result["xaxis"] = self.xaxis
@@ -120,8 +122,9 @@ class Lines2d(Chart):
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute. Adds the title, if given.
-        Set the 'svg' and 'height' attributes.
+        """Create the SVG elements in the 'svg' attribute.
+        Adds the title, if defined.
+        Sets the 'svg' and 'height' attributes.
         Requires the 'width' attribute.
         """
         super().build()
@@ -138,7 +141,7 @@ class Lines2d(Chart):
         # XXX This is a kludge, assuming legend label is two characters wide.
         xdimension.update_start(
             utils.get_text_length(
-                "99", constants.DEFAULT_FONT_FAMILY, self.DEFAULT_FONT_SIZE
+                "99", constants.DEFAULT_FONT_FAMILY, constants.DEFAULT_FONT_SIZE
             )
             + constants.DEFAULT_PADDING
         )
@@ -177,7 +180,7 @@ class Lines2d(Chart):
             labels["text-anchor"] = "middle"
             labels["stroke"] = "none"
             labels["fill"] = "black"
-            self.height += self.DEFAULT_FONT_SIZE
+            self.height += constants.DEFAULT_FONT_SIZE
             for tick in ticks:
                 labels += (
                     label := Element(
@@ -191,7 +194,7 @@ class Lines2d(Chart):
                     label["text-anchor"] = "start"
                 elif tick is ticks[-1]:
                     label["text-anchor"] = "end"
-            self.height += self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
         # Y axis grid and its labels.
         if self.yaxis:
@@ -221,13 +224,13 @@ class Lines2d(Chart):
                         "text",
                         tick.label,
                         x=N(xdimension.start - constants.DEFAULT_PADDING),
-                        y=N(tick.pixel + self.DEFAULT_FONT_SIZE / 3),
+                        y=N(tick.pixel + constants.DEFAULT_FONT_SIZE / 3),
                     )
                 )
                 if tick is ticks[0]:
                     label["y"] = N(tick.pixel)
                 elif tick is ticks[-1]:
-                    label["y"] = N(tick.pixel + self.DEFAULT_FONT_SIZE)
+                    label["y"] = N(tick.pixel + constants.DEFAULT_FONT_SIZE)
 
         # Graphics for lines.
         self.svg += (graphics := Element("g"))

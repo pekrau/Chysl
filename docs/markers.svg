@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="601" height="814" viewBox="0 0 601 814" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.0</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="601" height="809" viewBox="0 0 601 809" transform="translate(0.5, 0.5)">
+  <desc>column; Chysl 0.3.1</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-    <text x="300" y="22" stroke="none" fill="black" font-size="22" text-anchor="middle">Predefined markers</text>
-    <g transform="translate(0, 28.4)">
+    <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Predefined markers</text>
+    <g transform="translate(0, 23.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Geometry markers</text>
         <rect x="0" y="23.6" width="598" height="220" stroke="black" stroke-width="1" />
@@ -72,7 +72,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 282)">
+    <g transform="translate(0, 277.2)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Symbol markers</text>
         <rect x="0" y="23.6" width="598" height="88" stroke="black" stroke-width="1" />
@@ -102,7 +102,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 403.6)">
+    <g transform="translate(0, 398.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Astronomy markers</text>
         <rect x="0" y="23.6" width="598" height="132" stroke="black" stroke-width="1" />
@@ -148,7 +148,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 569)">
+    <g transform="translate(0, 564.4)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Greek markers</text>
         <rect x="0" y="23.6" width="598" height="220" stroke="black" stroke-width="1" />

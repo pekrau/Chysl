@@ -7,8 +7,7 @@ from utils import N
 
 
 class Column(Chart):
-
-    ALIGN_VALUES = constants.HORIZONTAL
+    "Charts stacked in a column."
 
     DEFAULT_TITLE_FONT_SIZE = 22
     DEFAULT_ALIGN = constants.CENTER
@@ -17,7 +16,7 @@ class Column(Chart):
     SCHEMA = {
         "title": __doc__,
         "type": "object",
-        "required": ["chart", "entries"],
+        "required": ["chart", "subcharts"],
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "column"},
@@ -27,10 +26,10 @@ class Column(Chart):
             },
             "align": {
                 "title": "Align charts horizontally within the column.",
-                "enum": ALIGN_VALUES,
+                "enum": constants.HORIZONTAL,
                 "default": DEFAULT_ALIGN,
             },
-            "entries": {
+            "subcharts": {
                 "title": "Charts in the column.",
                 "type": "array",
                 "minItems": 1,
@@ -41,55 +40,64 @@ class Column(Chart):
 
     schema.add_defs(SCHEMA)
 
-    def __init__(
-        self,
-        title=None,
-        align=None,
-        entries=None,
-    ):
-        super().__init__(title=title, entries=entries)
-        assert align is None or align in self.ALIGN_VALUES
+    def __init__(self, title=None, subcharts=None, align=None):
+        super().__init__(title=title)
+        assert subcharts is None or isinstance(subcharts, list)
+        assert align is None or align in constants.HORIZONTAL
 
+        self.subcharts = []
+        if subcharts:
+            for subchart in subcharts:
+                self.add(subchart)
         self.align = align or self.DEFAULT_ALIGN
 
-    def convert_entry(self, entry):
-        if isinstance(entry, dict):
-            entry = parse(entry)
-        if not isinstance(entry, Chart):
-            raise ValueError(f"invalid entry '{entry}' for {self.name}")
-        return entry
+    def __iadd__(self, subchart):
+        self.add(subchart)
+        return self
+
+    def add(self, subchart):
+        assert isinstance(subchart, (dict, Chart))
+        if isinstance(subchart, dict):
+            subchart = parse(subchart)
+        self.subcharts.append(subchart)
 
     def as_dict(self):
         result = super().as_dict()
+        result["subcharts"] = []
+        for subchart in self.subcharts:
+            try:  # If this subchart was included from another source.
+                result["subcharts"].append(dict(include=subchart.location))
+            except AttributeError:
+                result["subcharts"].append(subchart.as_dict())
         if self.align != self.DEFAULT_ALIGN:
             result["align"] = self.align
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute. Adds the title, if given.
-        Set the 'svg' and 'height' attributes.
-        Sets the 'width' attribute.
+        """Create the SVG elements in the 'svg' attribute.
+        Adds the title, if defined.
+        Sets the 'svg', 'height' and 'width' attributes.
         """
-        for entry in self.entries:
-            entry.build()
+        for subchart in self.subcharts:
+            subchart.build()
 
-        self.width = max([e.width for e in self.entries])
+        self.width = max([s.width for s in self.subcharts])
 
         super().build()
 
         height = self.height
-        self.height += sum([e.height for e in self.entries])
-        self.height += (len(self.entries) - 1) * self.DEFAULT_PADDING
+        self.height += sum([s.height for s in self.subcharts])
+        self.height += (len(self.subcharts) - 1) * self.DEFAULT_PADDING
 
-        for entry in self.entries:
+        for subchart in self.subcharts:
             match self.align:
                 case constants.LEFT:
                     x = 0
                 case constants.CENTER:
-                    x = (self.width - entry.width) / 2
+                    x = (self.width - subchart.width) / 2
                 case constants.RIGHT:
-                    x = self.width - entry.width
+                    x = self.width - subchart.width
             self.svg += Element(
-                "g", entry.svg, transform=f"translate({N(x)}, {N(height)})"
+                "g", subchart.svg, transform=f"translate({N(x)}, {N(height)})"
             )
-            height += entry.height + self.DEFAULT_PADDING
+            height += subchart.height + self.DEFAULT_PADDING

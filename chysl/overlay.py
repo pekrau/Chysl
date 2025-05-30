@@ -11,7 +11,7 @@ class Overlay(Chart):
     SCHEMA = {
         "title": __doc__,
         "type": "object",
-        "required": ["chart", "entries"],
+        "required": ["chart", "layers"],
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "overlay"},
@@ -19,17 +19,17 @@ class Overlay(Chart):
                 "title": "Title of the overlay chart.",
                 "$ref": "#text",
             },
-            "entries": {
+            "layers": {
                 "title": "Charts to overlay, with optional opacity.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
-                    "title": "Chart with opacity.",
+                    "title": "Chart as layer, with specified opacity.",
                     "type": "object",
-                    "required": ["item"],
+                    "required": ["subchart"],
                     "additionalProperties": False,
                     "properties": {
-                        "item": {"$ref": "#chart_or_include"},
+                        "subchart": {"$ref": "#chart_or_include"},
                         "opacity": {"$ref": "#opacity"},
                     },
                 },
@@ -39,53 +39,68 @@ class Overlay(Chart):
 
     schema.add_defs(SCHEMA)
 
-    def convert_entry(self, entry):
-        if isinstance(entry, Chart):  # Python syntactic sugar; not allowed in YAML.
-            return dict(item=entry, opacity=1)
-        try:
-            item = entry["item"]
-        except KeyError:
-            raise ValueError(f"invalid entry '{entry}' for {self.name}")
-        if isinstance(item, dict):
-            entry["item"] = parse(item)
-        if not isinstance(entry["item"], Chart):
-            raise ValueError(f"invalid entry '{entry}' for {self.name}")
-        if "opacity" not in entry:
-            entry["opacity"] = 1
-        return entry
+    def __init__(
+        self,
+        title=None,
+        layers=None,
+    ):
+        super().__init__(title=title)
+        assert layers is None or isinstance(layers, list)
 
-    def entries_as_dict(self):
-        result = []
-        for entry in self.entries:
-            if entry["opacity"] == 1:
-                e = dict()
-            else:
-                e = dict(opacity=entry["opacity"])
-            try:
-                e["item"] = entry["item"].location
+        self.layers = []
+        if layers:
+            for layer in layers:
+                self.add(layer)
+
+    def __iadd__(self, layer):
+        self.add(layer)
+        return self
+
+    def add(self, layer):
+        assert isinstance(layer, dict)
+        self.add_layer(*[layer.get(key) for key in ["subchart", "opacity"]])
+
+    def add_layer(self, subchart, opacity=None):
+        assert isinstance(subchart, (dict, Chart))
+        assert (
+            opacity is None or isinstance(opacity, (int, float)) and 0 <= opacity <= 1
+        )
+        if isinstance(subchart, dict):
+            subchart = parse(subchart)
+        opacity = 1 if opacity is None else opacity
+        self.layers.append([subchart, opacity])
+
+    def as_dict(self):
+        result = super().as_dict()
+        result["layers"] = []
+        for subchart, opacity in self.layers:
+            result["layers"].append(layer := {})
+            if opacity != 1:
+                layer["opacity"] = opacity
+            try:  # This subchart was included from another source.
+                layer["subchart"] = dict(include=subchart.location)
             except AttributeError:
-                e["item"] = entry["item"].as_dict()
-            result.append(e)
-        return {"entries": result}
+                layer["subchart"] = subchart.as_dict()
+        return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute. Adds the title, if given.
-        Set the 'svg' and 'height' attributes.
-        Sets the 'width' attribute.
+        """Create the SVG elements in the 'svg' attribute.
+        Adds the title, if defined.
+        Sets the 'svg', 'height' and 'width' attributes.
         """
-        for entry in self.entries:
-            entry["item"].build()
+        for subchart, opacity in self.layers:
+            subchart.build()
 
-        self.width = max([e["item"].width for e in self.entries])
+        self.width = max([s.width for s, o in self.layers])
 
         super().build()
 
-        for entry in self.entries:
+        for subchart, opacity in self.layers:
             self.svg += Element(
                 "g",
-                entry["item"].svg,
+                subchart.svg,
                 transform=f"translate(0,{N(self.height)})",
-                opacity=entry["opacity"],
+                opacity=opacity,
             )
 
-        self.height += max([e["item"].height for e in self.entries])
+        self.height += max([s.height for s, o in self.layers])

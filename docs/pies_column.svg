@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="255" height="628" viewBox="0 0 255 628" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.0</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="255" height="623" viewBox="0 0 255 623" transform="translate(0.5, 0.5)">
+  <desc>column; Chysl 0.3.1</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-    <text x="127" y="22" stroke="none" fill="black" font-size="22" text-anchor="middle">Pies in column</text>
-    <g transform="translate(25, 28.4)">
+    <text x="127" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Pies in column</text>
+    <g transform="translate(25, 23.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="102" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Strawberry pie</text>
         <g transform="translate(102, 125.6)">
@@ -23,7 +23,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 266)">
+    <g transform="translate(0, 261.2)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="127" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Rhubarb pie</text>
         <g transform="translate(127, 150.6)">
@@ -43,7 +43,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(27, 553.6)">
+    <g transform="translate(27, 549)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="100" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Comment</text>
         <rect x="2.5" y="2.5" rx="10" ry="10" width="195" fill="lightyellow" stroke="gold" stroke-width="5" height="68.4" />

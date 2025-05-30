@@ -114,6 +114,8 @@ class Note(Chart):
         result = super().as_dict()  # Deals with 'title'.
         result.update(self.text_as_dict("body"))
         result.update(self.text_as_dict("footer"))
+        if self.width != self.DEFAULT_WIDTH:
+            result["width"] = self.width
         if self.frame != self.DEFAULT_FRAME:
             result["frame"] = self.frame
         if self.color != self.DEFAULT_COLOR:
@@ -227,7 +229,7 @@ class Note(Chart):
                 size = text["size"]
                 result["font-size"] = utils.N(size)
             except KeyError:
-                size = self.DEFAULT_FONT_SIZE
+                size = constants.DEFAULT_FONT_SIZE
             if text.get("bold"):
                 result["font-weight"] = "bold"
             if text.get("italic"):
@@ -237,7 +239,7 @@ class Note(Chart):
             result["fill"] = "black"
             offset = 0
             result["text-anchor"] = "middle"
-            size = self.DEFAULT_FONT_SIZE
+            size = constants.DEFAULT_FONT_SIZE
             lines = text.split("\n")
         height = 0
         for line in lines:

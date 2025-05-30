@@ -12,42 +12,38 @@
 ![overlay SVG](overlay.svg)
 
 ```yaml
-chysl: 0.2.12
+chysl: 0.3.1
 chart: overlay
-title: Overlaid two scatterplots
-entries:
-- item:
-    chart: plot2d
-    entries:
-    - entry: scatter2d
-      data:
-      - x: 1
-        y: 1
-        color: gold
-      - x: 2
-        y: 2
-        color: blue
-      - x: 3
-        y: 3
-        color: red
-      size: 60
+title: One scatterplot on top of another
+layers:
+- subchart:
+    chart: scatter2d
+    size: 60
+    points:
+    - x: 1
+      y: 1
+      color: gold
+    - x: 2
+      y: 2
+      color: blue
+    - x: 3
+      y: 3
+      color: red
 - opacity: 0.5
-  item:
-    chart: plot2d
-    entries:
-    - entry: scatter2d
-      data:
-      - x: 1
-        y: 1
-        marker: alpha
-      - x: 2
-        y: 2
-        color: white
-        marker: beta
-      - x: 3
-        y: 3
-        marker: gamma
-      size: 30
+  subchart:
+    chart: scatter2d
+    size: 30
+    points:
+    - x: 1
+      y: 1
+      marker: alpha
+    - x: 2
+      y: 2
+      marker: beta
+      color: white
+    - x: 3
+      y: 3
+      marker: gamma
 ```
 ## Specification
 
@@ -60,12 +56,12 @@ Charts overlayed over one another, with optional opacity.
   - *const* 'overlay'
 - **title**: Title of the overlay chart.
   - *See* [text](schema_defs.md#text).
-- **entries**: Charts to overlay, with optional opacity.
+- **layers**: Charts to overlay, with optional opacity.
   - *required*
   - *type*: sequence
   - *items*:
     - *type*: mapping
-    - **item**:
+    - **subchart**:
       - *See* [chart_or_include](schema_defs.md#chart_or_include).
       - *required*
     - **opacity**:

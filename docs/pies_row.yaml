@@ -1,46 +1,38 @@
-chysl: 0.3.0
+chysl: 0.3.1
 chart: row
 title: Pies in row
-entries:
+subcharts:
 - chart: piechart
   title: Strawberry pie
-  entries:
-  - entry: slice
-    value: 7
-    label: Flour
-  - entry: slice
-    value: 2
-    label: Eggs
-  - entry: slice
-    value: 3
-    label: Butter
-  - entry: slice
-    value: 3
-    label: Strawberries
   diameter: 300
   palette:
   - white
   - yellow
   - gold
   - red
+  slices:
+  - value: 7
+    label: Flour
+  - value: 2
+    label: Eggs
+  - value: 3
+    label: Butter
+  - value: 3
+    label: Strawberries
 - chart: piechart
   title: Rhubarb pie
-  entries:
-  - entry: slice
-    value: 7
-    label: Flour
-  - entry: slice
-    value: 2
-    label: Eggs
-  - entry: slice
-    value: 3
-    label: Butter
-  - entry: slice
-    value: 3
-    label: Rhubarb
-    color: green
   palette:
   - white
   - yellow
   - gold
   - red
+  slices:
+  - value: 7
+    label: Flour
+  - value: 2
+    label: Eggs
+  - value: 3
+    label: Butter
+  - value: 3
+    label: Rhubarb
+    color: green

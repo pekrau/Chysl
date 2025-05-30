@@ -1,7 +1,7 @@
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Predefined markers
-entries:
+subcharts:
 - chart: timelines
   title: Geometry markers
   entries:

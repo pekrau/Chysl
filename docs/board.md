@@ -84,12 +84,12 @@ Chart to place charts at specified positions.
   - *const* 'board'
 - **title**: Title of the board.
   - *See* [text](schema_defs.md#text).
-- **entries**: Charts at specified positions.
+- **subcharts**: Charts at specified positions.
   - *required*
   - *type*: sequence
   - *items*:
     - *type*: mapping
-    - **item**:
+    - **subchart**:
       - *See* [chart_or_include](schema_defs.md#chart_or_include).
       - *required*
     - **x**: Absolute position of item. Left is 0.

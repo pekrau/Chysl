@@ -1,12 +1,14 @@
-chysl: 0.3.0
+chysl: 0.3.1
 chart: note
 title:
   text: Declaration
   bold: true
+  placement: left
 body:
   text: 'This software was
 
     written by me.'
+  placement: right
 footer:
   text: Copyright 2025 Per Kraulis
   italic: true

@@ -17,7 +17,7 @@
 ![universe SVG](universe.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: timelines
 title:
   text: Universe
@@ -59,7 +59,7 @@ axis:
 ![earth SVG](earth.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: timelines
 title: Earth
 entries:
@@ -123,10 +123,10 @@ axis:
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Universe and Earth
-entries:
+subcharts:
 - chart: timelines
   title:
     text: Universe
@@ -227,10 +227,10 @@ entries:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Predefined markers
-entries:
+subcharts:
 - chart: timelines
   title: Geometry markers
   entries:
@@ -738,10 +738,10 @@ entries:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Dimension tick ranges
-entries:
+subcharts:
 - chart: timelines
   title: 1 - 1.00001
   entries:
@@ -833,7 +833,7 @@ Timelines having events and periods.
   - *default*: true
 - **axis**: Time axis specification.
   - *See* [axis](schema_defs.md#axis).
-- **entries**: Entries in the timelines.
+- **entries**: Entries (events, periods) in the timelines.
   - *required*
   - *type*: sequence
   - *items*:

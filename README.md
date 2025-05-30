@@ -1,6 +1,10 @@
-# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.3.0
+# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.3.1
 
-Charts defined in YAML for rendering into SVG. Charts can be combined in many different ways.
+Charts defined in YAML for rendering into SVG. Charts can be combined in different ways.
+
+This code has been lovingly hand-crafted. No AI tools were used in its development.
+
+## YAML format
 
 The YAML file must contain the software identification marker:
 
@@ -10,13 +14,11 @@ where `{version}` is either `null` or the string representing the version of the
 
 [JSON Schema](docs/schema_defs.md) for general definitions used in JSON schema of different charts.
 
-This code has been lovingly hand-crafted. No AI tools were used in its development.
-
 ## Charts
 
 - [timelines](docs/timelines.md): Timelines having events and periods.
 
-- [piechart](docs/piechart.md): Pie chart containing slices.
+- [piechart](docs/piechart.md): Pie chart displaying slices.
 
 - [note](docs/note.md): Textual note with title, body and footer text.
 

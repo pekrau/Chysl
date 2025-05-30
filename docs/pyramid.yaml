@@ -1,18 +1,15 @@
-chysl: 0.3.0
+chysl: 0.3.1
 chart: piechart
 title: Pyramid
-entries:
-- entry: slice
-  value: 7
-  label: Shadow
-- entry: slice
-  value: 18
-  label: Sunny
-- entry: slice
-  value: 70
-  label: Sky
 start: 132
 palette:
 - '#4c78a8'
 - '#9ecae9'
 - '#f58518'
+slices:
+- value: 7
+  label: Shadow
+- value: 18
+  label: Sunny
+- value: 70
+  label: Sky

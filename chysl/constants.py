@@ -1,6 +1,6 @@
-"Charts defined in YAML for rendering into SVG. Charts can be combined in many different ways."
+"Charts defined in YAML for rendering into SVG. Charts can be combined in different ways."
 
-VERSION = (0, 3, 0)
+VERSION = (0, 3, 1)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -10,7 +10,6 @@ YAML_CONTENT_TYPE = "application/yaml"
 JSONSCHEMA_ID = "https://github.com/pekrau/Chysl/blob/main/docs/schema.json"
 JSONSCHEMA_VERSION = "https://json-schema.org/draft/2020-12/schema"
 
-# XXX dendrogram
 CHARTS = [
     "timelines",
     "piechart",
@@ -27,13 +26,29 @@ PRECISION = 0.0005
 
 FORMATS = ["csv", "tsv", "json", "yaml"]
 
+DEFAULT_WIDTH = 600
 DEFAULT_SIZE = 18
 DEFAULT_COLOR = "black"
 DEFAULT_MARKER = "disc"
 DEFAULT_MARKER_SIZE = 10
 DEFAULT_LINEWIDTH = 2
 DEFAULT_PADDING = 2
+DEFAULT_ANCHOR = "middle"
+DEFAULT_PLACEMENT = "center"
 DEFAULT_FONT_FAMILY = "sans-serif"
+DEFAULT_FONT_SIZE = 14
+DEFAULT_TITLE_FONT_SIZE = 18
+
+# See: https://austingil.com/css-named-colors/#bold
+DEFAULT_PALETTE = [
+    "tomato",
+    "darkviolet",
+    "deeppink",
+    "deepskyblue",
+    "gold",
+    "yellowgreen",
+]
+
 FONT_DESCEND = 0.2
 
 START = "start"
@@ -210,16 +225,6 @@ GREEK_MARKERS = [
     OMEGA,
 ]
 MARKERS = GEOMETRY_MARKERS + SYMBOL_MARKERS + ASTRONOMY_MARKERS + GREEK_MARKERS
-
-# See: https://austingil.com/css-named-colors/#bold
-DEFAULT_PALETTE = [
-    "tomato",
-    "darkviolet",
-    "deeppink",
-    "deepskyblue",
-    "gold",
-    "yellowgreen",
-]
 
 ERROR = "error"
 WEDGE = "wedge"

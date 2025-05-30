@@ -1,7 +1,7 @@
-chysl: 0.3.0
+chysl: 0.3.1
 chart: column
 title: Dimension tick ranges
-entries:
+subcharts:
 - chart: timelines
   title: 1 - 1.00001
   entries:

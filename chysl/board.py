@@ -1,5 +1,7 @@
 "Chart to place charts at specified positions."
 
+import copy
+
 import constants
 import schema
 from chart import Chart, Element, parse
@@ -13,7 +15,7 @@ class Board(Chart):
     SCHEMA = {
         "title": __doc__,
         "type": "object",
-        "required": ["chart", "entries"],
+        "required": ["chart", "subcharts"],
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "board"},
@@ -21,16 +23,16 @@ class Board(Chart):
                 "title": "Title of the board.",
                 "$ref": "#text",
             },
-            "entries": {
+            "subcharts": {
                 "title": "Charts at specified positions.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
                     "type": "object",
-                    "required": ["x", "y", "item"],
+                    "required": ["subchart", "x", "y"],
                     "additionalProperties": False,
                     "properties": {
-                        "item": {"$ref": "#chart_or_include"},
+                        "subchart": {"$ref": "#chart_or_include"},
                         "x": {
                             "title": "Absolute position of item. Left is 0.",
                             "type": "number",
@@ -56,87 +58,88 @@ class Board(Chart):
 
     schema.add_defs(SCHEMA)
 
-    def append(self, *entry, **fields):
-        "Append the entry to the board."
-        assert not entry or (len(entry) == 1 and isinstance(entry[0], dict))
-        assert bool(fields) ^ bool(entry)
-        if entry:
-            entry = entry[0]
-        else:
-            entry = fields
-        self.entries.append(self.convert_entry(entry))
+    def __init__(self, title=None, subcharts=None):
+        super().__init__(title=title)
+        assert subcharts is None or isinstance(subcharts, list)
 
-    def convert_entry(self, entry):
-        if not isinstance(entry, dict):
-            raise ValueError(f"invalid entry for board: {entry}; not a dict")
-        if not isinstance(x := entry.get("x"), (int, float)) or x < 0:
-            raise ValueError(
-                f"invalid entry for board: {entry}; 'x' is not a non-negative number"
-            )
-        if not isinstance(y := entry.get("y"), (int, float)) or y < 0:
-            raise ValueError(
-                f"invalid entry for board: {entry}; 'y' is not a non-negative number"
-            )
-        try:
-            scale = entry["scale"]
-            if not isinstance(scale, (int, float)) or scale <= 0:
-                raise ValueError(
-                    f"invalid entry for board: {entry}; 'scale' is not a positive number"
-                )
-        except KeyError:
-            scale = 1
-        item = entry["item"]
-        if isinstance(item, dict):
-            item = parse(item)
-        if not isinstance(item, Chart):
-            raise ValueError(f"invalid entry '{entry}' for {self.name}")
-        return {"x": x, "y": y, "scale": scale, "item": item}
+        self.subcharts = []
+        if subcharts:
+            for item in subcharts:
+                self.add(item)
 
-    def entries_as_dict(self):
-        result = []
-        for entry in self.entries:
-            e = {"x": entry["x"], "y": entry["y"]}
-            if scale := entry.get("scale"):
-                e["scale"] = scale
-            item = entry["item"]
-            try:
-                e["item"] = {"include": item.location}
+    def __iadd__(self, item):
+        self.add(item)
+        return self
+
+    def add(self, item):
+        "Add the item (subchart with position etc) to the board."
+        assert isinstance(item, dict)
+        self.add_subchart(
+            *[item.get(key) for key in ["subchart", "x", "y", "scale", "opacity"]]
+        )
+
+    def add_subchart(self, subchart, x, y, scale=None, opacity=None):
+        assert isinstance(subchart, (dict, Chart))
+        assert isinstance(x, (int, float)) and x >= 0
+        assert isinstance(y, (int, float)) and y >= 0
+        assert scale is None or isinstance(scale, (int, float)) and scale > 0
+        assert (
+            opacity is None or isinstance(opacity, (int, float)) and 0 <= opacity <= 1
+        )
+        if isinstance(subchart, dict):
+            subchart = parse(subchart)
+        self.subcharts.append(
+            dict(subchart=subchart, x=x, y=y, scale=scale, opacity=opacity)
+        )
+
+    def as_dict(self):
+        result = super().as_dict()
+        result["subcharts"] = []
+        for item in self.subcharts:
+            i = dict(x=item["x"], y=item["y"])
+            if scale := item.get("scale"):
+                i["scale"] = scale
+            if (opacity := item.get("opacity")) is not None and opacity != 1:
+                i["opacity"] = opacity
+            subchart = item["subchart"]
+            try:  # If this subchart was included from another source.
+                i["subchart"] = dict(include=subchart.location)
             except AttributeError:
-                e["item"] = item.as_dict()
-            result.append(e)
-        return {"entries": result}
+                i["subchart"] = subchart.as_dict()
+            result["subcharts"].append(i)
+        return result
 
     def build(self):
         """Create the SVG elements in the 'svg' attribute.
-        Set the 'svg' and 'height' attributes.
-        Sets the 'width' attribute.
+        Adds the title, if defined.
+        Sets the 'svg', 'height' and 'width' attributes.
         """
-        for entry in self.entries:
-            entry["item"].build()
+        for item in self.subcharts:
+            item["subchart"].build()
 
         self.width = 0
-        for entry in self.entries:
-            scale = entry.get("scale") or 1
-            self.width = max(self.width, entry["x"] + scale * entry["item"].width)
+        for item in self.subcharts:
+            self.width = max(
+                self.width,
+                item["x"] + (item.get("scale") or 1) * item["subchart"].width,
+            )
 
         super().build()
 
         offset = self.height
-        for entry in self.entries:
-            scale = entry.get("scale") or 1
+        for item in self.subcharts:
             transforms = []
             try:
-                transforms.append(f"scale({entry['scale']})")
+                transforms.append(f"scale({item['scale']})")
             except KeyError:
                 pass
-            transforms.append(f"translate({entry['x']}, {entry['y'] + offset})")
+            transforms.append(f"translate({item['x']}, {item['y'] + offset})")
             g = Element("g", transform=" ".join(transforms))
-            try:
-                g["opacity"] = entry["opacity"]
-            except KeyError:
-                pass
-            g.append(entry["item"].svg)
+            if (opacity := item.get("opacity")) is not None and opacity != 1:
+                g["opacity"] = opacity
+            g.append(item["subchart"].svg)
             self.svg += g
             self.height = max(
-                self.height, entry["y"] + offset + scale * entry["item"].height
+                self.height,
+                item["y"] + offset + (item.get("scale") or 1) * item["subchart"].height,
             )

@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="601" height="329.8" viewBox="0 0 601 329.8" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.0</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="601" height="325" viewBox="0 0 601 325" transform="translate(0.5, 0.5)">
+  <desc>column; Chysl 0.3.1</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-    <text x="300" y="22" stroke="none" fill="black" font-size="22" text-anchor="middle">Universe and Earth</text>
-    <g transform="translate(0, 28.4)">
+    <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Universe and Earth</text>
+    <g transform="translate(0, 23.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="blue" font-size="18" text-anchor="middle" font-weight="bold">Universe</text>
         <rect x="0" y="23.6" width="598" height="44" stroke="black" stroke-width="1" />
@@ -27,17 +27,17 @@
             <rect x="277.1429" y="25.6" width="321.3571" height="18" stroke="none" fill="dodgerblue" />
             <path d="M 277.1429 25.6 H 599 m 0 18 H 277.1429" stroke="black" />
             <defs>
-              <linearGradient id="id9">
+              <linearGradient id="id7">
                 <stop offset="0" stop-color="dodgerblue" stop-opacity="0" />
                 <stop offset="1" stop-color="dodgerblue" stop-opacity="1" />
               </linearGradient>
-              <linearGradient id="id10">
+              <linearGradient id="id8">
                 <stop offset="0" stop-color="black" stop-opacity="0" />
                 <stop offset="1" stop-color="black" stop-opacity="1" />
               </linearGradient>
             </defs>
-            <rect x="235" y="25.6" width="42.7143" height="18" stroke="none" fill="url(#id9)" />
-            <path d="M 235 25.6 H 277.6429 m 0 18 H 235" stroke="url(#id10)" />
+            <rect x="235" y="25.6" width="42.7143" height="18" stroke="none" fill="url(#id7)" />
+            <path d="M 235 25.6 H 277.6429 m 0 18 H 235" stroke="url(#id8)" />
             <line x1="598" y1="25.6" x2="598" y2="43.6" stroke="black" />
           </g>
           <path transform="translate(235, 34.6) scale(1.5) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="navy" stroke-width="1" stroke-linecap="round" />
@@ -52,7 +52,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 139.6)">
+    <g transform="translate(0, 134.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Earth</text>
         <rect x="0" y="23.6" width="598" height="132" stroke="black" stroke-width="1" />
@@ -76,46 +76,46 @@
             <rect x="125.08" y="47.6" width="150.5" height="18" stroke="none" fill="wheat" />
             <path d="M 125.08 47.6 H 276 m 0 18 H 125.08" stroke="black" />
             <defs>
-              <linearGradient id="id11">
+              <linearGradient id="id9">
                 <stop offset="0" stop-color="wheat" stop-opacity="0" />
                 <stop offset="1" stop-color="wheat" stop-opacity="1" />
               </linearGradient>
-              <linearGradient id="id12">
+              <linearGradient id="id10">
                 <stop offset="0" stop-color="black" stop-opacity="0" />
                 <stop offset="1" stop-color="black" stop-opacity="1" />
               </linearGradient>
             </defs>
-            <rect x="107.64" y="47.6" width="17.94" height="18" stroke="none" fill="url(#id11)" />
-            <path d="M 107.64 47.6 H 125.58 m 0 18 H 107.64" stroke="url(#id12)" />
+            <rect x="107.64" y="47.6" width="17.94" height="18" stroke="none" fill="url(#id9)" />
+            <path d="M 107.64 47.6 H 125.58 m 0 18 H 107.64" stroke="url(#id10)" />
             <defs>
-              <linearGradient id="id13">
+              <linearGradient id="id11">
                 <stop offset="0" stop-color="wheat" stop-opacity="1" />
                 <stop offset="1" stop-color="wheat" stop-opacity="0" />
               </linearGradient>
-              <linearGradient id="id14">
+              <linearGradient id="id12">
                 <stop offset="0" stop-color="black" stop-opacity="1" />
                 <stop offset="1" stop-color="black" stop-opacity="0" />
               </linearGradient>
             </defs>
-            <rect x="275" y="47.6" width="47.84" height="18" stroke="none" fill="url(#id13)" />
-            <path d="M 275 47.6 H 323 m 0 18 H 275" stroke="url(#id14)" />
+            <rect x="275" y="47.6" width="47.84" height="18" stroke="none" fill="url(#id11)" />
+            <path d="M 275 47.6 H 323 m 0 18 H 275" stroke="url(#id12)" />
           </g>
           <ellipse cx="95.68" cy="78.6" rx="3.6" ry="9" fill="black" stroke="none" />
           <g>
             <rect x="181.292" y="69.6" width="417" height="18" stroke="none" fill="white" />
             <path d="M 181.292 69.6 H 599 m 0 18 H 181.292" stroke="black" />
             <defs>
-              <linearGradient id="id15">
+              <linearGradient id="id13">
                 <stop offset="0" stop-color="white" stop-opacity="0" />
                 <stop offset="1" stop-color="white" stop-opacity="1" />
               </linearGradient>
-              <linearGradient id="id16">
+              <linearGradient id="id14">
                 <stop offset="0" stop-color="black" stop-opacity="0" />
                 <stop offset="1" stop-color="black" stop-opacity="1" />
               </linearGradient>
             </defs>
-            <rect x="95.68" y="69.6" width="86.112" height="18" stroke="none" fill="url(#id15)" />
-            <path d="M 95.68 69.6 H 181.792 m 0 18 H 95.68" stroke="url(#id16)" />
+            <rect x="95.68" y="69.6" width="86.112" height="18" stroke="none" fill="url(#id13)" />
+            <path d="M 95.68 69.6 H 181.792 m 0 18 H 95.68" stroke="url(#id14)" />
             <line x1="598" y1="69.6" x2="598" y2="87.6" stroke="black" />
           </g>
           <g>

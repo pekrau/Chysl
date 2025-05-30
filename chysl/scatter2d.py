@@ -3,7 +3,8 @@
 import constants
 import schema
 import utils
-from chart import Chart, Entry, DatapointsReader, Element
+from chart import Chart, Entry, Element
+from datapoints import DatapointsReader
 from dimension import Dimension
 from marker import Marker
 from path import Path
@@ -12,11 +13,6 @@ from utils import N
 
 class Scatter2d(Chart):
     "2D scatter chart."
-
-    DEFAULT_WIDTH = 600
-    DEFAULT_MARKER = constants.DISC
-    DEFAULT_SIZE = constants.DEFAULT_MARKER_SIZE
-    DEFAULT_COLOR = "black"
 
     SCHEMA = {
         "title": __doc__,
@@ -32,7 +28,7 @@ class Scatter2d(Chart):
             "width": {
                 "title": "Width of the chart, including legends etc.",
                 "type": "number",
-                "default": DEFAULT_WIDTH,
+                "default": constants.DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
             },
             "xaxis": {
@@ -46,17 +42,17 @@ class Scatter2d(Chart):
             "marker": {
                 "title": "Default marker.",
                 "$ref": "#marker",
-                "default": DEFAULT_MARKER,
+                "default": constants.DEFAULT_MARKER,
             },
             "size": {
                 "title": "Default size.",
                 "$ref": "#size",
-                "default": DEFAULT_SIZE,
+                "default": constants.DEFAULT_MARKER_SIZE,
             },
             "color": {
-                "title": "Default color",
+                "title": "Default color.",
                 "$ref": "#color",
-                "default": DEFAULT_COLOR,
+                "default": constants.DEFAULT_COLOR,
             },
             "opacity": {
                 "title": "Default opacity.",
@@ -95,30 +91,34 @@ class Scatter2d(Chart):
         )
 
         self.points = DatapointsReader(points, required=["x", "y"])
-        self.width = width or self.DEFAULT_WIDTH
+        self.width = width or constants.DEFAULT_WIDTH
         self.xaxis = True if xaxis is None else xaxis
         self.yaxis = True if yaxis is None else yaxis
-        self.marker = marker or self.DEFAULT_MARKER
-        self.size = size or self.DEFAULT_SIZE
-        self.color = color or self.DEFAULT_COLOR
+        self.marker = marker or constants.DEFAULT_MARKER
+        self.size = size or constants.DEFAULT_MARKER_SIZE
+        self.color = color or constants.DEFAULT_COLOR
         self.opacity = opacity
 
-    def append(self, point):
-        self.points.append(point)
+    def __iadd__(self, point):
+        self.add(point)
+        return self
+
+    def add(self, point):
+        self.points.add(point)
 
     def as_dict(self):
         result = super().as_dict()
-        if self.width != self.DEFAULT_WIDTH:
+        if self.width != constants.DEFAULT_WIDTH:
             result["width"] = self.width
         if self.xaxis is False or isinstance(self.xaxis, dict):
             result["xaxis"] = self.xaxis
         if self.yaxis is False or isinstance(self.yaxis, dict):
             result["yaxis"] = self.yaxis
-        if self.marker != self.DEFAULT_MARKER:
+        if self.marker != constants.DEFAULT_MARKER:
             result["marker"] = self.marker
-        if self.size != self.DEFAULT_SIZE:
+        if self.size != constants.DEFAULT_MARKER_SIZE:
             result["size"] = self.size
-        if self.color != self.DEFAULT_COLOR:
+        if self.color != constants.DEFAULT_COLOR:
             result["color"] = self.color
         if self.opacity is not None and self.opacity != 1:
             result["opacity"] = self.opacity
@@ -126,7 +126,8 @@ class Scatter2d(Chart):
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute. Adds the title, if given.
+        """Create the SVG elements in the 'svg' attribute.
+        Adds the title, if defined.
         Set the 'svg' and 'height' attributes.
         Requires the 'width' attribute.
         """
@@ -143,7 +144,7 @@ class Scatter2d(Chart):
         # XXX This is a kludge, assuming legend label is two characters wide.
         xdimension.update_start(
             utils.get_text_length(
-                "99", constants.DEFAULT_FONT_FAMILY, self.DEFAULT_FONT_SIZE
+                "99", constants.DEFAULT_FONT_FAMILY, constants.DEFAULT_FONT_SIZE
             )
             + constants.DEFAULT_PADDING
         )
@@ -182,7 +183,7 @@ class Scatter2d(Chart):
             labels["text-anchor"] = "middle"
             labels["stroke"] = "none"
             labels["fill"] = "black"
-            self.height += self.DEFAULT_FONT_SIZE
+            self.height += constants.DEFAULT_FONT_SIZE
             for tick in ticks:
                 labels += (
                     label := Element(
@@ -196,7 +197,7 @@ class Scatter2d(Chart):
                     label["text-anchor"] = "start"
                 elif tick is ticks[-1]:
                     label["text-anchor"] = "end"
-            self.height += self.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
         # Y axis grid and its labels.
         if self.yaxis:
@@ -226,13 +227,13 @@ class Scatter2d(Chart):
                         "text",
                         tick.label,
                         x=N(xdimension.start - constants.DEFAULT_PADDING),
-                        y=N(tick.pixel + self.DEFAULT_FONT_SIZE / 3),
+                        y=N(tick.pixel + constants.DEFAULT_FONT_SIZE / 3),
                     )
                 )
                 if tick is ticks[0]:
                     label["y"] = N(tick.pixel)
                 elif tick is ticks[-1]:
-                    label["y"] = N(tick.pixel + self.DEFAULT_FONT_SIZE)
+                    label["y"] = N(tick.pixel + constants.DEFAULT_FONT_SIZE)
 
         # Graphics for points.
         self.svg += (points := Element("g"))

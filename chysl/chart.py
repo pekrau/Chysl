@@ -4,12 +4,7 @@ import icecream
 
 icecream.install()
 
-import copy
-import csv
-import io
-import json
 import pathlib
-import sqlite3
 import urllib.parse
 
 import requests
@@ -28,22 +23,9 @@ from utils import N
 class Chart:
     "Abstract chart."
 
-    DEFAULT_FONT_SIZE = 14
-    DEFAULT_TITLE_FONT_SIZE = 18
-
-    def __init__(self, title=None, entries=None):
+    def __init__(self, title=None):
         assert title is None or isinstance(title, (str, dict))
-        assert entries is None or isinstance(entries, (tuple, list))
-
         self.title = title
-        self.entries = []
-        if entries:
-            for entry in entries:
-                self.append(entry)
-
-    def __iadd__(self, entry):
-        self.append(entry)
-        return self
 
     def __eq__(self, other):
         if not isinstance(other, Chart):
@@ -56,28 +38,13 @@ class Chart:
     def name(self):
         return self.__class__.__name__.casefold()
 
-    def append(self, entry):
-        "Append the entry to the chart."
-        self.entries.append(self.convert_entry(entry))
-
-    def convert_entry(self, entry):
-        """Convert and check that the entry is valid for the chart.
-        Raise ValueError otherwise.
-        """
-        if isinstance(entry, dict):
-            entry = parse(entry)
-        if not isinstance(entry, Entry):
-            raise ValueError(f"invalid entry '{entry}' for {self.name}")
-        return entry
-
     def as_dict(self):
         result = {"chart": self.name}
         result.update(self.text_as_dict("title"))
-        result.update(self.entries_as_dict())
         return result
 
     def text_as_dict(self, key):
-        "Helper to convert possibly styled text entry to dict."
+        "Helper method to convert optionally styled text entry to dict."
         try:
             text = getattr(self, key)
         except AttributeError:
@@ -89,30 +56,19 @@ class Chart:
         result = {"text": text["text"]}
         if (
             size := text.get("size")
-        ) is not None and size != self.DEFAULT_TITLE_FONT_SIZE:
+        ) is not None and size != constants.DEFAULT_TITLE_FONT_SIZE:
             result["size"] = size
         if text.get("bold"):
             result["bold"] = True
         if text.get("italic"):
             result["italic"] = True
-        if (color := text.get("color")) is not None and color != "black":
+        if (color := text.get("color")) is not None and color != constants.DEFAULT_COLOR:
             result["color"] = color
-        if (anchor := text.get("anchor")) is not None and anchor != "middle":
+        if (anchor := text.get("anchor")) is not None and anchor != constants.DEFAULT_ANCHOR:
             result["anchor"] = anchor
+        if (placement := text.get("placement")) is not None and placement != constants.DEFAULT_PLACEMENT:
+            result["placement"] = placement
         return {key: result}
-
-    def entries_as_dict(self):
-        "Default implementation; to be overridden when required."
-        result = []
-        for entry in self.entries:
-            try:  # This entry was included from another source.
-                result.append({"include": entry.location})
-            except AttributeError:
-                result.append(entry.as_dict())
-        if result:
-            return {"entries": result}
-        else:
-            return {}
 
     def render(self, target=None, antialias=True, indent=2, restart_unique_id=False):
         """Render chart and return the SVG code.
@@ -157,19 +113,19 @@ class Chart:
 
         self.svg = Element("g", stroke="black", fill="white")
         self.svg["font-family"] = constants.DEFAULT_FONT_FAMILY
-        self.svg["font-size"] = self.DEFAULT_FONT_SIZE
+        self.svg["font-size"] = constants.DEFAULT_FONT_SIZE
 
         if self.title:
             if isinstance(self.title, dict):
                 text = self.title["text"] or ""
-                size = self.title.get("size") or self.DEFAULT_TITLE_FONT_SIZE
-                color = self.title.get("color") or "black"
-                anchor = self.title.get("anchor") or "middle"
+                size = self.title.get("size") or constants.DEFAULT_TITLE_FONT_SIZE
+                color = self.title.get("color") or constants.DEFAULT_COLOR
+                anchor = self.title.get("anchor") or constants.DEFAULT_ANCHOR
             else:
                 text = self.title
-                size = self.DEFAULT_TITLE_FONT_SIZE
-                color = "black"
-                anchor = "middle"
+                size = constants.DEFAULT_TITLE_FONT_SIZE
+                color = constants.DEFAULT_COLOR
+                anchor = constants.DEFAULT_ANCHOR
             self.height += size
             self.svg += (
                 title := Element(
@@ -213,7 +169,7 @@ class Chart:
 
 
 class Entry:
-    "Abstract entry as part of a chart."
+    "Abstract typed part of a chart."
 
     def __eq__(self, other):
         if not isinstance(other, Entry):
@@ -346,7 +302,7 @@ class ChartReader:
             # XXX Currently checks for strict equality.
             if version != constants.__version__:
                 raise ValueError(f"YAML data incompatible version {version}")
-        # Do schema validation on the data.
+        # Do schema validation on the incoming data.
         try:
             name = self.data["chart"]
         except KeyError:
@@ -358,327 +314,3 @@ class ChartReader:
         schema.validate(self.data, cls.SCHEMA)
         # Create the class instance from the data.
         return parse(self.data)
-
-
-class DatapointsReader:
-    """Datapoints reader, YAML inline or read from a source:
-    file, web resource, database.
-    """
-
-    def __init__(self, data, required=None):
-        assert data is None or isinstance(data, (list, dict))
-        self.source = None
-        self.location = "inline"
-        self.required = required
-
-        if data is None:
-            self.datapoints = []
-
-        # YAML inline.
-        if isinstance(data, list):
-            if len(data) == 0:
-                raise ValueError("No data in the list.")
-            if not isinstance(data[0], dict):
-                raise ValueError("First item in the list is not a dict.")
-            self.datapoints = copy.deepcopy(data)  # For safety.
-
-        # Data from file, web resource or database.
-        elif isinstance(data, dict):
-            self.read(data)
-
-        if self.required and self.datapoints:
-            for req in self.required:
-                if req not in self.datapoints[0]:
-                    raise ValueError(f"First datapoint does not contain '{req}'.")
-
-    def __str__(self):
-        if self.database:
-            return f"DatapointsReader('{self.database}:{self.location}')"
-        else:
-            return f"DatapointsReader('{self.location}')"
-
-    def __iter__(self):
-        return iter(self.datapoints)
-
-    def append(self, datapoint):
-        isinstance(datapoint, dict)
-        if self.required:
-            for req in self.required:
-                if req not in datapoint:
-                    raise ValueError(f"Datapoint does not contain '{req}'.")
-        self.datapoints.append(datapoint)
-
-    def read(self, data):
-        assert isinstance(data, dict)
-        try:
-            self.source = data["source"]
-        except KeyError:
-            raise ValueError("No 'source' given in data.")
-        assert isinstance(self.source, (str, dict))
-
-        # Optional mapping of parameters to the data fields.
-        self.parameters = data.get("parameters")
-
-        # File or web resource with implicit format.
-        if isinstance(self.source, str):
-            self.location = self.source
-            self.format = pathlib.Path(self.location).suffix.lstrip(".")
-            if self.format not in constants.FORMATS:
-                self.format = "csv"
-            self.read_file()
-
-        elif isinstance(self.source, dict):
-            try:
-                self.location = self.source["location"]
-            except KeyError:
-                raise ValueError("no location specified for data source")
-            try:
-                self.database = self.source["database"]
-            except KeyError:
-                try:
-                    self.format = self.source["format"]
-                except KeyError:
-                    raise ValueError("no format specified for data source")
-                if self.format not in constants.FORMATS:
-                    raise ValueError(
-                        f"invalid format '{self.format}' specified for data source"
-                    )
-                self.read_file()
-            else:
-                self.read_database()
-
-        # When data from external source, then apply given mapping.
-        if self.parameters:
-            for key in ("x", "y", "size", "color", "opacity", "marker"):
-                if field := self.parameters.get(key):
-                    getattr(self, f"map_{key}_field")(field)
-
-    def read_file(self):
-        # Tabular data; needs further parsing.
-        if urllib.parse.urlparse(self.location).scheme:  # Probably http or https.
-            try:
-                response = requests.get(self.location)
-                response.raise_for_status()
-                content = response.text
-            except requests.exceptions.RequestException as error:
-                raise ValueError(str(error))
-        else:
-            try:
-                with open(self.location) as infile:
-                    content = infile.read()
-            except OSError as error:
-                raise ValueError(str(error))
-
-        assert self.format in constants.FORMATS
-        match self.format:
-
-            case "csv" | "tsv":
-                dialect = "excel" if self.format == "csv" else "excel_tab"
-                # Check if the content seems to have a header.
-                # (Tried 'csv.Sniffer' but it didn't behave well.)
-                peek_reader = csv.reader(io.StringIO(content), dialect=dialect)
-                first_record = next(peek_reader)
-                for part in first_record:
-                    try:
-                        float(part)
-                    except ValueError:
-                        pass
-                    else:
-                        # Not a header; use column numbers for dict keys.
-                        fieldnames = list(range(1, len(first_record) + 1))
-                        break
-                else:
-                    # Has a header; use its field names.
-                    fieldnames = None
-                reader = csv.DictReader(
-                    io.StringIO(content), fieldnames=fieldnames, dialect="excel"
-                )
-                self.datapoints = list(reader)
-
-            case "json":
-                try:
-                    self.datapoints = json.loads(content)
-                except json.JSONDecodeError as error:
-                    raise ValueError(f"cannot interpret data as JSON: {error}")
-
-            case "yaml":
-                try:
-                    self.datapoints = yaml.safe_load(content)
-                except yaml.YAMLError as error:
-                    raise ValueError(f"cannot interpret data as YAML: {error}")
-
-    def read_database(self):
-        # Currently only db interface available.
-        assert self.database == "sqlite"
-        try:
-            self.select = self.source["select"]
-        except KeyError:
-            raise ValueError("no select specified for database data source")
-        cnx = sqlite3.connect(f"file:{self.location}?mode=ro", uri=True)
-        cnx.row_factory = self.sqlite_dict_factory
-        cursor = cnx.execute(self.select)
-        self.datapoints = list(cursor)
-
-    def sqlite_dict_factory(self, cursor, row):
-        try:
-            fields = self.sqlite_dict_factory_fields
-        except AttributeError:
-            self.sqlite_dict_factory_fields = fields = [
-                column[0] for column in cursor.description
-            ]
-        return {key: value for key, value in zip(fields, row)}
-
-    def map_x_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-        else:
-            fieldname = field["field"]
-        try:
-            for dp in self.datapoints:
-                dp["x"] = float(dp[fieldname])
-        except (KeyError, IndexError):
-            raise ValueError(f"no such field '{fieldname}' in data for parameter 'x'")
-        except (ValueError, TypeError):
-            raise ValueError(
-                f"invalid value in field '{fieldname}' in data for parameter 'x'"
-            )
-
-    def map_y_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-        else:
-            fieldname = field["field"]
-        try:
-            for dp in self.datapoints:
-                dp["y"] = float(dp[fieldname])
-        except (KeyError, IndexError):
-            raise ValueError(f"no such field '{fieldname}' in data for parameter 'y'")
-        except (ValueError, TypeError):
-            raise ValueError(
-                f"invalid value in field '{fieldname}' in data for parameter 'y'"
-            )
-
-    def map_size_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-        else:
-            fieldname = field["field"]
-        try:
-            for dp in self.datapoints:
-                try:
-                    dp["size"] = float(dp[fieldname])
-                except (KeyError, IndexError):
-                    pass
-                else:
-                    if dp["size"] <= 0.0:
-                        raise ValueError
-        except (ValueError, TypeError):
-            raise ValueError(
-                f"invalid value in field '{fieldname}' in data for parameter 'size'"
-            )
-
-    def map_color_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-            convert = lambda v: v
-        else:
-            fieldname = field["field"]
-            convert = _Converter(field)
-        for dp in self.datapoints:
-            try:
-                dp["color"] = convert(dp[fieldname])
-            except (KeyError, IndexError):
-                pass
-            else:
-                if not utils.is_color(dp["color"]):
-                    raise ValueError(
-                        f"invalid value in field '{fieldname}' in data for parameter 'color'"
-                    )
-
-    def map_opacity_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-        else:
-            fieldname = field["field"]
-        try:
-            for dp in self.datapoints:
-                dp["opacity"] = float(dp[fieldname])
-                if 1.0 < dp["opacity"] < 0.0:
-                    raise ValueError
-        except (KeyError, IndexError):
-            pass
-        except (ValueError, TypeError):
-            raise ValueError(
-                f"invalid value in field '{fieldname}' in data for parameter 'opacity'"
-            )
-
-    def map_marker_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-            convert = lambda v: v
-        else:
-            fieldname = field["field"]
-            convert = _Converter(field)
-        for dp in self.datapoints:
-            try:
-                dp["marker"] = convert(dp[fieldname])
-            except (KeyError, IndexError):
-                pass
-            if not utils.is_marker(dp["marker"]):
-                raise ValueError(
-                    f"invalid value in field '{fieldname}' in data for parameter 'marker'"
-                )
-
-    def as_dict(self):
-        "Return the data as a dictionary."
-        if self.source:
-            result = dict(source=self.source)
-            if self.parameters:
-                result["parameters"] = self.parameters
-        else:
-            result = self.datapoints
-        return result
-
-    def minmax(self, field):
-        dp = self.datapoints[0]
-        value = dp[field]
-        if isinstance(value, dict):
-            try:
-                low = value["low"]
-            except KeyError:
-                low = value["value"] - value["error"]
-            try:
-                high = value["high"]
-            except KeyError:
-                high = value["value"] + value["error"]
-        else:
-            low = value
-            high = value
-        for dp in self.datapoints[1:]:
-            value = dp[field]
-            if isinstance(value, dict):
-                try:
-                    low = min(low, value["low"])
-                except KeyError:
-                    low = min(low, value["value"] - value["error"])
-                try:
-                    high = max(high, value["high"])
-                except KeyError:
-                    high = max(high, value["value"] + value["error"])
-            else:
-                low = min(low, value)
-                high = max(high, value)
-        return (low, high)
-
-
-class _Converter:
-    "Map or compute new value from a value as given."
-
-    def __init__(self, field):
-        self.map = field.get("map")
-
-    def __call__(self, value):
-        if self.map is None:
-            return value
-        # Yes: if no match, then raise KeyError.
-        return self.map[value]

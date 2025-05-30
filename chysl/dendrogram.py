@@ -12,10 +12,6 @@ from path import Path
 class Dendrogram(Chart):
     "Dendrogram: tree formed by branches."
 
-    DEFAULT_WIDTH = 600
-    DEFAULT_SIZE = 20
-    DEFAULT_COLOR = "blue"
-
     SCHEMA = {
         "title": __doc__,
         "type": "object",
@@ -29,7 +25,7 @@ class Dendrogram(Chart):
             "width": {
                 "title": "Width of chart, in pixels.",
                 "type": "number",
-                "default": DEFAULT_WIDTH,
+                "default": constants.DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
             },
             # "axis": {
@@ -78,7 +74,7 @@ class Dendrogram(Chart):
         super().__init__(title=title, entries=entries)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
 
-        self.width = width or self.DEFAULT_WIDTH
+        self.width = width or constants.DEFAULT_WIDTH
 
     def append(self, entry):
         "Append the entry to the diagram."
@@ -95,7 +91,7 @@ class Dendrogram(Chart):
             cleanup.process()
             entries.append(entry_copy)
         result = super().as_dict()
-        if self.width != self.DEFAULT_WIDTH:
+        if self.width != constants.DEFAULT_WIDTH:
             result["width"] = self.width
         if self.axis is not True:
             result["axis"] = self.axis
@@ -123,7 +119,7 @@ class Dendrogram(Chart):
             dimension.update_span(entry["start"])
             dimension.update_span(entry["end"])
             self.count_branches(entry)
-            self.height += self.DEFAULT_SIZE * entry["count"]
+            self.height += constants.DEFAULT_SIZE * entry["count"]
 
         # Axis lines and their labels.
         absolute = False
@@ -141,7 +137,7 @@ class Dendrogram(Chart):
         labels["text-anchor"] = "middle"
         labels["stroke"] = "none"
         labels["fill"] = "black"
-        self.height += self.DEFAULT_FONT_SIZE
+        self.height += constants.DEFAULT_FONT_SIZE
         for tick in ticks:
             labels += (
                 label := Element(
@@ -155,7 +151,7 @@ class Dendrogram(Chart):
                 label["text-anchor"] = "start"
             elif tick is ticks[-1]:
                 label["text-anchor"] = "end"
-        self.height += self.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
+        self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
 
         # Graphics for branches.
         self.relative_height = -(self.height - area_height) / 2
@@ -178,13 +174,13 @@ class Dendrogram(Chart):
             "path",
             d=Path(
                 dimension.get_pixel(entry["start"]),
-                self.relative_height + self.DEFAULT_SIZE / 2,
+                self.relative_height + constants.DEFAULT_SIZE / 2,
             ).H(dimension.get_pixel(entry["end"])),
-            stroke=self.DEFAULT_COLOR,
+            stroke=constants.DEFAULT_COLOR,
         )
         branch["stroke-width"] = 4
         branches += branch
-        self.relative_height += self.DEFAULT_SIZE
+        self.relative_height += constants.DEFAULT_SIZE
 
 
 class Traverser:
