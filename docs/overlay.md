@@ -12,7 +12,7 @@
 ![overlay SVG](overlay.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: overlay
 title: One scatterplot on top of another
 layers:
@@ -23,6 +23,7 @@ layers:
     - x: 1
       y: 1
       color: gold
+      href: https://en.wikipedia.org/wiki/Gold
     - x: 2
       y: 2
       color: blue

@@ -57,24 +57,15 @@
           "opacity": {
             "title": "Opacity of the line.",
             "$ref": "#opacity"
+          },
+          "href": {
+            "$ref": "#uri"
           }
         }
       }
     }
   },
   "$defs": {
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
-    },
-    "color": {
-      "$anchor": "color",
-      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
-      "type": "string",
-      "format": "color"
-    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -136,6 +127,59 @@
           }
         }
       ]
+    },
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate display pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
+    },
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
+      "oneOf": [
+        {
+          "title": "Display default axis.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Axis details.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "gray"
+            },
+            "absolute": {
+              "title": "Display absolute values for ticks.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "uri": {
+      "$anchor": "uri",
+      "title": "A URI, absolute or relative.",
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "opacity": {
+      "$anchor": "opacity",
+      "title": "Opacity in range [0.0, 1.0].",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 1
     },
     "marker": {
       "$anchor": "marker",
@@ -258,39 +302,6 @@
               "title": "Map a string value in the source data to a value for the plot parameter.",
               "type": "object",
               "properties": {}
-            }
-          }
-        }
-      ]
-    },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
-      "oneOf": [
-        {
-          "title": "Display default axis.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Axis details.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "gray"
-            },
-            "absolute": {
-              "title": "Display absolute values for ticks.",
-              "type": "boolean",
-              "default": false
-            },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
             }
           }
         }
@@ -424,13 +435,11 @@
         }
       ]
     },
-    "opacity": {
-      "$anchor": "opacity",
-      "title": "Opacity in range [0.0, 1.0].",
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "default": 1
+    "color": {
+      "$anchor": "color",
+      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
+      "type": "string",
+      "format": "color"
     }
   }
 }

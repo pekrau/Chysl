@@ -14,13 +14,14 @@
 ![lines_random_walks SVG](lines_random_walks.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: lines2d
 title: 'Random walks (source: db)'
 lines:
 - linewidth: 10
   color: black
   opacity: 0.25
+  href: https://en.wikipedia.org/wiki/Random_walk
   line:
   - x: -15
     y: -15
@@ -122,4 +123,6 @@ lines:
       - *default*: 'black'
     - **opacity**: Opacity of the line.
       - *See* [opacity](schema_defs.md#opacity).
+    - **href**:
+      - *See* [uri](schema_defs.md#uri).
 

@@ -17,7 +17,7 @@
 ![universe SVG](universe.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: timelines
 title:
   text: Universe
@@ -39,12 +39,14 @@ entries:
     low: -8500000000
   end: 0
   fuzzy: gradient
+  href: https://en.wikipedia.org/wiki/Milky_Way
 - entry: event
   label: ''
   timeline: Universe
   color: navy
   instant: -8500000000
   marker: galaxy
+  href: https://en.wikipedia.org/wiki/Milky_Way
 - entry: period
   label: Earth
   color: lightgreen
@@ -59,7 +61,7 @@ axis:
 ![earth SVG](earth.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: timelines
 title: Earth
 entries:
@@ -123,7 +125,7 @@ axis:
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Universe and Earth
 subcharts:
@@ -148,12 +150,14 @@ subcharts:
       low: -8500000000
     end: 0
     fuzzy: gradient
+    href: https://en.wikipedia.org/wiki/Milky_Way
   - entry: event
     label: ''
     timeline: Universe
     color: navy
     instant: -8500000000
     marker: galaxy
+    href: https://en.wikipedia.org/wiki/Milky_Way
   - entry: period
     label: Earth
     color: lightgreen
@@ -227,7 +231,7 @@ subcharts:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Predefined markers
 subcharts:
@@ -738,7 +742,7 @@ entries:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -862,6 +866,8 @@ Timelines having events and periods.
       - **fuzzy**: Error bar marker for fuzzy number.
         - *type*: boolean
         - *default*: true
+      - **href**:
+        - *See* [uri](schema_defs.md#uri).
     - Alternative 2: Period of time.
       - *type*: mapping
       - **entry**:
@@ -888,4 +894,6 @@ Timelines having events and periods.
       - **fuzzy**: Marker to use for fuzzy number.
         - *one of*: 'error', 'wedge', 'gradient', 'none'
         - *default*: 'error'
+      - **href**:
+        - *See* [uri](schema_defs.md#uri).
 

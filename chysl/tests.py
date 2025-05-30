@@ -100,6 +100,7 @@ def get_universe(legend=True):
         timeline="Universe",
         color="dodgerblue",
         fuzzy="gradient",
+        href="https://en.wikipedia.org/wiki/Milky_Way",
     )
     universe += Event(
         "",
@@ -107,6 +108,7 @@ def get_universe(legend=True):
         timeline="Universe",
         color="navy",
         marker="galaxy",
+        href="https://en.wikipedia.org/wiki/Milky_Way",
     )
     universe += Period("Earth", -4_567_000_000, 0, color="lightgreen")
     return universe
@@ -158,6 +160,7 @@ def test_universe():
     universe.render("universe.svg")
     check_roundtrip(universe, "universe.yaml")
 
+
 def test_earth():
     earth = get_earth()
     earth.save("earth.yaml")
@@ -172,6 +175,7 @@ def test_universe_earth():
     both.save("universe_earth.yaml")
     both.render("universe_earth.svg")
     check_roundtrip(both, "universe_earth.yaml")
+
 
 def test_markers():
     colors = itertools.cycle(["gray", "coral", "dodgerblue", "orange", "lime"])
@@ -227,11 +231,12 @@ def test_markers():
     all_markers.render("markers.svg")
     check_roundtrip(all_markers, "markers.yaml")
 
+
 def test_pyramid():
     pyramid = Piechart("Pyramid", start=132, palette=["#4c78a8", "#9ecae9", "#f58518"])
     pyramid += dict(value=7, label="Shadow")
-    pyramid += dict(value=18, label="Sunny")
-    pyramid += dict(value=70, label="Sky")
+    pyramid.add_slice(18, label="Sunny")
+    pyramid.add(dict(value=70, label="Sky"))
     pyramid.save("pyramid.yaml")
     pyramid.render("pyramid.svg")
     check_roundtrip(pyramid, "pyramid.yaml")
@@ -445,6 +450,7 @@ def test_lines_random_walks():
         color="black",
         linewidth=10,
         opacity=0.25,
+        href="https://en.wikipedia.org/wiki/Random_walk",
     )
     colors = itertools.cycle(
         ["red", "green", "blue", "lime", "orange", "cyan", "gold", "dodgerblue", "gray"]
@@ -524,7 +530,7 @@ def test_overlay():
     overlay = Overlay("One scatterplot on top of another")
     plot1 = Scatter2d(
         points=[
-            dict(x=1, y=1, color="gold"),
+            dict(x=1, y=1, color="gold", href="https://en.wikipedia.org/wiki/Gold"),
             dict(x=2, y=2, color="blue"),
             dict(x=3, y=3, color="red"),
         ],

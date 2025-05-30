@@ -23,13 +23,15 @@ def restart_unique_id():
     unique_id = get_unique_id()
 
 
-def N(x, rel_tol=constants.PRECISION):
+def N(x):
     "Return a minimal string representation of the numerical value."
     assert isinstance(x, (int, float))
-    if math.isclose(x, (rounded := round(x)), rel_tol=rel_tol):
+    if math.isclose(
+        x, (rounded := round(x)), rel_tol=constants.REL_TOL, abs_tol=constants.ABS_TOL
+    ):
         return f"{rounded:d}"
     else:
-        return f"{x:.4f}".rstrip("0")
+        return f"{x:.3f}".rstrip("0").rstrip(".")
 
 
 def is_color(value):

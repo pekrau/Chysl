@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts can be combined in different ways."
 
-VERSION = (0, 3, 1)
+VERSION = (0, 3, 2)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -13,16 +13,17 @@ JSONSCHEMA_VERSION = "https://json-schema.org/draft/2020-12/schema"
 CHARTS = [
     "timelines",
     "piechart",
-    "note",
-    "lines2d",
     "scatter2d",
+    "lines2d",
+    "note",
     "column",
     "row",
     "overlay",
     "board",
 ]
 
-PRECISION = 0.0005
+REL_TOL = 0.00005
+ABS_TOL = 0.0005
 
 FORMATS = ["csv", "tsv", "json", "yaml"]
 

@@ -87,6 +87,7 @@ class Timelines(Chart):
                                     "type": "boolean",
                                     "default": True,
                                 },
+                                "href": {"$ref": "#uri"},
                             },
                         },
                         {
@@ -128,6 +129,7 @@ class Timelines(Chart):
                                     "enum": constants.FUZZY_MARKERS,
                                     "default": constants.ERROR,
                                 },
+                                "href": {"$ref": "#uri"},
                             },
                         },
                     ],
@@ -382,17 +384,20 @@ class Event(_Temporal):
         color=None,
         placement=None,
         fuzzy=None,
+        href=None
     ):
         super().__init__(label=label, timeline=timeline, color=color)
         assert isinstance(instant, (int, float, dict))
-        # assert marker is None or marker in constants.MARKERS
+        assert marker is None or marker in constants.MARKERS
         assert placement is None or placement in constants.PLACEMENTS
         assert fuzzy is None or isinstance(fuzzy, bool)
+        assert href is None or isinstance(href, str)
 
         self.instant = instant
         self.marker = marker or self.DEFAULT_MARKER
         self.placement = placement or self.DEFAULT_PLACEMENT
         self.fuzzy = fuzzy is None or fuzzy
+        self.href = href
 
     def as_dict(self):
         result = super().as_dict()
@@ -403,6 +408,8 @@ class Event(_Temporal):
             result["placement"] = self.placement
         if not self.fuzzy:
             result["fuzzy"] = False
+        if self.href:
+            result["href"] = self.href
         return result
 
     def minmax(self):
@@ -420,16 +427,17 @@ class Event(_Temporal):
         else:
             x = dimension.get_pixel(self.instant)
 
-        marker = Marker(self.marker, color=self.color)
-        elem = marker.get_graphic(x, y + constants.DEFAULT_SIZE / 2)
+        marker = Marker(self.marker, color=self.color, href=self.href)
+        result = marker.get_graphic(x, y + constants.DEFAULT_SIZE / 2)
         self.label_x_offset = marker.label_x_offset
 
         # Get error bars if fuzzy value; place below marker itself.
         if self.fuzzy and isinstance(self.instant, dict):
-            elem = Element(
-                "g", self.render_graphic_error(self.instant, y, dimension), elem
+            result = Element(
+                "g", self.render_graphic_error(self.instant, y, dimension), result
             )
-        return elem
+
+        return result
 
     def render_label(self, y, dimension):
         if not self.label:
@@ -494,18 +502,21 @@ class Period(_Temporal):
     DEFAULT_FUZZY = constants.ERROR
 
     def __init__(
-        self, label, begin, end, timeline=None, color=None, placement=None, fuzzy=None
+            self, label, begin, end, timeline=None, color=None, placement=None, fuzzy=None,
+            href=None
     ):
         super().__init__(label=label, timeline=timeline, color=color)
         assert isinstance(begin, (int, float, dict))
         assert isinstance(end, (int, float, dict))
         assert placement is None or placement in constants.PLACEMENTS
         assert fuzzy is None or isinstance(fuzzy, str)
+        assert href is None or isinstance(href, str)
 
         self.begin = begin
         self.end = end
         self.placement = placement or self.DEFAULT_PLACEMENT
         self.fuzzy = fuzzy or self.DEFAULT_FUZZY
+        self.href = href
 
     def as_dict(self):
         result = super().as_dict()
@@ -515,6 +526,8 @@ class Period(_Temporal):
             result["placement"] = self.placement
         if self.fuzzy != self.DEFAULT_FUZZY:
             result["fuzzy"] = self.fuzzy
+        if self.href:
+            result["href"] = self.href
         return result
 
     def minmax(self):
@@ -734,6 +747,9 @@ class Period(_Temporal):
 
                 case constants.TAPER:
                     raise NotImplementedError
+
+        if self.href:
+            result["href"] = self.href
         return result
 
     def render_label(self, y, dimension):

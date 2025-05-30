@@ -1,4 +1,4 @@
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Universe and Earth
 subcharts:
@@ -23,12 +23,14 @@ subcharts:
       low: -8500000000
     end: 0
     fuzzy: gradient
+    href: https://en.wikipedia.org/wiki/Milky_Way
   - entry: event
     label: ''
     timeline: Universe
     color: navy
     instant: -8500000000
     marker: galaxy
+    href: https://en.wikipedia.org/wiki/Milky_Way
   - entry: period
     label: Earth
     color: lightgreen

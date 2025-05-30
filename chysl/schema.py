@@ -133,6 +133,12 @@ DEFS = {
             },
         ],
     },
+    "uri": {
+        "$anchor": "uri",
+        "title": "A URI, absolute or relative.",
+        "type": "string",
+        "format": "uri-reference"
+    },
     "axis": {
         "$anchor": "axis",
         "title": "Coordinate axis specification.",

@@ -13,18 +13,20 @@ from utils import N
 class Marker:
     "Create graphics and label for a marker."
 
-    def __init__(self, marker, size=None, color=None, opacity=None):
+    def __init__(self, marker, size=None, color=None, opacity=None, href=None):
         assert utils.is_marker(marker)
         assert color is None or utils.is_color(color)
         assert size is None or (isinstance(size, (int, float)) and size > 0)
         assert opacity is None or (
             isinstance(opacity, (int, float)) and 0 <= opacity <= 1
         )
+        assert href is None or isinstance(href, str)
 
         self.marker = marker
         self.size = size or constants.DEFAULT_SIZE
         self.color = color or "black"
         self.opacity = opacity
+        self.href = href
 
     def get_graphic(self, x, y):
         """Return the graphic element for the marker, given the coordinates in pixels.
@@ -925,5 +927,7 @@ class Marker:
 
         if self.opacity is not None and self.opacity != 1:
             elem["opacity"] = self.opacity
+        if self.href:
+            elem["href"] = self.href
 
         return elem

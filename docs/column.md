@@ -18,7 +18,7 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Universe and Earth
 subcharts:
@@ -43,12 +43,14 @@ subcharts:
       low: -8500000000
     end: 0
     fuzzy: gradient
+    href: https://en.wikipedia.org/wiki/Milky_Way
   - entry: event
     label: ''
     timeline: Universe
     color: navy
     instant: -8500000000
     marker: galaxy
+    href: https://en.wikipedia.org/wiki/Milky_Way
   - entry: period
     label: Earth
     color: lightgreen
@@ -122,7 +124,7 @@ subcharts:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Pies in column
 subcharts:
@@ -237,7 +239,7 @@ entries:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Predefined markers
 subcharts:
@@ -720,7 +722,7 @@ subcharts:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -802,7 +804,7 @@ subcharts:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title:
   text: Iris flower measurements

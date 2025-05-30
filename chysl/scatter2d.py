@@ -238,12 +238,13 @@ class Scatter2d(Chart):
         # Graphics for points.
         self.svg += (points := Element("g"))
         for dp in self.points:
+            kwargs = {}
             if (opacity := dp.get("opacity")) is None:
                 opacity = self.opacity
             if opacity != 1:
-                kwargs = dict(opacity=opacity)
-            else:
-                kwargs = {}
+                kwargs["opacity"] = opacity
+            if href := dp.get("href"):
+                kwargs["href"] = href
             marker = Marker(
                 dp.get("marker") or self.marker,
                 size=dp.get("size") or self.size,

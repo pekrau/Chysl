@@ -16,7 +16,7 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: note
 title:
   text: Declaration
@@ -104,7 +104,7 @@ entries:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Pies in column
 subcharts:

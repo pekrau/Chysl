@@ -80,6 +80,13 @@ Number value, exact, or fuzzy with either low/high or error.
     - *type*: float
     - *exclusiveMinimum*: 0
 
+## uri
+
+A URI, absolute or relative.
+
+- *type*: string
+- *format*: uri-reference
+
 ## axis
 
 Coordinate axis specification.
@@ -113,7 +120,7 @@ Inline chart specification, or location (file of web resource) to read the chart
   - *type*: mapping
   - **chart**:
     - *required*
-    - *one of*: 'timelines', 'piechart', 'note', 'lines2d', 'scatter2d', 'column', 'row', 'overlay', 'board'
+    - *one of*: 'timelines', 'piechart', 'scatter2d', 'lines2d', 'note', 'column', 'row', 'overlay', 'board'
 
 ## field
 

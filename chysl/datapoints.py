@@ -62,27 +62,32 @@ class DatapointsReader:
                     raise ValueError(f"Datapoint value for '{req}' is undefined.")
         self.datapoints.append(datapoint)
 
-    def add_datapoint(self, x, y=None, marker=None, size=None, color=None, opacity=None):
+    def add_datapoint(
+            self, x, y=None, size=None, color=None, marker=None, opacity=None, href=None
+    ):
         assert isinstance(x, (int, float))
         assert y is None or isinstance(y, (int, float))
-        assert markers is None or marker in constants.MARKERS
         assert size is None or (isinstance(size, (int, float)) and size > 0)
         assert color is None or utils.is_color(color)
+        assert marker is None or marker in constants.MARKERS
         assert opacity is None or (
             isinstance(opacity, (int, float)) and (0 <= opacity <= 1)
         )
+        assert href is None or isinstance(href, str)
 
         datapoint = dict(x=x)
         if y is not None:
             datapoint["y"] = y
-        if marker is not None:
-            datapoint["marker"] = marker
         if size is not None:
             datapoint["size"] = size
         if color is not None:
             datapoint["color"] = color
+        if marker is not None:
+            datapoint["marker"] = marker
         if opacity is not None:
             datapoint["opacity"] = opacity
+        if href is not None:
+            datapoint["href"] = href
         self.add(datapoint)
 
     def read(self, data):
@@ -126,7 +131,7 @@ class DatapointsReader:
 
         # When data from external source, then apply given mapping.
         if self.parameters:
-            for key in ("x", "y", "size", "color", "opacity", "marker"):
+            for key in ("x", "y", "size", "color", "marker", "opacity", "href"):
                 if field := self.parameters.get(key):
                     getattr(self, f"map_{key}_field")(field)
 
@@ -272,6 +277,23 @@ class DatapointsReader:
                         f"invalid value in field '{fieldname}' in data for parameter 'color'"
                     )
 
+    def map_marker_field(self, field):
+        if isinstance(field, (str, int)):
+            fieldname = field
+            convert = lambda v: v
+        else:
+            fieldname = field["field"]
+            convert = _Converter(field)
+        for dp in self.datapoints:
+            try:
+                dp["marker"] = convert(dp[fieldname])
+            except (KeyError, IndexError):
+                pass
+            if not utils.is_marker(dp["marker"]):
+                raise ValueError(
+                    f"invalid value in field '{fieldname}' in data for parameter 'marker'"
+                )
+
     def map_opacity_field(self, field):
         if isinstance(field, (str, int)):
             fieldname = field
@@ -289,7 +311,7 @@ class DatapointsReader:
                 f"invalid value in field '{fieldname}' in data for parameter 'opacity'"
             )
 
-    def map_marker_field(self, field):
+    def map_href_field(self, field):
         if isinstance(field, (str, int)):
             fieldname = field
             convert = lambda v: v
@@ -298,13 +320,9 @@ class DatapointsReader:
             convert = _Converter(field)
         for dp in self.datapoints:
             try:
-                dp["marker"] = convert(dp[fieldname])
+                dp["href"] = convert(dp[fieldname])
             except (KeyError, IndexError):
                 pass
-            if not utils.is_marker(dp["marker"]):
-                raise ValueError(
-                    f"invalid value in field '{fieldname}' in data for parameter 'marker'"
-                )
 
     def as_dict(self):
         "Return the data as a dictionary."

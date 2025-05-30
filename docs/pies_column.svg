@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="255" height="623" viewBox="0 0 255 623" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.1</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="255" height="623.2" viewBox="0 0 255 623.2" transform="translate(0.5, 0.5)">
+  <desc>column; Chysl 0.3.2</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="127" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Pies in column</text>
     <g transform="translate(25, 23.6)">
@@ -9,16 +9,16 @@
         <g transform="translate(102, 125.6)">
           <circle r="100.0" />
           <g stroke="black" stroke-width="1">
-            <path d="M 0 0 L 0. -100 A 100 100 0 0 1 20.7912 97.8148 Z" fill="white" />
-            <path d="M 0 0 L 20.7912 97.8148 A 100 100 0 0 1 -58.7785 80.9017 Z" fill="yellow" />
-            <path d="M 0 0 L -58.7785 80.9017 A 100 100 0 0 1 -95.1057 -30.9017 Z" fill="gold" />
-            <path d="M 0 0 L -95.1057 -30.9017 A 100 100 0 0 1 -0. -100 Z" fill="orangered" />
+            <path d="M 0 0 L 0 -100 A 100 100 0 0 1 20.791 97.815 Z" fill="white" />
+            <path d="M 0 0 L 20.791 97.815 A 100 100 0 0 1 -58.779 80.902 Z" fill="yellow" />
+            <path d="M 0 0 L -58.779 80.902 A 100 100 0 0 1 -95.106 -30.902 Z" fill="gold" />
+            <path d="M 0 0 L -95.106 -30.902 A 100 100 0 0 1 0 -100 Z" fill="orangered" />
           </g>
           <g stroke="none" fill="black" text-anchor="middle">
-            <text x="69.6165" y="-7.317" fill="black">Flour</text>
-            <text x="-14.5538" y="68.4703" fill="black">Eggs</text>
-            <text x="-66.574" y="21.6312" fill="black">Butter</text>
-            <text x="-41.145" y="-56.6312" fill="white">Strawberries</text>
+            <text x="69.617" y="-7.317" fill="black">Flour</text>
+            <text x="-14.554" y="68.47" fill="black">Eggs</text>
+            <text x="-66.574" y="21.631" fill="black">Butter</text>
+            <text x="-41.145" y="-56.631" fill="white">Strawberries</text>
           </g>
         </g>
       </g>
@@ -29,21 +29,21 @@
         <g transform="translate(127, 150.6)">
           <circle r="125.0" />
           <g stroke="black" stroke-width="1">
-            <path d="M 0 0 L 0. -125 A 125 125 0 0 1 26 122.2685 Z" fill="white" />
-            <path d="M 0 0 L 26 122.2685 A 125 125 0 0 1 -73.4732 101.1271 Z" fill="yellow" />
-            <path d="M 0 0 L -73.4732 101.1271 A 125 125 0 0 1 -118.8821 -38.6271 Z" fill="gold" />
-            <path d="M 0 0 L -118.8821 -38.6271 A 125 125 0 0 1 -0. -125 Z" fill="green" />
+            <path d="M 0 0 L 0 -125 A 125 125 0 0 1 25.989 122.268 Z" fill="white" />
+            <path d="M 0 0 L 25.989 122.268 A 125 125 0 0 1 -73.473 101.127 Z" fill="yellow" />
+            <path d="M 0 0 L -73.473 101.127 A 125 125 0 0 1 -118.882 -38.627 Z" fill="gold" />
+            <path d="M 0 0 L -118.882 -38.627 A 125 125 0 0 1 0 -125 Z" fill="green" />
           </g>
           <g stroke="none" fill="black" text-anchor="middle">
-            <text x="87" y="-9.1462" fill="black">Flour</text>
-            <text x="-18.1923" y="85.5879" fill="black">Eggs</text>
-            <text x="-83.2174" y="27.039" fill="black">Butter</text>
-            <text x="-51.4312" y="-70.789" fill="white">Rhubarb</text>
+            <text x="87.021" y="-9.146" fill="black">Flour</text>
+            <text x="-18.192" y="85.588" fill="black">Eggs</text>
+            <text x="-83.217" y="27.039" fill="black">Butter</text>
+            <text x="-51.431" y="-70.789" fill="white">Rhubarb</text>
           </g>
         </g>
       </g>
     </g>
-    <g transform="translate(27, 549)">
+    <g transform="translate(27, 548.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="100" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Comment</text>
         <rect x="2.5" y="2.5" rx="10" ry="10" width="195" fill="lightyellow" stroke="gold" stroke-width="5" height="68.4" />

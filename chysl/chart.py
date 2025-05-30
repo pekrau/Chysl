@@ -62,11 +62,17 @@ class Chart:
             result["bold"] = True
         if text.get("italic"):
             result["italic"] = True
-        if (color := text.get("color")) is not None and color != constants.DEFAULT_COLOR:
+        if (
+            color := text.get("color")
+        ) is not None and color != constants.DEFAULT_COLOR:
             result["color"] = color
-        if (anchor := text.get("anchor")) is not None and anchor != constants.DEFAULT_ANCHOR:
+        if (
+            anchor := text.get("anchor")
+        ) is not None and anchor != constants.DEFAULT_ANCHOR:
             result["anchor"] = anchor
-        if (placement := text.get("placement")) is not None and placement != constants.DEFAULT_PLACEMENT:
+        if (
+            placement := text.get("placement")
+        ) is not None and placement != constants.DEFAULT_PLACEMENT:
             result["placement"] = placement
         return {key: result}
 

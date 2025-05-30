@@ -53,17 +53,114 @@
     }
   },
   "$defs": {
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "size": {
+              "title": "Size of font. Default depends on context.",
+              "$ref": "#size"
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            },
+            "anchor": {
+              "title": "Text anchor position. Ignored in some contexts.",
+              "enum": [
+                "start",
+                "middle",
+                "end"
+              ],
+              "default": "middle"
+            }
+          }
+        }
+      ]
+    },
     "size": {
       "$anchor": "size",
       "title": "Size of graphical item, in approximate display pixel units.",
       "type": "number",
       "minimumExclusive": 0
     },
-    "color": {
-      "$anchor": "color",
-      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
-      "type": "string",
-      "format": "color"
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
+      "oneOf": [
+        {
+          "title": "Display default axis.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Axis details.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "gray"
+            },
+            "absolute": {
+              "title": "Display absolute values for ticks.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "opacity": {
+      "$anchor": "opacity",
+      "title": "Opacity in range [0.0, 1.0].",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 1
     },
     "marker": {
       "$anchor": "marker",
@@ -155,68 +252,6 @@
         }
       ]
     },
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
-      "oneOf": [
-        {
-          "title": "Text with default styling.",
-          "type": "string"
-        },
-        {
-          "title": "Text with styling options.",
-          "type": "object",
-          "required": [
-            "text"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "size": {
-              "title": "Size of font. Default depends on context.",
-              "$ref": "#size"
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
-            }
-          }
-        }
-      ]
-    },
     "field": {
       "$anchor": "field",
       "title": "Mapping of a plot parameter to a field in source data.",
@@ -248,39 +283,6 @@
               "title": "Map a string value in the source data to a value for the plot parameter.",
               "type": "object",
               "properties": {}
-            }
-          }
-        }
-      ]
-    },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
-      "oneOf": [
-        {
-          "title": "Display default axis.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Axis details.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "gray"
-            },
-            "absolute": {
-              "title": "Display absolute values for ticks.",
-              "type": "boolean",
-              "default": false
-            },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
             }
           }
         }
@@ -414,13 +416,11 @@
         }
       ]
     },
-    "opacity": {
-      "$anchor": "opacity",
-      "title": "Opacity in range [0.0, 1.0].",
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "default": 1
+    "color": {
+      "$anchor": "color",
+      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
+      "type": "string",
+      "format": "color"
     }
   }
 }

@@ -15,7 +15,7 @@
 ![pyramid SVG](pyramid.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: piechart
 title: Pyramid
 start: 132
@@ -36,7 +36,7 @@ slices:
 ![day SVG](day.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: piechart
 title:
   text: Day
@@ -80,7 +80,7 @@ slices:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: column
 title: Pies in column
 subcharts:
@@ -127,7 +127,7 @@ subcharts:
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.3.1
+chysl: 0.3.2
 chart: row
 title: Pies in row
 subcharts:

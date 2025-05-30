@@ -64,6 +64,7 @@ class Lines2d(Chart):
                             "title": "Opacity of the line.",
                             "$ref": "#opacity",
                         },
+                        "href": {"$ref": "#uri"},
                     },
                 },
             },
@@ -117,6 +118,8 @@ class Lines2d(Chart):
             for key in ["linewidth", "color", "opacity"]:
                 if (value := line.get(key)) is not None:
                     i[key] = value
+            if href := line.get("href"):
+                i["href"] = href
             i["line"] = line["line"].as_dict()
             lines.append(i)
         return result
@@ -243,7 +246,7 @@ class Lines2d(Chart):
                     f"{N(xdimension.get_pixel(xvalue))} {N(ydimension.get_pixel(yvalue))}"
                 )
             graphics += (
-                line := Element(
+                elem := Element(
                     "polyline",
                     points=",".join(points),
                     fill="none",
@@ -251,7 +254,9 @@ class Lines2d(Chart):
                 )
             )
             if (opacity := line.get("opacity")) is not None:
-                line["opacity"] = opacity
-            line["stroke-width"] = line.get("linewidth") or constants.DEFAULT_LINEWIDTH
-            line["stroke-linejoin"] = "round"
-            line["stroke-linecap"] = "round"
+                elem["opacity"] = opacity
+            elem["stroke-width"] = line.get("linewidth") or constants.DEFAULT_LINEWIDTH
+            elem["stroke-linejoin"] = "round"
+            elem["stroke-linecap"] = "round"
+            if href := line.get("href"):
+                elem["href"] = href

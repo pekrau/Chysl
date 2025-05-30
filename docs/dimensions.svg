@@ -1,26 +1,26 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="766.6" viewBox="0 0 601 766.6" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.1</desc>
+  <desc>column; Chysl 0.3.2</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Dimension tick ranges</text>
     <g transform="translate(0, 23.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.00001</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
-          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
+          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
             <text x="49.14" y="59.6" text-anchor="start">1.000000</text>
             <text x="158.912" y="59.6">1.000002</text>
             <text x="268.684" y="59.6">1.000004</text>
             <text x="378.456" y="59.6">1.000006</text>
-            <text x="488" y="59.6">1.000008</text>
+            <text x="488.228" y="59.6">1.000008</text>
             <text x="598" y="59.6" text-anchor="end">1.000010</text>
           </g>
         </g>
         <g>
           <g>
-            <rect x="49.14" y="25.6" width="549" height="18" fill="white" />
+            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
@@ -34,7 +34,7 @@
     <g transform="translate(0, 98.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.0001</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
           <path d="M 49.14 23.6 V 45.6 M 323.57 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
@@ -45,7 +45,7 @@
         </g>
         <g>
           <g>
-            <rect x="49.14" y="25.6" width="549" height="18" fill="white" />
+            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
@@ -59,20 +59,20 @@
     <g transform="translate(0, 174)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.0002</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
-          <path d="M 49.14 23.6 V 45.6 M 186.355 23.6 V 45.6 M 323.57 23.6 V 45.6 M 461 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
+          <path d="M 49.14 23.6 V 45.6 M 186.355 23.6 V 45.6 M 323.57 23.6 V 45.6 M 460.785 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
             <text x="49.14" y="59.6" text-anchor="start">1.00000</text>
             <text x="186.355" y="59.6">1.00005</text>
             <text x="323.57" y="59.6">1.00010</text>
-            <text x="461" y="59.6">1.00015</text>
+            <text x="460.785" y="59.6">1.00015</text>
             <text x="598" y="59.6" text-anchor="end">1.00020</text>
           </g>
         </g>
         <g>
           <g>
-            <rect x="49.14" y="25.6" width="549" height="18" fill="white" />
+            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
@@ -86,21 +86,21 @@
     <g transform="translate(0, 249.2)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.1</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
-          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
+          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
             <text x="49.14" y="59.6" text-anchor="start">1.00</text>
             <text x="158.912" y="59.6">1.02</text>
             <text x="268.684" y="59.6">1.04</text>
             <text x="378.456" y="59.6">1.06</text>
-            <text x="488" y="59.6">1.08</text>
+            <text x="488.228" y="59.6">1.08</text>
             <text x="598" y="59.6" text-anchor="end">1.10</text>
           </g>
         </g>
         <g>
           <g>
-            <rect x="49.14" y="25.6" width="549" height="18" fill="white" />
+            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
@@ -114,21 +114,21 @@
     <g transform="translate(0, 324.4)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 2</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
-          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
+          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
             <text x="49.14" y="59.6" text-anchor="start">1.0</text>
             <text x="158.912" y="59.6">1.2</text>
             <text x="268.684" y="59.6">1.4</text>
             <text x="378.456" y="59.6">1.6</text>
-            <text x="488" y="59.6">1.8</text>
+            <text x="488.228" y="59.6">1.8</text>
             <text x="598" y="59.6" text-anchor="end">2.0</text>
           </g>
         </g>
         <g>
           <g>
-            <rect x="49.14" y="25.6" width="549" height="18" fill="white" />
+            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
@@ -142,24 +142,24 @@
     <g transform="translate(0, 399.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 5</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
-          <path d="M 49.14 23.6 V 45.6 M 117.7475 23.6 V 45.6 M 186.355 23.6 V 45.6 M 255 23.6 V 45.6 M 323.57 23.6 V 45.6 M 392 23.6 V 45.6 M 461 23.6 V 45.6 M 529.3925 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
+          <path d="M 49.14 23.6 V 45.6 M 117.748 23.6 V 45.6 M 186.355 23.6 V 45.6 M 254.962 23.6 V 45.6 M 323.57 23.6 V 45.6 M 392.178 23.6 V 45.6 M 460.785 23.6 V 45.6 M 529.393 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
             <text x="49.14" y="59.6" text-anchor="start">1.0</text>
-            <text x="117.7475" y="59.6">1.5</text>
+            <text x="117.748" y="59.6">1.5</text>
             <text x="186.355" y="59.6">2.0</text>
-            <text x="255" y="59.6">2.5</text>
+            <text x="254.962" y="59.6">2.5</text>
             <text x="323.57" y="59.6">3.0</text>
-            <text x="392" y="59.6">3.5</text>
-            <text x="461" y="59.6">4.0</text>
-            <text x="529.3925" y="59.6">4.5</text>
+            <text x="392.178" y="59.6">3.5</text>
+            <text x="460.785" y="59.6">4.0</text>
+            <text x="529.393" y="59.6">4.5</text>
             <text x="598" y="59.6" text-anchor="end">5.0</text>
           </g>
         </g>
         <g>
           <g>
-            <rect x="49.14" y="25.6" width="549" height="18" fill="white" />
+            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
@@ -170,28 +170,28 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 475)">
+    <g transform="translate(0, 474.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 10</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
-          <path d="M 49.14 23.6 V 45.6 M 110.1244 23.6 V 45.6 M 171.1089 23.6 V 45.6 M 232 23.6 V 45.6 M 293 23.6 V 45.6 M 354 23.6 V 45.6 M 415 23.6 V 45.6 M 476 23.6 V 45.6 M 537 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
+          <path d="M 49.14 23.6 V 45.6 M 110.124 23.6 V 45.6 M 171.109 23.6 V 45.6 M 232.093 23.6 V 45.6 M 293.078 23.6 V 45.6 M 354.062 23.6 V 45.6 M 415.047 23.6 V 45.6 M 476.031 23.6 V 45.6 M 537 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
             <text x="49.14" y="59.6" text-anchor="start">1</text>
-            <text x="110.1244" y="59.6">2</text>
-            <text x="171.1089" y="59.6">3</text>
-            <text x="232" y="59.6">4</text>
-            <text x="293" y="59.6">5</text>
-            <text x="354" y="59.6">6</text>
-            <text x="415" y="59.6">7</text>
-            <text x="476" y="59.6">8</text>
+            <text x="110.124" y="59.6">2</text>
+            <text x="171.109" y="59.6">3</text>
+            <text x="232.093" y="59.6">4</text>
+            <text x="293.078" y="59.6">5</text>
+            <text x="354.062" y="59.6">6</text>
+            <text x="415.047" y="59.6">7</text>
+            <text x="476.031" y="59.6">8</text>
             <text x="537" y="59.6">9</text>
             <text x="598" y="59.6" text-anchor="end">10</text>
           </g>
         </g>
         <g>
           <g>
-            <rect x="49.14" y="25.6" width="549" height="18" fill="white" />
+            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
@@ -205,54 +205,54 @@
     <g transform="translate(0, 550)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 2000</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
-          <path d="M 49.14 23.6 V 45.6 M 104 23.6 V 45.6 M 158.912 23.6 V 45.6 M 213.798 23.6 V 45.6 M 268.684 23.6 V 45.6 M 323.57 23.6 V 45.6 M 378.456 23.6 V 45.6 M 433.342 23.6 V 45.6 M 488 23.6 V 45.6 M 543 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
+          <path d="M 49.14 23.6 V 45.6 M 104.026 23.6 V 45.6 M 158.912 23.6 V 45.6 M 213.798 23.6 V 45.6 M 268.684 23.6 V 45.6 M 323.57 23.6 V 45.6 M 378.456 23.6 V 45.6 M 433.342 23.6 V 45.6 M 488.228 23.6 V 45.6 M 543.114 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
             <text x="49.14" y="59.6" text-anchor="start">0</text>
-            <text x="104" y="59.6">200</text>
+            <text x="104.026" y="59.6">200</text>
             <text x="158.912" y="59.6">400</text>
             <text x="213.798" y="59.6">600</text>
             <text x="268.684" y="59.6">800</text>
             <text x="323.57" y="59.6">1000</text>
             <text x="378.456" y="59.6">1200</text>
             <text x="433.342" y="59.6">1400</text>
-            <text x="488" y="59.6">1600</text>
-            <text x="543" y="59.6">1800</text>
+            <text x="488.228" y="59.6">1600</text>
+            <text x="543.114" y="59.6">1800</text>
             <text x="598" y="59.6" text-anchor="end">2000</text>
           </g>
         </g>
         <g>
           <g>
-            <rect x="49.4144" y="25.6" width="548.5856" height="18" fill="white" />
+            <rect x="49.414" y="25.6" width="548.586" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
-          <text x="323.7072" y="38.8" fill="black" text-anchor="middle">Period</text>
+          <text x="323.707" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
           <text x="2" y="38.8">Period</text>
         </g>
       </g>
     </g>
-    <g transform="translate(0, 625)">
+    <g transform="translate(0, 625.2)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 10000000</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
-          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
+          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
             <text x="49.14" y="59.6" text-anchor="start">0</text>
             <text x="158.912" y="59.6">2</text>
             <text x="268.684" y="59.6">4</text>
             <text x="378.456" y="59.6">6</text>
-            <text x="488" y="59.6">8</text>
+            <text x="488.228" y="59.6">8</text>
             <text x="598" y="59.6" text-anchor="end">10</text>
           </g>
         </g>
         <g>
           <g>
-            <rect x="49.1401" y="25.6" width="549" height="18" fill="white" />
+            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
@@ -266,21 +266,21 @@
     <g transform="translate(0, 700.4)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 10000000000</text>
-        <rect x="49.14" y="23.6" width="549" height="22" stroke="black" stroke-width="1" />
+        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" stroke-width="1" />
         <g>
-          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
+          <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6 M 49.14 23.6 H 600 M 49.14 45.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black">
             <text x="49.14" y="59.6" text-anchor="start">0</text>
             <text x="158.912" y="59.6">2</text>
             <text x="268.684" y="59.6">4</text>
             <text x="378.456" y="59.6">6</text>
-            <text x="488" y="59.6">8</text>
+            <text x="488.228" y="59.6">8</text>
             <text x="598" y="59.6" text-anchor="end">10</text>
           </g>
         </g>
         <g>
           <g>
-            <rect x="49.14" y="25.6" width="549" height="18" fill="white" />
+            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
         <g text-anchor="middle" stroke="none" fill="black">
