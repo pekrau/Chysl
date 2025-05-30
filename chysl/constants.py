@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts can be combined in different ways."
 
-VERSION = (0, 3, 2)
+VERSION = (0, 3, 3)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -39,6 +39,7 @@ DEFAULT_PLACEMENT = "center"
 DEFAULT_FONT_FAMILY = "sans-serif"
 DEFAULT_FONT_SIZE = 14
 DEFAULT_TITLE_FONT_SIZE = 18
+DEFAULT_FRAME_WIDTH = 1
 
 # See: https://austingil.com/css-named-colors/#bold
 DEFAULT_PALETTE = [

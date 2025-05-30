@@ -18,7 +18,7 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.2
+chysl: 0.3.3
 chart: column
 title: Universe and Earth
 subcharts:
@@ -124,7 +124,7 @@ subcharts:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.2
+chysl: 0.3.3
 chart: column
 title: Pies in column
 subcharts:
@@ -143,6 +143,7 @@ subcharts:
   - value: 3
     label: Strawberries
     color: orangered
+    href: https://en.wikipedia.org/wiki/Strawberry
 - chart: piechart
   title: Rhubarb pie
   diameter: 250
@@ -159,6 +160,7 @@ subcharts:
   - value: 3
     label: Rhubarb
     color: green
+    href: https://en.wikipedia.org/wiki/Rhubarb
 - chart: note
   title: Comment
   body: Strawberry pie is good.
@@ -239,7 +241,7 @@ entries:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.2
+chysl: 0.3.3
 chart: column
 title: Predefined markers
 subcharts:
@@ -722,7 +724,7 @@ subcharts:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.2
+chysl: 0.3.3
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -804,7 +806,7 @@ subcharts:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.2
+chysl: 0.3.3
 chart: column
 title:
   text: Iris flower measurements

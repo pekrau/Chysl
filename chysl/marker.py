@@ -928,6 +928,6 @@ class Marker:
         if self.opacity is not None and self.opacity != 1:
             elem["opacity"] = self.opacity
         if self.href:
-            elem["href"] = self.href
+            elem = Element("a", elem, self.href)
 
         return elem

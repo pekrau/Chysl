@@ -7,7 +7,7 @@ import schema
 import utils
 from color import Color
 from chart import Chart, parse, Entry, Element
-from dimension import Dimension
+from dimension import Xdimension
 from marker import Marker
 from path import Path
 from vector2 import Vector2
@@ -15,6 +15,8 @@ from vector2 import Vector2
 
 class Timelines(Chart):
     "Timelines having events and periods."
+
+    DEFAULT_GRID_COLOR = "gray"
 
     SCHEMA = {
         "title": __doc__,
@@ -192,11 +194,11 @@ class Timelines(Chart):
         """
         super().build()
 
-        dimension = Dimension(width=self.width)
+        dimension = Xdimension(width=self.width)
         timelines = dict()  # Key: timeline; value: height
 
         # Set the heights for each timeline and the left padding for legends.
-        height0 = self.height
+        ypxlow = self.height
         kwargs = dict(
             font=constants.DEFAULT_FONT_FAMILY,
             size=constants.DEFAULT_FONT_SIZE,
@@ -210,6 +212,7 @@ class Timelines(Chart):
                 timelines[entry.timeline] = self.height
                 self.height += constants.DEFAULT_SIZE + constants.DEFAULT_PADDING
         dimension.update_end(constants.DEFAULT_PADDING)
+        ypxhigh = self.height
 
         if isinstance(self.axis, dict):
             absolute = bool(self.axis.get("absolute"))
@@ -218,54 +221,27 @@ class Timelines(Chart):
         dimension.build(absolute=absolute)
 
         # Chart frame.
-        ticks = dimension.ticks
-        self.svg += (
-            frame := Element(
-                "rect",
-                x=utils.N(ticks[0].pixel),
-                y=utils.N(height0),
-                width=utils.N(ticks[-1].pixel - ticks[0].pixel),
-                height=utils.N(self.height - height0),
-                stroke="black",
-            )
+        self.svg += dimension.get_frame(
+            ypxlow,
+            ypxhigh,
+            color=constants.DEFAULT_COLOR,
+            linewidth=constants.DEFAULT_FRAME_WIDTH,
         )
-        frame["stroke-width"] = 1
 
-        # Time axis grid and its labels.
+        # Time axis: grid and labels.
         if self.axis:
             if isinstance(self.axis, dict):
-                color = self.axis.get("color") or "gray"
+                color = self.axis.get("color") or self.DEFAULT_GRID_COLOR
                 caption = self.axis.get("caption")
             else:
-                color = "gray"
+                color = self.DEFAULT_GRID_COLOR
                 caption = None
             self.svg += (axis := Element("g"))
-            path = Path(ticks[0].pixel, height0).V(self.height)
-            for tick in ticks[1:]:
-                path.M(tick.pixel, height0).V(self.height)
-            path.M(ticks[0].pixel, height0).H(self.width)
-            path.M(ticks[0].pixel, self.height).H(self.width)
-            axis += Element("path", d=path, stroke=color)
-
-            axis += (labels := Element("g"))
-            labels["text-anchor"] = "middle"
-            labels["stroke"] = "none"
-            labels["fill"] = "black"
-            self.height += constants.DEFAULT_FONT_SIZE
-            for tick in ticks:
-                labels += (
-                    label := Element(
-                        "text",
-                        tick.label,
-                        x=utils.N(tick.pixel),
-                        y=utils.N(self.height),
-                    )
-                )
-                if tick is ticks[0]:
-                    label["text-anchor"] = "start"
-                elif tick is ticks[-1]:
-                    label["text-anchor"] = "end"
-            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+            axis += dimension.get_grid(ypxlow, ypxhigh, color)
+            axis += (
+                labels := dimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
+            )
+            self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
 
             # Time axis caption, if any.
             if caption:
@@ -281,12 +257,16 @@ class Timelines(Chart):
             self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
         # Graphics for entries.
+        clippath_id, clippath_def = dimension.get_clippath(ypxlow, ypxhigh)
+        self.svg += clippath_def
         self.svg += (graphics := Element("g"))
+        graphics["clip-path"] = f"url(#{clippath_id})"
         for entry in self.entries:
             graphics += entry.render_graphic(timelines[entry.timeline], dimension)
 
         # Entry labels after graphics, to render on top.
         self.svg += (labels := Element("g"))
+        labels["clip-path"] = f"url(#{clippath_id})"
         labels["text-anchor"] = "middle"
         labels["stroke"] = "none"
         labels["fill"] = "black"
@@ -384,7 +364,7 @@ class Event(_Temporal):
         color=None,
         placement=None,
         fuzzy=None,
-        href=None
+        href=None,
     ):
         super().__init__(label=label, timeline=timeline, color=color)
         assert isinstance(instant, (int, float, dict))
@@ -502,8 +482,15 @@ class Period(_Temporal):
     DEFAULT_FUZZY = constants.ERROR
 
     def __init__(
-            self, label, begin, end, timeline=None, color=None, placement=None, fuzzy=None,
-            href=None
+        self,
+        label,
+        begin,
+        end,
+        timeline=None,
+        color=None,
+        placement=None,
+        fuzzy=None,
+        href=None,
     ):
         super().__init__(label=label, timeline=timeline, color=color)
         assert isinstance(begin, (int, float, dict))
@@ -749,7 +736,8 @@ class Period(_Temporal):
                     raise NotImplementedError
 
         if self.href:
-            result["href"] = self.href
+            result = Element("a", result, href=self.href)
+
         return result
 
     def render_label(self, y, dimension):

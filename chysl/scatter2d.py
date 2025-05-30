@@ -5,7 +5,7 @@ import schema
 import utils
 from chart import Chart, Entry, Element
 from datapoints import DatapointsReader
-from dimension import Dimension
+from dimension import Xdimension, Ydimension
 from marker import Marker
 from path import Path
 from utils import N
@@ -134,35 +134,46 @@ class Scatter2d(Chart):
         super().build()
 
         # Determine dimensions for the axes.
-        xdimension = Dimension(width=self.width)
-        ydimension = Dimension(width=self.width, reversed=True)
+        xdimension = Xdimension(width=self.width)
+        ydimension = Ydimension(width=self.width, reversed=True)
         xdimension.update_span(self.points.minmax("x"))
         ydimension.update_span(self.points.minmax("y"))
         xdimension.expand_span(0.05)
         ydimension.expand_span(0.05)
         ydimension.update_end(self.height)
-        # XXX This is a kludge, assuming legend label is two characters wide.
-        xdimension.update_start(
-            utils.get_text_length(
-                "99", constants.DEFAULT_FONT_FAMILY, constants.DEFAULT_FONT_SIZE
-            )
-            + constants.DEFAULT_PADDING
-        )
-        xdimension.update_end(constants.DEFAULT_PADDING)
-        if isinstance(self.xaxis, dict):
-            absolute = bool(self.xaxis.get("absolute"))
-        else:
-            absolute = False
-        xdimension.build(absolute=absolute)
+
+        # Y dimension has to be built first; label lengths needed for adjusting x.
         if isinstance(self.yaxis, dict):
             absolute = bool(self.yaxis.get("absolute"))
         else:
             absolute = False
         ydimension.build(absolute=absolute)
 
-        self.height += self.width - self.height
+        xdimension.update_start(
+            ydimension.get_label_length(constants.DEFAULT_FONT_SIZE)
+            + constants.DEFAULT_PADDING
+        )
 
-        # X axis grid and its labels.
+        xdimension.update_end(constants.DEFAULT_PADDING)
+        if isinstance(self.xaxis, dict):
+            absolute = bool(self.xaxis.get("absolute"))
+        else:
+            absolute = False
+        xdimension.build(absolute=absolute)
+
+        ypxlow = self.height
+        self.height += self.width - self.height
+        ypxhigh = self.height
+
+        # Chart frame.
+        self.svg += xdimension.get_frame(
+            ypxlow,
+            ypxhigh,
+            color=constants.DEFAULT_COLOR,
+            linewidth=constants.DEFAULT_FRAME_WIDTH,
+        )
+
+        # X axis: grid and labels.
         if self.xaxis:
             if isinstance(self.xaxis, dict):
                 color = self.xaxis.get("color") or "gray"
@@ -171,33 +182,11 @@ class Scatter2d(Chart):
                 color = "gray"
                 caption = None
             self.svg += (xaxis := Element("g"))
-            ticks = xdimension.ticks
-            top = ydimension.get_pixel(ydimension.first)
-            bottom = ydimension.get_pixel(ydimension.last)
-            path = Path(ticks[0].pixel, top).V(bottom)
-            for tick in ticks[1:]:
-                path.M(tick.pixel, top).V(bottom)
-            xaxis += Element("path", d=path, stroke=color)
-
-            xaxis += (labels := Element("g"))
-            labels["text-anchor"] = "middle"
-            labels["stroke"] = "none"
-            labels["fill"] = "black"
-            self.height += constants.DEFAULT_FONT_SIZE
-            for tick in ticks:
-                labels += (
-                    label := Element(
-                        "text",
-                        tick.label,
-                        x=N(tick.pixel),
-                        y=N(self.height),
-                    )
-                )
-                if tick is ticks[0]:
-                    label["text-anchor"] = "start"
-                elif tick is ticks[-1]:
-                    label["text-anchor"] = "end"
-            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+            xaxis += xdimension.get_grid(ypxlow, ypxhigh, color)
+            xaxis += (
+                labels := xdimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
+            )
+            self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
 
         # Y axis grid and its labels.
         if self.yaxis:
@@ -208,35 +197,18 @@ class Scatter2d(Chart):
                 color = "gray"
                 caption = None
             self.svg += (yaxis := Element("g"))
-            ticks = ydimension.ticks
             start = xdimension.get_pixel(xdimension.first)
             end = xdimension.get_pixel(xdimension.last)
-            path = Path(start, ticks[0].pixel)
-            path.H(end)
-            for tick in ticks[1:]:
-                path.M(start, tick.pixel).H(end)
-            yaxis += Element("path", d=path, stroke=color)
-
-            yaxis += (labels := Element("g"))
-            labels["text-anchor"] = "end"
-            labels["stroke"] = "none"
-            labels["fill"] = "black"
-            for tick in ticks:
-                labels += (
-                    label := Element(
-                        "text",
-                        tick.label,
-                        x=N(xdimension.start - constants.DEFAULT_PADDING),
-                        y=N(tick.pixel + constants.DEFAULT_FONT_SIZE / 3),
-                    )
-                )
-                if tick is ticks[0]:
-                    label["y"] = N(tick.pixel)
-                elif tick is ticks[-1]:
-                    label["y"] = N(tick.pixel + constants.DEFAULT_FONT_SIZE)
+            yaxis += ydimension.get_grid(start, end, color)
+            yaxis += (
+                labels := ydimension.get_labels(start, constants.DEFAULT_FONT_SIZE)
+            )
 
         # Graphics for points.
-        self.svg += (points := Element("g"))
+        clippath_id, clippath_def = xdimension.get_clippath(ypxlow, ypxhigh)
+        self.svg += clippath_def
+        self.svg += (graphics := Element("g"))
+        graphics["clip-path"] = f"url(#{clippath_id})"
         for dp in self.points:
             kwargs = {}
             if (opacity := dp.get("opacity")) is None:
@@ -251,6 +223,6 @@ class Scatter2d(Chart):
                 color=dp.get("color") or self.color,
                 **kwargs,
             )
-            points += marker.get_graphic(
+            graphics += marker.get_graphic(
                 xdimension.get_pixel(dp["x"]), ydimension.get_pixel(dp["y"])
             )

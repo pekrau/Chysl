@@ -137,7 +137,7 @@ DEFS = {
         "$anchor": "uri",
         "title": "A URI, absolute or relative.",
         "type": "string",
-        "format": "uri-reference"
+        "format": "uri-reference",
     },
     "axis": {
         "$anchor": "axis",

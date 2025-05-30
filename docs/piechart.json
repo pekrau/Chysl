@@ -71,12 +71,33 @@
           "color": {
             "title": "Color of the slice.",
             "$ref": "#color"
+          },
+          "href": {
+            "$ref": "#uri"
           }
         }
       }
     }
   },
   "$defs": {
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate display pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
+    },
+    "color": {
+      "$anchor": "color",
+      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
+      "type": "string",
+      "format": "color"
+    },
+    "uri": {
+      "$anchor": "uri",
+      "title": "A URI, absolute or relative.",
+      "type": "string",
+      "format": "uri-reference"
+    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -138,18 +159,6 @@
           }
         }
       ]
-    },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
-    },
-    "color": {
-      "$anchor": "color",
-      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
-      "type": "string",
-      "format": "color"
     }
   }
 }

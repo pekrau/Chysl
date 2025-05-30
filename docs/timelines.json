@@ -154,112 +154,49 @@
     }
   },
   "$defs": {
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
-      "oneOf": [
-        {
-          "title": "Text with default styling.",
-          "type": "string"
-        },
-        {
-          "title": "Text with styling options.",
-          "type": "object",
-          "required": [
-            "text"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "size": {
-              "title": "Size of font. Default depends on context.",
-              "$ref": "#size"
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
-            }
-          }
-        }
-      ]
-    },
     "size": {
       "$anchor": "size",
       "title": "Size of graphical item, in approximate display pixel units.",
       "type": "number",
       "minimumExclusive": 0
     },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
+    "fuzzy_number": {
+      "$anchor": "fuzzy_number",
+      "title": "Number value, exact, or fuzzy with either low/high or error.",
       "oneOf": [
         {
-          "title": "Display default axis.",
-          "type": "boolean",
-          "default": true
+          "title": "Exact number value.",
+          "type": "number"
         },
         {
-          "title": "Axis details.",
+          "title": "Fuzzy number value,  with either low/high or error",
           "type": "object",
+          "required": [
+            "value"
+          ],
           "additionalProperties": false,
+          "minProperties": 2,
           "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "gray"
+            "value": {
+              "title": "Central value for the fuzzy number.",
+              "type": "number"
             },
-            "absolute": {
-              "title": "Display absolute values for ticks.",
-              "type": "boolean",
-              "default": false
+            "low": {
+              "title": "Low value for the fuzzy number.",
+              "type": "number"
             },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
+            "high": {
+              "title": "High value for the fuzzy number.",
+              "type": "number"
+            },
+            "error": {
+              "title": "Symmetrical error around the central value.",
+              "type": "number",
+              "exclusiveMinimum": 0
             }
           }
         }
       ]
-    },
-    "uri": {
-      "$anchor": "uri",
-      "title": "A URI, absolute or relative.",
-      "type": "string",
-      "format": "uri-reference"
     },
     "marker": {
       "$anchor": "marker",
@@ -351,39 +288,102 @@
         }
       ]
     },
-    "fuzzy_number": {
-      "$anchor": "fuzzy_number",
-      "title": "Number value, exact, or fuzzy with either low/high or error.",
+    "uri": {
+      "$anchor": "uri",
+      "title": "A URI, absolute or relative.",
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
       "oneOf": [
         {
-          "title": "Exact number value.",
-          "type": "number"
+          "title": "Display default axis.",
+          "type": "boolean",
+          "default": true
         },
         {
-          "title": "Fuzzy number value,  with either low/high or error",
+          "title": "Axis details.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "gray"
+            },
+            "absolute": {
+              "title": "Display absolute values for ticks.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
           "type": "object",
           "required": [
-            "value"
+            "text"
           ],
           "additionalProperties": false,
-          "minProperties": 2,
           "properties": {
-            "value": {
-              "title": "Central value for the fuzzy number.",
-              "type": "number"
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
             },
-            "low": {
-              "title": "Low value for the fuzzy number.",
-              "type": "number"
+            "size": {
+              "title": "Size of font. Default depends on context.",
+              "$ref": "#size"
             },
-            "high": {
-              "title": "High value for the fuzzy number.",
-              "type": "number"
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
             },
-            "error": {
-              "title": "Symmetrical error around the central value.",
-              "type": "number",
-              "exclusiveMinimum": 0
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            },
+            "anchor": {
+              "title": "Text anchor position. Ignored in some contexts.",
+              "enum": [
+                "start",
+                "middle",
+                "end"
+              ],
+              "default": "middle"
             }
           }
         }

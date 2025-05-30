@@ -1,11 +1,16 @@
-"Dimension and Tick classes."
+"Dimension classes."
 
 import collections
 import enum
 import itertools
 import math
 
+import constants
 import utils
+from minixml import Element
+from path import Path
+from utils import N
+
 
 Tick = collections.namedtuple("Tick", ["user", "pixel", "label"], defaults=[None])
 
@@ -17,7 +22,9 @@ class Epoch(enum.StrEnum):
 
 
 class Dimension:
-    "Store min/max and calculate base/first/last and ticks for the span."
+    """Graphics for axis.
+    Store min/max and calculate base/first/last and ticks for the span.
+    """
 
     def __init__(self, width, start=0, end=0, reversed=False):
         assert isinstance(width, (int, float)) and width > 0
@@ -135,24 +142,6 @@ class Dimension:
             else:
                 self.factor = 1
         self.func = (lambda v: abs(v)) if absolute else (lambda v: v)
-        self.ticks = [
-            Tick(
-                value,
-                self.get_pixel(value),
-                label=self.format % self.func(value / self.factor),
-            )
-            for value in self.positions
-        ]
-
-    def get_ticks(self):
-        return [
-            Tick(
-                value,
-                self.get_pixel(value),
-                label=self.format % self.func(value / self.factor),
-            )
-            for value in self.positions
-        ]
 
     def get_pixel(self, user):
         "Convert user coordinate to pixel coordinate."
@@ -165,24 +154,179 @@ class Dimension:
         "Convert user width to pixel width."
         return self.scale * abs(end - begin)
 
+    def get_ticks(self):
+        return [
+            Tick(
+                value,
+                self.get_pixel(value),
+                label=self.format % self.func(value / self.factor),
+            )
+            for value in self.positions
+        ]
+
+    def get_frame(self, pxlow, pxhigh, color, linewidth):
+        raise NotImplementedError
+
+    def get_grid(self, pxlow, pxhigh):
+        raise NotImplementedError
+
+    def get_labels(self, baseline, font_size):
+        raise NotImplementedError
+
+    def get_clippath(self, pxlow, pxhigh):
+        raise NotImplementedError
+
 
 class Xdimension(Dimension):
-    "Label graphics for the x axis."
+    "Graphics for the x axis."
 
-    pass
+    def get_frame(self, ypxlow, ypxhigh, color, linewidth):
+        "Return the frame around the graphics."
+        result = Element(
+            "rect",
+            x=N(self.get_pixel(self.first)),
+            y=N(ypxlow),
+            width=N(self.get_width(self.first, self.last)),
+            height=N(ypxhigh - ypxlow),
+            stroke=color,
+        )
+        result["stroke-width"] = linewidth
+        return result
+
+    def get_clippath(self, ypxlow, ypxhigh):
+        "Return a tuple (id, clippath) for the graphics."
+        id = next(utils.unique_id)
+        return (
+            id,
+            Element(
+                "defs",
+                Element(
+                    "clipPath",
+                    Element(
+                        "rect",
+                        x=N(self.get_pixel(self.first)),
+                        y=N(ypxlow),
+                        width=N(self.get_width(self.first, self.last)),
+                        height=N(ypxhigh - ypxlow),
+                    ),
+                    id=id,
+                ),
+            ),
+        )
+
+    def get_grid(self, ypxlow, ypxhigh, color):
+        "Get the x grid lines at the ticks for the graphic."
+        ticks = self.get_ticks()
+        path = Path(ticks[0].pixel, ypxlow).V(ypxhigh)
+        for tick in ticks[1:]:
+            path.M(tick.pixel, ypxlow).V(ypxhigh)
+        path.M(ticks[0].pixel, ypxlow).H(self.width)
+        path.M(ticks[0].pixel, ypxhigh).H(self.width)
+        return Element("path", d=path, stroke=color)
+
+    def get_labels(self, height, font_size):
+        "Get the labels for the x dimension ticks."
+        result = Element("g")
+        result["text-anchor"] = "middle"
+        result["stroke"] = "none"
+        result["fill"] = "black"
+        result["font-size"] = font_size
+        height += font_size
+        ticks = self.get_ticks()
+        for tick in ticks:
+            result += (
+                label := Element(
+                    "text",
+                    tick.label,
+                    x=N(tick.pixel),
+                    y=N(height),
+                )
+            )
+            if tick is ticks[0]:
+                label["text-anchor"] = "start"
+            elif tick is ticks[-1]:
+                label["text-anchor"] = "end"
+        return result
 
 
 class Ydimension(Dimension):
-    "Label graphics for the y axis."
+    "Graphics for the y axis."
 
-    pass
+    def get_label_length(self, font_size):
+        "Get the length of the longest tick label."
+        result = 0
+        for tick in self.get_ticks():
+            result = max(
+                result,
+                utils.get_text_length(
+                    tick.label, constants.DEFAULT_FONT_FAMILY, font_size
+                ),
+            )
+        return result
 
+    def get_frame(self, xpxlow, xpxhigh, color, linewidth):
+        "Return the frame around the graphics."
+        result = Element(
+            "rect",
+            x=N(xpxlow),
+            y=N(self.get_pixel(self.first)),
+            width=N(xpxhigh - xpxlow),
+            height=N(self.get_width(self.first, self.last)),
+            stroke=color,
+        )
+        result["stroke-width"] = linewidth
+        return result
 
-if __name__ == "__main__":
-    from icecream import ic
+    def get_clippath(self, xpxlow, xpxhigh):
+        "Return a tuple (id, clippath) for the graphics."
+        id = next(utils.unique_id)
+        return (
+            id,
+            Element(
+                "defs",
+                Element(
+                    "clipPath",
+                    Element(
+                        "rect",
+                        x=N(xpxlow),
+                        y=N(self.get_pixel(self.first)),
+                        width=N(xpxhigh - xpxlow),
+                        height=N(self.get_width(self.first, self.last)),
+                    ),
+                    id=id,
+                ),
+            ),
+        )
 
-    for x in range(1, 8):
-        d = Dimension()
-        d.update_span([0, x])
-        numbers = [t.user for t in d.get_ticks(5)]
-        ic(x, d.base, d.step, numbers)
+    def get_grid(self, xpxlow, xpxhigh, color):
+        "Get the x grid lines at the ticks for the graphic."
+        ticks = self.get_ticks()
+        path = Path(xpxlow, ticks[0].pixel).H(xpxhigh)
+        for tick in ticks[1:]:
+            path.M(xpxlow, tick.pixel).H(xpxhigh)
+        path.M(xpxlow, ticks[0].pixel).V(self.width)
+        path.M(xpxhigh, ticks[0].pixel).V(self.width)
+        return Element("path", d=path, stroke=color)
+
+    def get_labels(self, width, font_size):
+        "Get the labels for the y dimension ticks."
+        result = Element("g")
+        result["text-anchor"] = "end"
+        result["stroke"] = "none"
+        result["fill"] = "black"
+        result["font-size"] = font_size
+        ticks = self.get_ticks()
+        for tick in ticks:
+            result += (
+                label := Element(
+                    "text",
+                    tick.label,
+                    x=N(width - constants.DEFAULT_PADDING),
+                    y=N(tick.pixel + font_size / 3),
+                )
+            )
+            if tick is ticks[0]:
+                label["y"] = N(tick.pixel)
+            elif tick is ticks[-1]:
+                label["y"] = N(tick.pixel + 0.75 * font_size)
+        return result

@@ -279,13 +279,23 @@ def test_pies_column():
     paj += dict(value=7, label="Flour", color="white")
     paj += dict(value=2, label="Eggs", color="yellow")
     paj += dict(value=3, label="Butter", color="gold")
-    paj += dict(value=3, label="Strawberries", color="orangered")
+    paj += dict(
+        value=3,
+        label="Strawberries",
+        color="orangered",
+        href="https://en.wikipedia.org/wiki/Strawberry",
+    )
 
     pajer += (paj := Piechart("Rhubarb pie", diameter=250))
     paj += dict(value=7, label="Flour", color="white")
     paj += dict(value=2, label="Eggs", color="yellow")
     paj += dict(value=3, label="Butter", color="gold")
-    paj += dict(value=3, label="Rhubarb", color="green")
+    paj += dict(
+        value=3,
+        label="Rhubarb",
+        color="green",
+        href="https://en.wikipedia.org/wiki/Rhubarb",
+    )
 
     pajer += Note(
         title="Comment",
@@ -306,13 +316,20 @@ def test_pies_row():
     paj += dict(value=7, label="Flour")
     paj += dict(value=2, label="Eggs")
     paj += dict(value=3, label="Butter")
-    paj += dict(value=3, label="Strawberries")
+    paj += dict(
+        value=3, label="Strawberries", href="https://en.wikipedia.org/wiki/Strawberry"
+    )
 
     pajer += (paj := Piechart("Rhubarb pie", palette=palette))
     paj += dict(value=7, label="Flour")
     paj += dict(value=2, label="Eggs")
     paj += dict(value=3, label="Butter")
-    paj += dict(value=3, label="Rhubarb", color="green")
+    paj += dict(
+        value=3,
+        label="Rhubarb",
+        color="green",
+        href="https://en.wikipedia.org/wiki/Rhubarb",
+    )
 
     pajer.save("pies_row.yaml")
     pajer.render("pies_row.svg")

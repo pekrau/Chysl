@@ -16,7 +16,7 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.3.2
+chysl: 0.3.3
 chart: note
 title:
   text: Declaration
@@ -104,7 +104,7 @@ entries:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.2
+chysl: 0.3.3
 chart: column
 title: Pies in column
 subcharts:
@@ -123,6 +123,7 @@ subcharts:
   - value: 3
     label: Strawberries
     color: orangered
+    href: https://en.wikipedia.org/wiki/Strawberry
 - chart: piechart
   title: Rhubarb pie
   diameter: 250
@@ -139,6 +140,7 @@ subcharts:
   - value: 3
     label: Rhubarb
     color: green
+    href: https://en.wikipedia.org/wiki/Rhubarb
 - chart: note
   title: Comment
   body: Strawberry pie is good.

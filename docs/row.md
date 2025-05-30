@@ -13,7 +13,7 @@
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.3.2
+chysl: 0.3.3
 chart: row
 title: Pies in row
 subcharts:
@@ -34,6 +34,7 @@ subcharts:
     label: Butter
   - value: 3
     label: Strawberries
+    href: https://en.wikipedia.org/wiki/Strawberry
 - chart: piechart
   title: Rhubarb pie
   palette:
@@ -51,6 +52,7 @@ subcharts:
   - value: 3
     label: Rhubarb
     color: green
+    href: https://en.wikipedia.org/wiki/Rhubarb
 ```
 ### scatter_iris
 
@@ -59,7 +61,7 @@ subcharts:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.2
+chysl: 0.3.3
 chart: column
 title:
   text: Iris flower measurements

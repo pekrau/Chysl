@@ -5,7 +5,7 @@ import schema
 import utils
 from chart import Chart, Element
 from datapoints import DatapointsReader
-from dimension import Dimension
+from dimension import Xdimension, Ydimension
 from path import Path
 from utils import N
 
@@ -133,19 +133,24 @@ class Lines2d(Chart):
         super().build()
 
         # Determine dimensions for the axes.
-        xdimension = Dimension(width=self.width)
-        ydimension = Dimension(width=self.width, reversed=True)
+        xdimension = Xdimension(width=self.width)
+        ydimension = Ydimension(width=self.width, reversed=True)
         for line in self.lines:
             xdimension.update_span(line["line"].minmax("x"))
             ydimension.update_span(line["line"].minmax("y"))
         xdimension.expand_span(0.05)
         ydimension.expand_span(0.05)
         ydimension.update_end(self.height)
-        # XXX This is a kludge, assuming legend label is two characters wide.
+
+        # Y dimension has to be built first; label lengths needed for adjusting x.
+        if isinstance(self.yaxis, dict):
+            absolute = bool(self.yaxis.get("absolute"))
+        else:
+            absolute = False
+        ydimension.build(absolute=absolute)
+
         xdimension.update_start(
-            utils.get_text_length(
-                "99", constants.DEFAULT_FONT_FAMILY, constants.DEFAULT_FONT_SIZE
-            )
+            ydimension.get_label_length(constants.DEFAULT_FONT_SIZE)
             + constants.DEFAULT_PADDING
         )
         xdimension.update_end(constants.DEFAULT_PADDING)
@@ -154,15 +159,20 @@ class Lines2d(Chart):
         else:
             absolute = False
         xdimension.build(absolute=absolute)
-        if isinstance(self.yaxis, dict):
-            absolute = bool(self.yaxis.get("absolute"))
-        else:
-            absolute = False
-        ydimension.build(absolute=absolute)
 
+        ypxlow = self.height
         self.height += self.width - self.height
+        ypxhigh = self.height
 
-        # X axis grid and its labels.
+        # Chart frame.
+        self.svg += xdimension.get_frame(
+            ypxlow,
+            ypxhigh,
+            color=constants.DEFAULT_COLOR,
+            linewidth=constants.DEFAULT_FRAME_WIDTH,
+        )
+
+        # X axis: grid and labels.
         if self.xaxis:
             if isinstance(self.xaxis, dict):
                 color = self.xaxis.get("color") or "gray"
@@ -171,35 +181,13 @@ class Lines2d(Chart):
                 color = "gray"
                 caption = None
             self.svg += (xaxis := Element("g"))
-            ticks = xdimension.ticks
-            top = ydimension.get_pixel(ydimension.first)
-            bottom = ydimension.get_pixel(ydimension.last)
-            path = Path(ticks[0].pixel, top).V(bottom)
-            for tick in ticks[1:]:
-                path.M(tick.pixel, top).V(bottom)
-            xaxis += Element("path", d=path, stroke=color)
+            xaxis += xdimension.get_grid(ypxlow, ypxhigh, color)
+            xaxis += (
+                labels := xdimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
+            )
+            self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
 
-            xaxis += (labels := Element("g"))
-            labels["text-anchor"] = "middle"
-            labels["stroke"] = "none"
-            labels["fill"] = "black"
-            self.height += constants.DEFAULT_FONT_SIZE
-            for tick in ticks:
-                labels += (
-                    label := Element(
-                        "text",
-                        tick.label,
-                        x=N(tick.pixel),
-                        y=N(self.height),
-                    )
-                )
-                if tick is ticks[0]:
-                    label["text-anchor"] = "start"
-                elif tick is ticks[-1]:
-                    label["text-anchor"] = "end"
-            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
-
-        # Y axis grid and its labels.
+        # Y axis: grid and labels.
         if self.yaxis:
             if isinstance(self.yaxis, dict):
                 color = self.yaxis.get("color") or "gray"
@@ -208,35 +196,18 @@ class Lines2d(Chart):
                 color = "gray"
                 caption = None
             self.svg += (yaxis := Element("g"))
-            ticks = ydimension.ticks
             start = xdimension.get_pixel(xdimension.first)
             end = xdimension.get_pixel(xdimension.last)
-            path = Path(start, ticks[0].pixel)
-            path.H(end)
-            for tick in ticks[1:]:
-                path.M(start, tick.pixel).H(end)
-            yaxis += Element("path", d=path, stroke=color)
-
-            yaxis += (labels := Element("g"))
-            labels["text-anchor"] = "end"
-            labels["stroke"] = "none"
-            labels["fill"] = "black"
-            for tick in ticks:
-                labels += (
-                    label := Element(
-                        "text",
-                        tick.label,
-                        x=N(xdimension.start - constants.DEFAULT_PADDING),
-                        y=N(tick.pixel + constants.DEFAULT_FONT_SIZE / 3),
-                    )
-                )
-                if tick is ticks[0]:
-                    label["y"] = N(tick.pixel)
-                elif tick is ticks[-1]:
-                    label["y"] = N(tick.pixel + constants.DEFAULT_FONT_SIZE)
+            yaxis += ydimension.get_grid(start, end, color)
+            yaxis += (
+                labels := ydimension.get_labels(start, constants.DEFAULT_FONT_SIZE)
+            )
 
         # Graphics for lines.
+        clippath_id, clippath_def = xdimension.get_clippath(ypxlow, ypxhigh)
+        self.svg += clippath_def
         self.svg += (graphics := Element("g"))
+        graphics["clip-path"] = f"url(#{clippath_id})"
         for line in self.lines:
             points = []
             for dp in line["line"]:
@@ -245,13 +216,11 @@ class Lines2d(Chart):
                 points.append(
                     f"{N(xdimension.get_pixel(xvalue))} {N(ydimension.get_pixel(yvalue))}"
                 )
-            graphics += (
-                elem := Element(
-                    "polyline",
-                    points=",".join(points),
-                    fill="none",
-                    stroke=line.get("color") or "black",
-                )
+            elem = Element(
+                "polyline",
+                points=",".join(points),
+                fill="none",
+                stroke=line.get("color") or "black",
             )
             if (opacity := line.get("opacity")) is not None:
                 elem["opacity"] = opacity
@@ -259,4 +228,5 @@ class Lines2d(Chart):
             elem["stroke-linejoin"] = "round"
             elem["stroke-linecap"] = "round"
             if href := line.get("href"):
-                elem["href"] = href
+                elem = Element("a", elem, href=href)
+            graphics += elem

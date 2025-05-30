@@ -63,7 +63,7 @@ class DatapointsReader:
         self.datapoints.append(datapoint)
 
     def add_datapoint(
-            self, x, y=None, size=None, color=None, marker=None, opacity=None, href=None
+        self, x, y=None, size=None, color=None, marker=None, opacity=None, href=None
     ):
         assert isinstance(x, (int, float))
         assert y is None or isinstance(y, (int, float))

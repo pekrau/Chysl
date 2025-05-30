@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="255" height="623.2" viewBox="0 0 255 623.2" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.2</desc>
+  <desc>column; Chysl 0.3.3</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="127" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Pies in column</text>
     <g transform="translate(25, 23.6)">
@@ -12,7 +12,9 @@
             <path d="M 0 0 L 0 -100 A 100 100 0 0 1 20.791 97.815 Z" fill="white" />
             <path d="M 0 0 L 20.791 97.815 A 100 100 0 0 1 -58.779 80.902 Z" fill="yellow" />
             <path d="M 0 0 L -58.779 80.902 A 100 100 0 0 1 -95.106 -30.902 Z" fill="gold" />
-            <path d="M 0 0 L -95.106 -30.902 A 100 100 0 0 1 0 -100 Z" fill="orangered" />
+            <a href="https://en.wikipedia.org/wiki/Strawberry">
+              <path d="M 0 0 L -95.106 -30.902 A 100 100 0 0 1 0 -100 Z" fill="orangered" />
+            </a>
           </g>
           <g stroke="none" fill="black" text-anchor="middle">
             <text x="69.617" y="-7.317" fill="black">Flour</text>
@@ -32,7 +34,9 @@
             <path d="M 0 0 L 0 -125 A 125 125 0 0 1 25.989 122.268 Z" fill="white" />
             <path d="M 0 0 L 25.989 122.268 A 125 125 0 0 1 -73.473 101.127 Z" fill="yellow" />
             <path d="M 0 0 L -73.473 101.127 A 125 125 0 0 1 -118.882 -38.627 Z" fill="gold" />
-            <path d="M 0 0 L -118.882 -38.627 A 125 125 0 0 1 0 -125 Z" fill="green" />
+            <a href="https://en.wikipedia.org/wiki/Rhubarb">
+              <path d="M 0 0 L -118.882 -38.627 A 125 125 0 0 1 0 -125 Z" fill="green" />
+            </a>
           </g>
           <g stroke="none" fill="black" text-anchor="middle">
             <text x="87.021" y="-9.146" fill="black">Flour</text>

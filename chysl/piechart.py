@@ -78,6 +78,7 @@ class Piechart(Chart):
                             "title": "Color of the slice.",
                             "$ref": "#color",
                         },
+                        "href": {"$ref": "#uri"},
                     },
                 },
             },
@@ -118,13 +119,16 @@ class Piechart(Chart):
 
     def add(self, slice):
         assert isinstance(slice, dict)
-        self.add_slice(*[slice.get(key) for key in ["value", "color", "label"]])
 
-    def add_slice(self, value, color=None, label=None):
+        self.add_slice(*[slice.get(key) for key in ["value", "label", "color", "href"]])
+
+    def add_slice(self, value, label=None, color=None, href=None):
         assert isinstance(value, (int, float)) and value > 0
-        assert color is None or utils.is_color(color)
         assert label is None or isinstance(label, str)
-        self.slices.append(dict(value=value, color=color, label=label))
+        assert color is None or utils.is_color(color)
+        assert href is None or isinstance(href, str)
+
+        self.slices.append(dict(value=value, color=color, label=label, href=href))
 
     def as_dict(self):
         result = super().as_dict()
@@ -143,6 +147,8 @@ class Piechart(Chart):
                 s["label"] = label
             if color := slice.get("color"):
                 s["color"] = color
+            if href := slice.get("href"):
+                s["href"] = href
         return result
 
     def build(self):
@@ -169,6 +175,7 @@ class Piechart(Chart):
         self.svg += (
             pie := Element("g", transform=f"translate({utils.N(x)}, {utils.N(y)})")
         )
+        # XXX linewidth
         pie += Element("circle", r=radius)
 
         # Prepare and create slices.
@@ -182,25 +189,24 @@ class Piechart(Chart):
             slice["stop"] = slice["start"] + slice["fraction"] * Degrees(360)
             stop = slice["stop"]
         pie += (slices := Element("g", stroke="black"))
+        # XXX linewidth
         slices["stroke-width"] = 1
 
         for slice in self.slices:
             p0 = Vector2.from_polar(radius, float(slice["start"]))
             p1 = Vector2.from_polar(radius, float(slice["stop"]))
             lof = 1 if slice["stop"] - slice["start"] > Degrees(180) else 0
-            slices += (
-                elem := Element(
-                    "path",
-                    d=Path(0, 0)
-                    .L(p0.x, p0.y)
-                    .A(radius, radius, 0, lof, 1, p1.x, p1.y)
-                    .Z(),
-                )
+            elem = Element(
+                "path",
+                d=Path(0, 0).L(p0.x, p0.y).A(radius, radius, 0, lof, 1, p1.x, p1.y).Z(),
             )
             if color := slice.get("color"):
                 elem["fill"] = slice["background"] = color
             else:
                 elem["fill"] = slice["background"] = next(palette)
+            if href := slice.get("href"):
+                elem = Element("a", elem, href=href)
+            slices += elem
 
         # Labels on top of slices.
         pie += (labels := Element("g", stroke="none", fill="black"))

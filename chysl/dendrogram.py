@@ -5,7 +5,7 @@ import copy
 import constants
 import utils
 from chart import Chart
-from dimension import Dimension
+from dimension import Xdimension
 from path import Path
 
 
@@ -112,7 +112,7 @@ class Dendrogram(Chart):
         """
         super().build()
 
-        dimension = Dimension(width=self.width)
+        dimension = Xdimension(width=self.width)
 
         area_height = self.height
         for entry in self.entries:
