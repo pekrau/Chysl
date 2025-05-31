@@ -39,6 +39,14 @@ class Scatter2d(Chart):
                 "title": "Y axis specification.",
                 "$ref": "#axis",
             },
+            "xgrid": {
+                "title": "X grid specification.",
+                "$ref": "#grid",
+            },
+            "ygrid": {
+                "title": "Y grid specification.",
+                "$ref": "#grid",
+            },
             "marker": {
                 "title": "Default marker.",
                 "$ref": "#marker",
@@ -74,6 +82,8 @@ class Scatter2d(Chart):
         width=None,
         xaxis=None,
         yaxis=None,
+        xgrid=None,
+        ygrid=None,
         marker=None,
         size=None,
         color=None,
@@ -83,6 +93,8 @@ class Scatter2d(Chart):
         assert width is None or (isinstance(width, (int, float)) and width > 0)
         assert xaxis is None or isinstance(xaxis, (bool, dict))
         assert yaxis is None or isinstance(yaxis, (bool, dict))
+        assert xgrid is None or isinstance(xgrid, (bool, dict))
+        assert ygrid is None or isinstance(ygrid, (bool, dict))
         assert marker is None or marker in constants.MARKERS
         assert size is None or (isinstance(size, (int, float)) and size > 0)
         assert color is None or utils.is_color(color)
@@ -94,6 +106,8 @@ class Scatter2d(Chart):
         self.width = width or constants.DEFAULT_WIDTH
         self.xaxis = True if xaxis is None else xaxis
         self.yaxis = True if yaxis is None else yaxis
+        self.xgrid = True if xgrid is None else xgrid
+        self.ygrid = True if ygrid is None else ygrid
         self.marker = marker or constants.DEFAULT_MARKER
         self.size = size or constants.DEFAULT_MARKER_SIZE
         self.color = color or constants.DEFAULT_COLOR
@@ -114,6 +128,10 @@ class Scatter2d(Chart):
             result["xaxis"] = self.xaxis
         if self.yaxis is False or isinstance(self.yaxis, dict):
             result["yaxis"] = self.yaxis
+        if self.xgrid is False or isinstance(self.xgrid, dict):
+            result["xgrid"] = self.xgrid
+        if self.ygrid is False or isinstance(self.ygrid, dict):
+            result["ygrid"] = self.ygrid
         if self.marker != constants.DEFAULT_MARKER:
             result["marker"] = self.marker
         if self.size != constants.DEFAULT_MARKER_SIZE:
@@ -135,37 +153,89 @@ class Scatter2d(Chart):
 
         # Determine dimensions for the axes.
         xdimension = Xdimension(width=self.width)
-        ydimension = Ydimension(width=self.width, reversed=True)
         xdimension.update_span(self.points.minmax("x"))
+        if isinstance(self.xaxis, dict):
+            min = self.xaxis.get("min")
+            if min is not None:
+                xdimension.min = min
+            max = self.xaxis.get("max")
+            if max is not None:
+                xdimension.max = max
+            if min is not None or max is not None:
+                xdimension.expand_span(0.05)
+        else:
+            xdimension.expand_span(0.05)
+
+        ydimension = Ydimension(width=self.width, reversed=True)
         ydimension.update_span(self.points.minmax("y"))
-        xdimension.expand_span(0.05)
-        ydimension.expand_span(0.05)
+        if isinstance(self.yaxis, dict):
+            min = self.yaxis.get("min")
+            if min is not None:
+                ydimension.min = min
+            max = self.yaxis.get("max")
+            if max is not None:
+                ydimension.max = max
+            if min is not None or max is not None:
+                ydimension.expand_span(0.05)
+        else:
+            ydimension.expand_span(0.05)
         ydimension.update_end(self.height)
 
         # Y dimension has to be built first; label lengths needed for adjusting x.
         if isinstance(self.yaxis, dict):
+            ticks = self.yaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET
+            labels = self.yaxis.get("labels", True)
+            factor = self.yaxis.get("factor")
             absolute = bool(self.yaxis.get("absolute"))
         else:
+            ticks = constants.DEFAULT_TICKS_TARGET
+            labels = True
+            factor = None
             absolute = False
-        ydimension.build(absolute=absolute)
+        ydimension.build(ticks, labels=labels, factor=factor, absolute=absolute)
 
-        xdimension.update_start(
-            ydimension.get_label_length(constants.DEFAULT_FONT_SIZE)
-            + constants.DEFAULT_PADDING
-        )
+        if (isinstance(self.yaxis, bool) and self.yaxis) or self.yaxis.get("labels", True):
+            xdimension.update_start(
+                ydimension.get_label_length(constants.DEFAULT_FONT_SIZE)
+                + constants.DEFAULT_PADDING
+            )
 
         xdimension.update_end(constants.DEFAULT_PADDING)
         if isinstance(self.xaxis, dict):
+            ticks = self.xaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET
+            labels = self.xaxis.get("labels", True)
+            factor = self.xaxis.get("factor")
             absolute = bool(self.xaxis.get("absolute"))
         else:
+            ticks = constants.DEFAULT_TICKS_TARGET
+            labels = True
+            factor = None
             absolute = False
-        xdimension.build(absolute=absolute)
+        xdimension.build(ticks, labels=labels, factor=factor, absolute=absolute)
 
+        xpxlow = xdimension.get_pixel(xdimension.first)
+        xpxhigh = xdimension.get_pixel(xdimension.last)
         ypxlow = self.height
         self.height += self.width - self.height
         ypxhigh = self.height
 
-        # Chart frame.
+        # X coordinate grid.
+        if self.xgrid:
+            if isinstance(self.xgrid, dict):
+                color = self.xgrid.get("color") or constants.DEFAULT_GRID_COLOR
+            else:
+                color = constants.DEFAULT_GRID_COLOR
+            self.svg += xdimension.get_grid(ypxlow, ypxhigh, color)
+
+        # Y coordinate grid.
+        if self.ygrid:
+            if isinstance(self.ygrid, dict):
+                color = self.ygrid.get("color") or constants.DEFAULT_GRID_COLOR
+            else:
+                color = constants.DEFAULT_GRID_COLOR
+            self.svg += ydimension.get_grid(xpxlow, xpxhigh, color)
+
+        # Chart frame; overwrite the grid.
         self.svg += xdimension.get_frame(
             ypxlow,
             ypxhigh,
@@ -173,42 +243,50 @@ class Scatter2d(Chart):
             linewidth=constants.DEFAULT_FRAME_WIDTH,
         )
 
-        # X axis: grid and labels.
+        # X axis labels.
         if self.xaxis:
             if isinstance(self.xaxis, dict):
-                color = self.xaxis.get("color") or "gray"
                 caption = self.xaxis.get("caption")
             else:
-                color = "gray"
                 caption = None
             self.svg += (xaxis := Element("g"))
-            xaxis += xdimension.get_grid(ypxlow, ypxhigh, color)
             xaxis += (
                 labels := xdimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
             )
-            self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
+            if len(labels) > 0:
+                self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
 
-        # Y axis grid and its labels.
+            # X axis caption.
+            if isinstance(self.xaxis, dict) and (caption := self.xaxis.get("caption")):
+                self.height += constants.DEFAULT_FONT_SIZE
+                labels += Element(
+                    "text",
+                    caption,
+                    x=utils.N(
+                        xdimension.get_pixel((xdimension.first + xdimension.last) / 2)
+                    ),
+                    y=utils.N(self.height),
+                )
+            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+
+        # Y axis labels.
         if self.yaxis:
             if isinstance(self.yaxis, dict):
-                color = self.yaxis.get("color") or "gray"
                 caption = self.yaxis.get("caption")
             else:
-                color = "gray"
                 caption = None
             self.svg += (yaxis := Element("g"))
-            start = xdimension.get_pixel(xdimension.first)
-            end = xdimension.get_pixel(xdimension.last)
-            yaxis += ydimension.get_grid(start, end, color)
             yaxis += (
-                labels := ydimension.get_labels(start, constants.DEFAULT_FONT_SIZE)
+                labels := ydimension.get_labels(xpxlow, constants.DEFAULT_FONT_SIZE)
             )
 
-        # Graphics for points.
+        # Graphics area clipping.
         clippath_id, clippath_def = xdimension.get_clippath(ypxlow, ypxhigh)
         self.svg += clippath_def
         self.svg += (graphics := Element("g"))
         graphics["clip-path"] = f"url(#{clippath_id})"
+
+        # Graphics for points.
         for dp in self.points:
             kwargs = {}
             if (opacity := dp.get("opacity")) is None:

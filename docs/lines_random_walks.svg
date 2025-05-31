@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="601" height="617.8" viewBox="0 0 601 617.8" transform="translate(0.5, 0.5)">
-  <desc>lines2d; Chysl 0.3.3</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="601" height="620.6" viewBox="0 0 601 620.6" transform="translate(0.5, 0.5)">
+  <desc>lines2d; Chysl 0.3.4</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Random walks (source: db)</text>
-    <rect x="26.92" y="23.6" width="571.08" height="576.4" stroke="black" stroke-width="1" />
+    <path d="M 26.92 23.6 V 600 M 98.305 23.6 V 600 M 169.69 23.6 V 600 M 241.075 23.6 V 600 M 312.46 23.6 V 600 M 383.845 23.6 V 600 M 455.23 23.6 V 600 M 526.615 23.6 V 600 M 598 23.6 V 600" stroke="lightgray" />
+    <path d="M 26.92 600 H 598 M 26.92 527.95 H 598 M 26.92 455.9 H 598 M 26.92 383.85 H 598 M 26.92 311.8 H 598 M 26.92 239.75 H 598 M 26.92 167.7 H 598 M 26.92 95.65 H 598 M 26.92 23.6 H 598" stroke="lightgray" />
+    <rect x="26.92" y="23.6" width="571.08" height="576.4" stroke="black" fill="none" stroke-width="1" />
     <g>
-      <path d="M 26.92 23.6 V 600 M 98.305 23.6 V 600 M 169.69 23.6 V 600 M 241.075 23.6 V 600 M 312.46 23.6 V 600 M 383.845 23.6 V 600 M 455.23 23.6 V 600 M 526.615 23.6 V 600 M 598 23.6 V 600 M 26.92 23.6 H 600 M 26.92 600 H 600" stroke="gray" />
       <g text-anchor="middle" stroke="none" fill="black" font-size="14">
         <text x="26.92" y="614" text-anchor="start">-20</text>
         <text x="98.305" y="614">-15</text>
@@ -19,7 +20,6 @@
       </g>
     </g>
     <g>
-      <path d="M 26.92 600 H 598 M 26.92 527.95 H 598 M 26.92 455.9 H 598 M 26.92 383.85 H 598 M 26.92 311.8 H 598 M 26.92 239.75 H 598 M 26.92 167.7 H 598 M 26.92 95.65 H 598 M 26.92 23.6 H 598 M 26.92 600 V 600 M 598 600 V 600" stroke="gray" />
       <g text-anchor="end" stroke="none" fill="black" font-size="14">
         <text x="24.92" y="600">-20</text>
         <text x="24.92" y="532.617">-15</text>
@@ -33,11 +33,11 @@
       </g>
     </g>
     <defs>
-      <clipPath id="id13">
+      <clipPath id="id17">
         <rect x="26.92" y="23.6" width="571.08" height="576.4" />
       </clipPath>
     </defs>
-    <g clip-path="url(#id13)">
+    <g clip-path="url(#id17)">
       <a href="https://en.wikipedia.org/wiki/Random_walk">
         <polyline points="98.305 527.95,98.305 95.65,526.615 95.65,526.615 527.95,98.305 527.95" fill="none" stroke="black" opacity="0.25" stroke-width="10" stroke-linejoin="round" stroke-linecap="round" />
       </a>

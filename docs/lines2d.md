@@ -14,7 +14,7 @@
 ![lines_random_walks SVG](lines_random_walks.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: lines2d
 title: 'Random walks (source: db)'
 lines:
@@ -107,6 +107,10 @@ lines:
   - *See* [axis](schema_defs.md#axis).
 - **yaxis**: Y axis specification.
   - *See* [axis](schema_defs.md#axis).
+- **xgrid**: X grid specification.
+  - *See* [grid](schema_defs.md#grid).
+- **ygrid**: Y grid specification.
+  - *See* [grid](schema_defs.md#grid).
 - **lines**: An array of containers of 2D points to display as lines.
   - *required*
   - *type*: sequence

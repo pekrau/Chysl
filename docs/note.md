@@ -16,7 +16,7 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: note
 title:
   text: Declaration
@@ -36,9 +36,9 @@ footer:
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.4
 chart: column
-entries:
+subcharts:
 - chart: note
   title: Header
   body: Body
@@ -67,15 +67,15 @@ entries:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.4
 chart: board
-entries:
+subcharts:
 - x: 0
   y: 0
   scale: 1.5
-  item:
+  subchart:
     chart: column
-    entries:
+    subcharts:
     - chart: note
       title: Header
       body: Body
@@ -104,7 +104,7 @@ entries:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title: Pies in column
 subcharts:
@@ -153,27 +153,24 @@ subcharts:
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.4
 chart: board
 title: Poster
-entries:
+subcharts:
 - x: 250
   y: 10
-  scale: 1
-  item:
+  subchart:
     chart: note
     title: By Per Kraulis
     body: Ph.D.
     footer: Stockholm University
 - x: 0
   y: 100
-  scale: 1
-  item:
+  subchart:
     include: universe.yaml
 - x: 50
   y: 230
-  scale: 1
-  item:
+  subchart:
     include: earth.yaml
 ```
 ## Specification

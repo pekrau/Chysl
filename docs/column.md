@@ -18,7 +18,7 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title: Universe and Earth
 subcharts:
@@ -47,8 +47,8 @@ subcharts:
   - entry: event
     label: ''
     timeline: Universe
-    color: navy
-    instant: -8500000000
+    color: white
+    instant: -7500000000
     marker: galaxy
     href: https://en.wikipedia.org/wiki/Milky_Way
   - entry: period
@@ -60,11 +60,13 @@ subcharts:
   axis:
     absolute: true
     caption: Billion years ago
+  grid: false
 - chart: timelines
   title: Earth
   entries:
   - entry: period
     label: Earth
+    color: skyblue
     begin: -4567000000
     end: 0
   - entry: period
@@ -124,7 +126,7 @@ subcharts:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title: Pies in column
 subcharts:
@@ -173,9 +175,9 @@ subcharts:
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.4
 chart: column
-entries:
+subcharts:
 - chart: note
   title: Header
   body: Body
@@ -204,15 +206,15 @@ entries:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.4
 chart: board
-entries:
+subcharts:
 - x: 0
   y: 0
   scale: 1.5
-  item:
+  subchart:
     chart: column
-    entries:
+    subcharts:
     - chart: note
       title: Header
       body: Body
@@ -241,7 +243,7 @@ entries:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title: Predefined markers
 subcharts:
@@ -724,7 +726,7 @@ subcharts:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -806,7 +808,7 @@ subcharts:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title:
   text: Iris flower measurements
@@ -814,13 +816,26 @@ title:
 subcharts:
 - chart: row
   subcharts:
-  - chart: note
-    body:
-      text: Sepal length
-      size: 24
+  - chart: scatter2d
     width: 300
-    frame: 0
-    background: white
+    size: 6
+    points:
+      source: scatter_iris.csv
+      parameters:
+        x: sepal length
+        y: sepal length
+        color:
+          field: class
+          map:
+            Iris-setosa: red
+            Iris-versicolor: green
+            Iris-virginica: blue
+        marker:
+          field: class
+          map:
+            Iris-setosa: circle
+            Iris-versicolor: triangle
+            Iris-virginica: square
   - chart: scatter2d
     width: 300
     size: 6
@@ -903,13 +918,26 @@ subcharts:
             Iris-setosa: circle
             Iris-versicolor: triangle
             Iris-virginica: square
-  - chart: note
-    body:
-      text: Sepal width
-      size: 24
+  - chart: scatter2d
     width: 300
-    frame: 0
-    background: white
+    size: 6
+    points:
+      source: scatter_iris.csv
+      parameters:
+        x: sepal width
+        y: sepal width
+        color:
+          field: class
+          map:
+            Iris-setosa: red
+            Iris-versicolor: green
+            Iris-virginica: blue
+        marker:
+          field: class
+          map:
+            Iris-setosa: circle
+            Iris-versicolor: triangle
+            Iris-virginica: square
   - chart: scatter2d
     width: 300
     size: 6
@@ -992,13 +1020,26 @@ subcharts:
             Iris-setosa: circle
             Iris-versicolor: triangle
             Iris-virginica: square
-  - chart: note
-    body:
-      text: Petal length
-      size: 24
+  - chart: scatter2d
     width: 300
-    frame: 0
-    background: white
+    size: 6
+    points:
+      source: scatter_iris.csv
+      parameters:
+        x: petal length
+        y: petal length
+        color:
+          field: class
+          map:
+            Iris-setosa: red
+            Iris-versicolor: green
+            Iris-virginica: blue
+        marker:
+          field: class
+          map:
+            Iris-setosa: circle
+            Iris-versicolor: triangle
+            Iris-virginica: square
   - chart: scatter2d
     width: 300
     size: 6
@@ -1023,6 +1064,8 @@ subcharts:
   subcharts:
   - chart: scatter2d
     width: 300
+    xaxis:
+      caption: Sepal length
     size: 6
     points:
       source: scatter_iris.csv
@@ -1043,6 +1086,8 @@ subcharts:
             Iris-virginica: square
   - chart: scatter2d
     width: 300
+    xaxis:
+      caption: Sepal width
     size: 6
     points:
       source: scatter_iris.csv
@@ -1063,6 +1108,8 @@ subcharts:
             Iris-virginica: square
   - chart: scatter2d
     width: 300
+    xaxis:
+      caption: Petal length
     size: 6
     points:
       source: scatter_iris.csv
@@ -1081,13 +1128,28 @@ subcharts:
             Iris-setosa: circle
             Iris-versicolor: triangle
             Iris-virginica: square
-  - chart: note
-    body:
-      text: Petal width
-      size: 24
+  - chart: scatter2d
     width: 300
-    frame: 0
-    background: white
+    xaxis:
+      caption: Petal width
+    size: 6
+    points:
+      source: scatter_iris.csv
+      parameters:
+        x: petal width
+        y: petal width
+        color:
+          field: class
+          map:
+            Iris-setosa: red
+            Iris-versicolor: green
+            Iris-virginica: blue
+        marker:
+          field: class
+          map:
+            Iris-setosa: circle
+            Iris-versicolor: triangle
+            Iris-virginica: square
 - chart: column
   subcharts:
   - chart: note

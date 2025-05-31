@@ -1,9 +1,10 @@
-chysl: 0.3.3
+chysl: 0.3.4
 chart: timelines
 title: Earth
 entries:
 - entry: period
   label: Earth
+  color: skyblue
   begin: -4567000000
   end: 0
 - entry: period

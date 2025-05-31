@@ -69,6 +69,9 @@ TESTS = {
 
 
 def check_roundtrip(instance1, filename):
+    """Ensure that the given instance is identical to the instance
+    specified in the YAML file.
+    """
     instance2 = retrieve(filename)
     if instance1 != instance2:
         ic(instance1, instance2)
@@ -89,6 +92,7 @@ def get_universe(legend=True):
         dict(text="Universe", bold=True, color="blue"),
         legend=legend,
         axis=dict(absolute=True, caption="Billion years ago"),
+        grid=False,
     )
     universe += Event(
         "Big Bang", -13_787_000_000, timeline="Universe", marker="burst", color="red"
@@ -104,9 +108,9 @@ def get_universe(legend=True):
     )
     universe += Event(
         "",
-        -8_500_000_000,
+        -7_500_000_000,
         timeline="Universe",
-        color="navy",
+        color="white",
         marker="galaxy",
         href="https://en.wikipedia.org/wiki/Milky_Way",
     )
@@ -116,9 +120,9 @@ def get_universe(legend=True):
 
 def get_earth(legend=True):
     earth = Timelines(
-        "Earth", legend=legend, axis=dict(absolute=True, caption="Billion years ago")
+        "Earth", legend=legend, axis=dict(absolute=True, caption="Billion years ago"),
     )
-    earth += Period("Earth", -4_567_000_000, 0)
+    earth += Period("Earth", -4_567_000_000, 0, color="skyblue")
     earth += Period(
         "Archean",
         dict(value=-4_000_000_000, low=-4_100_000_000, high=-3_950_000_000),
@@ -377,41 +381,40 @@ def test_scatter_iris():
     for field1 in ["sepal length", "sepal width", "petal length", "petal width"]:
         all_plots += (row := Row())
         for field2 in ["sepal length", "sepal width", "petal length", "petal width"]:
-            if field1 == field2:
-                row += Note(
-                    body=dict(text=field1.capitalize(), size=24),
-                    background="white",
-                    width=300,
-                    frame=0,
-                )
+            if field1 == "petal width":
+                kwargs = dict(xaxis=dict(caption=field2.capitalize()))
             else:
-                row += Scatter2d(
-                    points=dict(
-                        source="scatter_iris.csv",
-                        parameters=dict(
-                            x=field2,
-                            y=field1,
-                            color=dict(
-                                field="class",
-                                map={
-                                    "Iris-setosa": "red",
-                                    "Iris-versicolor": "green",
-                                    "Iris-virginica": "blue",
-                                },
-                            ),
-                            marker=dict(
-                                field="class",
-                                map={
-                                    "Iris-setosa": "circle",
-                                    "Iris-versicolor": "triangle",
-                                    "Iris-virginica": "square",
-                                },
-                            ),
+                kwargs = {}
+            row += Scatter2d(
+                points=dict(
+                    source="scatter_iris.csv",
+                    parameters=dict(
+                        x=field2,
+                        y=field1,
+                        color=dict(
+                            field="class",
+                            map={
+                                "Iris-setosa": "red",
+                                "Iris-versicolor": "green",
+                                "Iris-virginica": "blue",
+                            },
+                        ),
+                        marker=dict(
+                            field="class",
+                            map={
+                                "Iris-setosa": "circle",
+                                "Iris-versicolor": "triangle",
+                                "Iris-virginica": "square",
+                            },
                         ),
                     ),
-                    width=300,
-                    size=6,
-                )
+                ),
+                # xaxis=dict(labels=False),
+                # yaxis=dict(labels=False),
+                width=300,
+                size=6,
+                **kwargs,
+            )
     all_plots += (caption := Column())
     caption += Note(
         body=dict(text="Iris setosa: red circles", size=24, color="red"),
@@ -585,7 +588,7 @@ def run_tests():
         test_scatter_points()
         test_scatter_iris()
         test_lines_random_walks()
-        # test_notes()
+        test_notes()
         # test_poster()
         test_dimensions()
         test_overlay()

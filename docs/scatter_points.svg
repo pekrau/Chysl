@@ -1,11 +1,12 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="601" height="617.8" viewBox="0 0 601 617.8" transform="translate(0.5, 0.5)">
-  <desc>scatter2d; Chysl 0.3.3</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="601" height="620.6" viewBox="0 0 601 620.6" transform="translate(0.5, 0.5)">
+  <desc>scatter2d; Chysl 0.3.4</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Scattered points inline</text>
-    <rect x="30.14" y="23.6" width="567.86" height="576.4" stroke="black" stroke-width="1" />
+    <path d="M 30.14 23.6 V 600 M 111.263 23.6 V 600 M 192.386 23.6 V 600 M 273.509 23.6 V 600 M 354.631 23.6 V 600 M 435.754 23.6 V 600 M 516.877 23.6 V 600 M 598 23.6 V 600" stroke="lightgray" />
+    <path d="M 30.14 600 H 598 M 30.14 517.657 H 598 M 30.14 435.314 H 598 M 30.14 352.971 H 598 M 30.14 270.629 H 598 M 30.14 188.286 H 598 M 30.14 105.943 H 598 M 30.14 23.6 H 598" stroke="lightgray" />
+    <rect x="30.14" y="23.6" width="567.86" height="576.4" stroke="black" fill="none" stroke-width="1" />
     <g>
-      <path d="M 30.14 23.6 V 600 M 111.263 23.6 V 600 M 192.386 23.6 V 600 M 273.509 23.6 V 600 M 354.631 23.6 V 600 M 435.754 23.6 V 600 M 516.877 23.6 V 600 M 598 23.6 V 600 M 30.14 23.6 H 600 M 30.14 600 H 600" stroke="gray" />
       <g text-anchor="middle" stroke="none" fill="black" font-size="14">
         <text x="30.14" y="614" text-anchor="start">-20</text>
         <text x="111.263" y="614">0</text>
@@ -18,7 +19,6 @@
       </g>
     </g>
     <g>
-      <path d="M 30.14 600 H 598 M 30.14 517.657 H 598 M 30.14 435.314 H 598 M 30.14 352.971 H 598 M 30.14 270.629 H 598 M 30.14 188.286 H 598 M 30.14 105.943 H 598 M 30.14 23.6 H 598 M 30.14 600 V 600 M 598 600 V 600" stroke="gray" />
       <g text-anchor="end" stroke="none" fill="black" font-size="14">
         <text x="28.14" y="600">-20</text>
         <text x="28.14" y="522.324">0</text>

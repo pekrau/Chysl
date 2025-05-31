@@ -16,8 +16,6 @@ from vector2 import Vector2
 class Timelines(Chart):
     "Timelines having events and periods."
 
-    DEFAULT_GRID_COLOR = "gray"
-
     SCHEMA = {
         "title": __doc__,
         "type": "object",
@@ -43,6 +41,10 @@ class Timelines(Chart):
             "axis": {
                 "title": "Time axis specification.",
                 "$ref": "#axis",
+            },
+            "grid": {
+                "title": "Grid specification.",
+                "$ref": "#grid",
             },
             "entries": {
                 "title": "Entries (events, periods) in the timelines.",
@@ -149,12 +151,14 @@ class Timelines(Chart):
         width=None,
         legend=None,
         axis=None,
+        grid=None,
     ):
         super().__init__(title=title)
         assert entries is None or isinstance(entries, list)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
         assert legend is None or isinstance(legend, bool)
         assert axis is None or isinstance(axis, (bool, dict))
+        assert grid is None or isinstance(grid, (bool, dict))
 
         self.entries = []
         if entries:
@@ -163,6 +167,7 @@ class Timelines(Chart):
         self.width = width or constants.DEFAULT_WIDTH
         self.legend = True if legend is None else legend
         self.axis = True if axis is None else axis
+        self.grid = True if grid is None else grid
 
     def __iadd__(self, entry):
         self.add(entry)
@@ -184,6 +189,8 @@ class Timelines(Chart):
             result["legend"] = False
         if self.axis is False or isinstance(self.axis, dict):
             result["axis"] = self.axis
+        if self.grid is False or isinstance(self.grid, dict):
+            result["grid"] = self.grid
         return result
 
     def build(self):
@@ -197,6 +204,17 @@ class Timelines(Chart):
         dimension = Xdimension(width=self.width)
         timelines = dict()  # Key: timeline; value: height
 
+        # Set the span (min/max) for the axis.
+        for entry in self.entries:
+            dimension.update_span(entry.minmax())
+        if isinstance(self.axis, dict):
+            min = self.axis.get("min")
+            if min is not None:
+                dimension.min = min
+            max = self.axis.get("max")
+            if max is not None:
+                dimension.max = max
+
         # Set the heights for each timeline and the left padding for legends.
         ypxlow = self.height
         kwargs = dict(
@@ -206,7 +224,6 @@ class Timelines(Chart):
         for entry in self.entries:
             if self.legend:
                 dimension.update_start(utils.get_text_length(entry.timeline, **kwargs))
-            dimension.update_span(entry.minmax())
             if entry.timeline not in timelines:
                 self.height += constants.DEFAULT_PADDING
                 timelines[entry.timeline] = self.height
@@ -215,12 +232,26 @@ class Timelines(Chart):
         ypxhigh = self.height
 
         if isinstance(self.axis, dict):
+            ticks = self.axis.get("ticks") or constants.DEFAULT_TICKS_TARGET
+            labels = self.axis.get("labels", True)
+            factor = self.axis.get("factor")
             absolute = bool(self.axis.get("absolute"))
         else:
+            ticks = constants.DEFAULT_TICKS_TARGET
+            labels = True
+            factor = None
             absolute = False
-        dimension.build(absolute=absolute)
+        dimension.build(ticks, labels=labels, factor=factor, absolute=absolute)
 
-        # Chart frame.
+        # Time coordinate grid.
+        if self.grid:
+            if isinstance(self.grid, dict):
+                color = self.grid.get("color") or constants.DEFAULT_GRID_COLOR
+            else:
+                color = constants.DEFAULT_GRID_COLOR
+            self.svg += dimension.get_grid(ypxlow, ypxhigh, color)
+
+        # Chart frame; overwrite the grid.
         self.svg += dimension.get_frame(
             ypxlow,
             ypxhigh,
@@ -228,23 +259,16 @@ class Timelines(Chart):
             linewidth=constants.DEFAULT_FRAME_WIDTH,
         )
 
-        # Time axis: grid and labels.
+        # Time axis labels.
         if self.axis:
-            if isinstance(self.axis, dict):
-                color = self.axis.get("color") or self.DEFAULT_GRID_COLOR
-                caption = self.axis.get("caption")
-            else:
-                color = self.DEFAULT_GRID_COLOR
-                caption = None
             self.svg += (axis := Element("g"))
-            axis += dimension.get_grid(ypxlow, ypxhigh, color)
             axis += (
                 labels := dimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
             )
             self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
 
-            # Time axis caption, if any.
-            if caption:
+            # Time axis caption.
+            if isinstance(self.axis, dict) and (caption := self.axis.get("caption")):
                 self.height += constants.DEFAULT_FONT_SIZE
                 labels += Element(
                     "text",
@@ -256,11 +280,13 @@ class Timelines(Chart):
                 )
             self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
-        # Graphics for entries.
+        # Graphics area clipping.
         clippath_id, clippath_def = dimension.get_clippath(ypxlow, ypxhigh)
         self.svg += clippath_def
         self.svg += (graphics := Element("g"))
         graphics["clip-path"] = f"url(#{clippath_id})"
+
+        # Graphics for entries (periods and events).
         for entry in self.entries:
             graphics += entry.render_graphic(timelines[entry.timeline], dimension)
 

@@ -1,12 +1,12 @@
-chysl: 0.3.0
+chysl: 0.3.4
 chart: board
-entries:
+subcharts:
 - x: 0
   y: 0
   scale: 1.5
-  item:
+  subchart:
     chart: column
-    entries:
+    subcharts:
     - chart: note
       title: Header
       body: Body

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="301" height="737" viewBox="0 0 301 737" transform="translate(0.5, 0.5)">
-  <desc>board; Chysl 0.3.0</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="301" height="737.2" viewBox="0 0 301 737.2" transform="translate(0.5, 0.5)">
+  <desc>board; Chysl 0.3.4</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <g transform="scale(1.5) translate(0, 0)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
@@ -90,11 +90,11 @@
           <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
             <text x="100" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle" font-weight="bold">Declaration</text>
             <rect x="2.5" y="2.5" rx="10" ry="10" width="195" fill="lightyellow" stroke="gold" stroke-width="5" height="82.4" />
-            <g stroke="none" fill="black" text-anchor="middle" font-weight="bold" transform="translate(102.5, 20)">
+            <g stroke="none" fill="black" text-anchor="start" font-weight="bold" transform="translate(7, 20)">
               <text x="0" y="0">Declaration</text>
             </g>
             <line x1="0" y1="24.8" x2="200" y2="24.8" stroke="gold" stroke-width="1" />
-            <g stroke="none" fill="black" text-anchor="middle" transform="translate(102.5, 40.8)">
+            <g stroke="none" fill="black" text-anchor="end" transform="translate(193, 40.8)">
               <text x="0" y="0">This software was</text>
               <text x="0" y="14">written by me.</text>
             </g>

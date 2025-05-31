@@ -144,20 +144,41 @@ DEFS = {
         "title": "Coordinate axis specification.",
         "oneOf": [
             {
-                "title": "Display default axis.",
+                "title": "Display default axis, or no display.",
                 "type": "boolean",
                 "default": True,
             },
             {
-                "title": "Axis details.",
+                "title": "Coordinate axis specification.",
                 "type": "object",
                 "additionalProperties": False,
                 "properties": {
-                    "color": {
-                        "title": "Color of grid lines.",
-                        "type": "string",
-                        "format": "color",
-                        "default": "gray",
+                    "min": {
+                        "title": "Explicit minimum of span for axis.",
+                        "type": "number",
+                    },
+                    "max": {
+                        "title": "Explicit maximum of span for axis.",
+                        "type": "number",
+                    },
+                    "ticks": {
+                        "title": "Explicit positions for axis ticks.",
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "title": "Axis coordinate of a tick.",
+                            "type": "number",
+                        },
+                    },
+                    "labels": {
+                        "title": "Display labels, or not.",
+                        "type": "boolean",
+                        "default": True,
+                    },
+                    "factor": {
+                        "title": "Factor to divide tick value by for label display. Default depends on context.",
+                        "type": "number",
+                        "minimumExclusive": 0,
                     },
                     "absolute": {
                         "title": "Display absolute values for ticks.",
@@ -167,6 +188,30 @@ DEFS = {
                     "caption": {
                         "title": "Axis description.",
                         "type": "string",
+                    },
+                },
+            },
+        ],
+    },
+    "grid": {
+        "$anchor": "grid",
+        "title": "Coordinate grid specification.",
+        "oneOf": [
+            {
+                "title": "Display default grid.",
+                "type": "boolean",
+                "default": True,
+            },
+            {
+                "title": "Grid styling.",
+                "type": "object",
+                "additionalProperties": False,
+                "properties": {
+                    "color": {
+                        "title": "Color of grid lines.",
+                        "type": "string",
+                        "format": "color",
+                        "default": constants.DEFAULT_GRID_COLOR,
                     },
                 },
             },
@@ -195,42 +240,6 @@ DEFS = {
                 "properties": {
                     "chart": {"enum": constants.CHARTS},
                     # No need to fully specify contents here.
-                },
-            },
-        ],
-    },
-    "field": {
-        "$anchor": "field",
-        "title": "Mapping of a plot parameter to a field in source data.",
-        "oneOf": [
-            {
-                "title": "Name of the field in the source data; CSV column header. The values are used directly.",
-                "type": "string",
-                "minLength": 1,
-            },
-            {
-                "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
-                "type": "integer",
-                "minimum": 1,
-            },
-            {
-                "title": "Mapping of values in source data to a plot parameter.",
-                "type": "object",
-                "required": ["field"],
-                "additionalProperties": False,
-                "properties": {
-                    "field": {
-                        "title": "Name of the field in the source data; CSV column header.",
-                        "type": "string",
-                        "minLength": 1,
-                    },
-                    "map": {
-                        "title": "Map a string value in the source data to a value for the plot parameter.",
-                        "type": "object",
-                        "properties": {
-                            # Any.
-                        },
-                    },
                 },
             },
         ],
@@ -323,11 +332,47 @@ DEFS = {
             },
         ],
     },
+    "field": {
+        "$anchor": "field",
+        "title": "Mapping of a plot parameter to a field in source data.",
+        "oneOf": [
+            {
+                "title": "Name of the field in the source data; CSV column header. The values are used directly.",
+                "type": "string",
+                "minLength": 1,
+            },
+            {
+                "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
+                "type": "integer",
+                "minimum": 1,
+            },
+            {
+                "title": "Mapping of values in source data to a plot parameter.",
+                "type": "object",
+                "required": ["field"],
+                "additionalProperties": False,
+                "properties": {
+                    "field": {
+                        "title": "Name of the field in the source data; CSV column header.",
+                        "type": "string",
+                        "minLength": 1,
+                    },
+                    "map": {
+                        "title": "Map a string value in the source data to a value for the plot parameter.",
+                        "type": "object",
+                        "properties": {
+                            # Any.
+                        },
+                    },
+                },
+            },
+        ],
+    },
 }
 
 
 def add_defs(schema):
-    "Add the defs that are used by the schema."
+    "Add the defs that are used by the schema, to make it self-contained."
     while True:
         if refs := find_defs(schema):
             schema["$defs"] = dict([(r, DEFS[r]) for r in refs])

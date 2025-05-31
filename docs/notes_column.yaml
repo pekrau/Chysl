@@ -1,6 +1,6 @@
-chysl: 0.3.0
+chysl: 0.3.4
 chart: column
-entries:
+subcharts:
 - chart: note
   title: Header
   body: Body

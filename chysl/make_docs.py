@@ -47,9 +47,13 @@ def make_docs():
 
     with open("../README.md", "w") as outfile:
         outfile.write("".join(result))
+    with open("../docs/README.md", "w") as outfile:
+        outfile.write("".join(result))
 
     result = []
     result.append("# Schema definitions\n")
+    for name, subschema in schema.DEFS.items():
+        result.append(f"- [{name}](#{name}): {subschema['title']}\n")
     for name, subschema in schema.DEFS.items():
         result.append(f"\n## {name}\n")
         result.extend(output_schema(subschema))

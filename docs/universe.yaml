@@ -1,4 +1,4 @@
-chysl: 0.3.3
+chysl: 0.3.4
 chart: timelines
 title:
   text: Universe
@@ -24,8 +24,8 @@ entries:
 - entry: event
   label: ''
   timeline: Universe
-  color: navy
-  instant: -8500000000
+  color: white
+  instant: -7500000000
   marker: galaxy
   href: https://en.wikipedia.org/wiki/Milky_Way
 - entry: period
@@ -36,3 +36,4 @@ entries:
 axis:
   absolute: true
   caption: Billion years ago
+grid: false

@@ -14,7 +14,7 @@
 ![scatter_points SVG](scatter_points.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: scatter2d
 title: Scattered points inline
 points:
@@ -176,7 +176,7 @@ points:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title:
   text: Iris flower measurements
@@ -184,13 +184,26 @@ title:
 subcharts:
 - chart: row
   subcharts:
-  - chart: note
-    body:
-      text: Sepal length
-      size: 24
+  - chart: scatter2d
     width: 300
-    frame: 0
-    background: white
+    size: 6
+    points:
+      source: scatter_iris.csv
+      parameters:
+        x: sepal length
+        y: sepal length
+        color:
+          field: class
+          map:
+            Iris-setosa: red
+            Iris-versicolor: green
+            Iris-virginica: blue
+        marker:
+          field: class
+          map:
+            Iris-setosa: circle
+            Iris-versicolor: triangle
+            Iris-virginica: square
   - chart: scatter2d
     width: 300
     size: 6
@@ -273,13 +286,26 @@ subcharts:
             Iris-setosa: circle
             Iris-versicolor: triangle
             Iris-virginica: square
-  - chart: note
-    body:
-      text: Sepal width
-      size: 24
+  - chart: scatter2d
     width: 300
-    frame: 0
-    background: white
+    size: 6
+    points:
+      source: scatter_iris.csv
+      parameters:
+        x: sepal width
+        y: sepal width
+        color:
+          field: class
+          map:
+            Iris-setosa: red
+            Iris-versicolor: green
+            Iris-virginica: blue
+        marker:
+          field: class
+          map:
+            Iris-setosa: circle
+            Iris-versicolor: triangle
+            Iris-virginica: square
   - chart: scatter2d
     width: 300
     size: 6
@@ -362,13 +388,26 @@ subcharts:
             Iris-setosa: circle
             Iris-versicolor: triangle
             Iris-virginica: square
-  - chart: note
-    body:
-      text: Petal length
-      size: 24
+  - chart: scatter2d
     width: 300
-    frame: 0
-    background: white
+    size: 6
+    points:
+      source: scatter_iris.csv
+      parameters:
+        x: petal length
+        y: petal length
+        color:
+          field: class
+          map:
+            Iris-setosa: red
+            Iris-versicolor: green
+            Iris-virginica: blue
+        marker:
+          field: class
+          map:
+            Iris-setosa: circle
+            Iris-versicolor: triangle
+            Iris-virginica: square
   - chart: scatter2d
     width: 300
     size: 6
@@ -393,6 +432,8 @@ subcharts:
   subcharts:
   - chart: scatter2d
     width: 300
+    xaxis:
+      caption: Sepal length
     size: 6
     points:
       source: scatter_iris.csv
@@ -413,6 +454,8 @@ subcharts:
             Iris-virginica: square
   - chart: scatter2d
     width: 300
+    xaxis:
+      caption: Sepal width
     size: 6
     points:
       source: scatter_iris.csv
@@ -433,6 +476,8 @@ subcharts:
             Iris-virginica: square
   - chart: scatter2d
     width: 300
+    xaxis:
+      caption: Petal length
     size: 6
     points:
       source: scatter_iris.csv
@@ -451,13 +496,28 @@ subcharts:
             Iris-setosa: circle
             Iris-versicolor: triangle
             Iris-virginica: square
-  - chart: note
-    body:
-      text: Petal width
-      size: 24
+  - chart: scatter2d
     width: 300
-    frame: 0
-    background: white
+    xaxis:
+      caption: Petal width
+    size: 6
+    points:
+      source: scatter_iris.csv
+      parameters:
+        x: petal width
+        y: petal width
+        color:
+          field: class
+          map:
+            Iris-setosa: red
+            Iris-versicolor: green
+            Iris-virginica: blue
+        marker:
+          field: class
+          map:
+            Iris-setosa: circle
+            Iris-versicolor: triangle
+            Iris-virginica: square
 - chart: column
   subcharts:
   - chart: note
@@ -487,7 +547,7 @@ subcharts:
 ![overlay SVG](overlay.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: overlay
 title: One scatterplot on top of another
 layers:
@@ -540,6 +600,10 @@ layers:
   - *See* [axis](schema_defs.md#axis).
 - **yaxis**: Y axis specification.
   - *See* [axis](schema_defs.md#axis).
+- **xgrid**: X grid specification.
+  - *See* [grid](schema_defs.md#grid).
+- **ygrid**: Y grid specification.
+  - *See* [grid](schema_defs.md#grid).
 - **marker**: Default marker.
   - *See* [marker](schema_defs.md#marker).
   - *default*: 'disc'

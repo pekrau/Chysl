@@ -1,4 +1,16 @@
 # Schema definitions
+- [size](#size): Size of graphical item, in approximate display pixel units.
+- [color](#color): Color specification; hex code '#rrggbb' or CSS3 color name.
+- [opacity](#opacity): Opacity in range [0.0, 1.0].
+- [marker](#marker): Symbol for use as a marker in a chart.
+- [text](#text): Text, with or without explicit styling.
+- [fuzzy_number](#fuzzy_number): Number value, exact, or fuzzy with either low/high or error.
+- [uri](#uri): A URI, absolute or relative.
+- [axis](#axis): Coordinate axis specification.
+- [grid](#grid): Coordinate grid specification.
+- [chart_or_include](#chart_or_include): Inline chart specification, or location (file of web resource) to read the chart specification from.
+- [datapoints](#datapoints): Data provided inline, or from a file, web resource or database.
+- [field](#field): Mapping of a plot parameter to a field in source data.
 
 ## size
 
@@ -91,20 +103,43 @@ A URI, absolute or relative.
 
 Coordinate axis specification.
 
-- Alternative 1: Display default axis.
+- Alternative 1: Display default axis, or no display.
   - *type*: boolean
   - *default*: true
-- Alternative 2: Axis details.
+- Alternative 2: Coordinate axis specification.
   - *type*: mapping
-  - **color**: Color of grid lines.
-    - *type*: string
-    - *format*: color
-    - *default*: 'gray'
+  - **min**: Explicit minimum of span for axis.
+    - *type*: float
+  - **max**: Explicit maximum of span for axis.
+    - *type*: float
+  - **ticks**: Explicit positions for axis ticks.
+    - *type*: sequence
+    - *items*:
+      - *type*: float
+  - **labels**: Display labels, or not.
+    - *type*: boolean
+    - *default*: true
+  - **factor**: Factor to divide tick value by for label display. Default depends on context.
+    - *type*: float
   - **absolute**: Display absolute values for ticks.
     - *type*: boolean
     - *default*: false
   - **caption**: Axis description.
     - *type*: string
+
+## grid
+
+Coordinate grid specification.
+
+- Alternative 1: Display default grid.
+  - *type*: boolean
+  - *default*: true
+- Alternative 2: Grid styling.
+  - *type*: mapping
+  - **color**: Color of grid lines.
+    - *type*: string
+    - *format*: color
+    - *default*: 'lightgray'
 
 ## chart_or_include
 
@@ -121,23 +156,6 @@ Inline chart specification, or location (file of web resource) to read the chart
   - **chart**:
     - *required*
     - *one of*: 'timelines', 'piechart', 'scatter2d', 'lines2d', 'note', 'column', 'row', 'overlay', 'board'
-
-## field
-
-Mapping of a plot parameter to a field in source data.
-
-- Alternative 1: Name of the field in the source data; CSV column header. The values are used directly.
-  - *type*: string
-- Alternative 2: Number of the field in the source data; CSV column number, starting with 1. The values are used directly.
-  - *type*: integer
-  - *minimum*: 1
-- Alternative 3: Mapping of values in source data to a plot parameter.
-  - *type*: mapping
-  - **field**: Name of the field in the source data; CSV column header.
-    - *required*
-    - *type*: string
-  - **map**: Map a string value in the source data to a value for the plot parameter.
-    - *type*: mapping
 
 ## datapoints
 
@@ -201,3 +219,20 @@ Data provided inline, or from a file, web resource or database.
       - *See* [field](schema_defs.md#field).
     - **marker**:
       - *See* [field](schema_defs.md#field).
+
+## field
+
+Mapping of a plot parameter to a field in source data.
+
+- Alternative 1: Name of the field in the source data; CSV column header. The values are used directly.
+  - *type*: string
+- Alternative 2: Number of the field in the source data; CSV column number, starting with 1. The values are used directly.
+  - *type*: integer
+  - *minimum*: 1
+- Alternative 3: Mapping of values in source data to a plot parameter.
+  - *type*: mapping
+  - **field**: Name of the field in the source data; CSV column header.
+    - *required*
+    - *type*: string
+  - **map**: Map a string value in the source data to a value for the plot parameter.
+    - *type*: mapping

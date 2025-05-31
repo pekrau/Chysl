@@ -80,11 +80,11 @@
     }
   },
   "$defs": {
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
+    "uri": {
+      "$anchor": "uri",
+      "title": "A URI, absolute or relative.",
+      "type": "string",
+      "format": "uri-reference"
     },
     "color": {
       "$anchor": "color",
@@ -92,11 +92,11 @@
       "type": "string",
       "format": "color"
     },
-    "uri": {
-      "$anchor": "uri",
-      "title": "A URI, absolute or relative.",
-      "type": "string",
-      "format": "uri-reference"
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate display pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
     },
     "text": {
       "$anchor": "text",

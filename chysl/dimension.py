@@ -39,6 +39,10 @@ class Dimension:
         self.min = None
         self.max = None
 
+    def __repr__(self):
+        fields = [f"{a}={getattr(self,a)}" for a in ["width", "start", "end", "reversed", "min", "max"]]
+        return f"Dimension({', '.join(fields)})"
+
     @property
     def span(self):
         "Return current min and max values."
@@ -46,6 +50,8 @@ class Dimension:
 
     def update_span(self, value):
         "Update current min and max values."
+        assert isinstance(value, (int, float)) or isinstance(value, (tuple, list))
+
         if self.min is None:
             if isinstance(value, (tuple, list)):
                 self.min = min(*value)
@@ -65,6 +71,15 @@ class Dimension:
         else:
             self.max = max(self.max, value)
 
+    def set_span(self, min, max):
+        "Set the current min and max values explicitly."
+        assert isinstance(min, (int, float))
+        assert isinstance(max, (int, float))
+        assert min < max
+
+        self.min = min
+        self.max = max
+
     def expand_span(self, fraction):
         expansion = fraction * (self.max - self.min)
         self.min -= expansion
@@ -82,56 +97,72 @@ class Dimension:
         else:
             self.end = max(self.end, value)
 
-    def build(self, number=8, factor=None, absolute=False):
-        "Compute tick positions and prepare graphics and labels."
-        assert isinstance(number, int) and number > 1
-        assert factor is None or isinstance(factor, (int, float)) and factor >= 0
+    def build(self, ticks, labels=True, factor=None, absolute=False):
+        "Set or compute tick positions and prepare graphics and labels."
+        assert (isinstance(ticks, int) and ticks > 1) or (isinstance(ticks, (tuple, list)))
+        assert isinstance(labels, bool)
+        assert factor is None or (isinstance(factor, (int, float)) and factor > 0)
+
+        self.labels = labels
+        self.factor = factor
 
         span = self.max - self.min
-        self.magnitude = math.log10(span / number)
-        self.factor = factor
-        series = []
-        for magnitude in [math.floor(self.magnitude), math.ceil(self.magnitude)]:
-            for base in [1, 2, 5]:
-                step = base * 10**magnitude
-                if self.min == 0:
-                    first = 0
-                else:
-                    first = math.floor(self.min / step) * step
-                values = []
-                i = itertools.count(0)
-                value = first
-                while value <= self.max:
-                    value = first + next(i) * step
-                    values.append(value)
-                prev_length = len(values) + 1
-                while len(values) >= 2 and len(values) != prev_length:
-                    prev_length = len(values)
-                    if values[0] < self.min and (
-                        values[1] < self.min or math.isclose(values[1], self.min)
-                    ):
-                        values.pop()
-                    if values[-1] > self.max and (
-                        values[-2] > self.max or math.isclose(values[-2], self.max)
-                    ):
-                        values.pop()
-                series.append((magnitude, values))
-        self.magnitude, self.positions = series[0]
-        score = abs(len(self.positions) - number)
-        for magnitude, values in series[1:]:
-            s = abs(len(values) - number)
-            if s < score:
-                self.magnitude = magnitude
-                self.positions = values
-                score = s
-        assert self.positions[0] <= self.min
-        assert self.positions[1] > self.min
-        assert self.positions[-1] >= self.max
-        assert self.positions[-2] < self.max
-        self.first = self.positions[0]
-        self.last = self.positions[-1]
+
+        # Compute ticks; evaluate several different sets of positions.
+        if isinstance(ticks, int):
+            series = []
+            self.magnitude = math.log10(span / ticks)
+            for magnitude in [math.floor(self.magnitude), math.ceil(self.magnitude)]:
+                for base in [1, 2, 5]:
+                    step = base * 10**magnitude
+                    if self.min == 0:
+                        first = 0
+                    else:
+                        first = math.floor(self.min / step) * step
+                    values = []
+                    i = itertools.count(0)
+                    value = first
+                    while value <= self.max:
+                        value = first + next(i) * step
+                        values.append(value)
+                    prev_length = len(values) + 1
+                    while len(values) >= 2 and len(values) != prev_length:
+                        prev_length = len(values)
+                        if values[0] < self.min and (
+                            values[1] < self.min or math.isclose(values[1], self.min)
+                        ):
+                            values.pop()
+                        if values[-1] > self.max and (
+                            values[-2] > self.max or math.isclose(values[-2], self.max)
+                        ):
+                            values.pop()
+                    series.append((magnitude, values))
+            self.magnitude, self.positions = series[0]
+            score = abs(len(self.positions) - ticks)
+            for magnitude, values in series[1:]:
+                s = abs(len(values) - ticks)
+                if s < score:
+                    self.magnitude = magnitude
+                    self.positions = values
+                    score = s
+            assert self.positions[0] <= self.min
+            assert self.positions[1] > self.min
+            assert self.positions[-1] >= self.max
+            assert self.positions[-2] < self.max
+            self.first = self.positions[0]
+            self.last = self.positions[-1]
+
+        # Explicit tick positions given.
+        else:
+            self.magnitude = round(math.log10(span / len(ticks)))
+            for tick in ticks:
+                assert isinstance(tick, (int, float))
+            assert list(ticks) == list(sorted(ticks))
+            self.positions = ticks
+            self.first = min(self.min, self.positions[0])
+            self.last = max(self.max, self.positions[-1])
+
         self.scale = (self.width - self.start - self.end) / (self.last - self.first)
-        self.step = 10**self.magnitude
         if self.magnitude < 0:
             self.format = f"%.{-self.magnitude}f"
         else:
@@ -161,7 +192,7 @@ class Dimension:
                 self.get_pixel(value),
                 label=self.format % self.func(value / self.factor),
             )
-            for value in self.positions
+            for value in self.positions if self.first <= value <= self.last
         ]
 
     def get_frame(self, pxlow, pxhigh, color, linewidth):
@@ -189,6 +220,7 @@ class Xdimension(Dimension):
             width=N(self.get_width(self.first, self.last)),
             height=N(ypxhigh - ypxlow),
             stroke=color,
+            fill="none",
         )
         result["stroke-width"] = linewidth
         return result
@@ -220,13 +252,13 @@ class Xdimension(Dimension):
         path = Path(ticks[0].pixel, ypxlow).V(ypxhigh)
         for tick in ticks[1:]:
             path.M(tick.pixel, ypxlow).V(ypxhigh)
-        path.M(ticks[0].pixel, ypxlow).H(self.width)
-        path.M(ticks[0].pixel, ypxhigh).H(self.width)
         return Element("path", d=path, stroke=color)
 
     def get_labels(self, height, font_size):
         "Get the labels for the x dimension ticks."
         result = Element("g")
+        if not self.labels:
+            return result
         result["text-anchor"] = "middle"
         result["stroke"] = "none"
         result["fill"] = "black"
@@ -273,6 +305,7 @@ class Ydimension(Dimension):
             width=N(xpxhigh - xpxlow),
             height=N(self.get_width(self.first, self.last)),
             stroke=color,
+            fill="none",
         )
         result["stroke-width"] = linewidth
         return result
@@ -304,13 +337,13 @@ class Ydimension(Dimension):
         path = Path(xpxlow, ticks[0].pixel).H(xpxhigh)
         for tick in ticks[1:]:
             path.M(xpxlow, tick.pixel).H(xpxhigh)
-        path.M(xpxlow, ticks[0].pixel).V(self.width)
-        path.M(xpxhigh, ticks[0].pixel).V(self.width)
         return Element("path", d=path, stroke=color)
 
     def get_labels(self, width, font_size):
         "Get the labels for the y dimension ticks."
         result = Element("g")
+        if not self.labels:
+            return result
         result["text-anchor"] = "end"
         result["stroke"] = "none"
         result["fill"] = "black"

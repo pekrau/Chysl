@@ -17,7 +17,7 @@
 ![universe SVG](universe.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: timelines
 title:
   text: Universe
@@ -43,8 +43,8 @@ entries:
 - entry: event
   label: ''
   timeline: Universe
-  color: navy
-  instant: -8500000000
+  color: white
+  instant: -7500000000
   marker: galaxy
   href: https://en.wikipedia.org/wiki/Milky_Way
 - entry: period
@@ -55,18 +55,20 @@ entries:
 axis:
   absolute: true
   caption: Billion years ago
+grid: false
 ```
 ### earth
 
 ![earth SVG](earth.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: timelines
 title: Earth
 entries:
 - entry: period
   label: Earth
+  color: skyblue
   begin: -4567000000
   end: 0
 - entry: period
@@ -125,7 +127,7 @@ axis:
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title: Universe and Earth
 subcharts:
@@ -154,8 +156,8 @@ subcharts:
   - entry: event
     label: ''
     timeline: Universe
-    color: navy
-    instant: -8500000000
+    color: white
+    instant: -7500000000
     marker: galaxy
     href: https://en.wikipedia.org/wiki/Milky_Way
   - entry: period
@@ -167,11 +169,13 @@ subcharts:
   axis:
     absolute: true
     caption: Billion years ago
+  grid: false
 - chart: timelines
   title: Earth
   entries:
   - entry: period
     label: Earth
+    color: skyblue
     begin: -4567000000
     end: 0
   - entry: period
@@ -231,7 +235,7 @@ subcharts:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title: Predefined markers
 subcharts:
@@ -714,27 +718,24 @@ subcharts:
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.0
+chysl: 0.3.4
 chart: board
 title: Poster
-entries:
+subcharts:
 - x: 250
   y: 10
-  scale: 1
-  item:
+  subchart:
     chart: note
     title: By Per Kraulis
     body: Ph.D.
     footer: Stockholm University
 - x: 0
   y: 100
-  scale: 1
-  item:
+  subchart:
     include: universe.yaml
 - x: 50
   y: 230
-  scale: 1
-  item:
+  subchart:
     include: earth.yaml
 ```
 ### dimensions
@@ -742,7 +743,7 @@ entries:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.3
+chysl: 0.3.4
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -837,6 +838,8 @@ Timelines having events and periods.
   - *default*: true
 - **axis**: Time axis specification.
   - *See* [axis](schema_defs.md#axis).
+- **grid**: Grid specification.
+  - *See* [grid](schema_defs.md#grid).
 - **entries**: Entries (events, periods) in the timelines.
   - *required*
   - *type*: sequence

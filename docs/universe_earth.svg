@@ -1,14 +1,13 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="325" viewBox="0 0 601 325" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.3</desc>
+  <desc>column; Chysl 0.3.4</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Universe and Earth</text>
     <g transform="translate(0, 23.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="blue" font-size="18" text-anchor="middle" font-weight="bold">Universe</text>
-        <rect x="0" y="23.6" width="598" height="44" stroke="black" stroke-width="1" />
+        <rect x="0" y="23.6" width="598" height="44" stroke="black" fill="none" stroke-width="1" />
         <g>
-          <path d="M 0 23.6 V 67.6 M 85.429 23.6 V 67.6 M 170.857 23.6 V 67.6 M 256.286 23.6 V 67.6 M 341.714 23.6 V 67.6 M 427.143 23.6 V 67.6 M 512.571 23.6 V 67.6 M 598 23.6 V 67.6 M 0 23.6 H 600 M 0 67.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
             <text x="0" y="81.6" text-anchor="start">14</text>
             <text x="85.429" y="81.6">12</text>
@@ -48,7 +47,7 @@
             </g>
           </a>
           <a>
-            <path transform="translate(234.929, 34.6) scale(1.5) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="navy" stroke-width="1" stroke-linecap="round" />https://en.wikipedia.org/wiki/Milky_Way</a>
+            <path transform="translate(277.643, 34.6) scale(1.5) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" />https://en.wikipedia.org/wiki/Milky_Way</a>
           <g>
             <rect x="402.924" y="47.6" width="195.076" height="18" fill="lightgreen" />
           </g>
@@ -63,9 +62,9 @@
     <g transform="translate(0, 134.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Earth</text>
-        <rect x="0" y="23.6" width="598" height="132" stroke="black" stroke-width="1" />
+        <path d="M 0 23.6 V 155.6 M 119.6 23.6 V 155.6 M 239.2 23.6 V 155.6 M 358.8 23.6 V 155.6 M 478.4 23.6 V 155.6 M 598 23.6 V 155.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="132" stroke="black" fill="none" stroke-width="1" />
         <g>
-          <path d="M 0 23.6 V 155.6 M 119.6 23.6 V 155.6 M 239.2 23.6 V 155.6 M 358.8 23.6 V 155.6 M 478.4 23.6 V 155.6 M 598 23.6 V 155.6 M 0 23.6 H 600 M 0 155.6 H 600" stroke="gray" />
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
             <text x="0" y="169.6" text-anchor="start">5</text>
             <text x="119.6" y="169.6">4</text>
@@ -83,7 +82,7 @@
         </defs>
         <g clip-path="url(#id11)">
           <g>
-            <rect x="51.787" y="25.6" width="546.213" height="18" fill="white" />
+            <rect x="51.787" y="25.6" width="546.213" height="18" fill="skyblue" />
           </g>
           <g>
             <rect x="125.08" y="47.6" width="150.5" height="18" stroke="none" fill="wheat" />

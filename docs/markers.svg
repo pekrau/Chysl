@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="809" viewBox="0 0 601 809" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.3</desc>
+  <desc>column; Chysl 0.3.4</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Predefined markers</text>
     <g transform="translate(0, 23.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Geometry markers</text>
-        <rect x="0" y="23.6" width="598" height="220" stroke="black" stroke-width="1" />
+        <path d="M 0 23.6 V 243.6 M 99.667 23.6 V 243.6 M 199.333 23.6 V 243.6 M 299 23.6 V 243.6 M 398.667 23.6 V 243.6 M 498.333 23.6 V 243.6 M 598 23.6 V 243.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="220" stroke="black" fill="none" stroke-width="1" />
         <defs>
           <clipPath id="id11">
             <rect x="0" y="23.6" width="598" height="220" />
@@ -80,7 +81,8 @@
     <g transform="translate(0, 277.2)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Symbol markers</text>
-        <rect x="0" y="23.6" width="598" height="88" stroke="black" stroke-width="1" />
+        <path d="M 0 23.6 V 111.6 M 99.667 23.6 V 111.6 M 199.333 23.6 V 111.6 M 299 23.6 V 111.6 M 398.667 23.6 V 111.6 M 498.333 23.6 V 111.6 M 598 23.6 V 111.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="88" stroke="black" fill="none" stroke-width="1" />
         <defs>
           <clipPath id="id12">
             <rect x="0" y="23.6" width="598" height="88" />
@@ -115,7 +117,8 @@
     <g transform="translate(0, 398.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Astronomy markers</text>
-        <rect x="0" y="23.6" width="598" height="132" stroke="black" stroke-width="1" />
+        <path d="M 0 23.6 V 155.6 M 99.667 23.6 V 155.6 M 199.333 23.6 V 155.6 M 299 23.6 V 155.6 M 398.667 23.6 V 155.6 M 498.333 23.6 V 155.6 M 598 23.6 V 155.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="132" stroke="black" fill="none" stroke-width="1" />
         <defs>
           <clipPath id="id13">
             <rect x="0" y="23.6" width="598" height="132" />
@@ -166,7 +169,8 @@
     <g transform="translate(0, 564.4)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Greek markers</text>
-        <rect x="0" y="23.6" width="598" height="220" stroke="black" stroke-width="1" />
+        <path d="M 0 23.6 V 243.6 M 99.667 23.6 V 243.6 M 199.333 23.6 V 243.6 M 299 23.6 V 243.6 M 398.667 23.6 V 243.6 M 498.333 23.6 V 243.6 M 598 23.6 V 243.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="220" stroke="black" fill="none" stroke-width="1" />
         <defs>
           <clipPath id="id14">
             <rect x="0" y="23.6" width="598" height="220" />
