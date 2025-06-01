@@ -13,10 +13,10 @@
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: board
 title: Poster
-subcharts:
+items:
 - x: 250
   y: 10
   subchart:
@@ -38,12 +38,11 @@ subcharts:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: board
-subcharts:
+items:
 - x: 0
   y: 0
-  scale: 1.5
   subchart:
     chart: column
     subcharts:
@@ -69,6 +68,7 @@ subcharts:
       footer: Footer
       line: 0
     - include: declaration.yaml
+  scale: 1.5
 ```
 ## Specification
 
@@ -81,7 +81,7 @@ Chart to place charts at specified positions.
   - *const* 'board'
 - **title**: Title of the board.
   - *See* [text](schema_defs.md#text).
-- **subcharts**: Charts at specified positions.
+- **items**: Subcharts at specified positions.
   - *required*
   - *type*: sequence
   - *items*:
@@ -89,15 +89,15 @@ Chart to place charts at specified positions.
     - **subchart**:
       - *See* [chart_or_include](schema_defs.md#chart_or_include).
       - *required*
-    - **x**: Absolute position of item. Left is 0.
+    - **x**: Absolute position of subchart. Left is 0.
       - *required*
       - *type*: float
       - *minimum*: 0
-    - **y**: Absolute position of item. Top is 0.
+    - **y**: Absolute position of subchart. Top is 0.
       - *required*
       - *type*: float
       - *minimum*: 0
-    - **scale**: Scaling of the item chart.
+    - **scale**: Scaling of the subchart.
       - *type*: float
       - *exclusiveMinimum*: 0
       - *default*: 1

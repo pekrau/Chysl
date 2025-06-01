@@ -154,65 +154,53 @@ class Scatter2d(Chart):
         # Determine dimensions for the axes.
         xdimension = Xdimension(width=self.width)
         xdimension.update_span(self.points.minmax("x"))
-        if isinstance(self.xaxis, dict):
-            min = self.xaxis.get("min")
-            if min is not None:
-                xdimension.min = min
-            max = self.xaxis.get("max")
-            if max is not None:
-                xdimension.max = max
-            if min is not None or max is not None:
-                xdimension.expand_span(0.05)
-        else:
-            xdimension.expand_span(0.05)
+        xdimension.expand_span(0.05)
 
         ydimension = Ydimension(width=self.width, reversed=True)
         ydimension.update_span(self.points.minmax("y"))
-        if isinstance(self.yaxis, dict):
-            min = self.yaxis.get("min")
-            if min is not None:
-                ydimension.min = min
-            max = self.yaxis.get("max")
-            if max is not None:
-                ydimension.max = max
-            if min is not None or max is not None:
-                ydimension.expand_span(0.05)
-        else:
-            ydimension.expand_span(0.05)
+        ydimension.expand_span(0.05)
         ydimension.update_end(self.height)
 
         # Y dimension has to be built first; label lengths needed for adjusting x.
         if isinstance(self.yaxis, dict):
-            ticks = self.yaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET
-            labels = self.yaxis.get("labels", True)
-            factor = self.yaxis.get("factor")
-            absolute = bool(self.yaxis.get("absolute"))
-        else:
-            ticks = constants.DEFAULT_TICKS_TARGET
-            labels = True
-            factor = None
-            absolute = False
-        ydimension.build(ticks, labels=labels, factor=factor, absolute=absolute)
-
-        if (isinstance(self.yaxis, bool) and self.yaxis) or self.yaxis.get("labels", True):
-            xdimension.update_start(
-                ydimension.get_label_length(constants.DEFAULT_FONT_SIZE)
-                + constants.DEFAULT_PADDING
+            ydimension.build(
+                ticks=self.yaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET,
+                min=self.yaxis.get("min"),
+                max=self.yaxis.get("max"),
+                labels=self.yaxis.get("labels", True),
+                factor=self.yaxis.get("factor"),
+                absolute=bool(self.yaxis.get("absolute")),
             )
+            ywidth = self.yaxis.get("width")
+        else:
+            ydimension.build()
+            ywidth = None
+
+        if (isinstance(self.yaxis, bool) and self.yaxis) or self.yaxis.get(
+            "labels", True
+        ):
+            if ywidth is not None:
+                xdimension.update_start(ywidth)
+            else:
+                xdimension.update_start(
+                    ydimension.get_label_length(constants.DEFAULT_FONT_SIZE)
+                    + constants.DEFAULT_PADDING
+                )
 
         xdimension.update_end(constants.DEFAULT_PADDING)
         if isinstance(self.xaxis, dict):
-            ticks = self.xaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET
-            labels = self.xaxis.get("labels", True)
-            factor = self.xaxis.get("factor")
-            absolute = bool(self.xaxis.get("absolute"))
+            xdimension.build(
+                ticks=self.xaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET,
+                min=self.xaxis.get("min"),
+                max=self.xaxis.get("max"),
+                labels=self.xaxis.get("labels", True),
+                factor=self.xaxis.get("factor"),
+                absolute=bool(self.xaxis.get("absolute")),
+            )
         else:
-            ticks = constants.DEFAULT_TICKS_TARGET
-            labels = True
-            factor = None
-            absolute = False
-        xdimension.build(ticks, labels=labels, factor=factor, absolute=absolute)
+            xdimension.build()
 
+        # Chart area.
         xpxlow = xdimension.get_pixel(xdimension.first)
         xpxhigh = xdimension.get_pixel(xdimension.last)
         ypxlow = self.height
@@ -254,7 +242,9 @@ class Scatter2d(Chart):
                 labels := xdimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
             )
             if len(labels) > 0:
-                self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
+                self.height += constants.DEFAULT_FONT_SIZE * (
+                    1 + constants.FONT_DESCEND
+                )
 
             # X axis caption.
             if isinstance(self.xaxis, dict) and (caption := self.xaxis.get("caption")):

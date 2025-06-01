@@ -12,7 +12,7 @@ from path import Path
 from utils import N
 
 
-Tick = collections.namedtuple("Tick", ["user", "pixel", "label"], defaults=[None])
+Tick = collections.namedtuple("Tick", ["position", "pixel", "label"], defaults=[None])
 
 
 class Epoch(enum.StrEnum):
@@ -22,8 +22,8 @@ class Epoch(enum.StrEnum):
 
 
 class Dimension:
-    """Graphics for axis.
-    Store min/max and calculate base/first/last and ticks for the span.
+    """Graphics for coordinate axis.
+    Store min/max and set or calculate base/first/last and ticks for the span.
     """
 
     def __init__(self, width, start=0, end=0, reversed=False):
@@ -40,7 +40,10 @@ class Dimension:
         self.max = None
 
     def __repr__(self):
-        fields = [f"{a}={getattr(self,a)}" for a in ["width", "start", "end", "reversed", "min", "max"]]
+        fields = [
+            f"{a}={getattr(self,a)}"
+            for a in ["width", "start", "end", "reversed", "min", "max"]
+        ]
         return f"Dimension({', '.join(fields)})"
 
     @property
@@ -71,15 +74,6 @@ class Dimension:
         else:
             self.max = max(self.max, value)
 
-    def set_span(self, min, max):
-        "Set the current min and max values explicitly."
-        assert isinstance(min, (int, float))
-        assert isinstance(max, (int, float))
-        assert min < max
-
-        self.min = min
-        self.max = max
-
     def expand_span(self, fraction):
         expansion = fraction * (self.max - self.min)
         self.min -= expansion
@@ -97,15 +91,31 @@ class Dimension:
         else:
             self.end = max(self.end, value)
 
-    def build(self, ticks, labels=True, factor=None, absolute=False):
-        "Set or compute tick positions and prepare graphics and labels."
-        assert (isinstance(ticks, int) and ticks > 1) or (isinstance(ticks, (tuple, list)))
+    def build(
+        self,
+        ticks=constants.DEFAULT_TICKS_TARGET,
+        min=None,
+        max=None,
+        labels=True,
+        factor=None,
+        absolute=False,
+    ):
+        "Set or calculate tick positions and prepare graphics and labels."
+        assert (isinstance(ticks, int) and ticks > 1) or (
+            isinstance(ticks, (tuple, list))
+        )
         assert isinstance(labels, bool)
+        assert min is None or isinstance(min, (int, float))
+        assert max is None or isinstance(max, (int, float))
         assert factor is None or (isinstance(factor, (int, float)) and factor > 0)
 
         self.labels = labels
         self.factor = factor
 
+        if min is not None:
+            self.min = min
+        if max is not None:
+            self.max = max
         span = self.max - self.min
 
         # Compute ticks; evaluate several different sets of positions.
@@ -149,8 +159,19 @@ class Dimension:
             assert self.positions[1] > self.min
             assert self.positions[-1] >= self.max
             assert self.positions[-2] < self.max
-            self.first = self.positions[0]
-            self.last = self.positions[-1]
+            # If min and/or max set explicitly, exclude those positions.
+            if min is None:
+                self.first = self.positions[0]
+            else:
+                while self.positions and self.positions[0] < min:
+                    self.positions.pop(0)
+                self.first = min
+            if max is None:
+                self.last = self.positions[-1]
+            else:
+                while self.positions and self.positions[-1] > max:
+                    self.positions.pop()
+                self.last = max
 
         # Explicit tick positions given.
         else:
@@ -174,15 +195,15 @@ class Dimension:
                 self.factor = 1
         self.func = (lambda v: abs(v)) if absolute else (lambda v: v)
 
-    def get_pixel(self, user):
-        "Convert user coordinate to pixel coordinate."
+    def get_pixel(self, position):
+        "Convert position coordinate to pixel coordinate."
         if self.reversed:
-            return self.end + self.scale * (self.last - user)
+            return self.end + self.scale * (self.last - position)
         else:
-            return self.start + self.scale * (user - self.first)
+            return self.start + self.scale * (position - self.first)
 
     def get_width(self, begin, end):
-        "Convert user width to pixel width."
+        "Convert position width to pixel width."
         return self.scale * abs(end - begin)
 
     def get_ticks(self):
@@ -192,7 +213,8 @@ class Dimension:
                 self.get_pixel(value),
                 label=self.format % self.func(value / self.factor),
             )
-            for value in self.positions if self.first <= value <= self.last
+            for value in self.positions
+            if self.first <= value <= self.last
         ]
 
     def get_frame(self, pxlow, pxhigh, color, linewidth):
@@ -257,12 +279,12 @@ class Xdimension(Dimension):
     def get_labels(self, height, font_size):
         "Get the labels for the x dimension ticks."
         result = Element("g")
-        if not self.labels:
-            return result
         result["text-anchor"] = "middle"
         result["stroke"] = "none"
         result["fill"] = "black"
         result["font-size"] = font_size
+        if not self.labels:
+            return result
         height += font_size
         ticks = self.get_ticks()
         for tick in ticks:
@@ -274,9 +296,9 @@ class Xdimension(Dimension):
                     y=N(height),
                 )
             )
-            if tick is ticks[0]:
+            if tick is ticks[0] and math.isclose(tick.position, self.first):
                 label["text-anchor"] = "start"
-            elif tick is ticks[-1]:
+            elif tick is ticks[-1] and math.isclose(tick.position, self.last):
                 label["text-anchor"] = "end"
         return result
 
@@ -358,8 +380,8 @@ class Ydimension(Dimension):
                     y=N(tick.pixel + font_size / 3),
                 )
             )
-            if tick is ticks[0]:
+            if tick is ticks[0] and math.isclose(tick.position, self.first):
                 label["y"] = N(tick.pixel)
-            elif tick is ticks[-1]:
+            elif tick is ticks[-1] and math.isclose(tick.position, self.last):
                 label["y"] = N(tick.pixel + 0.75 * font_size)
         return result

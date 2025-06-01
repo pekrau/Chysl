@@ -16,7 +16,7 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: note
 title:
   text: Declaration
@@ -36,7 +36,7 @@ footer:
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: column
 subcharts:
 - chart: note
@@ -67,12 +67,11 @@ subcharts:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: board
-subcharts:
+items:
 - x: 0
   y: 0
-  scale: 1.5
   subchart:
     chart: column
     subcharts:
@@ -98,13 +97,14 @@ subcharts:
       footer: Footer
       line: 0
     - include: declaration.yaml
+  scale: 1.5
 ```
 ### pies_column
 
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: column
 title: Pies in column
 subcharts:
@@ -153,10 +153,10 @@ subcharts:
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: board
 title: Poster
-subcharts:
+items:
 - x: 250
   y: 10
   subchart:

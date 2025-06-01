@@ -2,6 +2,7 @@
 
 from icecream import ic
 
+import copy
 import itertools
 import os
 import random
@@ -120,7 +121,9 @@ def get_universe(legend=True):
 
 def get_earth(legend=True):
     earth = Timelines(
-        "Earth", legend=legend, axis=dict(absolute=True, caption="Billion years ago"),
+        "Earth",
+        legend=legend,
+        axis=dict(absolute=True, caption="Billion years ago"),
     )
     earth += Period("Earth", -4_567_000_000, 0, color="skyblue")
     earth += Period(
@@ -377,14 +380,27 @@ def test_scatter_points():
 
 def test_scatter_iris():
     "Plots of the classic iris dataset published by R.A. Fisher, 1936."
-    all_plots = Column(dict(text="Iris flower measurements", size=30))
+    all_plots = Column(dict(text="Iris flower measurements", size=30), padding=4)
+    axis = {
+        "sepal length": dict(min=4, max=8),
+        "sepal width": dict(min=2, max=4.5),
+        "petal length": dict(min=0.5, max=7.5),
+        "petal width": dict(min=0, max=3),
+    }
     for field1 in ["sepal length", "sepal width", "petal length", "petal width"]:
-        all_plots += (row := Row())
+        all_plots += (row := Row(padding=4))
         for field2 in ["sepal length", "sepal width", "petal length", "petal width"]:
+            yaxis = copy.deepcopy(axis)
+            for params in yaxis.values():
+                params["labels"] = field2 == "sepal length"
+                params["width"] = 24  # Only effective if 'labels' is True.
+            # Last row.
+            xaxis = copy.deepcopy(axis)
             if field1 == "petal width":
-                kwargs = dict(xaxis=dict(caption=field2.capitalize()))
+                xaxis[field2]["caption"] = field2.capitalize()
+                xaxis[field2]["labels"] = True
             else:
-                kwargs = {}
+                xaxis[field2]["labels"] = False
             row += Scatter2d(
                 points=dict(
                     source="scatter_iris.csv",
@@ -409,13 +425,12 @@ def test_scatter_iris():
                         ),
                     ),
                 ),
-                # xaxis=dict(labels=False),
-                # yaxis=dict(labels=False),
+                xaxis=xaxis[field2],
+                yaxis=yaxis[field1],
                 width=300,
                 size=6,
-                **kwargs,
             )
-    all_plots += (caption := Column())
+    all_plots += (caption := Column(padding=0))
     caption += Note(
         body=dict(text="Iris setosa: red circles", size=24, color="red"),
         background="white",
@@ -507,7 +522,7 @@ def test_notes():
     column.render("notes_column.svg")
 
     board = Board()
-    board.add_subchart(column, 0, 0, scale=1.5)
+    board.add_item(x=0, y=0, subchart=column, scale=1.5)
     board.save("notes.yaml")
     board.render("notes.svg")
     check_roundtrip(board, "notes.yaml")
@@ -515,14 +530,16 @@ def test_notes():
 
 def test_poster():
     poster = Board("Poster")
-    poster.add_subchart(
-        Note("By Per Kraulis", body="Ph.D.", footer="Stockholm University"), 250, 10
+    poster.add_item(
+        x=250,
+        y=10,
+        subchart=Note("By Per Kraulis", body="Ph.D.", footer="Stockholm University"),
     )
-    poster.add_subchart(dict(include="universe.yaml"), 0, 100)
-    poster.add_subchart(dict(include="earth.yaml"), 50, 230)
+    poster.add_item(x=0, y=100, subchart=dict(include="universe.yaml"))
+    poster.add_item(x=50, y=230, subchart=dict(include="earth.yaml"))
     poster.render("poster.svg")
     poster.save("poster.yaml")
-    check_roundtrip(poster, "poster.svg")
+    check_roundtrip(poster, "poster.yaml")
 
 
 def test_dimensions():
@@ -589,7 +606,7 @@ def run_tests():
         test_scatter_iris()
         test_lines_random_walks()
         test_notes()
-        # test_poster()
+        test_poster()
         test_dimensions()
         test_overlay()
     finally:

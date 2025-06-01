@@ -11,7 +11,6 @@ class Row(Chart):
 
     DEFAULT_TITLE_FONT_SIZE = 22
     DEFAULT_ALIGN = constants.MIDDLE
-    DEFAULT_PADDING = 10
 
     SCHEMA = {
         "title": __doc__,
@@ -29,6 +28,12 @@ class Row(Chart):
                 "enum": constants.VERTICAL,
                 "default": DEFAULT_ALIGN,
             },
+            "padding": {
+                "title": "Padding between the subcharts.",
+                "type": "number",
+                "minimum": 0,
+                "default": constants.DEFAULT_PADDING,
+            },
             "subcharts": {
                 "title": "Charts in the row.",
                 "type": "array",
@@ -40,16 +45,18 @@ class Row(Chart):
 
     schema.add_defs(SCHEMA)
 
-    def __init__(self, title=None, subcharts=None, align=None):
+    def __init__(self, title=None, subcharts=None, align=None, padding=None):
         super().__init__(title=title)
         assert subcharts is None or isinstance(subcharts, list)
         assert align is None or align in constants.VERTICAL
+        assert padding is None or (isinstance(padding, (int, float)) and padding >= 0)
 
         self.subcharts = []
         if subcharts:
             for subchart in subcharts:
                 self.add(subchart)
         self.align = align or self.DEFAULT_ALIGN
+        self.padding = padding if padding is not None else constants.DEFAULT_PADDING
 
     def __iadd__(self, subchart):
         self.add(subchart)
@@ -71,6 +78,8 @@ class Row(Chart):
                 result["subcharts"].append(subchart.as_dict())
         if self.align != self.DEFAULT_ALIGN:
             result["align"] = self.align
+        if self.padding is not None and self.padding != constants.DEFAULT_PADDING:
+            result["padding"] = self.padding
         return result
 
     def build(self):
@@ -82,10 +91,9 @@ class Row(Chart):
             subchart.build()
 
         self.width = sum([s.width for s in self.subcharts])
-        self.width += (len(self.subcharts) - 1) * self.DEFAULT_PADDING
+        self.width += (len(self.subcharts) - 1) * self.padding
 
         super().build()
-        self.height += self.DEFAULT_PADDING
 
         x = 0
         max_height = max([s.height for s in self.subcharts])
@@ -101,6 +109,6 @@ class Row(Chart):
             self.svg += Element(
                 "g", subchart.svg, transform=f"translate({N(x)}, {N(y)})"
             )
-            x += subchart.width + self.DEFAULT_PADDING
+            x += subchart.width + self.padding
 
         self.height += max_height

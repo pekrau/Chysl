@@ -290,7 +290,9 @@ class ChartReader:
 
         try:
             self.data = yaml.safe_load(content)
-        except yaml.YAMLError as error:
+            if not isinstance(self.data, dict):
+                raise ValueError("does not contain a map")
+        except (yaml.YAMLError, ValueError) as error:
             raise ValueError(f"cannot interpret data as YAML: {error}")
         # Process and remove the meta information.
         try:

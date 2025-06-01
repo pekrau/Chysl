@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="601" height="325" viewBox="0 0 601 325" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.4</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="601" height="317" viewBox="0 0 601 317" transform="translate(0.5, 0.5)">
+  <desc>column; Chysl 0.3.5</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Universe and Earth</text>
     <g transform="translate(0, 23.6)">
@@ -59,7 +59,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0, 134.8)">
+    <g transform="translate(0, 126.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Earth</text>
         <path d="M 0 23.6 V 155.6 M 119.6 23.6 V 155.6 M 239.2 23.6 V 155.6 M 358.8 23.6 V 155.6 M 478.4 23.6 V 155.6 M 598 23.6 V 155.6" stroke="lightgray" />

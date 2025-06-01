@@ -162,36 +162,44 @@ class Lines2d(Chart):
 
         # Y dimension has to be built first; label lengths needed for adjusting x.
         if isinstance(self.yaxis, dict):
-            ticks = self.yaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET
-            labels = self.yaxis.get("labels", True)
-            factor = self.yaxis.get("factor")
-            absolute = bool(self.yaxis.get("absolute"))
-        else:
-            ticks = constants.DEFAULT_TICKS_TARGET
-            labels = True
-            factor = None
-            absolute = False
-        ydimension.build(ticks, labels=labels, factor=factor, absolute=absolute)
-
-        if self.yaxis:
-            xdimension.update_start(
-                ydimension.get_label_length(constants.DEFAULT_FONT_SIZE)
-                + constants.DEFAULT_PADDING
+            ydimension.build(
+                ticks=self.yaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET,
+                min=self.yaxis.get("min"),
+                max=self.yaxis.get("max"),
+                labels=self.yaxis.get("labels", True),
+                factor=self.yaxis.get("factor"),
+                absolute=bool(self.yaxis.get("absolute")),
             )
-
-        xdimension.update_end(constants.DEFAULT_PADDING)
-        if isinstance(self.xaxis, dict):
-            ticks = self.xaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET
-            labels = self.xaxis.get("labels", True)
-            factor = self.xaxis.get("factor")
-            absolute = bool(self.xaxis.get("absolute"))
+            ywidth = self.yaxis.get("width")
         else:
-            ticks = constants.DEFAULT_TICKS_TARGET
-            labels = True
-            factor = None
-            absolute = False
-        xdimension.build(ticks, labels=labels, factor=factor, absolute=absolute)
+            ydimension.build()
+            ywidth = None
 
+        if (isinstance(self.yaxis, bool) and self.yaxis) or self.yaxis.get(
+            "labels", True
+        ):
+            if ywidth is not None:
+                xdimension.update_start(ywidth)
+            else:
+                xdimension.update_start(
+                    ydimension.get_label_length(constants.DEFAULT_FONT_SIZE)
+                    + constants.DEFAULT_PADDING
+                )
+        xdimension.update_end(constants.DEFAULT_PADDING)
+
+        if isinstance(self.xaxis, dict):
+            xdimension.build(
+                ticks=self.xaxis.get("ticks") or constants.DEFAULT_TICKS_TARGET,
+                min=self.xaxis.get("min"),
+                max=self.xaxis.get("max"),
+                labels=self.xaxis.get("labels", True),
+                factor=self.xaxis.get("factor"),
+                absolute=bool(self.xaxis.get("absolute")),
+            )
+        else:
+            xdimension.build()
+
+        # Chart area.
         xpxlow = xdimension.get_pixel(xdimension.first)
         xpxhigh = xdimension.get_pixel(xdimension.last)
         ypxlow = self.height
@@ -233,7 +241,9 @@ class Lines2d(Chart):
                 labels := xdimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
             )
             if len(labels) > 0:
-                self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
+                self.height += constants.DEFAULT_FONT_SIZE * (
+                    1 + constants.FONT_DESCEND
+                )
 
             # X axis caption.
             if isinstance(self.xaxis, dict) and (caption := self.xaxis.get("caption")):

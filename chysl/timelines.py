@@ -207,13 +207,6 @@ class Timelines(Chart):
         # Set the span (min/max) for the axis.
         for entry in self.entries:
             dimension.update_span(entry.minmax())
-        if isinstance(self.axis, dict):
-            min = self.axis.get("min")
-            if min is not None:
-                dimension.min = min
-            max = self.axis.get("max")
-            if max is not None:
-                dimension.max = max
 
         # Set the heights for each timeline and the left padding for legends.
         ypxlow = self.height
@@ -232,16 +225,16 @@ class Timelines(Chart):
         ypxhigh = self.height
 
         if isinstance(self.axis, dict):
-            ticks = self.axis.get("ticks") or constants.DEFAULT_TICKS_TARGET
-            labels = self.axis.get("labels", True)
-            factor = self.axis.get("factor")
-            absolute = bool(self.axis.get("absolute"))
+            dimension.build(
+                ticks=self.axis.get("ticks") or constants.DEFAULT_TICKS_TARGET,
+                min=self.axis.get("min"),
+                max=self.axis.get("max"),
+                labels=self.axis.get("labels", True),
+                factor=self.axis.get("factor"),
+                absolute=bool(self.axis.get("absolute")),
+            )
         else:
-            ticks = constants.DEFAULT_TICKS_TARGET
-            labels = True
-            factor = None
-            absolute = False
-        dimension.build(ticks, labels=labels, factor=factor, absolute=absolute)
+            dimension.build()
 
         # Time coordinate grid.
         if self.grid:

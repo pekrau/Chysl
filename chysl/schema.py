@@ -189,6 +189,10 @@ DEFS = {
                         "title": "Axis description.",
                         "type": "string",
                     },
+                    "width": {
+                        "title": "Space for labels and caption. Default is enough for display of specified labels and caption.",
+                        "type": "number",
+                    },
                 },
             },
         ],

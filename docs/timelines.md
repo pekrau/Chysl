@@ -17,7 +17,7 @@
 ![universe SVG](universe.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: timelines
 title:
   text: Universe
@@ -62,7 +62,7 @@ grid: false
 ![earth SVG](earth.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: timelines
 title: Earth
 entries:
@@ -127,7 +127,7 @@ axis:
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: column
 title: Universe and Earth
 subcharts:
@@ -235,7 +235,7 @@ subcharts:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: column
 title: Predefined markers
 subcharts:
@@ -718,10 +718,10 @@ subcharts:
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: board
 title: Poster
-subcharts:
+items:
 - x: 250
   y: 10
   subchart:
@@ -743,7 +743,7 @@ subcharts:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.4
+chysl: 0.3.5
 chart: column
 title: Dimension tick ranges
 subcharts:

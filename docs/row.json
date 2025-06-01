@@ -23,6 +23,12 @@
       ],
       "default": "middle"
     },
+    "padding": {
+      "title": "Padding between the subcharts.",
+      "type": "number",
+      "minimum": 0,
+      "default": 2
+    },
     "subcharts": {
       "title": "Charts in the row.",
       "type": "array",
@@ -33,54 +39,6 @@
     }
   },
   "$defs": {
-    "chart_or_include": {
-      "$anchor": "chart_or_include",
-      "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
-      "oneOf": [
-        {
-          "title": "Read the chart specification (YAML) from the URI reference.",
-          "type": "object",
-          "required": [
-            "include"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "include": {
-              "type": "string",
-              "format": "uri-reference"
-            }
-          }
-        },
-        {
-          "title": "Specification of a chart.",
-          "type": "object",
-          "required": [
-            "chart"
-          ],
-          "properties": {
-            "chart": {
-              "enum": [
-                "timelines",
-                "piechart",
-                "scatter2d",
-                "lines2d",
-                "note",
-                "column",
-                "row",
-                "overlay",
-                "board"
-              ]
-            }
-          }
-        }
-      ]
-    },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
-    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -138,6 +96,54 @@
                 "end"
               ],
               "default": "middle"
+            }
+          }
+        }
+      ]
+    },
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate display pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
+    },
+    "chart_or_include": {
+      "$anchor": "chart_or_include",
+      "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
+      "oneOf": [
+        {
+          "title": "Read the chart specification (YAML) from the URI reference.",
+          "type": "object",
+          "required": [
+            "include"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "include": {
+              "type": "string",
+              "format": "uri-reference"
+            }
+          }
+        },
+        {
+          "title": "Specification of a chart.",
+          "type": "object",
+          "required": [
+            "chart"
+          ],
+          "properties": {
+            "chart": {
+              "enum": [
+                "timelines",
+                "piechart",
+                "scatter2d",
+                "lines2d",
+                "note",
+                "column",
+                "row",
+                "overlay",
+                "board"
+              ]
             }
           }
         }

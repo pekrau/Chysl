@@ -15,7 +15,7 @@ class Board(Chart):
     SCHEMA = {
         "title": __doc__,
         "type": "object",
-        "required": ["chart", "subcharts"],
+        "required": ["chart", "items"],
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "board"},
@@ -23,8 +23,8 @@ class Board(Chart):
                 "title": "Title of the board.",
                 "$ref": "#text",
             },
-            "subcharts": {
-                "title": "Charts at specified positions.",
+            "items": {
+                "title": "Subcharts at specified positions.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
@@ -34,17 +34,17 @@ class Board(Chart):
                     "properties": {
                         "subchart": {"$ref": "#chart_or_include"},
                         "x": {
-                            "title": "Absolute position of item. Left is 0.",
+                            "title": "Absolute position of subchart. Left is 0.",
                             "type": "number",
                             "minimum": 0,
                         },
                         "y": {
-                            "title": "Absolute position of item. Top is 0.",
+                            "title": "Absolute position of subchart. Top is 0.",
                             "type": "number",
                             "minimum": 0,
                         },
                         "scale": {
-                            "title": "Scaling of the item chart.",
+                            "title": "Scaling of the subchart.",
                             "type": "number",
                             "exclusiveMinimum": 0,
                             "default": 1,
@@ -58,13 +58,13 @@ class Board(Chart):
 
     schema.add_defs(SCHEMA)
 
-    def __init__(self, title=None, subcharts=None):
+    def __init__(self, title=None, items=None):
         super().__init__(title=title)
-        assert subcharts is None or isinstance(subcharts, list)
+        assert items is None or isinstance(items, list)
 
-        self.subcharts = []
-        if subcharts:
-            for item in subcharts:
+        self.items = []
+        if items:
+            for item in items:
                 self.add(item)
 
     def __iadd__(self, item):
@@ -74,11 +74,9 @@ class Board(Chart):
     def add(self, item):
         "Add the item (subchart with position etc) to the board."
         assert isinstance(item, dict)
-        self.add_subchart(
-            *[item.get(key) for key in ["subchart", "x", "y", "scale", "opacity"]]
-        )
+        self.add_item(**item)
 
-    def add_subchart(self, subchart, x, y, scale=None, opacity=None):
+    def add_item(self, subchart, x, y, scale=None, opacity=None):
         assert isinstance(subchart, (dict, Chart))
         assert isinstance(x, (int, float)) and x >= 0
         assert isinstance(y, (int, float)) and y >= 0
@@ -88,25 +86,25 @@ class Board(Chart):
         )
         if isinstance(subchart, dict):
             subchart = parse(subchart)
-        self.subcharts.append(
+        self.items.append(
             dict(subchart=subchart, x=x, y=y, scale=scale, opacity=opacity)
         )
 
     def as_dict(self):
         result = super().as_dict()
-        result["subcharts"] = []
-        for item in self.subcharts:
+        result["items"] = []
+        for item in self.items:
             i = dict(x=item["x"], y=item["y"])
-            if scale := item.get("scale"):
-                i["scale"] = scale
-            if (opacity := item.get("opacity")) is not None and opacity != 1:
-                i["opacity"] = opacity
             subchart = item["subchart"]
             try:  # If this subchart was included from another source.
                 i["subchart"] = dict(include=subchart.location)
             except AttributeError:
                 i["subchart"] = subchart.as_dict()
-            result["subcharts"].append(i)
+            if (scale := item.get("scale")) and scale != 1:
+                i["scale"] = scale
+            if (opacity := item.get("opacity")) is not None and opacity != 1:
+                i["opacity"] = opacity
+            result["items"].append(i)
         return result
 
     def build(self):
@@ -114,11 +112,11 @@ class Board(Chart):
         Adds the title, if defined.
         Sets the 'svg', 'height' and 'width' attributes.
         """
-        for item in self.subcharts:
+        for item in self.items:
             item["subchart"].build()
 
         self.width = 0
-        for item in self.subcharts:
+        for item in self.items:
             self.width = max(
                 self.width,
                 item["x"] + (item.get("scale") or 1) * item["subchart"].width,
@@ -127,12 +125,10 @@ class Board(Chart):
         super().build()
 
         offset = self.height
-        for item in self.subcharts:
+        for item in self.items:
             transforms = []
-            try:
-                transforms.append(f"scale({item['scale']})")
-            except KeyError:
-                pass
+            if (scale := item.get("scale")) and scale != 1:
+                transforms.append(f"scale({scale})")
             transforms.append(f"translate({item['x']}, {item['y'] + offset})")
             g = Element("g", transform=" ".join(transforms))
             if (opacity := item.get("opacity")) is not None and opacity != 1:

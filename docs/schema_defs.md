@@ -126,6 +126,8 @@ Coordinate axis specification.
     - *default*: false
   - **caption**: Axis description.
     - *type*: string
+  - **width**: Space for labels and caption. Default is enough for display of specified labels and caption.
+    - *type*: float
 
 ## grid
 

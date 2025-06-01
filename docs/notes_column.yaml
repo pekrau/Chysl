@@ -1,4 +1,4 @@
-chysl: 0.3.4
+chysl: 0.3.5
 chart: column
 subcharts:
 - chart: note

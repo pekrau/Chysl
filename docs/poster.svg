@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="651" height="443.8" viewBox="0 0 651 443.8" transform="translate(0.5, 0.5)">
-  <desc>board; Chysl 0.3.4</desc>
+  <desc>board; Chysl 0.3.5</desc>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="325" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Poster</text>
-    <g transform="scale(None) translate(250, 33.6)">
+    <g transform="translate(250, 33.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="100" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">By Per Kraulis</text>
         <rect x="2.5" y="2.5" rx="10" ry="10" width="195" fill="lightyellow" stroke="gold" stroke-width="5" height="68.4" />
@@ -20,15 +20,19 @@
         </g>
       </g>
     </g>
-    <g transform="scale(None) translate(0, 123.6)">
+    <g transform="translate(0, 123.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="blue" font-size="18" text-anchor="middle" font-weight="bold">Universe</text>
-        <rect x="66.22" y="23.6" width="531.78" height="44" stroke="black" stroke-width="1" />
+        <rect x="66.22" y="23.6" width="531.78" height="44" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="66.22" y="81.6" text-anchor="start">15</text>
-            <text x="243.48" y="81.6">10</text>
-            <text x="420.74" y="81.6">5</text>
+            <text x="66.22" y="81.6" text-anchor="start">14</text>
+            <text x="142.189" y="81.6">12</text>
+            <text x="218.157" y="81.6">10</text>
+            <text x="294.126" y="81.6">8</text>
+            <text x="370.094" y="81.6">6</text>
+            <text x="446.063" y="81.6">4</text>
+            <text x="522.031" y="81.6">2</text>
             <text x="598" y="81.6" text-anchor="end">0</text>
             <text x="332.11" y="98.4">Billion years ago</text>
           </g>
@@ -39,11 +43,11 @@
           </clipPath>
         </defs>
         <g clip-path="url(#id1)">
-          <path d="M 100.223 34.6 h 18 M 109.223 25.6 v 18 M 102.859 28.236 L 115.587 40.964 M 115.587 28.236 L 102.859 40.964" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" />
+          <path d="M 65.311 34.6 h 18 M 74.311 25.6 v 18 M 67.947 28.236 L 80.675 40.964 M 80.675 28.236 L 67.947 40.964" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" />
           <a href="https://en.wikipedia.org/wiki/Milky_Way">
             <g>
-              <rect x="331.61" y="25.6" width="266.89" height="18" stroke="none" fill="dodgerblue" />
-              <path d="M 331.61 25.6 H 599 m 0 18 H 331.61" stroke="black" />
+              <rect x="312.618" y="25.6" width="285.882" height="18" stroke="none" fill="dodgerblue" />
+              <path d="M 312.618 25.6 H 599 m 0 18 H 312.618" stroke="black" />
               <defs>
                 <linearGradient id="id2">
                   <stop offset="0" stop-color="dodgerblue" stop-opacity="0" />
@@ -54,21 +58,21 @@
                   <stop offset="1" stop-color="black" stop-opacity="1" />
                 </linearGradient>
               </defs>
-              <rect x="296.658" y="25.6" width="35.452" height="18" stroke="none" fill="url(#id2)" />
-              <path d="M 296.658 25.6 H 332.11 m 0 18 H 296.658" stroke="url(#id3)" />
+              <rect x="275.134" y="25.6" width="37.984" height="18" stroke="none" fill="url(#id2)" />
+              <path d="M 275.134 25.6 H 313.118 m 0 18 H 275.134" stroke="url(#id3)" />
               <line x1="598" y1="25.6" x2="598" y2="43.6" stroke="black" />
             </g>
           </a>
           <a>
-            <path transform="translate(332.11, 34.6) scale(1.5) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" />https://en.wikipedia.org/wiki/Milky_Way</a>
+            <path transform="translate(313.118, 34.6) scale(1.5) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" />https://en.wikipedia.org/wiki/Milky_Way</a>
           <g>
-            <rect x="436.091" y="47.6" width="161.909" height="18" fill="lightgreen" />
+            <rect x="424.526" y="47.6" width="173.474" height="18" fill="lightgreen" />
           </g>
         </g>
         <g clip-path="url(#id1)" text-anchor="middle" stroke="none" fill="black">
-          <text x="120.223" y="38.8" text-anchor="start">Big Bang</text>
-          <text x="465.055" y="38.8" fill="white" text-anchor="middle">Milky Way galaxy</text>
-          <text x="517.045" y="60.8" fill="black" text-anchor="middle">Earth</text>
+          <text x="85.311" y="38.8" text-anchor="start">Big Bang</text>
+          <text x="455.559" y="38.8" fill="white" text-anchor="middle">Milky Way galaxy</text>
+          <text x="511.263" y="60.8" fill="black" text-anchor="middle">Earth</text>
         </g>
         <g stroke="none" fill="black">
           <text x="2" y="38.8">Universe</text>
@@ -76,10 +80,11 @@
         </g>
       </g>
     </g>
-    <g transform="scale(None) translate(50, 253.6)">
+    <g transform="translate(50, 253.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Earth</text>
-        <rect x="110.04" y="23.6" width="487.96" height="132" stroke="black" stroke-width="1" />
+        <path d="M 110.04 23.6 V 155.6 M 207.632 23.6 V 155.6 M 305.224 23.6 V 155.6 M 402.816 23.6 V 155.6 M 500.408 23.6 V 155.6 M 598 23.6 V 155.6" stroke="lightgray" />
+        <rect x="110.04" y="23.6" width="487.96" height="132" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
             <text x="110.04" y="169.6" text-anchor="start">5</text>
@@ -98,7 +103,7 @@
         </defs>
         <g clip-path="url(#id4)">
           <g>
-            <rect x="152.297" y="25.6" width="445.703" height="18" fill="white" />
+            <rect x="152.297" y="25.6" width="445.703" height="18" fill="skyblue" />
           </g>
           <g>
             <rect x="212.012" y="47.6" width="122.99" height="18" stroke="none" fill="wheat" />

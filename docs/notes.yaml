@@ -1,9 +1,8 @@
-chysl: 0.3.4
+chysl: 0.3.5
 chart: board
-subcharts:
+items:
 - x: 0
   y: 0
-  scale: 1.5
   subchart:
     chart: column
     subcharts:
@@ -29,3 +28,4 @@ subcharts:
       footer: Footer
       line: 0
     - include: declaration.yaml
+  scale: 1.5
