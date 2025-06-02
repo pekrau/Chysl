@@ -62,6 +62,16 @@
     }
   },
   "$defs": {
+    "title": {
+      "$anchor": "title",
+      "title": "Title of the chart, with or without styling. Displayed at the top.",
+      "$ref": "#text"
+    },
+    "description": {
+      "$anchor": "description",
+      "title": "Description of the chart. Rendered as <desc> in SVG.",
+      "type": "string"
+    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -124,21 +134,11 @@
         }
       ]
     },
-    "description": {
-      "$anchor": "description",
-      "title": "Description of the chart. Rendered as <desc> in SVG.",
-      "type": "string"
-    },
     "size": {
       "$anchor": "size",
       "title": "Size of graphical item, in approximate display pixel units.",
       "type": "number",
       "minimumExclusive": 0
-    },
-    "title": {
-      "$anchor": "title",
-      "title": "Title of the chart, with or without styling. Displayed at the top.",
-      "$ref": "#text"
     }
   }
 }

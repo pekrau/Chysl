@@ -12,7 +12,7 @@
 ![overlay SVG](overlay.svg)
 
 ```yaml
-chysl: 0.3.6
+chysl: 0.3.7
 chart: overlay
 title: One scatterplot on top of another
 layers:
@@ -40,8 +40,8 @@ layers:
       marker: alpha
     - x: 2
       y: 2
-      marker: beta
       color: white
+      marker: beta
     - x: 3
       y: 3
       marker: gamma

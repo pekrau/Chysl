@@ -76,92 +76,75 @@
     }
   },
   "$defs": {
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
-      "oneOf": [
-        {
-          "title": "Text with default styling.",
-          "type": "string"
-        },
-        {
-          "title": "Text with styling options.",
-          "type": "object",
-          "required": [
-            "text"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "size": {
-              "title": "Size of font. Default depends on context.",
-              "$ref": "#size"
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
-            }
-          }
-        }
-      ]
+    "title": {
+      "$anchor": "title",
+      "title": "Title of the chart, with or without styling. Displayed at the top.",
+      "$ref": "#text"
     },
     "description": {
       "$anchor": "description",
       "title": "Description of the chart. Rendered as <desc> in SVG.",
       "type": "string"
     },
-    "grid": {
-      "$anchor": "grid",
-      "title": "Coordinate grid specification.",
+    "uri": {
+      "$anchor": "uri",
+      "title": "A URI, absolute or relative.",
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
       "oneOf": [
         {
-          "title": "Display default grid.",
+          "title": "Display default axis, or no display.",
           "type": "boolean",
           "default": true
         },
         {
-          "title": "Grid styling.",
+          "title": "Coordinate axis specification.",
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "lightgray"
+            "min": {
+              "title": "Explicit minimum of span for axis.",
+              "type": "number"
+            },
+            "max": {
+              "title": "Explicit maximum of span for axis.",
+              "type": "number"
+            },
+            "ticks": {
+              "title": "Explicit positions for axis ticks.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "title": "Axis coordinate of a tick.",
+                "type": "number"
+              }
+            },
+            "labels": {
+              "title": "Display labels, or not.",
+              "type": "boolean",
+              "default": true
+            },
+            "factor": {
+              "title": "Factor to divide tick value by for label display. Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "absolute": {
+              "title": "Display absolute values for ticks.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            },
+            "width": {
+              "title": "Space for labels and caption. Default is enough for display of specified labels and caption.",
+              "type": "number"
             }
           }
         }
@@ -257,6 +240,100 @@
         }
       ]
     },
+    "opacity": {
+      "$anchor": "opacity",
+      "title": "Opacity in range [0.0, 1.0].",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 1
+    },
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "size": {
+              "title": "Size of font. Default depends on context.",
+              "$ref": "#size"
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            },
+            "anchor": {
+              "title": "Text anchor position. Ignored in some contexts.",
+              "enum": [
+                "start",
+                "middle",
+                "end"
+              ],
+              "default": "middle"
+            }
+          }
+        }
+      ]
+    },
+    "grid": {
+      "$anchor": "grid",
+      "title": "Coordinate grid specification.",
+      "oneOf": [
+        {
+          "title": "Display default grid.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Grid styling.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "lightgray"
+            }
+          }
+        }
+      ]
+    },
     "field": {
       "$anchor": "field",
       "title": "Mapping of a plot parameter to a field in source data.",
@@ -288,95 +365,6 @@
               "title": "Map a string value in the source data to a value for the plot parameter.",
               "type": "object",
               "properties": {}
-            }
-          }
-        }
-      ]
-    },
-    "uri": {
-      "$anchor": "uri",
-      "title": "A URI, absolute or relative.",
-      "type": "string",
-      "format": "uri-reference"
-    },
-    "color": {
-      "$anchor": "color",
-      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
-      "type": "string",
-      "format": "color"
-    },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
-    },
-    "title": {
-      "$anchor": "title",
-      "title": "Title of the chart, with or without styling. Displayed at the top.",
-      "$ref": "#text"
-    },
-    "opacity": {
-      "$anchor": "opacity",
-      "title": "Opacity in range [0.0, 1.0].",
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "default": 1
-    },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
-      "oneOf": [
-        {
-          "title": "Display default axis, or no display.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Coordinate axis specification.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "min": {
-              "title": "Explicit minimum of span for axis.",
-              "type": "number"
-            },
-            "max": {
-              "title": "Explicit maximum of span for axis.",
-              "type": "number"
-            },
-            "ticks": {
-              "title": "Explicit positions for axis ticks.",
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "title": "Axis coordinate of a tick.",
-                "type": "number"
-              }
-            },
-            "labels": {
-              "title": "Display labels, or not.",
-              "type": "boolean",
-              "default": true
-            },
-            "factor": {
-              "title": "Factor to divide tick value by for label display. Default depends on context.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "absolute": {
-              "title": "Display absolute values for ticks.",
-              "type": "boolean",
-              "default": false
-            },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
-            },
-            "width": {
-              "title": "Space for labels and caption. Default is enough for display of specified labels and caption.",
-              "type": "number"
             }
           }
         }
@@ -509,6 +497,18 @@
           }
         }
       ]
+    },
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate display pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
+    },
+    "color": {
+      "$anchor": "color",
+      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
+      "type": "string",
+      "format": "color"
     }
   }
 }

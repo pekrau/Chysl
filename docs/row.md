@@ -13,7 +13,7 @@
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.3.6
+chysl: 0.3.7
 chart: row
 title: Pies in row
 subcharts:
@@ -61,7 +61,7 @@ subcharts:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.6
+chysl: 0.3.7
 chart: column
 title:
   text: Iris flower measurements

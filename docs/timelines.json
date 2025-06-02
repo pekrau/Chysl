@@ -45,22 +45,17 @@
             "title": "Event at an instant in time.",
             "type": "object",
             "required": [
-              "entry",
-              "label",
               "instant"
             ],
             "additionalProperties": false,
             "properties": {
-              "entry": {
-                "const": "event"
+              "instant": {
+                "title": "Time of the event.",
+                "$ref": "#fuzzy_number"
               },
               "label": {
                 "title": "Description of the event.",
                 "type": "string"
-              },
-              "instant": {
-                "title": "Time of the event.",
-                "$ref": "#fuzzy_number"
               },
               "timeline": {
                 "title": "Timeline to place the event in.",
@@ -99,20 +94,11 @@
             "title": "Period of time.",
             "type": "object",
             "required": [
-              "entry",
-              "label",
               "begin",
               "end"
             ],
             "additionalProperties": false,
             "properties": {
-              "entry": {
-                "const": "period"
-              },
-              "label": {
-                "title": "Description of the period.",
-                "type": "string"
-              },
               "begin": {
                 "title": "Starting time of the period.",
                 "$ref": "#fuzzy_number"
@@ -120,6 +106,10 @@
               "end": {
                 "title": "Ending time of the period.",
                 "$ref": "#fuzzy_number"
+              },
+              "label": {
+                "title": "Description of the period.",
+                "type": "string"
               },
               "timeline": {
                 "title": "Timeline to place the period in.",
@@ -160,203 +150,21 @@
     }
   },
   "$defs": {
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
-      "oneOf": [
-        {
-          "title": "Text with default styling.",
-          "type": "string"
-        },
-        {
-          "title": "Text with styling options.",
-          "type": "object",
-          "required": [
-            "text"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "size": {
-              "title": "Size of font. Default depends on context.",
-              "$ref": "#size"
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
-            }
-          }
-        }
-      ]
+    "title": {
+      "$anchor": "title",
+      "title": "Title of the chart, with or without styling. Displayed at the top.",
+      "$ref": "#text"
     },
     "description": {
       "$anchor": "description",
       "title": "Description of the chart. Rendered as <desc> in SVG.",
       "type": "string"
     },
-    "grid": {
-      "$anchor": "grid",
-      "title": "Coordinate grid specification.",
-      "oneOf": [
-        {
-          "title": "Display default grid.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Grid styling.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "lightgray"
-            }
-          }
-        }
-      ]
-    },
     "uri": {
       "$anchor": "uri",
       "title": "A URI, absolute or relative.",
       "type": "string",
       "format": "uri-reference"
-    },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
-    },
-    "title": {
-      "$anchor": "title",
-      "title": "Title of the chart, with or without styling. Displayed at the top.",
-      "$ref": "#text"
-    },
-    "marker": {
-      "$anchor": "marker",
-      "title": "Symbol for use as a marker in a chart.",
-      "oneOf": [
-        {
-          "title": "Predefined symbols denoted by names.",
-          "enum": [
-            "disc",
-            "circle",
-            "oval",
-            "oval-vertical",
-            "oval-horizontal",
-            "ellipse",
-            "ellipse-vertical",
-            "ellipse-horizontal",
-            "block",
-            "square",
-            "square-cross",
-            "diamond",
-            "diamond-cross",
-            "diamond-fill",
-            "pyramid",
-            "triangle",
-            "wedge",
-            "trigon",
-            "pentagon",
-            "pentagon-fill",
-            "hexagon",
-            "hexagon-fill",
-            "heptagon",
-            "heptagon-fill",
-            "octagon",
-            "octagon-fill",
-            "cross",
-            "plus",
-            "minus",
-            "bar",
-            "check",
-            "burst",
-            "infinity",
-            "none",
-            "star",
-            "star-fill",
-            "galaxy",
-            "sun",
-            "mercury",
-            "venus",
-            "earth",
-            "moon",
-            "mars",
-            "jupiter",
-            "saturn",
-            "uranus",
-            "neptune",
-            "alpha",
-            "beta",
-            "gamma",
-            "delta",
-            "epsilon",
-            "zeta",
-            "eta",
-            "theta",
-            "iota",
-            "kappa",
-            "lambda",
-            "mu",
-            "nu",
-            "xi",
-            "omicron",
-            "pi",
-            "rho",
-            "sigma",
-            "sigma1",
-            "sigma2",
-            "tau",
-            "upsilon",
-            "phi",
-            "chi",
-            "psi",
-            "omega"
-          ]
-        },
-        {
-          "title": "A single character as marker.",
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 1
-        }
-      ]
     },
     "axis": {
       "$anchor": "axis",
@@ -453,6 +261,188 @@
           }
         }
       ]
+    },
+    "marker": {
+      "$anchor": "marker",
+      "title": "Symbol for use as a marker in a chart.",
+      "oneOf": [
+        {
+          "title": "Predefined symbols denoted by names.",
+          "enum": [
+            "disc",
+            "circle",
+            "oval",
+            "oval-vertical",
+            "oval-horizontal",
+            "ellipse",
+            "ellipse-vertical",
+            "ellipse-horizontal",
+            "block",
+            "square",
+            "square-cross",
+            "diamond",
+            "diamond-cross",
+            "diamond-fill",
+            "pyramid",
+            "triangle",
+            "wedge",
+            "trigon",
+            "pentagon",
+            "pentagon-fill",
+            "hexagon",
+            "hexagon-fill",
+            "heptagon",
+            "heptagon-fill",
+            "octagon",
+            "octagon-fill",
+            "cross",
+            "plus",
+            "minus",
+            "bar",
+            "check",
+            "burst",
+            "infinity",
+            "none",
+            "star",
+            "star-fill",
+            "galaxy",
+            "sun",
+            "mercury",
+            "venus",
+            "earth",
+            "moon",
+            "mars",
+            "jupiter",
+            "saturn",
+            "uranus",
+            "neptune",
+            "alpha",
+            "beta",
+            "gamma",
+            "delta",
+            "epsilon",
+            "zeta",
+            "eta",
+            "theta",
+            "iota",
+            "kappa",
+            "lambda",
+            "mu",
+            "nu",
+            "xi",
+            "omicron",
+            "pi",
+            "rho",
+            "sigma",
+            "sigma1",
+            "sigma2",
+            "tau",
+            "upsilon",
+            "phi",
+            "chi",
+            "psi",
+            "omega"
+          ]
+        },
+        {
+          "title": "A single character as marker.",
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1
+        }
+      ]
+    },
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "size": {
+              "title": "Size of font. Default depends on context.",
+              "$ref": "#size"
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            },
+            "anchor": {
+              "title": "Text anchor position. Ignored in some contexts.",
+              "enum": [
+                "start",
+                "middle",
+                "end"
+              ],
+              "default": "middle"
+            }
+          }
+        }
+      ]
+    },
+    "grid": {
+      "$anchor": "grid",
+      "title": "Coordinate grid specification.",
+      "oneOf": [
+        {
+          "title": "Display default grid.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Grid styling.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "lightgray"
+            }
+          }
+        }
+      ]
+    },
+    "size": {
+      "$anchor": "size",
+      "title": "Size of graphical item, in approximate display pixel units.",
+      "type": "number",
+      "minimumExclusive": 0
     }
   }
 }
