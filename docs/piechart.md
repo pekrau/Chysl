@@ -15,7 +15,7 @@
 ![pyramid SVG](pyramid.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: piechart
 title: Pyramid
 start: 132
@@ -36,7 +36,7 @@ slices:
 ![day SVG](day.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: piechart
 title:
   text: Day
@@ -80,7 +80,7 @@ slices:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title: Pies in column
 subcharts:
@@ -129,7 +129,7 @@ subcharts:
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: row
 title: Pies in row
 subcharts:
@@ -179,8 +179,10 @@ Pie chart displaying slices.
 - **chart**:
   - *required*
   - *const* 'piechart'
-- **title**: Title of the pie chart.
-  - *See* [text](schema_defs.md#text).
+- **title**:
+  - *See* [title](schema_defs.md#title).
+- **description**:
+  - *See* [description](schema_defs.md#description).
 - **diameter**: Diameter of the pie chart.
   - *type*: float
   - *exclusiveMinimum*: 0

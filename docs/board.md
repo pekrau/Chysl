@@ -13,7 +13,7 @@
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: board
 title: Poster
 items:
@@ -38,7 +38,7 @@ items:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: board
 items:
 - x: 0
@@ -48,24 +48,24 @@ items:
     subcharts:
     - chart: note
       title: Header
+      description: Body
+      body: Footer
+    - chart: note
+      title: Header
+      description: Body
+    - chart: note
       body: Body
       footer: Footer
     - chart: note
       title: Header
-      body: Body
-    - chart: note
-      body: Body
-      footer: Footer
-    - chart: note
-      title: Header
     - chart: note
       body: Body
     - chart: note
       footer: Footer
     - chart: note
       title: Header
-      body: Body
-      footer: Footer
+      description: Body
+      body: Footer
       line: 0
     - include: declaration.yaml
   scale: 1.5
@@ -79,8 +79,10 @@ Chart to place charts at specified positions.
 - **chart**:
   - *required*
   - *const* 'board'
-- **title**: Title of the board.
-  - *See* [text](schema_defs.md#text).
+- **title**:
+  - *See* [title](schema_defs.md#title).
+- **description**:
+  - *See* [description](schema_defs.md#description).
 - **items**: Subcharts at specified positions.
   - *required*
   - *type*: sequence

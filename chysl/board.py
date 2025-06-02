@@ -19,10 +19,8 @@ class Board(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "board"},
-            "title": {
-                "title": "Title of the board.",
-                "$ref": "#text",
-            },
+            "title": {"$ref": "#title"},
+            "description": {"$ref": "#description"},
             "items": {
                 "title": "Subcharts at specified positions.",
                 "type": "array",
@@ -58,8 +56,8 @@ class Board(Chart):
 
     schema.add_defs(SCHEMA)
 
-    def __init__(self, title=None, items=None):
-        super().__init__(title=title)
+    def __init__(self, title=None, description=None, items=None):
+        super().__init__(title=title, description=description)
         assert items is None or isinstance(items, list)
 
         self.items = []

@@ -11,8 +11,10 @@
       "const": "column"
     },
     "title": {
-      "title": "Title of the column chart.",
-      "$ref": "#text"
+      "$ref": "#title"
+    },
+    "description": {
+      "$ref": "#description"
     },
     "align": {
       "title": "Align charts horizontally within the column.",
@@ -39,6 +41,48 @@
     }
   },
   "$defs": {
+    "chart_or_include": {
+      "$anchor": "chart_or_include",
+      "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
+      "oneOf": [
+        {
+          "title": "Read the chart specification (YAML) from the URI reference.",
+          "type": "object",
+          "required": [
+            "include"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "include": {
+              "type": "string",
+              "format": "uri-reference"
+            }
+          }
+        },
+        {
+          "title": "Specification of a chart.",
+          "type": "object",
+          "required": [
+            "chart"
+          ],
+          "properties": {
+            "chart": {
+              "enum": [
+                "timelines",
+                "piechart",
+                "scatter2d",
+                "lines2d",
+                "note",
+                "column",
+                "row",
+                "overlay",
+                "board"
+              ]
+            }
+          }
+        }
+      ]
+    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -101,53 +145,21 @@
         }
       ]
     },
+    "description": {
+      "$anchor": "description",
+      "title": "Description of the chart. Rendered as <desc> in SVG.",
+      "type": "string"
+    },
     "size": {
       "$anchor": "size",
       "title": "Size of graphical item, in approximate display pixel units.",
       "type": "number",
       "minimumExclusive": 0
     },
-    "chart_or_include": {
-      "$anchor": "chart_or_include",
-      "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
-      "oneOf": [
-        {
-          "title": "Read the chart specification (YAML) from the URI reference.",
-          "type": "object",
-          "required": [
-            "include"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "include": {
-              "type": "string",
-              "format": "uri-reference"
-            }
-          }
-        },
-        {
-          "title": "Specification of a chart.",
-          "type": "object",
-          "required": [
-            "chart"
-          ],
-          "properties": {
-            "chart": {
-              "enum": [
-                "timelines",
-                "piechart",
-                "scatter2d",
-                "lines2d",
-                "note",
-                "column",
-                "row",
-                "overlay",
-                "board"
-              ]
-            }
-          }
-        }
-      ]
+    "title": {
+      "$anchor": "title",
+      "title": "Title of the chart, with or without styling. Displayed at the top.",
+      "$ref": "#text"
     }
   }
 }

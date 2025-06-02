@@ -4,6 +4,8 @@
 - [opacity](#opacity): Opacity in range [0.0, 1.0].
 - [marker](#marker): Symbol for use as a marker in a chart.
 - [text](#text): Text, with or without explicit styling.
+- [title](#title): Title of the chart, with or without styling. Displayed at the top.
+- [description](#description): Description of the chart. Rendered as <desc> in SVG.
 - [fuzzy_number](#fuzzy_number): Number value, exact, or fuzzy with either low/high or error.
 - [uri](#uri): A URI, absolute or relative.
 - [axis](#axis): Coordinate axis specification.
@@ -72,6 +74,18 @@ Text, with or without explicit styling.
   - **anchor**: Text anchor position. Ignored in some contexts.
     - *one of*: 'start', 'middle', 'end'
     - *default*: 'middle'
+
+## title
+
+Title of the chart, with or without styling. Displayed at the top.
+
+- *See* [text](schema_defs.md#text).
+
+## description
+
+Description of the chart. Rendered as <desc> in SVG.
+
+- *type*: string
 
 ## fuzzy_number
 

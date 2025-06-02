@@ -21,10 +21,8 @@ class Scatter2d(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "scatter2d"},
-            "title": {
-                "title": "Title of the plot.",
-                "$ref": "#text",
-            },
+            "title": {"$ref": "#title"},
+            "description": {"$ref": "#description"},
             "width": {
                 "title": "Width of the chart, including legends etc.",
                 "type": "number",
@@ -78,6 +76,7 @@ class Scatter2d(Chart):
     def __init__(
         self,
         title=None,
+        description=None,
         points=None,
         width=None,
         xaxis=None,
@@ -89,7 +88,7 @@ class Scatter2d(Chart):
         color=None,
         opacity=None,
     ):
-        super().__init__(title=title)
+        super().__init__(title=title, description=description)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
         assert xaxis is None or isinstance(xaxis, (bool, dict))
         assert yaxis is None or isinstance(yaxis, (bool, dict))
@@ -102,7 +101,7 @@ class Scatter2d(Chart):
             isinstance(opacity, (int, float)) and (0 <= opacity <= 1)
         )
 
-        self.points = DatapointsReader(points, required=["x", "y"])
+        self.points = DatapointsReader(points)
         self.width = width or constants.DEFAULT_WIDTH
         self.xaxis = True if xaxis is None else xaxis
         self.yaxis = True if yaxis is None else yaxis
@@ -149,6 +148,8 @@ class Scatter2d(Chart):
         Set the 'svg' and 'height' attributes.
         Requires the 'width' attribute.
         """
+        self.points.check_required("x", "y")
+
         super().build()
 
         # Determine dimensions for the axes.

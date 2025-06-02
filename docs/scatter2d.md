@@ -14,7 +14,7 @@
 ![scatter_points SVG](scatter_points.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: scatter2d
 title: Scattered points inline
 points:
@@ -176,7 +176,7 @@ points:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title:
   text: Iris flower measurements
@@ -693,7 +693,7 @@ padding: 4
 ![overlay SVG](overlay.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: overlay
 title: One scatterplot on top of another
 layers:
@@ -736,8 +736,10 @@ layers:
 - **chart**:
   - *required*
   - *const* 'scatter2d'
-- **title**: Title of the plot.
-  - *See* [text](schema_defs.md#text).
+- **title**:
+  - *See* [title](schema_defs.md#title).
+- **description**:
+  - *See* [description](schema_defs.md#description).
 - **width**: Width of the chart, including legends etc.
   - *type*: float
   - *exclusiveMinimum*: 0

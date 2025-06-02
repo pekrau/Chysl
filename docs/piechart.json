@@ -11,8 +11,10 @@
       "const": "piechart"
     },
     "title": {
-      "title": "Title of the pie chart.",
-      "$ref": "#text"
+      "$ref": "#title"
+    },
+    "description": {
+      "$ref": "#description"
     },
     "diameter": {
       "title": "Diameter of the pie chart.",
@@ -80,6 +82,17 @@
     }
   },
   "$defs": {
+    "uri": {
+      "$anchor": "uri",
+      "title": "A URI, absolute or relative.",
+      "type": "string",
+      "format": "uri-reference"
+    },
+    "description": {
+      "$anchor": "description",
+      "title": "Description of the chart. Rendered as <desc> in SVG.",
+      "type": "string"
+    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -142,11 +155,11 @@
         }
       ]
     },
-    "uri": {
-      "$anchor": "uri",
-      "title": "A URI, absolute or relative.",
+    "color": {
+      "$anchor": "color",
+      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
       "type": "string",
-      "format": "uri-reference"
+      "format": "color"
     },
     "size": {
       "$anchor": "size",
@@ -154,11 +167,10 @@
       "type": "number",
       "minimumExclusive": 0
     },
-    "color": {
-      "$anchor": "color",
-      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
-      "type": "string",
-      "format": "color"
+    "title": {
+      "$anchor": "title",
+      "title": "Title of the chart, with or without styling. Displayed at the top.",
+      "$ref": "#text"
     }
   }
 }

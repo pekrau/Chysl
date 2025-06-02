@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="620.6" viewBox="0 0 601 620.6" transform="translate(0.5, 0.5)">
-  <desc>lines2d; Chysl 0.3.5</desc>
+  <title>Random walks (source: db)</title>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Random walks (source: db)</text>
     <path d="M 26.92 23.6 V 600 M 98.305 23.6 V 600 M 169.69 23.6 V 600 M 241.075 23.6 V 600 M 312.46 23.6 V 600 M 383.845 23.6 V 600 M 455.23 23.6 V 600 M 526.615 23.6 V 600 M 598 23.6 V 600" stroke="lightgray" />

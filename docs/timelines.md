@@ -17,7 +17,7 @@
 ![universe SVG](universe.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: timelines
 title:
   text: Universe
@@ -62,7 +62,7 @@ grid: false
 ![earth SVG](earth.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: timelines
 title: Earth
 entries:
@@ -96,28 +96,28 @@ entries:
   fuzzy: gradient
 - entry: period
   label: Eukaryotes
-  begin: -1650000000
-  end: 0
-- entry: period
-  label: Engineers
-  color: lightgray
   begin:
-    value: -3300000000
+    value: -1650000000
     error: 200000000
-  end: -1650000000
-  fuzzy: wedge
+  end: 0
 - entry: period
   label: Photosynthesis
   color: springgreen
-  begin: -3400000000
+  begin:
+    value: -3400000000
+    high: -2600000000
   end: 0
+  fuzzy: gradient
 - entry: period
   label: Plants
   timeline: Photosynthesis
   color: green
-  begin: -470000000
+  begin:
+    value: -470000000
+    error: 50000000
   end: 0
   placement: left
+  fuzzy: wedge
 axis:
   absolute: true
   caption: Billion years ago
@@ -127,7 +127,7 @@ axis:
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title: Universe and Earth
 subcharts:
@@ -203,28 +203,28 @@ subcharts:
     fuzzy: gradient
   - entry: period
     label: Eukaryotes
-    begin: -1650000000
-    end: 0
-  - entry: period
-    label: Engineers
-    color: lightgray
     begin:
-      value: -3300000000
+      value: -1650000000
       error: 200000000
-    end: -1650000000
-    fuzzy: wedge
+    end: 0
   - entry: period
     label: Photosynthesis
     color: springgreen
-    begin: -3400000000
+    begin:
+      value: -3400000000
+      high: -2600000000
     end: 0
+    fuzzy: gradient
   - entry: period
     label: Plants
     timeline: Photosynthesis
     color: green
-    begin: -470000000
+    begin:
+      value: -470000000
+      error: 50000000
     end: 0
     placement: left
+    fuzzy: wedge
   legend: false
   axis:
     absolute: true
@@ -235,7 +235,7 @@ subcharts:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title: Predefined markers
 subcharts:
@@ -718,7 +718,7 @@ subcharts:
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: board
 title: Poster
 items:
@@ -743,7 +743,7 @@ items:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -827,8 +827,10 @@ Timelines having events and periods.
 - **chart**:
   - *required*
   - *const* 'timelines'
-- **title**: Title of the timelines chart.
-  - *See* [text](schema_defs.md#text).
+- **title**:
+  - *See* [title](schema_defs.md#title).
+- **description**:
+  - *See* [description](schema_defs.md#description).
 - **width**: Width of the chart, including legends etc.
   - *type*: float
   - *exclusiveMinimum*: 0

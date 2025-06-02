@@ -13,7 +13,7 @@
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: row
 title: Pies in row
 subcharts:
@@ -61,7 +61,7 @@ subcharts:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title:
   text: Iris flower measurements
@@ -582,8 +582,10 @@ Charts arranged in a row.
 - **chart**:
   - *required*
   - *const* 'row'
-- **title**: Title of the column chart.
-  - *See* [text](schema_defs.md#text).
+- **title**:
+  - *See* [title](schema_defs.md#title).
+- **description**:
+  - *See* [description](schema_defs.md#description).
 - **align**: Align charts vertically within the row.
   - *one of*: 'bottom', 'middle', 'top'
   - *default*: 'middle'

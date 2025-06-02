@@ -23,9 +23,11 @@ from utils import N
 class Chart:
     "Abstract chart."
 
-    def __init__(self, title=None):
+    def __init__(self, title=None, description=None):
         assert title is None or isinstance(title, (str, dict))
+        assert description is None or isinstance(description, (str, dict))
         self.title = title
+        self.description = description
 
     def __eq__(self, other):
         if not isinstance(other, Chart):
@@ -41,6 +43,8 @@ class Chart:
     def as_dict(self):
         result = {"chart": self.name}
         result.update(self.text_as_dict("title"))
+        if self.description:
+            result["description"] = self.description
         return result
 
     def text_as_dict(self, key):
@@ -82,13 +86,16 @@ class Chart:
         """
         if restart_unique_id:
             utils.restart_unique_id()
+
         self.build()
+
         if antialias:
             extent = Vector2(self.width + 1, self.height + 1)
             transform = "translate(0.5, 0.5)"
         else:
             extent = Vector2(self.width, self.height)
             transform = None
+
         document = Element(
             "svg",
             xmlns=constants.SVG_XMLNS,
@@ -97,9 +104,20 @@ class Chart:
             viewBox=f"0 0 {N(extent.x)} {N(extent.y)}",
             transform=transform,
         )
-        document += Element("desc", f"{self.name}; Chysl {constants.__version__}")
+
+        if self.title:
+            if isinstance(self.title, dict):
+                title = self.title["text"]
+            else:
+                title = self.title
+            if title:
+                document += Element("title", title)
+        if self.description:
+            document += Element("desc", self.description)
+
         document += self.svg
         document.repr_indent = indent
+
         if isinstance(target, (str, pathlib.Path)):
             with open(target, "w") as outfile:
                 outfile.write(repr(document))
@@ -291,7 +309,7 @@ class ChartReader:
         try:
             self.data = yaml.safe_load(content)
             if not isinstance(self.data, dict):
-                raise ValueError("does not contain a map")
+                raise ValueError("must contain a top-level mapping")
         except (yaml.YAMLError, ValueError) as error:
             raise ValueError(f"cannot interpret data as YAML: {error}")
         # Process and remove the meta information.

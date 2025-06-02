@@ -18,7 +18,7 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title: Universe and Earth
 subcharts:
@@ -94,28 +94,28 @@ subcharts:
     fuzzy: gradient
   - entry: period
     label: Eukaryotes
-    begin: -1650000000
-    end: 0
-  - entry: period
-    label: Engineers
-    color: lightgray
     begin:
-      value: -3300000000
+      value: -1650000000
       error: 200000000
-    end: -1650000000
-    fuzzy: wedge
+    end: 0
   - entry: period
     label: Photosynthesis
     color: springgreen
-    begin: -3400000000
+    begin:
+      value: -3400000000
+      high: -2600000000
     end: 0
+    fuzzy: gradient
   - entry: period
     label: Plants
     timeline: Photosynthesis
     color: green
-    begin: -470000000
+    begin:
+      value: -470000000
+      error: 50000000
     end: 0
     placement: left
+    fuzzy: wedge
   legend: false
   axis:
     absolute: true
@@ -126,7 +126,7 @@ subcharts:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title: Pies in column
 subcharts:
@@ -175,29 +175,29 @@ subcharts:
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 subcharts:
 - chart: note
   title: Header
+  description: Body
+  body: Footer
+- chart: note
+  title: Header
+  description: Body
+- chart: note
   body: Body
   footer: Footer
 - chart: note
   title: Header
-  body: Body
-- chart: note
-  body: Body
-  footer: Footer
-- chart: note
-  title: Header
 - chart: note
   body: Body
 - chart: note
   footer: Footer
 - chart: note
   title: Header
-  body: Body
-  footer: Footer
+  description: Body
+  body: Footer
   line: 0
 - include: declaration.yaml
 ```
@@ -206,7 +206,7 @@ subcharts:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: board
 items:
 - x: 0
@@ -216,24 +216,24 @@ items:
     subcharts:
     - chart: note
       title: Header
+      description: Body
+      body: Footer
+    - chart: note
+      title: Header
+      description: Body
+    - chart: note
       body: Body
       footer: Footer
     - chart: note
       title: Header
-      body: Body
-    - chart: note
-      body: Body
-      footer: Footer
-    - chart: note
-      title: Header
     - chart: note
       body: Body
     - chart: note
       footer: Footer
     - chart: note
       title: Header
-      body: Body
-      footer: Footer
+      description: Body
+      body: Footer
       line: 0
     - include: declaration.yaml
   scale: 1.5
@@ -243,7 +243,7 @@ items:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title: Predefined markers
 subcharts:
@@ -726,7 +726,7 @@ subcharts:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -808,7 +808,7 @@ subcharts:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title:
   text: Iris flower measurements
@@ -1329,8 +1329,10 @@ Charts stacked in a column.
 - **chart**:
   - *required*
   - *const* 'column'
-- **title**: Title of the column chart.
-  - *See* [text](schema_defs.md#text).
+- **title**:
+  - *See* [title](schema_defs.md#title).
+- **description**:
+  - *See* [description](schema_defs.md#description).
 - **align**: Align charts horizontally within the column.
   - *one of*: 'left', 'center', 'right'
   - *default*: 'center'

@@ -12,7 +12,7 @@
 ![overlay SVG](overlay.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: overlay
 title: One scatterplot on top of another
 layers:
@@ -55,8 +55,10 @@ Charts overlayed over one another, with optional opacity.
 - **chart**:
   - *required*
   - *const* 'overlay'
-- **title**: Title of the overlay chart.
-  - *See* [text](schema_defs.md#text).
+- **title**:
+  - *See* [title](schema_defs.md#title).
+- **description**:
+  - *See* [description](schema_defs.md#description).
 - **layers**: Charts to overlay, with optional opacity.
   - *required*
   - *type*: sequence

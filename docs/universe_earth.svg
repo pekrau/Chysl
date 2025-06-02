@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="601" height="317" viewBox="0 0 601 317" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.5</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="601" height="295" viewBox="0 0 601 295" transform="translate(0.5, 0.5)">
+  <title>Universe and Earth</title>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Universe and Earth</text>
     <g transform="translate(0, 23.6)">
@@ -21,28 +21,28 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id8">
+          <clipPath id="id10">
             <rect x="0" y="23.6" width="598" height="44" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id8)">
+        <g clip-path="url(#id10)">
           <path d="M 0.098 34.6 h 18 M 9.098 25.6 v 18 M 2.734 28.236 L 15.462 40.964 M 15.462 28.236 L 2.734 40.964" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" />
           <a href="https://en.wikipedia.org/wiki/Milky_Way">
             <g>
               <rect x="277.143" y="25.6" width="321.357" height="18" stroke="none" fill="dodgerblue" />
               <path d="M 277.143 25.6 H 599 m 0 18 H 277.143" stroke="black" />
               <defs>
-                <linearGradient id="id9">
+                <linearGradient id="id11">
                   <stop offset="0" stop-color="dodgerblue" stop-opacity="0" />
                   <stop offset="1" stop-color="dodgerblue" stop-opacity="1" />
                 </linearGradient>
-                <linearGradient id="id10">
+                <linearGradient id="id12">
                   <stop offset="0" stop-color="black" stop-opacity="0" />
                   <stop offset="1" stop-color="black" stop-opacity="1" />
                 </linearGradient>
               </defs>
-              <rect x="234.929" y="25.6" width="42.714" height="18" stroke="none" fill="url(#id9)" />
-              <path d="M 234.929 25.6 H 277.643 m 0 18 H 234.929" stroke="url(#id10)" />
+              <rect x="234.929" y="25.6" width="42.714" height="18" stroke="none" fill="url(#id11)" />
+              <path d="M 234.929 25.6 H 277.643 m 0 18 H 234.929" stroke="url(#id12)" />
               <line x1="598" y1="25.6" x2="598" y2="43.6" stroke="black" />
             </g>
           </a>
@@ -52,7 +52,7 @@
             <rect x="402.924" y="47.6" width="195.076" height="18" fill="lightgreen" />
           </g>
         </g>
-        <g clip-path="url(#id8)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id10)" text-anchor="middle" stroke="none" fill="black">
           <text x="20.098" y="38.8" text-anchor="start">Big Bang</text>
           <text x="437.821" y="38.8" fill="white" text-anchor="middle">Milky Way galaxy</text>
           <text x="500.462" y="60.8" fill="black" text-anchor="middle">Earth</text>
@@ -62,25 +62,25 @@
     <g transform="translate(0, 126.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Earth</text>
-        <path d="M 0 23.6 V 155.6 M 119.6 23.6 V 155.6 M 239.2 23.6 V 155.6 M 358.8 23.6 V 155.6 M 478.4 23.6 V 155.6 M 598 23.6 V 155.6" stroke="lightgray" />
-        <rect x="0" y="23.6" width="598" height="132" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 133.6 M 119.6 23.6 V 133.6 M 239.2 23.6 V 133.6 M 358.8 23.6 V 133.6 M 478.4 23.6 V 133.6 M 598 23.6 V 133.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="110" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="0" y="169.6" text-anchor="start">5</text>
-            <text x="119.6" y="169.6">4</text>
-            <text x="239.2" y="169.6">3</text>
-            <text x="358.8" y="169.6">2</text>
-            <text x="478.4" y="169.6">1</text>
-            <text x="598" y="169.6" text-anchor="end">0</text>
-            <text x="299" y="186.4">Billion years ago</text>
+            <text x="0" y="147.6" text-anchor="start">5</text>
+            <text x="119.6" y="147.6">4</text>
+            <text x="239.2" y="147.6">3</text>
+            <text x="358.8" y="147.6">2</text>
+            <text x="478.4" y="147.6">1</text>
+            <text x="598" y="147.6" text-anchor="end">0</text>
+            <text x="299" y="164.4">Billion years ago</text>
           </g>
         </g>
         <defs>
-          <clipPath id="id11">
-            <rect x="0" y="23.6" width="598" height="132" />
+          <clipPath id="id13">
+            <rect x="0" y="23.6" width="598" height="110" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id11)">
+        <g clip-path="url(#id13)">
           <g>
             <rect x="51.787" y="25.6" width="546.213" height="18" fill="skyblue" />
           </g>
@@ -88,70 +88,84 @@
             <rect x="125.08" y="47.6" width="150.5" height="18" stroke="none" fill="wheat" />
             <path d="M 125.08 47.6 H 276.08 m 0 18 H 125.08" stroke="black" />
             <defs>
-              <linearGradient id="id12">
+              <linearGradient id="id14">
                 <stop offset="0" stop-color="wheat" stop-opacity="0" />
                 <stop offset="1" stop-color="wheat" stop-opacity="1" />
               </linearGradient>
-              <linearGradient id="id13">
+              <linearGradient id="id15">
                 <stop offset="0" stop-color="black" stop-opacity="0" />
                 <stop offset="1" stop-color="black" stop-opacity="1" />
               </linearGradient>
             </defs>
-            <rect x="107.64" y="47.6" width="17.94" height="18" stroke="none" fill="url(#id12)" />
-            <path d="M 107.64 47.6 H 125.58 m 0 18 H 107.64" stroke="url(#id13)" />
+            <rect x="107.64" y="47.6" width="17.94" height="18" stroke="none" fill="url(#id14)" />
+            <path d="M 107.64 47.6 H 125.58 m 0 18 H 107.64" stroke="url(#id15)" />
             <defs>
-              <linearGradient id="id14">
+              <linearGradient id="id16">
                 <stop offset="0" stop-color="wheat" stop-opacity="1" />
                 <stop offset="1" stop-color="wheat" stop-opacity="0" />
               </linearGradient>
-              <linearGradient id="id15">
+              <linearGradient id="id17">
                 <stop offset="0" stop-color="black" stop-opacity="1" />
                 <stop offset="1" stop-color="black" stop-opacity="0" />
               </linearGradient>
             </defs>
-            <rect x="275.08" y="47.6" width="47.84" height="18" stroke="none" fill="url(#id14)" />
-            <path d="M 275.08 47.6 H 322.92 m 0 18 H 275.08" stroke="url(#id15)" />
+            <rect x="275.08" y="47.6" width="47.84" height="18" stroke="none" fill="url(#id16)" />
+            <path d="M 275.08 47.6 H 322.92 m 0 18 H 275.08" stroke="url(#id17)" />
           </g>
           <ellipse cx="95.68" cy="78.6" rx="3.6" ry="9" fill="black" stroke="none" />
           <g>
             <rect x="181.292" y="69.6" width="417.208" height="18" stroke="none" fill="white" />
             <path d="M 181.292 69.6 H 599 m 0 18 H 181.292" stroke="black" />
             <defs>
-              <linearGradient id="id16">
+              <linearGradient id="id18">
                 <stop offset="0" stop-color="white" stop-opacity="0" />
                 <stop offset="1" stop-color="white" stop-opacity="1" />
               </linearGradient>
-              <linearGradient id="id17">
+              <linearGradient id="id19">
                 <stop offset="0" stop-color="black" stop-opacity="0" />
                 <stop offset="1" stop-color="black" stop-opacity="1" />
               </linearGradient>
             </defs>
-            <rect x="95.68" y="69.6" width="86.112" height="18" stroke="none" fill="url(#id16)" />
-            <path d="M 95.68 69.6 H 181.792 m 0 18 H 95.68" stroke="url(#id17)" />
+            <rect x="95.68" y="69.6" width="86.112" height="18" stroke="none" fill="url(#id18)" />
+            <path d="M 95.68 69.6 H 181.792 m 0 18 H 95.68" stroke="url(#id19)" />
             <line x1="598" y1="69.6" x2="598" y2="87.6" stroke="black" />
           </g>
           <g>
             <rect x="400.66" y="91.6" width="197.34" height="18" fill="white" />
+            <g stroke="black">
+              <path d="M 376.74 96.1 v 9 m 0 -4.5 H 400.66" />
+              <path d="M 424.58 96.1 v 9 m 0 -4.5 H 400.66" />
+            </g>
           </g>
           <g>
-            <path d="M 227.24 113.6 L 179.4 122.6 227.24 131.6 H 400.66 L 400.66 122.6 400.66 113.6 Z" fill="lightgray" />
+            <rect x="286.54" y="113.6" width="311.96" height="18" stroke="none" fill="springgreen" />
+            <path d="M 286.54 113.6 H 599 m 0 18 H 286.54" stroke="black" />
+            <defs>
+              <linearGradient id="id20">
+                <stop offset="0" stop-color="springgreen" stop-opacity="0" />
+                <stop offset="1" stop-color="springgreen" stop-opacity="1" />
+              </linearGradient>
+              <linearGradient id="id21">
+                <stop offset="0" stop-color="black" stop-opacity="0" />
+                <stop offset="1" stop-color="black" stop-opacity="1" />
+              </linearGradient>
+            </defs>
+            <rect x="191.36" y="113.6" width="95.68" height="18" stroke="none" fill="url(#id20)" />
+            <path d="M 191.36 113.6 H 287.04 m 0 18 H 191.36" stroke="url(#id21)" />
+            <line x1="598" y1="113.6" x2="598" y2="131.6" stroke="black" />
           </g>
           <g>
-            <rect x="191.36" y="135.6" width="406.64" height="18" fill="springgreen" />
-          </g>
-          <g>
-            <rect x="541.788" y="135.6" width="56.212" height="18" fill="green" />
+            <path d="M 547.768 113.6 L 535.808 122.6 547.768 131.6 H 598 L 598 122.6 598 113.6 Z" fill="green" />
           </g>
         </g>
-        <g clip-path="url(#id11)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id13)" text-anchor="middle" stroke="none" fill="black">
           <text x="324.893" y="38.8" fill="black" text-anchor="middle">Earth</text>
           <text x="209.3" y="60.8" fill="black" text-anchor="middle">Archean</text>
           <text x="101.28" y="82.8" text-anchor="start">LUCA?</text>
           <text x="389.896" y="82.8" fill="black" text-anchor="middle">Unicellular organisms</text>
           <text x="499.33" y="104.8" fill="black" text-anchor="middle">Eukaryotes</text>
-          <text x="302" y="126.8" fill="black" text-anchor="middle">Engineers</text>
-          <text x="394.68" y="148.8" fill="black" text-anchor="middle">Photosynthesis</text>
-          <text x="539.788" y="148.8" fill="black" text-anchor="end">Plants</text>
+          <text x="394.68" y="126.8" fill="black" text-anchor="middle">Photosynthesis</text>
+          <text x="533.808" y="126.8" fill="black" text-anchor="end">Plants</text>
         </g>
       </g>
     </g>

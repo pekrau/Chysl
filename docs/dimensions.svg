@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="694.6" viewBox="0 0 601 694.6" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.5</desc>
+  <title>Dimension tick ranges</title>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Dimension tick ranges</text>
     <g transform="translate(0, 23.6)">
@@ -19,16 +19,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id11">
+          <clipPath id="id13">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id11)">
+        <g clip-path="url(#id13)">
           <g>
             <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id11)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id13)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
@@ -49,16 +49,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id12">
+          <clipPath id="id14">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id12)">
+        <g clip-path="url(#id14)">
           <g>
             <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id12)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id14)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
@@ -81,16 +81,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id13">
+          <clipPath id="id15">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id13)">
+        <g clip-path="url(#id15)">
           <g>
             <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id13)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id15)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
@@ -114,16 +114,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id14">
+          <clipPath id="id16">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id14)">
+        <g clip-path="url(#id16)">
           <g>
             <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id14)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id16)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
@@ -147,16 +147,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id15">
+          <clipPath id="id17">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id15)">
+        <g clip-path="url(#id17)">
           <g>
             <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id15)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id17)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
@@ -183,16 +183,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id16">
+          <clipPath id="id18">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id16)">
+        <g clip-path="url(#id18)">
           <g>
             <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id16)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id18)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
@@ -220,16 +220,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id17">
+          <clipPath id="id19">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id17)">
+        <g clip-path="url(#id19)">
           <g>
             <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id17)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id19)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
@@ -258,16 +258,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id18">
+          <clipPath id="id20">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id18)">
+        <g clip-path="url(#id20)">
           <g>
             <rect x="49.414" y="25.6" width="548.586" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id18)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id20)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.707" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
@@ -291,16 +291,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id19">
+          <clipPath id="id21">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id19)">
+        <g clip-path="url(#id21)">
           <g>
             <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id19)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id21)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">
@@ -324,16 +324,16 @@
           </g>
         </g>
         <defs>
-          <clipPath id="id20">
+          <clipPath id="id22">
             <rect x="49.14" y="23.6" width="548.86" height="22" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id20)">
+        <g clip-path="url(#id22)">
           <g>
             <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id20)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id22)" text-anchor="middle" stroke="none" fill="black">
           <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
         </g>
         <g stroke="none" fill="black">

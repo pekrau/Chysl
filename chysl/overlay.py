@@ -15,10 +15,8 @@ class Overlay(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "overlay"},
-            "title": {
-                "title": "Title of the overlay chart.",
-                "$ref": "#text",
-            },
+            "title": {"$ref": "#title"},
+            "description": {"$ref": "#description"},
             "layers": {
                 "title": "Charts to overlay, with optional opacity.",
                 "type": "array",
@@ -42,9 +40,10 @@ class Overlay(Chart):
     def __init__(
         self,
         title=None,
+        description=None,
         layers=None,
     ):
-        super().__init__(title=title)
+        super().__init__(title=title, description=description)
         assert layers is None or isinstance(layers, list)
 
         self.layers = []

@@ -25,10 +25,8 @@ class Piechart(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "piechart"},
-            "title": {
-                "title": "Title of the pie chart.",
-                "$ref": "#text",
-            },
+            "title": {"$ref": "#title"},
+            "description": {"$ref": "#description"},
             "diameter": {
                 "title": "Diameter of the pie chart.",
                 "type": "number",
@@ -90,13 +88,14 @@ class Piechart(Chart):
     def __init__(
         self,
         title=None,
+        description=None,
         slices=None,
         diameter=None,
         total=None,
         start=None,
         palette=None,
     ):
-        super().__init__(title=title)
+        super().__init__(title=title, description=description)
         assert slices is None or isinstance(slices, list)
         assert diameter is None or (isinstance(diameter, (int, float)) and diameter > 0)
         assert total is None or isinstance(total, (int, float))
@@ -157,7 +156,7 @@ class Piechart(Chart):
         Sets the 'svg' and 'height' attributes.
         Sets the 'width' attribute from 'diameter' and padding.
         """
-        # XXX add line width if and when implemented
+        # XXX add line width when frame implemented.
         self.width = self.diameter + 2 * constants.DEFAULT_PADDING
 
         super().build()
@@ -175,7 +174,7 @@ class Piechart(Chart):
         self.svg += (
             pie := Element("g", transform=f"translate({utils.N(x)}, {utils.N(y)})")
         )
-        # XXX linewidth
+        # XXX frame
         pie += Element("circle", r=radius)
 
         # Prepare and create slices.
@@ -189,7 +188,7 @@ class Piechart(Chart):
             slice["stop"] = slice["start"] + slice["fraction"] * Degrees(360)
             stop = slice["stop"]
         pie += (slices := Element("g", stroke="black"))
-        # XXX linewidth
+        # XXX frame?
         slices["stroke-width"] = 1
 
         for slice in self.slices:

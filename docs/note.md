@@ -16,7 +16,7 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: note
 title:
   text: Declaration
@@ -36,29 +36,29 @@ footer:
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 subcharts:
 - chart: note
   title: Header
+  description: Body
+  body: Footer
+- chart: note
+  title: Header
+  description: Body
+- chart: note
   body: Body
   footer: Footer
 - chart: note
   title: Header
-  body: Body
-- chart: note
-  body: Body
-  footer: Footer
-- chart: note
-  title: Header
 - chart: note
   body: Body
 - chart: note
   footer: Footer
 - chart: note
   title: Header
-  body: Body
-  footer: Footer
+  description: Body
+  body: Footer
   line: 0
 - include: declaration.yaml
 ```
@@ -67,7 +67,7 @@ subcharts:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: board
 items:
 - x: 0
@@ -77,24 +77,24 @@ items:
     subcharts:
     - chart: note
       title: Header
+      description: Body
+      body: Footer
+    - chart: note
+      title: Header
+      description: Body
+    - chart: note
       body: Body
       footer: Footer
     - chart: note
       title: Header
-      body: Body
-    - chart: note
-      body: Body
-      footer: Footer
-    - chart: note
-      title: Header
     - chart: note
       body: Body
     - chart: note
       footer: Footer
     - chart: note
       title: Header
-      body: Body
-      footer: Footer
+      description: Body
+      body: Footer
       line: 0
     - include: declaration.yaml
   scale: 1.5
@@ -104,7 +104,7 @@ items:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: column
 title: Pies in column
 subcharts:
@@ -153,7 +153,7 @@ subcharts:
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: board
 title: Poster
 items:
@@ -182,8 +182,10 @@ Textual note with title, body and footer text.
 - **chart**:
   - *required*
   - *const* 'note'
-- **title**: Title of the note.
-  - *See* [text](schema_defs.md#text).
+- **title**:
+  - *See* [title](schema_defs.md#title).
+- **description**:
+  - *See* [description](schema_defs.md#description).
 - **body**: Body of the note.
   - *See* [text](schema_defs.md#text).
 - **footer**: Footer of the note.

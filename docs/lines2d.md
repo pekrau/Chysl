@@ -14,7 +14,7 @@
 ![lines_random_walks SVG](lines_random_walks.svg)
 
 ```yaml
-chysl: 0.3.5
+chysl: 0.3.6
 chart: lines2d
 title: 'Random walks (source: db)'
 lines:
@@ -97,8 +97,10 @@ lines:
 - **chart**:
   - *required*
   - *const* 'lines2d'
-- **title**: Title of the 2D lines chart.
-  - *See* [text](schema_defs.md#text).
+- **title**:
+  - *See* [title](schema_defs.md#title).
+- **description**:
+  - *See* [description](schema_defs.md#description).
 - **width**: Width of the chart, including legends etc.
   - *type*: float
   - *exclusiveMinimum*: 0

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="255" height="607.2" viewBox="0 0 255 607.2" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.5</desc>
+  <title>Pies in column</title>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="127" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Pies in column</text>
     <g transform="translate(25, 23.6)">

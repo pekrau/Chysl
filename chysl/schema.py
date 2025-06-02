@@ -97,6 +97,16 @@ DEFS = {
             },
         ],
     },
+    "title": {
+        "$anchor": "title",
+        "title": "Title of the chart, with or without styling. Displayed at the top.",
+        "$ref": "#text",
+    },
+    "description": {
+        "$anchor": "description",
+        "title": "Description of the chart. Rendered as <desc> in SVG.",
+        "type": "string",
+    },
     "fuzzy_number": {
         "$anchor": "fuzzy_number",
         "title": "Number value, exact, or fuzzy with either low/high or error.",

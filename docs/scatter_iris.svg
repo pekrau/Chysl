@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1213" height="1407.4" viewBox="0 0 1213 1407.4" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.5</desc>
+  <title>Iris flower measurements</title>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="606" y="30" stroke="none" fill="black" font-size="30" text-anchor="middle">Iris flower measurements</text>
     <g transform="translate(0, 38)">

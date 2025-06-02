@@ -25,10 +25,8 @@ class Note(Chart):
         "minProperties": 2,
         "properties": {
             "chart": {"const": "note"},
-            "title": {
-                "title": "Title of the note.",
-                "$ref": "#text",
-            },
+            "title": {"$ref": "#title"},
+            "description": {"$ref": "#description"},
             "body": {
                 "title": "Body of the note.",
                 "$ref": "#text",
@@ -81,6 +79,7 @@ class Note(Chart):
     def __init__(
         self,
         title=None,
+        description=None,
         body=None,
         footer=None,
         width=None,
@@ -90,7 +89,7 @@ class Note(Chart):
         line=None,
         background=None,
     ):
-        super().__init__(title=title)
+        super().__init__(title=title, description=description)
         assert body is None or isinstance(body, (str, dict))
         assert footer is None or isinstance(footer, (str, dict))
         assert width is None or isinstance(width, (int, float))

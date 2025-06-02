@@ -20,10 +20,8 @@ class Lines2d(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "lines2d"},
-            "title": {
-                "title": "Title of the 2D lines chart.",
-                "$ref": "#text",
-            },
+            "title": {"$ref": "#title"},
+            "description": {"$ref": "#description"},
             "width": {
                 "title": "Width of the chart, including legends etc.",
                 "type": "number",
@@ -84,6 +82,7 @@ class Lines2d(Chart):
     def __init__(
         self,
         title=None,
+        description=None,
         lines=None,
         width=None,
         xaxis=None,
@@ -91,7 +90,7 @@ class Lines2d(Chart):
         xgrid=None,
         ygrid=None,
     ):
-        super().__init__(title=title)
+        super().__init__(title=title, description=description)
         assert lines is None or isinstance(lines, list)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
         assert xaxis is None or isinstance(xaxis, (bool, dict))
@@ -115,7 +114,7 @@ class Lines2d(Chart):
 
     def add(self, line):
         assert isinstance(line, dict)
-        line["line"] = DatapointsReader(line["line"], required=["x", "y"])
+        line["line"] = DatapointsReader(line["line"])
         self.lines.append(line)
 
     def as_dict(self):
@@ -148,6 +147,9 @@ class Lines2d(Chart):
         Sets the 'svg' and 'height' attributes.
         Requires the 'width' attribute.
         """
+        for line in self.lines:
+            line["line"].check_required("x", "y")
+
         super().build()
 
         # Determine dimensions for the axes.

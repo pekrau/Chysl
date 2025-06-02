@@ -19,10 +19,8 @@ class Row(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "row"},
-            "title": {
-                "title": "Title of the column chart.",
-                "$ref": "#text",
-            },
+            "title": {"$ref": "#title"},
+            "description": {"$ref": "#description"},
             "align": {
                 "title": "Align charts vertically within the row.",
                 "enum": constants.VERTICAL,
@@ -45,8 +43,8 @@ class Row(Chart):
 
     schema.add_defs(SCHEMA)
 
-    def __init__(self, title=None, subcharts=None, align=None, padding=None):
-        super().__init__(title=title)
+    def __init__(self, title=None, description=None, subcharts=None, align=None, padding=None):
+        super().__init__(title=title, description=description)
         assert subcharts is None or isinstance(subcharts, list)
         assert align is None or align in constants.VERTICAL
         assert padding is None or (isinstance(padding, (int, float)) and padding >= 0)

@@ -19,31 +19,19 @@ import utils
 class DatapointsReader:
     "Datapoints reader, YAML inline or from a source: file, web resource, database."
 
-    def __init__(self, data, required=None):
-        assert data is None or isinstance(data, (list, dict))
+    def __init__(self, data):
+        assert data is None or isinstance(data, (tuple, list, dict))
         self.source = None
         self.location = "inline"
-        self.required = required
 
-        if data is None:
-            self.datapoints = []
-
+        self.datapoints = []
         # YAML inline.
-        if isinstance(data, list):
-            if len(data) == 0:
-                raise ValueError("No data in the list.")
-            if not isinstance(data[0], dict):
-                raise ValueError("First item in the list is not a dict.")
-            self.datapoints = copy.deepcopy(data)  # For safety.
-
+        if isinstance(data, (tuple, list)):
+            for datapoint in data:
+                self.add(datapoint)
         # Data from file, web resource or database.
         elif isinstance(data, dict):
             self.read(data)
-
-        if self.required and self.datapoints:
-            for req in self.required:
-                if req not in self.datapoints[0]:
-                    raise ValueError(f"First datapoint does not contain '{req}'.")
 
     def __str__(self):
         if self.database:
@@ -55,27 +43,28 @@ class DatapointsReader:
         return iter(self.datapoints)
 
     def add(self, datapoint):
-        assert isinstance(datapoint, dict)
-        if self.required:
-            for req in self.required:
-                if datapoint.get(req) is None:
-                    raise ValueError(f"Datapoint value for '{req}' is undefined.")
+        num = len(self.datapoints) + 1
+        if not isinstance(datapoint, dict):
+            raise ValueError(f"Datapoint {num} is not a dict.")
         self.datapoints.append(datapoint)
 
     def add_datapoint(
-        self, x, y=None, size=None, color=None, marker=None, opacity=None, href=None
+            self, x=None, y=None, size=None, color=None, marker=None, label=None, opacity=None, href=None
     ):
-        assert isinstance(x, (int, float))
+        assert x is None or isinstance(x, (int, float))
         assert y is None or isinstance(y, (int, float))
         assert size is None or (isinstance(size, (int, float)) and size > 0)
         assert color is None or utils.is_color(color)
         assert marker is None or marker in constants.MARKERS
+        assert label is Nont or isinstance(label, str)
         assert opacity is None or (
             isinstance(opacity, (int, float)) and (0 <= opacity <= 1)
         )
         assert href is None or isinstance(href, str)
 
-        datapoint = dict(x=x)
+        datapoint = {}
+        if x is not None:
+            datapoint["x"] = x
         if y is not None:
             datapoint["y"] = y
         if size is not None:
@@ -84,6 +73,8 @@ class DatapointsReader:
             datapoint["color"] = color
         if marker is not None:
             datapoint["marker"] = marker
+        if label is not None:
+            datapoint["label"] = label
         if opacity is not None:
             datapoint["opacity"] = opacity
         if href is not None:
@@ -129,11 +120,30 @@ class DatapointsReader:
             else:
                 self.read_database()
 
-        # When data from external source, then apply given mapping.
+        # When data from external source, then apply given mapping (and conversion).
         if self.parameters:
-            for key in ("x", "y", "size", "color", "marker", "opacity", "href"):
-                if field := self.parameters.get(key):
-                    getattr(self, f"map_{key}_field")(field)
+            fields = dict(
+                x=dict(conv=float),
+                y=dict(conv=float),
+                size=dict(conv=float, check=lambda v: v > 0),
+                color=dict(check=lambda c: utils.is_color(c)),
+                marker=dict(check=lambda m: utils.is_marker(m)),
+                label=dict(),
+                opacity=dict(conv=float, check=lambda v: 1.0 < v < 0.0),
+                href=dict(),
+            )
+            try:
+                for key, kwargs in fields.items():
+                    if field := self.parameters.get(key):
+                        converter = _Converter(field, **kwargs)
+                        for datapoint in self.datapoints:
+                            datapoint[key] = converter(datapoint)
+            except KeyError:
+                raise ValueError(f"no such field '{field}' in data for parameter '{key}'")
+            except ValueError:
+                raise ValueError(
+                    f"invalid value in field '{field}' in data for parameter '{key}'"
+                )
 
     def read_file(self):
         # Tabular data; needs further parsing.
@@ -175,19 +185,26 @@ class DatapointsReader:
                 reader = csv.DictReader(
                     io.StringIO(content), fieldnames=fieldnames, dialect="excel"
                 )
-                self.datapoints = list(reader)
+                datapoints = list(reader)
 
             case "json":
                 try:
-                    self.datapoints = json.loads(content)
-                except json.JSONDecodeError as error:
+                    datapoints = json.loads(content)
+                    if not isinstance(datapoints, list):
+                        raise ValueError("JSON data is not a list")
+                except (json.JSONDecodeError, ValueError) as error:
                     raise ValueError(f"cannot interpret data as JSON: {error}")
 
             case "yaml":
                 try:
-                    self.datapoints = yaml.safe_load(content)
-                except yaml.YAMLError as error:
+                    datapoints = yaml.safe_load(content)
+                    if not isinstance(datapoints, list):
+                        raise ValueError("YAML data is not a list")
+                except (yaml.YAMLError, ValueError) as error:
                     raise ValueError(f"cannot interpret data as YAML: {error}")
+
+        for datapoint in datapoints:
+            self.add(datapoint)
 
     def read_database(self):
         # Currently only db interface available.
@@ -210,120 +227,6 @@ class DatapointsReader:
             ]
         return {key: value for key, value in zip(fields, row)}
 
-    def map_x_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-        else:
-            fieldname = field["field"]
-        try:
-            for dp in self.datapoints:
-                dp["x"] = float(dp[fieldname])
-        except (KeyError, IndexError):
-            raise ValueError(f"no such field '{fieldname}' in data for parameter 'x'")
-        except (ValueError, TypeError):
-            raise ValueError(
-                f"invalid value in field '{fieldname}' in data for parameter 'x'"
-            )
-
-    def map_y_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-        else:
-            fieldname = field["field"]
-        try:
-            for dp in self.datapoints:
-                dp["y"] = float(dp[fieldname])
-        except (KeyError, IndexError):
-            raise ValueError(f"no such field '{fieldname}' in data for parameter 'y'")
-        except (ValueError, TypeError):
-            raise ValueError(
-                f"invalid value in field '{fieldname}' in data for parameter 'y'"
-            )
-
-    def map_size_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-        else:
-            fieldname = field["field"]
-        try:
-            for dp in self.datapoints:
-                try:
-                    dp["size"] = float(dp[fieldname])
-                except (KeyError, IndexError):
-                    pass
-                else:
-                    if dp["size"] <= 0.0:
-                        raise ValueError
-        except (ValueError, TypeError):
-            raise ValueError(
-                f"invalid value in field '{fieldname}' in data for parameter 'size'"
-            )
-
-    def map_color_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-            convert = lambda v: v
-        else:
-            fieldname = field["field"]
-            convert = _Converter(field)
-        for dp in self.datapoints:
-            try:
-                dp["color"] = convert(dp[fieldname])
-            except (KeyError, IndexError):
-                pass
-            else:
-                if not utils.is_color(dp["color"]):
-                    raise ValueError(
-                        f"invalid value in field '{fieldname}' in data for parameter 'color'"
-                    )
-
-    def map_marker_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-            convert = lambda v: v
-        else:
-            fieldname = field["field"]
-            convert = _Converter(field)
-        for dp in self.datapoints:
-            try:
-                dp["marker"] = convert(dp[fieldname])
-            except (KeyError, IndexError):
-                pass
-            if not utils.is_marker(dp["marker"]):
-                raise ValueError(
-                    f"invalid value in field '{fieldname}' in data for parameter 'marker'"
-                )
-
-    def map_opacity_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-        else:
-            fieldname = field["field"]
-        try:
-            for dp in self.datapoints:
-                dp["opacity"] = float(dp[fieldname])
-                if 1.0 < dp["opacity"] < 0.0:
-                    raise ValueError
-        except (KeyError, IndexError):
-            pass
-        except (ValueError, TypeError):
-            raise ValueError(
-                f"invalid value in field '{fieldname}' in data for parameter 'opacity'"
-            )
-
-    def map_href_field(self, field):
-        if isinstance(field, (str, int)):
-            fieldname = field
-            convert = lambda v: v
-        else:
-            fieldname = field["field"]
-            convert = _Converter(field)
-        for dp in self.datapoints:
-            try:
-                dp["href"] = convert(dp[fieldname])
-            except (KeyError, IndexError):
-                pass
-
     def as_dict(self):
         "Return the data as a dictionary."
         if self.source:
@@ -334,9 +237,18 @@ class DatapointsReader:
             result = self.datapoints
         return result
 
+    def check_required(self, *required):
+        "Check that all datapoints contain a non-None value in the given fields."
+        assert all([isinstance(req, str) for req in required])
+
+        for req in required:
+            for num, datapoint in enumerate(self.datapoints):
+                if datapoint.get(req) is None:
+                    raise ValueError(f"Datapoint {num+1} value for '{req}' is undefined.")
+
     def minmax(self, field):
-        dp = self.datapoints[0]
-        value = dp[field]
+        datapoint = self.datapoints[0]
+        value = datapoint[field]
         if isinstance(value, dict):
             try:
                 low = value["low"]
@@ -349,8 +261,8 @@ class DatapointsReader:
         else:
             low = value
             high = value
-        for dp in self.datapoints[1:]:
-            value = dp[field]
+        for datapoint in self.datapoints[1:]:
+            value = datapoint[field]
             if isinstance(value, dict):
                 try:
                     low = min(low, value["low"])
@@ -367,13 +279,28 @@ class DatapointsReader:
 
 
 class _Converter:
-    "Map or compute new value from a value as given."
+    "Convert and map value from a value as given."
 
-    def __init__(self, field):
-        self.map = field.get("map")
+    def __init__(self, field, conv=None, check=None):
+        if isinstance(field, (str, int)):
+            self.fieldname = field
+            self.map = None
+        else:
+            self.fieldname = field["field"]
+            self.map = field.get("map")
+        self.conv = conv or (lambda v: v)
+        self.check = check
 
-    def __call__(self, value):
-        if self.map is None:
-            return value
-        # Yes: if no match, then raise KeyError.
-        return self.map[value]
+    def __call__(self, datapoint):
+        try:
+            value = self.conv(datapoint[self.fieldname])
+        except (KeyError, IndexError):
+            raise KeyError
+        except (ValueError, TypeError):
+            raise ValueError
+        if self.map is not None:
+            # KeyError should just be passed on.
+            value = self.map[value]
+        if self.check:
+            self.check(value)
+        return value

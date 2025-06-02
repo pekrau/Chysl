@@ -23,10 +23,8 @@ class Timelines(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "timelines"},
-            "title": {
-                "title": "Title of the timelines chart.",
-                "$ref": "#text",
-            },
+            "title": {"$ref": "#title"},
+            "description": {"$ref": "#description"},
             "width": {
                 "title": "Width of the chart, including legends etc.",
                 "type": "number",
@@ -147,13 +145,14 @@ class Timelines(Chart):
     def __init__(
         self,
         title=None,
+        description=None,
         entries=None,
         width=None,
         legend=None,
         axis=None,
         grid=None,
     ):
-        super().__init__(title=title)
+        super().__init__(title=title, description=description)
         assert entries is None or isinstance(entries, list)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
         assert legend is None or isinstance(legend, bool)

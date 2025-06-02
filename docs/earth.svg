@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="601" height="190.2" viewBox="0 0 601 190.2" transform="translate(0.5, 0.5)">
-  <desc>timelines; Chysl 0.3.5</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="601" height="168.2" viewBox="0 0 601 168.2" transform="translate(0.5, 0.5)">
+  <title>Earth</title>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Earth</text>
-    <path d="M 110.04 23.6 V 155.6 M 207.632 23.6 V 155.6 M 305.224 23.6 V 155.6 M 402.816 23.6 V 155.6 M 500.408 23.6 V 155.6 M 598 23.6 V 155.6" stroke="lightgray" />
-    <rect x="110.04" y="23.6" width="487.96" height="132" stroke="black" fill="none" stroke-width="1" />
+    <path d="M 110.04 23.6 V 133.6 M 207.632 23.6 V 133.6 M 305.224 23.6 V 133.6 M 402.816 23.6 V 133.6 M 500.408 23.6 V 133.6 M 598 23.6 V 133.6" stroke="lightgray" />
+    <rect x="110.04" y="23.6" width="487.96" height="110" stroke="black" fill="none" stroke-width="1" />
     <g>
       <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-        <text x="110.04" y="169.6" text-anchor="start">5</text>
-        <text x="207.632" y="169.6">4</text>
-        <text x="305.224" y="169.6">3</text>
-        <text x="402.816" y="169.6">2</text>
-        <text x="500.408" y="169.6">1</text>
-        <text x="598" y="169.6" text-anchor="end">0</text>
-        <text x="354.02" y="186.4">Billion years ago</text>
+        <text x="110.04" y="147.6" text-anchor="start">5</text>
+        <text x="207.632" y="147.6">4</text>
+        <text x="305.224" y="147.6">3</text>
+        <text x="402.816" y="147.6">2</text>
+        <text x="500.408" y="147.6">1</text>
+        <text x="598" y="147.6" text-anchor="end">0</text>
+        <text x="354.02" y="164.4">Billion years ago</text>
       </g>
     </g>
     <defs>
       <clipPath id="id4">
-        <rect x="110.04" y="23.6" width="487.96" height="132" />
+        <rect x="110.04" y="23.6" width="487.96" height="110" />
       </clipPath>
     </defs>
     <g clip-path="url(#id4)">
@@ -73,15 +73,30 @@
       </g>
       <g>
         <rect x="436.973" y="91.6" width="161.027" height="18" fill="white" />
+        <g stroke="black">
+          <path d="M 417.455 96.1 v 9 m 0 -4.5 H 436.973" />
+          <path d="M 456.492 96.1 v 9 m 0 -4.5 H 436.973" />
+        </g>
       </g>
       <g>
-        <path d="M 295.465 113.6 L 256.428 122.6 295.465 131.6 H 436.973 L 436.973 122.6 436.973 113.6 Z" fill="lightgray" />
+        <rect x="343.761" y="113.6" width="254.739" height="18" stroke="none" fill="springgreen" />
+        <path d="M 343.761 113.6 H 599 m 0 18 H 343.761" stroke="black" />
+        <defs>
+          <linearGradient id="id11">
+            <stop offset="0" stop-color="springgreen" stop-opacity="0" />
+            <stop offset="1" stop-color="springgreen" stop-opacity="1" />
+          </linearGradient>
+          <linearGradient id="id12">
+            <stop offset="0" stop-color="black" stop-opacity="0" />
+            <stop offset="1" stop-color="black" stop-opacity="1" />
+          </linearGradient>
+        </defs>
+        <rect x="266.187" y="113.6" width="78.074" height="18" stroke="none" fill="url(#id11)" />
+        <path d="M 266.187 113.6 H 344.261 m 0 18 H 266.187" stroke="url(#id12)" />
+        <line x1="598" y1="113.6" x2="598" y2="131.6" stroke="black" />
       </g>
       <g>
-        <rect x="266.187" y="135.6" width="331.813" height="18" fill="springgreen" />
-      </g>
-      <g>
-        <rect x="552.132" y="135.6" width="45.868" height="18" fill="green" />
+        <path d="M 557 113.6 L 547.252 122.6 557 131.6 H 598 L 598 122.6 598 113.6 Z" fill="green" />
       </g>
     </g>
     <g clip-path="url(#id4)" text-anchor="middle" stroke="none" fill="black">
@@ -90,17 +105,15 @@
       <text x="193.714" y="82.8" text-anchor="start">LUCA?</text>
       <text x="428.19" y="82.8" fill="black" text-anchor="middle">Unicellular organisms</text>
       <text x="517.487" y="104.8" fill="black" text-anchor="middle">Eukaryotes</text>
-      <text x="356.46" y="126.8" fill="black" text-anchor="middle">Engineers</text>
-      <text x="432.094" y="148.8" fill="black" text-anchor="middle">Photosynthesis</text>
-      <text x="550.132" y="148.8" fill="black" text-anchor="end">Plants</text>
+      <text x="432.094" y="126.8" fill="black" text-anchor="middle">Photosynthesis</text>
+      <text x="545.252" y="126.8" fill="black" text-anchor="end">Plants</text>
     </g>
     <g stroke="none" fill="black">
       <text x="2" y="38.8">Earth</text>
       <text x="2" y="60.8">Archean</text>
       <text x="2" y="82.8">Unicellular</text>
       <text x="2" y="104.8">Eukaryotes</text>
-      <text x="2" y="126.8">Engineers</text>
-      <text x="2" y="148.8">Photosynthesis</text>
+      <text x="2" y="126.8">Photosynthesis</text>
     </g>
   </g>
 </svg>

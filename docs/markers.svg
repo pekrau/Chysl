@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="601" height="785" viewBox="0 0 601 785" transform="translate(0.5, 0.5)">
-  <desc>column; Chysl 0.3.5</desc>
+  <title>Predefined markers</title>
   <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
     <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Predefined markers</text>
     <g transform="translate(0, 23.6)">
@@ -9,11 +9,11 @@
         <path d="M 0 23.6 V 243.6 M 99.667 23.6 V 243.6 M 199.333 23.6 V 243.6 M 299 23.6 V 243.6 M 398.667 23.6 V 243.6 M 498.333 23.6 V 243.6 M 598 23.6 V 243.6" stroke="lightgray" />
         <rect x="0" y="23.6" width="598" height="220" stroke="black" fill="none" stroke-width="1" />
         <defs>
-          <clipPath id="id11">
+          <clipPath id="id13">
             <rect x="0" y="23.6" width="598" height="220" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id11)">
+        <g clip-path="url(#id13)">
           <g>
             <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
@@ -47,7 +47,7 @@
           <polygon points="151.447,505 5,358.553 5,151.447 151.447,5 358.553,5 505,151.447 505,358.553 358.553,505" transform="translate(49.833, 232.6) scale(0.03) translate(-255.7, -221.5)" fill="none" stroke="lime" stroke-width="75" />
           <polygon points="151.447,505 5,358.553 5,151.447 151.447,5 358.553,5 505,151.447 505,358.553 358.553,505" transform="translate(249.167, 232.6) scale(0.03) translate(-255.7, -221.5)" fill="gray" stroke="none" />
         </g>
-        <g clip-path="url(#id11)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id13)" text-anchor="middle" stroke="none" fill="black">
           <text x="299" y="38.8" fill="black" text-anchor="middle">Length</text>
           <text x="60.833" y="60.8" text-anchor="start">disc</text>
           <text x="260.167" y="60.8" text-anchor="start">circle</text>
@@ -84,11 +84,11 @@
         <path d="M 0 23.6 V 111.6 M 99.667 23.6 V 111.6 M 199.333 23.6 V 111.6 M 299 23.6 V 111.6 M 398.667 23.6 V 111.6 M 498.333 23.6 V 111.6 M 598 23.6 V 111.6" stroke="lightgray" />
         <rect x="0" y="23.6" width="598" height="88" stroke="black" fill="none" stroke-width="1" />
         <defs>
-          <clipPath id="id12">
+          <clipPath id="id14">
             <rect x="0" y="23.6" width="598" height="88" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id12)">
+        <g clip-path="url(#id14)">
           <g>
             <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
@@ -101,7 +101,7 @@
           <path d="M18.1777 8C23.2737 8 23.2737 16 18.1777 16C13.0827 16 11.0447 8 5.43875 8C0.85375 8 0.85375 16 5.43875 16C11.0447 16 13.0828 8 18.1788 8H18.1777Z" transform="translate(49.833, 100.6) scale(0.75) translate(-12, -12)" fill="none" stroke="dodgerblue" stroke-width="3" />
           <g fill="orange" stroke="none" />
         </g>
-        <g clip-path="url(#id12)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id14)" text-anchor="middle" stroke="none" fill="black">
           <text x="299" y="38.8" fill="black" text-anchor="middle">Length</text>
           <text x="59.033" y="60.8" text-anchor="start">cross</text>
           <text x="260.167" y="60.8" text-anchor="start">plus</text>
@@ -120,11 +120,11 @@
         <path d="M 0 23.6 V 155.6 M 99.667 23.6 V 155.6 M 199.333 23.6 V 155.6 M 299 23.6 V 155.6 M 398.667 23.6 V 155.6 M 498.333 23.6 V 155.6 M 598 23.6 V 155.6" stroke="lightgray" />
         <rect x="0" y="23.6" width="598" height="132" stroke="black" fill="none" stroke-width="1" />
         <defs>
-          <clipPath id="id13">
+          <clipPath id="id15">
             <rect x="0" y="23.6" width="598" height="132" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id13)">
+        <g clip-path="url(#id15)">
           <g>
             <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
@@ -148,7 +148,7 @@
           </g>
           <path transform="translate(49.833, 144.6) scale(1.5) translate(-6,-6)" d="M6 11V1M3.5 7.25h5M2.25 1a3.751 3.751 0 0 0 7.5 0" fill="none" stroke="coral" stroke-width="1" stroke-linecap="round" />
         </g>
-        <g clip-path="url(#id13)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id15)" text-anchor="middle" stroke="none" fill="black">
           <text x="299" y="38.8" fill="black" text-anchor="middle">Length</text>
           <text x="60.833" y="60.8" text-anchor="start">star</text>
           <text x="257.167" y="60.8" text-anchor="start">star-fill</text>
@@ -172,11 +172,11 @@
         <path d="M 0 23.6 V 243.6 M 99.667 23.6 V 243.6 M 199.333 23.6 V 243.6 M 299 23.6 V 243.6 M 398.667 23.6 V 243.6 M 498.333 23.6 V 243.6 M 598 23.6 V 243.6" stroke="lightgray" />
         <rect x="0" y="23.6" width="598" height="220" stroke="black" fill="none" stroke-width="1" />
         <defs>
-          <clipPath id="id14">
+          <clipPath id="id16">
             <rect x="0" y="23.6" width="598" height="220" />
           </clipPath>
         </defs>
-        <g clip-path="url(#id14)">
+        <g clip-path="url(#id16)">
           <g>
             <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
@@ -207,7 +207,7 @@
           <path transform="translate(49.833, 232.6) scale(0.059) translate(-200,-200)" d="m210.1 284.67q19.641-5.7436 27.978-22.049 8.5231-16.49 13.34-63.738 4.0749-38.725 7.0412-51.695 3.1471-13.155 12.229-20.937 9.0787-7.9673 23.902-7.9673 8.7088 0 18.899 2.5941v7.0409q-2.0375-0.18798-3.5229-0.18798-7.9673 0-13.526 9.6348-5.5606 9.6348-9.6348 48.174-3.8928 34.278-8.7088 48.915-4.6326 14.452-15.193 28.534-10.376 13.896-22.975 20.937-12.599 7.0409-29.831 10.561v77.264h-20.196v-77.264q-17.972-3.7055-30.942-11.302-12.97-7.5968-22.791-21.308-9.6347-13.896-14.452-28.163-4.6326-14.452-8.7088-51.139-3.8928-35.945-9.4492-45.395-5.5604-9.4495-13.341-9.4495-1.6676 0-3.705 0.18798v-7.0409q10.191-2.5941 18.899-2.5941 14.638 0 23.716 7.9673 9.0793 7.7819 12.414 20.937 3.5229 12.97 6.4846 46.692 5.0027 55.215 14.452 70.408 9.6348 15.193 27.422 20.381v-166.39h20.196z" fill="coral" stroke="none" />
           <path transform="translate(249.167, 232.6) scale(0.059) translate(-200,-200)" d="m200.28 259.1q-16.119 36.686-49.286 36.686-23.161 0-42.616-21.308-19.27-21.493-19.27-61.7 0-32.981 11.488-53.733 11.673-20.937 30.387-32.054 18.713-11.117 49.841-11.117v6.8556q-27.422 0-42.616 22.605-15.194 22.605-15.194 64.109 0 42.06 9.8203 57.624 10.005 15.564 23.531 15.564 8.7088 0 16.861-5.3732 8.3383-5.373 11.673-11.302 3.3351-6.1144 10.191-24.828-11.673-24.458-11.673-51.694 0-41.319 16.861-41.319 16.861 0 16.861 38.169 0 26.311-12.229 54.844 13.341 41.504 38.169 41.504 13.896 0 23.902-14.452 10.191-14.638 10.191-55.03 0-33.722-6.6701-51.509-6.4852-17.973-19.455-27.978-12.97-10.191-31.684-10.932v-6.8556q31.128 0 49.842 11.302 18.714 11.302 30.201 31.869 11.488 20.567 11.488 53.177 0 40.763-18.713 62.256-18.528 21.308-43.357 21.308-34.092 0-48.545-36.686z" fill="dodgerblue" stroke="none" />
         </g>
-        <g clip-path="url(#id14)" text-anchor="middle" stroke="none" fill="black">
+        <g clip-path="url(#id16)" text-anchor="middle" stroke="none" fill="black">
           <text x="299" y="38.8" fill="black" text-anchor="middle">Length</text>
           <text x="57.833" y="60.8" text-anchor="start">alpha</text>
           <text x="257.167" y="60.8" text-anchor="start">beta</text>

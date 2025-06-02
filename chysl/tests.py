@@ -141,22 +141,22 @@ def get_earth(legend=True):
         timeline="Unicellular",
         fuzzy="gradient",
     )
-    earth += Period("Eukaryotes", -1_650_000_000, 0)
+    earth += Period("Eukaryotes", dict(value=-1_650_000_000, error=200_000_000), 0)
     earth += Period(
-        "Engineers",
-        dict(value=-3_300_000_000, error=200_000_000),
-        -1_650_000_000,
-        color="lightgray",
-        fuzzy="wedge",
+        "Photosynthesis",
+        dict(value=-3_400_000_000, high=-2_600_000_000),
+        0,
+        color="springgreen",
+        fuzzy="gradient",
     )
-    earth += Period("Photosynthesis", -3_400_000_000, 0, color="springgreen")
     earth += Period(
         "Plants",
-        -470_000_000,
+        dict(value=-470_000_000, error=50_000_000),
         0,
         timeline="Photosynthesis",
         color="green",
         placement="left",
+        fuzzy="wedge",
     )
     return earth
 
