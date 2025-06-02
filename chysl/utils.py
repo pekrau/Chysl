@@ -70,7 +70,10 @@ def get_text_length(text, font, size, italic=False, bold=False):
         key = "b"
     else:
         key = "n"
-    total = sum([widths.get(c, widths["default"])[key] for c in text])
+    if text:
+        total = sum([widths.get(c, widths["default"])[key] for c in text])
+    else:
+        total = 0
     return total * size / 100
 
 

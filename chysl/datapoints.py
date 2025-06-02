@@ -15,6 +15,18 @@ import yaml
 import constants
 import utils
 
+# 'Real' data fields, with conversion and checking functions.
+FIELDS = dict(
+    x=dict(conv=float),
+    y=dict(conv=float),
+    size=dict(conv=float, check=lambda v: v > 0),
+    color=dict(check=lambda c: utils.is_color(c)),
+    marker=dict(check=lambda m: utils.is_marker(m)),
+    label=dict(),
+    opacity=dict(conv=float, check=lambda v: 1.0 < v < 0.0),
+    href=dict(),
+)
+
 
 class DatapointsReader:
     "Datapoints reader, YAML inline or from a source: file, web resource, database."
@@ -122,18 +134,8 @@ class DatapointsReader:
 
         # When data from external source, then apply given mapping (and conversion).
         if self.parameters:
-            fields = dict(
-                x=dict(conv=float),
-                y=dict(conv=float),
-                size=dict(conv=float, check=lambda v: v > 0),
-                color=dict(check=lambda c: utils.is_color(c)),
-                marker=dict(check=lambda m: utils.is_marker(m)),
-                label=dict(),
-                opacity=dict(conv=float, check=lambda v: 1.0 < v < 0.0),
-                href=dict(),
-            )
             try:
-                for key, kwargs in fields.items():
+                for key, kwargs in FIELDS.items():
                     if field := self.parameters.get(key):
                         converter = _Converter(field, **kwargs)
                         for datapoint in self.datapoints:
@@ -234,7 +236,15 @@ class DatapointsReader:
             if self.parameters:
                 result["parameters"] = self.parameters
         else:
-            result = self.datapoints
+            # Only output 'real' data, not ephemeral items used for display.
+            result = []
+            fieldnames = list(FIELDS.keys())
+            for datapoint in self.datapoints:
+                entry = {}
+                for fieldname in fieldnames:
+                    if (value := datapoint.get(fieldname)) is not None:
+                        entry[fieldname] = value
+                result.append(entry)
         return result
 
     def check_required(self, *required):

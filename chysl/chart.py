@@ -1,4 +1,4 @@
-"Abstract Chart, Entry and Container classes."
+"Abstract Chart class."
 
 import icecream
 
@@ -192,72 +192,50 @@ class Chart:
             yaml.dump(content, outfile, allow_unicode=True, sort_keys=False)
 
 
-class Entry:
-    "Abstract typed part of a chart."
-
-    def __eq__(self, other):
-        if not isinstance(other, Entry):
-            return False
-        if self.__class__ != other.__class__:
-            return False
-        return self.as_dict() == other.as_dict()
-
-    @property
-    def name(self):
-        return self.__class__.__name__.casefold()
-
-    def as_dict(self):
-        return {"entry": self.name}
-
-
-# Lookup for end-use classes. Key: name of class (lower case); value: class
-_entity_lookup = {}
+# Lookup for Chart subclasses. Key: name of class (lower case); value: class
+_chart_lookup = {}
 
 
 def register(cls):
-    "Register the chart or entry for parsing."
-    assert issubclass(cls, Chart) or issubclass(cls, Entry)
-    if issubclass(cls, Chart):
-        schema.check_schema(cls.SCHEMA)
+    "Register the chart for parsing."
+    assert issubclass(cls, Chart)
+    schema.check_schema(cls.SCHEMA)
     key = cls.__name__.casefold()
-    if key in _entity_lookup:
-        raise KeyError(f"entity '{key}' already registered")
-    _entity_lookup[key] = cls
+    if key in _chart_lookup:
+        raise KeyError(f"chart '{key}' already registered")
+    _chart_lookup[key] = cls
 
 
 def get_class(name):
     "Return the class for the chart name."
-    return _entity_lookup[name]
+    return _chart_lookup[name]
 
 
 def parse(data):
-    "Parse the data dictionary and return the instance for the entity it describes."
+    "Parse the data dictionary and return the instance for the chart it describes."
     assert isinstance(data, dict), data
     if "include" in data:
         location = data["include"]
         reader = ChartReader(location)
         try:
             memo.check_add(reader)
-            entry = reader.get_chart()
-            entry.location = location  # Record the location for later output.
+            chart = reader.get_chart()
+            chart.location = location  # Record the location for later output.
         except ValueError as error:
             raise ValueError(f"error reading from '{reader}': {error}")
         finally:
             memo.remove(reader)
     else:
         try:
-            name = data.pop("entry")
+            name = data.pop("chart")
         except KeyError:
-            try:
-                name = data.pop("chart")
-            except KeyError:
-                raise ValueError(f"no chart or entry declaration in '{data}'")
+            raise ValueError(f"no chart declaration in '{data}'")
         try:
-            cls = _entity_lookup[name]
+            cls = _chart_lookup[name]
         except KeyError:
-            raise ValueError(f"no such entity '{name}'")
-        entry = cls(**data)
-    return entry
+            raise ValueError(f"no such chart '{name}'")
+        chart = cls(**data)
+    return chart
 
 
 def retrieve(location):
@@ -334,7 +312,7 @@ class ChartReader:
         except KeyError:
             raise ValueError("no 'chart' defined in the YAML file")
         try:
-            cls = _entity_lookup[name]
+            cls = _chart_lookup[name]
         except KeyError:
             raise ValueError(f"unknown chart '{name}' specified in the YAML file")
         schema.validate(self.data, cls.SCHEMA)

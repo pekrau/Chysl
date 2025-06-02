@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts can be combined in different ways."
 
-VERSION = (0, 3, 6)
+VERSION = (0, 3, 7)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"

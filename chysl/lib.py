@@ -6,7 +6,6 @@ from timelines import Timelines, Event, Period
 from piechart import Piechart
 from scatter2d import Scatter2d
 from lines2d import Lines2d
-
 # from dendrogram import Dendrogram
 from note import Note
 from column import Column
@@ -15,8 +14,6 @@ from overlay import Overlay
 from board import Board
 
 register(Timelines)
-register(Event)
-register(Period)
 register(Piechart)
 register(Scatter2d)
 register(Lines2d)

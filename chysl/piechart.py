@@ -7,7 +7,7 @@ import schema
 import utils
 from color import Color
 from degrees import Degrees
-from chart import Chart, Entry, Element
+from chart import Chart, Element
 from path import Path
 from vector2 import Vector2
 

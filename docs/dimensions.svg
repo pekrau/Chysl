@@ -6,339 +6,299 @@
     <g transform="translate(0, 23.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.00001</text>
-        <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 119.6 23.6 V 45.6 M 239.2 23.6 V 45.6 M 358.8 23.6 V 45.6 M 478.4 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">1.000000</text>
-            <text x="158.912" y="59.6">1.000002</text>
-            <text x="268.684" y="59.6">1.000004</text>
-            <text x="378.456" y="59.6">1.000006</text>
-            <text x="488.228" y="59.6">1.000008</text>
+            <text x="0" y="59.6" text-anchor="start">1.000000</text>
+            <text x="119.6" y="59.6">1.000002</text>
+            <text x="239.2" y="59.6">1.000004</text>
+            <text x="358.8" y="59.6">1.000006</text>
+            <text x="478.4" y="59.6">1.000008</text>
             <text x="598" y="59.6" text-anchor="end">1.000010</text>
           </g>
         </g>
         <defs>
           <clipPath id="id13">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id13)">
           <g>
-            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
+            <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id13)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id13)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
     <g transform="translate(0, 90.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.0001</text>
-        <path d="M 49.14 23.6 V 45.6 M 323.57 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 299 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">1.00000</text>
-            <text x="323.57" y="59.6">1.00005</text>
+            <text x="0" y="59.6" text-anchor="start">1.00000</text>
+            <text x="299" y="59.6">1.00005</text>
             <text x="598" y="59.6" text-anchor="end">1.00010</text>
           </g>
         </g>
         <defs>
           <clipPath id="id14">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id14)">
           <g>
-            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
+            <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id14)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id14)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
     <g transform="translate(0, 158)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.0002</text>
-        <path d="M 49.14 23.6 V 45.6 M 186.355 23.6 V 45.6 M 323.57 23.6 V 45.6 M 460.785 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 149.5 23.6 V 45.6 M 299 23.6 V 45.6 M 448.5 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">1.00000</text>
-            <text x="186.355" y="59.6">1.00005</text>
-            <text x="323.57" y="59.6">1.00010</text>
-            <text x="460.785" y="59.6">1.00015</text>
+            <text x="0" y="59.6" text-anchor="start">1.00000</text>
+            <text x="149.5" y="59.6">1.00005</text>
+            <text x="299" y="59.6">1.00010</text>
+            <text x="448.5" y="59.6">1.00015</text>
             <text x="598" y="59.6" text-anchor="end">1.00020</text>
           </g>
         </g>
         <defs>
           <clipPath id="id15">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id15)">
           <g>
-            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
+            <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id15)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id15)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
     <g transform="translate(0, 225.2)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 1.1</text>
-        <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 119.6 23.6 V 45.6 M 239.2 23.6 V 45.6 M 358.8 23.6 V 45.6 M 478.4 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">1.00</text>
-            <text x="158.912" y="59.6">1.02</text>
-            <text x="268.684" y="59.6">1.04</text>
-            <text x="378.456" y="59.6">1.06</text>
-            <text x="488.228" y="59.6">1.08</text>
+            <text x="0" y="59.6" text-anchor="start">1.00</text>
+            <text x="119.6" y="59.6">1.02</text>
+            <text x="239.2" y="59.6">1.04</text>
+            <text x="358.8" y="59.6">1.06</text>
+            <text x="478.4" y="59.6">1.08</text>
             <text x="598" y="59.6" text-anchor="end">1.10</text>
           </g>
         </g>
         <defs>
           <clipPath id="id16">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id16)">
           <g>
-            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
+            <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id16)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id16)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
     <g transform="translate(0, 292.4)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 2</text>
-        <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 119.6 23.6 V 45.6 M 239.2 23.6 V 45.6 M 358.8 23.6 V 45.6 M 478.4 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">1.0</text>
-            <text x="158.912" y="59.6">1.2</text>
-            <text x="268.684" y="59.6">1.4</text>
-            <text x="378.456" y="59.6">1.6</text>
-            <text x="488.228" y="59.6">1.8</text>
+            <text x="0" y="59.6" text-anchor="start">1.0</text>
+            <text x="119.6" y="59.6">1.2</text>
+            <text x="239.2" y="59.6">1.4</text>
+            <text x="358.8" y="59.6">1.6</text>
+            <text x="478.4" y="59.6">1.8</text>
             <text x="598" y="59.6" text-anchor="end">2.0</text>
           </g>
         </g>
         <defs>
           <clipPath id="id17">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id17)">
           <g>
-            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
+            <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id17)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id17)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
     <g transform="translate(0, 359.6)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 5</text>
-        <path d="M 49.14 23.6 V 45.6 M 117.748 23.6 V 45.6 M 186.355 23.6 V 45.6 M 254.962 23.6 V 45.6 M 323.57 23.6 V 45.6 M 392.178 23.6 V 45.6 M 460.785 23.6 V 45.6 M 529.393 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 74.75 23.6 V 45.6 M 149.5 23.6 V 45.6 M 224.25 23.6 V 45.6 M 299 23.6 V 45.6 M 373.75 23.6 V 45.6 M 448.5 23.6 V 45.6 M 523.25 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">1.0</text>
-            <text x="117.748" y="59.6">1.5</text>
-            <text x="186.355" y="59.6">2.0</text>
-            <text x="254.962" y="59.6">2.5</text>
-            <text x="323.57" y="59.6">3.0</text>
-            <text x="392.178" y="59.6">3.5</text>
-            <text x="460.785" y="59.6">4.0</text>
-            <text x="529.393" y="59.6">4.5</text>
+            <text x="0" y="59.6" text-anchor="start">1.0</text>
+            <text x="74.75" y="59.6">1.5</text>
+            <text x="149.5" y="59.6">2.0</text>
+            <text x="224.25" y="59.6">2.5</text>
+            <text x="299" y="59.6">3.0</text>
+            <text x="373.75" y="59.6">3.5</text>
+            <text x="448.5" y="59.6">4.0</text>
+            <text x="523.25" y="59.6">4.5</text>
             <text x="598" y="59.6" text-anchor="end">5.0</text>
           </g>
         </g>
         <defs>
           <clipPath id="id18">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id18)">
           <g>
-            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
+            <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id18)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id18)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
     <g transform="translate(0, 426.8)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 10</text>
-        <path d="M 49.14 23.6 V 45.6 M 110.124 23.6 V 45.6 M 171.109 23.6 V 45.6 M 232.093 23.6 V 45.6 M 293.078 23.6 V 45.6 M 354.062 23.6 V 45.6 M 415.047 23.6 V 45.6 M 476.031 23.6 V 45.6 M 537 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 66.444 23.6 V 45.6 M 132.889 23.6 V 45.6 M 199.333 23.6 V 45.6 M 265.778 23.6 V 45.6 M 332.222 23.6 V 45.6 M 398.667 23.6 V 45.6 M 465.111 23.6 V 45.6 M 531.556 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">1</text>
-            <text x="110.124" y="59.6">2</text>
-            <text x="171.109" y="59.6">3</text>
-            <text x="232.093" y="59.6">4</text>
-            <text x="293.078" y="59.6">5</text>
-            <text x="354.062" y="59.6">6</text>
-            <text x="415.047" y="59.6">7</text>
-            <text x="476.031" y="59.6">8</text>
-            <text x="537" y="59.6">9</text>
+            <text x="0" y="59.6" text-anchor="start">1</text>
+            <text x="66.444" y="59.6">2</text>
+            <text x="132.889" y="59.6">3</text>
+            <text x="199.333" y="59.6">4</text>
+            <text x="265.778" y="59.6">5</text>
+            <text x="332.222" y="59.6">6</text>
+            <text x="398.667" y="59.6">7</text>
+            <text x="465.111" y="59.6">8</text>
+            <text x="531.556" y="59.6">9</text>
             <text x="598" y="59.6" text-anchor="end">10</text>
           </g>
         </g>
         <defs>
           <clipPath id="id19">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id19)">
           <g>
-            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
+            <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id19)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id19)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
     <g transform="translate(0, 494)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 2000</text>
-        <path d="M 49.14 23.6 V 45.6 M 104.026 23.6 V 45.6 M 158.912 23.6 V 45.6 M 213.798 23.6 V 45.6 M 268.684 23.6 V 45.6 M 323.57 23.6 V 45.6 M 378.456 23.6 V 45.6 M 433.342 23.6 V 45.6 M 488.228 23.6 V 45.6 M 543.114 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 59.8 23.6 V 45.6 M 119.6 23.6 V 45.6 M 179.4 23.6 V 45.6 M 239.2 23.6 V 45.6 M 299 23.6 V 45.6 M 358.8 23.6 V 45.6 M 418.6 23.6 V 45.6 M 478.4 23.6 V 45.6 M 538.2 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">0</text>
-            <text x="104.026" y="59.6">200</text>
-            <text x="158.912" y="59.6">400</text>
-            <text x="213.798" y="59.6">600</text>
-            <text x="268.684" y="59.6">800</text>
-            <text x="323.57" y="59.6">1000</text>
-            <text x="378.456" y="59.6">1200</text>
-            <text x="433.342" y="59.6">1400</text>
-            <text x="488.228" y="59.6">1600</text>
-            <text x="543.114" y="59.6">1800</text>
+            <text x="0" y="59.6" text-anchor="start">0</text>
+            <text x="59.8" y="59.6">200</text>
+            <text x="119.6" y="59.6">400</text>
+            <text x="179.4" y="59.6">600</text>
+            <text x="239.2" y="59.6">800</text>
+            <text x="299" y="59.6">1000</text>
+            <text x="358.8" y="59.6">1200</text>
+            <text x="418.6" y="59.6">1400</text>
+            <text x="478.4" y="59.6">1600</text>
+            <text x="538.2" y="59.6">1800</text>
             <text x="598" y="59.6" text-anchor="end">2000</text>
           </g>
         </g>
         <defs>
           <clipPath id="id20">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id20)">
           <g>
-            <rect x="49.414" y="25.6" width="548.586" height="18" fill="white" />
+            <rect x="0.299" y="25.6" width="597.701" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id20)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.707" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id20)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
     <g transform="translate(0, 561.2)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 10000000</text>
-        <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 119.6 23.6 V 45.6 M 239.2 23.6 V 45.6 M 358.8 23.6 V 45.6 M 478.4 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">0</text>
-            <text x="158.912" y="59.6">2</text>
-            <text x="268.684" y="59.6">4</text>
-            <text x="378.456" y="59.6">6</text>
-            <text x="488.228" y="59.6">8</text>
+            <text x="0" y="59.6" text-anchor="start">0</text>
+            <text x="119.6" y="59.6">2</text>
+            <text x="239.2" y="59.6">4</text>
+            <text x="358.8" y="59.6">6</text>
+            <text x="478.4" y="59.6">8</text>
             <text x="598" y="59.6" text-anchor="end">10</text>
           </g>
         </g>
         <defs>
           <clipPath id="id21">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id21)">
           <g>
-            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
+            <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id21)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id21)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
     <g transform="translate(0, 628.4)">
       <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
         <text x="300" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">1 - 10000000000</text>
-        <path d="M 49.14 23.6 V 45.6 M 158.912 23.6 V 45.6 M 268.684 23.6 V 45.6 M 378.456 23.6 V 45.6 M 488.228 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
-        <rect x="49.14" y="23.6" width="548.86" height="22" stroke="black" fill="none" stroke-width="1" />
+        <path d="M 0 23.6 V 45.6 M 119.6 23.6 V 45.6 M 239.2 23.6 V 45.6 M 358.8 23.6 V 45.6 M 478.4 23.6 V 45.6 M 598 23.6 V 45.6" stroke="lightgray" />
+        <rect x="0" y="23.6" width="598" height="22" stroke="black" fill="none" stroke-width="1" />
         <g>
           <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-            <text x="49.14" y="59.6" text-anchor="start">0</text>
-            <text x="158.912" y="59.6">2</text>
-            <text x="268.684" y="59.6">4</text>
-            <text x="378.456" y="59.6">6</text>
-            <text x="488.228" y="59.6">8</text>
+            <text x="0" y="59.6" text-anchor="start">0</text>
+            <text x="119.6" y="59.6">2</text>
+            <text x="239.2" y="59.6">4</text>
+            <text x="358.8" y="59.6">6</text>
+            <text x="478.4" y="59.6">8</text>
             <text x="598" y="59.6" text-anchor="end">10</text>
           </g>
         </g>
         <defs>
           <clipPath id="id22">
-            <rect x="49.14" y="23.6" width="548.86" height="22" />
+            <rect x="0" y="23.6" width="598" height="22" />
           </clipPath>
         </defs>
         <g clip-path="url(#id22)">
           <g>
-            <rect x="49.14" y="25.6" width="548.86" height="18" fill="white" />
+            <rect x="0" y="25.6" width="598" height="18" fill="white" />
           </g>
         </g>
-        <g clip-path="url(#id22)" text-anchor="middle" stroke="none" fill="black">
-          <text x="323.57" y="38.8" fill="black" text-anchor="middle">Period</text>
-        </g>
-        <g stroke="none" fill="black">
-          <text x="2" y="38.8">Period</text>
-        </g>
+        <g clip-path="url(#id22)" text-anchor="middle" stroke="none" fill="black" />
+        <g stroke="none" fill="black" />
       </g>
     </g>
   </g>

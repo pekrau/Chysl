@@ -3,7 +3,7 @@
 import constants
 import schema
 import utils
-from chart import Chart, Entry, Element
+from chart import Chart, Element
 from datapoints import DatapointsReader
 from dimension import Xdimension, Ydimension
 from marker import Marker
@@ -25,6 +25,12 @@ class Scatter2d(Chart):
             "description": {"$ref": "#description"},
             "width": {
                 "title": "Width of the chart, including legends etc.",
+                "type": "number",
+                "default": constants.DEFAULT_WIDTH,
+                "exclusiveMinimum": 0,
+            },
+            "height": {
+                "title": "Height of the chart, including legends etc.",
                 "type": "number",
                 "default": constants.DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
@@ -79,6 +85,7 @@ class Scatter2d(Chart):
         description=None,
         points=None,
         width=None,
+        height=None,
         xaxis=None,
         yaxis=None,
         xgrid=None,
@@ -90,6 +97,7 @@ class Scatter2d(Chart):
     ):
         super().__init__(title=title, description=description)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
+        assert height is None or (isinstance(height, (int, float)) and height > 0)
         assert xaxis is None or isinstance(xaxis, (bool, dict))
         assert yaxis is None or isinstance(yaxis, (bool, dict))
         assert xgrid is None or isinstance(xgrid, (bool, dict))
@@ -103,6 +111,7 @@ class Scatter2d(Chart):
 
         self.points = DatapointsReader(points)
         self.width = width or constants.DEFAULT_WIDTH
+        self.height = height or constants.DEFAULT_WIDTH
         self.xaxis = True if xaxis is None else xaxis
         self.yaxis = True if yaxis is None else yaxis
         self.xgrid = True if xgrid is None else xgrid
@@ -278,20 +287,38 @@ class Scatter2d(Chart):
         graphics["clip-path"] = f"url(#{clippath_id})"
 
         # Graphics for points.
-        for dp in self.points:
+        for datapoint in self.points:
             kwargs = {}
-            if (opacity := dp.get("opacity")) is None:
+            if (opacity := datapoint.get("opacity")) is None:
                 opacity = self.opacity
             if opacity != 1:
                 kwargs["opacity"] = opacity
-            if href := dp.get("href"):
+            if href := datapoint.get("href"):
                 kwargs["href"] = href
             marker = Marker(
-                dp.get("marker") or self.marker,
-                size=dp.get("size") or self.size,
-                color=dp.get("color") or self.color,
+                datapoint.get("marker") or self.marker,
+                size=datapoint.get("size") or self.size,
+                color=datapoint.get("color") or self.color,
                 **kwargs,
             )
             graphics += marker.get_graphic(
-                xdimension.get_pixel(dp["x"]), ydimension.get_pixel(dp["y"])
+                xdimension.get_pixel(datapoint["x"]), ydimension.get_pixel(datapoint["y"])
             )
+            datapoint["label_x_offset"] = marker.label_x_offset
+
+        # Labels for points.
+        labels = Element("g")
+        labels["stroke"] = "none"
+        labels["fill"] = constants.DEFAULT_COLOR
+        labels["text-anchor"] = "start"
+        labels["font-size"] = constants.DEFAULT_FONT_SIZE
+        for datapoint in self.points:
+            if label := datapoint.get("label"):
+                labels += Element(
+                    "text",
+                    label,
+                    x=xdimension.get_pixel(datapoint["x"]) + datapoint["label_x_offset"] + constants.DEFAULT_PADDING,
+                    y=ydimension.get_pixel(datapoint["y"]) + constants.DEFAULT_FONT_SIZE / 2
+                )
+        if len(labels) > 0:
+            self.svg += labels

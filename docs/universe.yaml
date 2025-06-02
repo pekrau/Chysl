@@ -1,18 +1,16 @@
-chysl: 0.3.6
+chysl: 0.3.7
 chart: timelines
 title:
   text: Universe
   bold: true
   color: blue
 entries:
-- entry: event
-  label: Big Bang
+- label: Big Bang
   timeline: Universe
   color: red
   instant: -13787000000
   marker: burst
-- entry: period
-  label: Milky Way galaxy
+- label: Milky Way galaxy
   timeline: Universe
   color: dodgerblue
   begin:
@@ -21,15 +19,12 @@ entries:
   end: 0
   fuzzy: gradient
   href: https://en.wikipedia.org/wiki/Milky_Way
-- entry: event
-  label: ''
-  timeline: Universe
+- timeline: Universe
   color: white
   instant: -7500000000
   marker: galaxy
   href: https://en.wikipedia.org/wiki/Milky_Way
-- entry: period
-  label: Earth
+- label: Earth
   color: lightgreen
   begin: -4567000000
   end: 0

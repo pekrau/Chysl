@@ -37,6 +37,7 @@ TESTS = {
     "scatter2d": [
         "scatter_points",
         "scatter_iris",
+        "markers",
         "overlay",
     ],
     "column": [
@@ -90,69 +91,68 @@ def check_roundtrip(instance1, filename):
 
 def get_universe(legend=True):
     universe = Timelines(
-        dict(text="Universe", bold=True, color="blue"),
+        title=dict(text="Universe", bold=True, color="blue"),
         legend=legend,
         axis=dict(absolute=True, caption="Billion years ago"),
         grid=False,
     )
     universe += Event(
-        "Big Bang", -13_787_000_000, timeline="Universe", marker="burst", color="red"
+        instant=-13_787_000_000, label="Big Bang", timeline="Universe", marker="burst", color="red"
     )
     universe += Period(
-        "Milky Way galaxy",
-        dict(value=-7_500_000_000, low=-8_500_000_000),
-        0,
+        begin=dict(value=-7_500_000_000, low=-8_500_000_000),
+        end=0,
+        label="Milky Way galaxy",
         timeline="Universe",
         color="dodgerblue",
         fuzzy="gradient",
         href="https://en.wikipedia.org/wiki/Milky_Way",
     )
     universe += Event(
-        "",
-        -7_500_000_000,
+        instant=-7_500_000_000,
         timeline="Universe",
         color="white",
         marker="galaxy",
         href="https://en.wikipedia.org/wiki/Milky_Way",
     )
-    universe += Period("Earth", -4_567_000_000, 0, color="lightgreen")
+    universe += Period(begin=-4_567_000_000, end=0, label="Earth", color="lightgreen")
     return universe
 
 
 def get_earth(legend=True):
     earth = Timelines(
-        "Earth",
+        title="Earth",
         legend=legend,
         axis=dict(absolute=True, caption="Billion years ago"),
     )
-    earth += Period("Earth", -4_567_000_000, 0, color="skyblue")
+    earth += Period(begin=-4_567_000_000, end=0, label="Earth", color="skyblue")
     earth += Period(
-        "Archean",
-        dict(value=-4_000_000_000, low=-4_100_000_000, high=-3_950_000_000),
-        dict(value=-2_500_000_000, error=200_000_000),
+        begin=dict(value=-4_000_000_000, low=-4_100_000_000, high=-3_950_000_000),
+        end=dict(value=-2_500_000_000, error=200_000_000),
+        label="Archean",
         color="wheat",
         fuzzy="gradient",
     )
-    earth += Event("LUCA?", -4_200_000_000, timeline="Unicellular")
+    earth += Event(instant=-4_200_000_000, label="LUCA?",timeline="Unicellular")
     earth += Period(
-        "Unicellular organisms",
-        dict(value=-3_480_000_000, low=-4_200_000_000),
-        0,
+        begin=dict(value=-3_480_000_000, low=-4_200_000_000),
+        end=0,
+        label="Unicellular organisms",
         timeline="Unicellular",
         fuzzy="gradient",
     )
-    earth += Period("Eukaryotes", dict(value=-1_650_000_000, error=200_000_000), 0)
+    earth += Period(begin=dict(value=-1_650_000_000, error=200_000_000), end=0, label="Eukaryotes")
     earth += Period(
-        "Photosynthesis",
-        dict(value=-3_400_000_000, high=-2_600_000_000),
-        0,
+        begin=dict(value=-3_400_000_000, high=-2_600_000_000),
+        end=0,
+        label="Photosynthesis",
         color="springgreen",
         fuzzy="gradient",
     )
     earth += Period(
-        "Plants",
-        dict(value=-470_000_000, error=50_000_000),
-        0,
+        begin=dict(value=-470_000_000, error=50_000_000),
+        end=0,
+        label="Plants",
         timeline="Photosynthesis",
         color="green",
         placement="left",
@@ -188,51 +188,25 @@ def test_markers():
     colors = itertools.cycle(["gray", "coral", "dodgerblue", "orange", "lime"])
     N_PER_ROW = 3
 
-    all_markers = Column("Predefined markers")
-
-    all_markers += (markers := Timelines("Geometry markers", legend=False, axis=False))
-    markers += Period("Length", 0, N_PER_ROW)
-    for pos, marker in enumerate(constants.GEOMETRY_MARKERS):
-        markers += Event(
-            marker,
-            pos % N_PER_ROW + 0.25,
-            timeline=f"Row {1 + pos // N_PER_ROW}",
-            marker=marker,
-            color=next(colors),
-        )
-
-    all_markers += (markers := Timelines("Symbol markers", legend=False, axis=False))
-    markers += Period("Length", 0, N_PER_ROW)
-    for pos, marker in enumerate(constants.SYMBOL_MARKERS):
-        markers += Event(
-            marker,
-            pos % N_PER_ROW + 0.25,
-            timeline=f"Row {1 + pos // N_PER_ROW}",
-            marker=marker,
-            color=next(colors),
-        )
-
-    all_markers += (markers := Timelines("Astronomy markers", legend=False, axis=False))
-    markers += Period("Length", 0, N_PER_ROW)
-    for pos, marker in enumerate(constants.ASTRONOMY_MARKERS):
-        markers += Event(
-            marker,
-            pos % N_PER_ROW + 0.25,
-            timeline=f"Row {1 + pos // N_PER_ROW}",
-            marker=marker,
-            color=next(colors),
-        )
-
-    all_markers += (markers := Timelines("Greek markers", legend=False, axis=False))
-    markers += Period("Length", 0, N_PER_ROW)
-    for pos, marker in enumerate(constants.GREEK_MARKERS):
-        markers += Event(
-            marker,
-            pos % N_PER_ROW + 0.25,
-            timeline=f"Row {1 + pos // N_PER_ROW}",
-            marker=marker,
-            color=next(colors),
-        )
+    all_markers = Column()
+    for title, markers in [("Geometry markers", constants.GEOMETRY_MARKERS),
+                           ("Symbol markers", constants.SYMBOL_MARKERS),
+                           ("Astronomy markers", constants.ASTRONOMY_MARKERS),
+                           ("Greek markers", constants.GREEK_MARKERS)]:
+        all_markers += (plot := Scatter2d(title,
+                                             width=300,
+                                             xaxis=dict(min=0, max=3.5, labels=False),
+                                             yaxis=dict(labels=False),
+                                             xgrid=False,
+                                             ygrid=False))
+        for pos, marker in enumerate(markers):
+            plot += dict(
+                x=pos % N_PER_ROW + 0.2,
+                y=pos // N_PER_ROW + 1,
+                marker=marker,
+                label=marker,
+                color=next(colors),
+            )
 
     all_markers.save("markers.yaml")
     all_markers.render("markers.svg")
@@ -557,7 +531,7 @@ def test_dimensions():
         10_000_000_000,
     ]:
         column += (timelines := Timelines(f"1 - {last}"))
-        timelines += Period("Period", 1, last)
+        timelines += Period(begin=1, end=last)
     column.save("dimensions.yaml")
     column.render("dimensions.svg")
     check_roundtrip(column, "dimensions.yaml")

@@ -1,477 +1,416 @@
-chysl: 0.3.6
+chysl: 0.3.7
 chart: column
-title: Predefined markers
 subcharts:
-- chart: timelines
+- chart: scatter2d
   title: Geometry markers
-  entries:
-  - entry: period
-    label: Length
-    begin: 0
-    end: 3
-  - entry: event
-    label: disc
-    timeline: Row 1
+  width: 300
+  xaxis:
+    min: 0
+    max: 3.5
+    labels: false
+  yaxis:
+    labels: false
+  xgrid: false
+  ygrid: false
+  points:
+  - x: 0.2
+    y: 1
     color: gray
-    instant: 0.25
     marker: disc
-  - entry: event
-    label: circle
-    timeline: Row 1
+    label: disc
+  - x: 1.2
+    y: 1
     color: coral
-    instant: 1.25
     marker: circle
-  - entry: event
+    label: circle
+  - x: 2.2
+    y: 1
+    color: dodgerblue
+    marker: oval
     label: oval
-    timeline: Row 1
-    color: dodgerblue
-    instant: 2.25
-  - entry: event
-    label: oval-vertical
-    timeline: Row 2
+  - x: 0.2
+    y: 2
     color: orange
-    instant: 0.25
     marker: oval-vertical
-  - entry: event
-    label: oval-horizontal
-    timeline: Row 2
+    label: oval-vertical
+  - x: 1.2
+    y: 2
     color: lime
-    instant: 1.25
     marker: oval-horizontal
-  - entry: event
-    label: ellipse
-    timeline: Row 2
+    label: oval-horizontal
+  - x: 2.2
+    y: 2
     color: gray
-    instant: 2.25
     marker: ellipse
-  - entry: event
-    label: ellipse-vertical
-    timeline: Row 3
+    label: ellipse
+  - x: 0.2
+    y: 3
     color: coral
-    instant: 0.25
     marker: ellipse-vertical
-  - entry: event
-    label: ellipse-horizontal
-    timeline: Row 3
+    label: ellipse-vertical
+  - x: 1.2
+    y: 3
     color: dodgerblue
-    instant: 1.25
     marker: ellipse-horizontal
-  - entry: event
-    label: block
-    timeline: Row 3
+    label: ellipse-horizontal
+  - x: 2.2
+    y: 3
     color: orange
-    instant: 2.25
     marker: block
-  - entry: event
-    label: square
-    timeline: Row 4
+    label: block
+  - x: 0.2
+    y: 4
     color: lime
-    instant: 0.25
     marker: square
-  - entry: event
-    label: square-cross
-    timeline: Row 4
+    label: square
+  - x: 1.2
+    y: 4
     color: gray
-    instant: 1.25
     marker: square-cross
-  - entry: event
-    label: diamond
-    timeline: Row 4
+    label: square-cross
+  - x: 2.2
+    y: 4
     color: coral
-    instant: 2.25
     marker: diamond
-  - entry: event
-    label: diamond-cross
-    timeline: Row 5
+    label: diamond
+  - x: 0.2
+    y: 5
     color: dodgerblue
-    instant: 0.25
     marker: diamond-cross
-  - entry: event
-    label: diamond-fill
-    timeline: Row 5
+    label: diamond-cross
+  - x: 1.2
+    y: 5
     color: orange
-    instant: 1.25
     marker: diamond-fill
-  - entry: event
-    label: pyramid
-    timeline: Row 5
+    label: diamond-fill
+  - x: 2.2
+    y: 5
     color: lime
-    instant: 2.25
     marker: pyramid
-  - entry: event
-    label: triangle
-    timeline: Row 6
+    label: pyramid
+  - x: 0.2
+    y: 6
     color: gray
-    instant: 0.25
     marker: triangle
-  - entry: event
-    label: wedge
-    timeline: Row 6
+    label: triangle
+  - x: 1.2
+    y: 6
     color: coral
-    instant: 1.25
     marker: wedge
-  - entry: event
-    label: trigon
-    timeline: Row 6
+    label: wedge
+  - x: 2.2
+    y: 6
     color: dodgerblue
-    instant: 2.25
     marker: trigon
-  - entry: event
-    label: pentagon
-    timeline: Row 7
+    label: trigon
+  - x: 0.2
+    y: 7
     color: orange
-    instant: 0.25
     marker: pentagon
-  - entry: event
-    label: pentagon-fill
-    timeline: Row 7
+    label: pentagon
+  - x: 1.2
+    y: 7
     color: lime
-    instant: 1.25
     marker: pentagon-fill
-  - entry: event
-    label: hexagon
-    timeline: Row 7
+    label: pentagon-fill
+  - x: 2.2
+    y: 7
     color: gray
-    instant: 2.25
     marker: hexagon
-  - entry: event
-    label: hexagon-fill
-    timeline: Row 8
+    label: hexagon
+  - x: 0.2
+    y: 8
     color: coral
-    instant: 0.25
     marker: hexagon-fill
-  - entry: event
-    label: heptagon
-    timeline: Row 8
+    label: hexagon-fill
+  - x: 1.2
+    y: 8
     color: dodgerblue
-    instant: 1.25
     marker: heptagon
-  - entry: event
-    label: heptagon-fill
-    timeline: Row 8
+    label: heptagon
+  - x: 2.2
+    y: 8
     color: orange
-    instant: 2.25
     marker: heptagon-fill
-  - entry: event
-    label: octagon
-    timeline: Row 9
+    label: heptagon-fill
+  - x: 0.2
+    y: 9
     color: lime
-    instant: 0.25
     marker: octagon
-  - entry: event
-    label: octagon-fill
-    timeline: Row 9
+    label: octagon
+  - x: 1.2
+    y: 9
     color: gray
-    instant: 1.25
     marker: octagon-fill
-  legend: false
-  axis: false
-- chart: timelines
+    label: octagon-fill
+- chart: scatter2d
   title: Symbol markers
-  entries:
-  - entry: period
-    label: Length
-    begin: 0
-    end: 3
-  - entry: event
-    label: cross
-    timeline: Row 1
+  width: 300
+  xaxis:
+    min: 0
+    max: 3.5
+    labels: false
+  yaxis:
+    labels: false
+  xgrid: false
+  ygrid: false
+  points:
+  - x: 0.2
+    y: 1
     color: coral
-    instant: 0.25
     marker: cross
-  - entry: event
-    label: plus
-    timeline: Row 1
+    label: cross
+  - x: 1.2
+    y: 1
     color: dodgerblue
-    instant: 1.25
     marker: plus
-  - entry: event
-    label: minus
-    timeline: Row 1
+    label: plus
+  - x: 2.2
+    y: 1
     color: orange
-    instant: 2.25
     marker: minus
-  - entry: event
-    label: bar
-    timeline: Row 2
+    label: minus
+  - x: 0.2
+    y: 2
     color: lime
-    instant: 0.25
     marker: bar
-  - entry: event
-    label: check
-    timeline: Row 2
+    label: bar
+  - x: 1.2
+    y: 2
     color: gray
-    instant: 1.25
     marker: check
-  - entry: event
-    label: burst
-    timeline: Row 2
+    label: check
+  - x: 2.2
+    y: 2
     color: coral
-    instant: 2.25
     marker: burst
-  - entry: event
-    label: infinity
-    timeline: Row 3
+    label: burst
+  - x: 0.2
+    y: 3
     color: dodgerblue
-    instant: 0.25
     marker: infinity
-  - entry: event
-    label: none
-    timeline: Row 3
+    label: infinity
+  - x: 1.2
+    y: 3
     color: orange
-    instant: 1.25
     marker: none
-  legend: false
-  axis: false
-- chart: timelines
+    label: none
+- chart: scatter2d
   title: Astronomy markers
-  entries:
-  - entry: period
-    label: Length
-    begin: 0
-    end: 3
-  - entry: event
-    label: star
-    timeline: Row 1
+  width: 300
+  xaxis:
+    min: 0
+    max: 3.5
+    labels: false
+  yaxis:
+    labels: false
+  xgrid: false
+  ygrid: false
+  points:
+  - x: 0.2
+    y: 1
     color: lime
-    instant: 0.25
     marker: star
-  - entry: event
-    label: star-fill
-    timeline: Row 1
+    label: star
+  - x: 1.2
+    y: 1
     color: gray
-    instant: 1.25
     marker: star-fill
-  - entry: event
-    label: galaxy
-    timeline: Row 1
+    label: star-fill
+  - x: 2.2
+    y: 1
     color: coral
-    instant: 2.25
     marker: galaxy
-  - entry: event
-    label: sun
-    timeline: Row 2
+    label: galaxy
+  - x: 0.2
+    y: 2
     color: dodgerblue
-    instant: 0.25
     marker: sun
-  - entry: event
-    label: mercury
-    timeline: Row 2
+    label: sun
+  - x: 1.2
+    y: 2
     color: orange
-    instant: 1.25
     marker: mercury
-  - entry: event
-    label: venus
-    timeline: Row 2
+    label: mercury
+  - x: 2.2
+    y: 2
     color: lime
-    instant: 2.25
     marker: venus
-  - entry: event
-    label: earth
-    timeline: Row 3
+    label: venus
+  - x: 0.2
+    y: 3
     color: gray
-    instant: 0.25
     marker: earth
-  - entry: event
-    label: moon
-    timeline: Row 3
+    label: earth
+  - x: 1.2
+    y: 3
     color: coral
-    instant: 1.25
     marker: moon
-  - entry: event
-    label: mars
-    timeline: Row 3
+    label: moon
+  - x: 2.2
+    y: 3
     color: dodgerblue
-    instant: 2.25
     marker: mars
-  - entry: event
-    label: jupiter
-    timeline: Row 4
+    label: mars
+  - x: 0.2
+    y: 4
     color: orange
-    instant: 0.25
     marker: jupiter
-  - entry: event
-    label: saturn
-    timeline: Row 4
+    label: jupiter
+  - x: 1.2
+    y: 4
     color: lime
-    instant: 1.25
     marker: saturn
-  - entry: event
-    label: uranus
-    timeline: Row 4
+    label: saturn
+  - x: 2.2
+    y: 4
     color: gray
-    instant: 2.25
     marker: uranus
-  - entry: event
-    label: neptune
-    timeline: Row 5
+    label: uranus
+  - x: 0.2
+    y: 5
     color: coral
-    instant: 0.25
     marker: neptune
-  legend: false
-  axis: false
-- chart: timelines
+    label: neptune
+- chart: scatter2d
   title: Greek markers
-  entries:
-  - entry: period
-    label: Length
-    begin: 0
-    end: 3
-  - entry: event
-    label: alpha
-    timeline: Row 1
+  width: 300
+  xaxis:
+    min: 0
+    max: 3.5
+    labels: false
+  yaxis:
+    labels: false
+  xgrid: false
+  ygrid: false
+  points:
+  - x: 0.2
+    y: 1
     color: dodgerblue
-    instant: 0.25
     marker: alpha
-  - entry: event
-    label: beta
-    timeline: Row 1
+    label: alpha
+  - x: 1.2
+    y: 1
     color: orange
-    instant: 1.25
     marker: beta
-  - entry: event
-    label: gamma
-    timeline: Row 1
+    label: beta
+  - x: 2.2
+    y: 1
     color: lime
-    instant: 2.25
     marker: gamma
-  - entry: event
-    label: delta
-    timeline: Row 2
+    label: gamma
+  - x: 0.2
+    y: 2
     color: gray
-    instant: 0.25
     marker: delta
-  - entry: event
-    label: epsilon
-    timeline: Row 2
+    label: delta
+  - x: 1.2
+    y: 2
     color: coral
-    instant: 1.25
     marker: epsilon
-  - entry: event
-    label: zeta
-    timeline: Row 2
+    label: epsilon
+  - x: 2.2
+    y: 2
     color: dodgerblue
-    instant: 2.25
     marker: zeta
-  - entry: event
-    label: eta
-    timeline: Row 3
+    label: zeta
+  - x: 0.2
+    y: 3
     color: orange
-    instant: 0.25
     marker: eta
-  - entry: event
-    label: theta
-    timeline: Row 3
+    label: eta
+  - x: 1.2
+    y: 3
     color: lime
-    instant: 1.25
     marker: theta
-  - entry: event
-    label: iota
-    timeline: Row 3
+    label: theta
+  - x: 2.2
+    y: 3
     color: gray
-    instant: 2.25
     marker: iota
-  - entry: event
-    label: kappa
-    timeline: Row 4
+    label: iota
+  - x: 0.2
+    y: 4
     color: coral
-    instant: 0.25
     marker: kappa
-  - entry: event
-    label: lambda
-    timeline: Row 4
+    label: kappa
+  - x: 1.2
+    y: 4
     color: dodgerblue
-    instant: 1.25
     marker: lambda
-  - entry: event
-    label: mu
-    timeline: Row 4
+    label: lambda
+  - x: 2.2
+    y: 4
     color: orange
-    instant: 2.25
     marker: mu
-  - entry: event
-    label: nu
-    timeline: Row 5
+    label: mu
+  - x: 0.2
+    y: 5
     color: lime
-    instant: 0.25
     marker: nu
-  - entry: event
-    label: xi
-    timeline: Row 5
+    label: nu
+  - x: 1.2
+    y: 5
     color: gray
-    instant: 1.25
     marker: xi
-  - entry: event
-    label: omicron
-    timeline: Row 5
+    label: xi
+  - x: 2.2
+    y: 5
     color: coral
-    instant: 2.25
     marker: omicron
-  - entry: event
-    label: pi
-    timeline: Row 6
+    label: omicron
+  - x: 0.2
+    y: 6
     color: dodgerblue
-    instant: 0.25
     marker: pi
-  - entry: event
-    label: rho
-    timeline: Row 6
+    label: pi
+  - x: 1.2
+    y: 6
     color: orange
-    instant: 1.25
     marker: rho
-  - entry: event
-    label: sigma
-    timeline: Row 6
+    label: rho
+  - x: 2.2
+    y: 6
     color: lime
-    instant: 2.25
     marker: sigma
-  - entry: event
-    label: sigma1
-    timeline: Row 7
+    label: sigma
+  - x: 0.2
+    y: 7
     color: gray
-    instant: 0.25
     marker: sigma1
-  - entry: event
-    label: sigma2
-    timeline: Row 7
+    label: sigma1
+  - x: 1.2
+    y: 7
     color: coral
-    instant: 1.25
     marker: sigma2
-  - entry: event
-    label: tau
-    timeline: Row 7
+    label: sigma2
+  - x: 2.2
+    y: 7
     color: dodgerblue
-    instant: 2.25
     marker: tau
-  - entry: event
-    label: upsilon
-    timeline: Row 8
+    label: tau
+  - x: 0.2
+    y: 8
     color: orange
-    instant: 0.25
     marker: upsilon
-  - entry: event
-    label: phi
-    timeline: Row 8
+    label: upsilon
+  - x: 1.2
+    y: 8
     color: lime
-    instant: 1.25
     marker: phi
-  - entry: event
-    label: chi
-    timeline: Row 8
+    label: phi
+  - x: 2.2
+    y: 8
     color: gray
-    instant: 2.25
     marker: chi
-  - entry: event
-    label: psi
-    timeline: Row 9
+    label: chi
+  - x: 0.2
+    y: 9
     color: coral
-    instant: 0.25
     marker: psi
-  - entry: event
-    label: omega
-    timeline: Row 9
+    label: psi
+  - x: 1.2
+    y: 9
     color: dodgerblue
-    instant: 1.25
     marker: omega
-  legend: false
-  axis: false
+    label: omega

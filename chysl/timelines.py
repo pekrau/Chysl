@@ -6,7 +6,7 @@ import constants
 import schema
 import utils
 from color import Color
-from chart import Chart, parse, Entry, Element
+from chart import Chart, Element
 from dimension import Xdimension
 from marker import Marker
 from path import Path
@@ -53,17 +53,16 @@ class Timelines(Chart):
                         {
                             "title": "Event at an instant in time.",
                             "type": "object",
-                            "required": ["entry", "label", "instant"],
+                            "required": ["instant"],
                             "additionalProperties": False,
                             "properties": {
-                                "entry": {"const": "event"},
-                                "label": {
-                                    "title": "Description of the event.",
-                                    "type": "string",
-                                },
                                 "instant": {
                                     "title": "Time of the event.",
                                     "$ref": "#fuzzy_number",
+                                },
+                                "label": {
+                                    "title": "Description of the event.",
+                                    "type": "string",
                                 },
                                 "timeline": {
                                     "title": "Timeline to place the event in.",
@@ -95,14 +94,9 @@ class Timelines(Chart):
                         {
                             "title": "Period of time.",
                             "type": "object",
-                            "required": ["entry", "label", "begin", "end"],
+                            "required": ["begin", "end"],
                             "additionalProperties": False,
                             "properties": {
-                                "entry": {"const": "period"},
-                                "label": {
-                                    "title": "Description of the period.",
-                                    "type": "string",
-                                },
                                 "begin": {
                                     "title": "Starting time of the period.",
                                     "$ref": "#fuzzy_number",
@@ -110,6 +104,10 @@ class Timelines(Chart):
                                 "end": {
                                     "title": "Ending time of the period.",
                                     "$ref": "#fuzzy_number",
+                                },
+                                "label": {
+                                    "title": "Description of the period.",
+                                    "type": "string",
                                 },
                                 "timeline": {
                                     "title": "Timeline to place the period in.",
@@ -175,7 +173,12 @@ class Timelines(Chart):
     def add(self, entry):
         assert isinstance(entry, (dict, Event, Period))
         if isinstance(entry, dict):
-            entry = parse(entry)
+            if "instant" in entry:
+                entry = Event(**entry)
+            elif "begin" in entry:
+                entry = Period(**entry)
+            else:
+                raise ValueError(f"invalid entry in timeline: {entry}")
         assert isinstance(entry, (Event, Period))
         self.entries.append(entry)
 
@@ -298,6 +301,8 @@ class Timelines(Chart):
             legends["stroke"] = "none"
             legends["fill"] = "black"
             for text, height in timelines.items():
+                if not text:
+                    continue
                 legends += (legend := Element("text", text))
                 legend["x"] = utils.N(constants.DEFAULT_PADDING)
                 legend["y"] = utils.N(
@@ -307,11 +312,11 @@ class Timelines(Chart):
                 )
 
 
-class _Temporal(Entry):
+class _Temporal:
     "Abstract temporal entry in a timelines chart."
 
-    def __init__(self, label, timeline=None, color=None):
-        assert isinstance(label, str)
+    def __init__(self, label=None, timeline=None, color=None):
+        assert label is None or isinstance(label, str)
         assert timeline is None or isinstance(timeline, str)
         assert color is None or isinstance(color, str)
 
@@ -320,8 +325,9 @@ class _Temporal(Entry):
         self.color = color
 
     def as_dict(self):
-        result = super().as_dict()
-        result["label"] = self.label
+        result = {}
+        if self.label:
+            result["label"] = self.label
         if self.timeline != self.label:
             result["timeline"] = self.timeline
         if self.color:
@@ -375,8 +381,8 @@ class Event(_Temporal):
 
     def __init__(
         self,
-        label,
         instant,
+        label=None,
         timeline=None,
         marker=None,
         color=None,
@@ -501,9 +507,9 @@ class Period(_Temporal):
 
     def __init__(
         self,
-        label,
         begin,
         end,
+        label=None,
         timeline=None,
         color=None,
         placement=None,
@@ -761,6 +767,7 @@ class Period(_Temporal):
     def render_label(self, y, dimension):
         if not self.label:
             return None
+
         if isinstance(self.begin, dict):
             begin = self.begin["value"]
             try:
@@ -770,6 +777,7 @@ class Period(_Temporal):
         else:
             begin = self.begin
             low = begin
+
         if isinstance(self.end, dict):
             end = self.end["value"]
             try:

@@ -1,4 +1,4 @@
-chysl: 0.3.6
+chysl: 0.3.7
 chart: column
 title: Universe and Earth
 subcharts:
@@ -8,14 +8,12 @@ subcharts:
     bold: true
     color: blue
   entries:
-  - entry: event
-    label: Big Bang
+  - label: Big Bang
     timeline: Universe
     color: red
     instant: -13787000000
     marker: burst
-  - entry: period
-    label: Milky Way galaxy
+  - label: Milky Way galaxy
     timeline: Universe
     color: dodgerblue
     begin:
@@ -24,15 +22,12 @@ subcharts:
     end: 0
     fuzzy: gradient
     href: https://en.wikipedia.org/wiki/Milky_Way
-  - entry: event
-    label: ''
-    timeline: Universe
+  - timeline: Universe
     color: white
     instant: -7500000000
     marker: galaxy
     href: https://en.wikipedia.org/wiki/Milky_Way
-  - entry: period
-    label: Earth
+  - label: Earth
     color: lightgreen
     begin: -4567000000
     end: 0
@@ -44,13 +39,11 @@ subcharts:
 - chart: timelines
   title: Earth
   entries:
-  - entry: period
-    label: Earth
+  - label: Earth
     color: skyblue
     begin: -4567000000
     end: 0
-  - entry: period
-    label: Archean
+  - label: Archean
     color: wheat
     begin:
       value: -4000000000
@@ -60,34 +53,29 @@ subcharts:
       value: -2500000000
       error: 200000000
     fuzzy: gradient
-  - entry: event
-    label: LUCA?
+  - label: LUCA?
     timeline: Unicellular
     instant: -4200000000
-  - entry: period
-    label: Unicellular organisms
+  - label: Unicellular organisms
     timeline: Unicellular
     begin:
       value: -3480000000
       low: -4200000000
     end: 0
     fuzzy: gradient
-  - entry: period
-    label: Eukaryotes
+  - label: Eukaryotes
     begin:
       value: -1650000000
       error: 200000000
     end: 0
-  - entry: period
-    label: Photosynthesis
+  - label: Photosynthesis
     color: springgreen
     begin:
       value: -3400000000
       high: -2600000000
     end: 0
     fuzzy: gradient
-  - entry: period
-    label: Plants
+  - label: Plants
     timeline: Photosynthesis
     color: green
     begin:
