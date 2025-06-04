@@ -3,7 +3,8 @@
 import constants
 import schema
 import utils
-from chart import Chart, Element
+from chart import Chart, register
+from minixml import Element
 from path import Path
 
 
@@ -36,13 +37,13 @@ class Note(Chart):
                 "$ref": "#text",
             },
             "width": {
-                "title": "Width of chart, in pixels.",
+                "title": "Width of chart (pixels).",
                 "type": "number",
                 "default": DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
             },
             "frame": {
-                "title": "Thickness of the frame.",
+                "title": "Thickness of the frame (pixels).",
                 "type": "number",
                 "minimum": 0,
                 "default": DEFAULT_FRAME,
@@ -54,13 +55,13 @@ class Note(Chart):
                 "default": DEFAULT_COLOR,
             },
             "radius": {
-                "title": "Radius of the frame edge curvature.",
+                "title": "Radius of the frame edge curvature (pixels).",
                 "type": "number",
                 "default": DEFAULT_RADIUS,
                 "minimum": 0,
             },
             "line": {
-                "title": "Thickness of lines between sections.",
+                "title": "Thickness of lines between sections (pixels).",
                 "type": "number",
                 "minimum": 0,
                 "default": DEFAULT_LINE,
@@ -149,14 +150,14 @@ class Note(Chart):
         )
         rect["stroke-width"] = self.frame
 
-        self.height = 2 * constants.DEFAULT_PADDING
+        self.total_height = 2 * constants.DEFAULT_PADDING
 
         title, height = self.get_text(self.title)
         if title:
             self.svg += title
-            self.height += height + constants.DEFAULT_PADDING
+            self.total_height += height + constants.DEFAULT_PADDING
             if self.line:
-                self.height += constants.DEFAULT_PADDING
+                self.total_height += constants.DEFAULT_PADDING
 
         body, height = self.get_text(self.body)
         if body:
@@ -165,42 +166,42 @@ class Note(Chart):
                     line := Element(
                         "line",
                         x1=0,
-                        y1=utils.N(self.height),
+                        y1=utils.N(self.total_height),
                         x2=utils.N(self.width),
-                        y2=utils.N(self.height),
+                        y2=utils.N(self.total_height),
                         stroke=self.color,
                     )
                 )
                 line["stroke-width"] = utils.N(self.line)
-                self.height += self.line
+                self.total_height += self.line
 
             self.svg += body
-            self.height += height + constants.DEFAULT_PADDING
+            self.total_height += height + constants.DEFAULT_PADDING
             if self.line:
-                self.height += constants.DEFAULT_PADDING
+                self.total_height += constants.DEFAULT_PADDING
 
         footer, height = self.get_text(self.footer)
         if footer:
             if self.line and (body or (title and not body)):
-                # self.height += constants.DEFAULT_PADDING
+                # self.total_height += constants.DEFAULT_PADDING
                 self.svg += (
                     line := Element(
                         "line",
                         x1=0,
-                        y1=utils.N(self.height),
+                        y1=utils.N(self.total_height),
                         x2=utils.N(self.width),
-                        y2=utils.N(self.height),
+                        y2=utils.N(self.total_height),
                         stroke=self.color,
                     )
                 )
                 line["stroke-width"] = utils.N(self.line)
-                self.height += self.line
+                self.total_height += self.line
 
             self.svg += footer
-            self.height += height + 2 * constants.DEFAULT_PADDING
+            self.total_height += height + 2 * constants.DEFAULT_PADDING
 
-        rect["height"] = utils.N(self.height)
-        self.height += self.frame
+        rect["height"] = utils.N(self.total_height)
+        self.total_height += self.frame
 
     def get_text(self, text):
         "Return tuple (g with text elements, height)."
@@ -245,7 +246,10 @@ class Note(Chart):
             result += Element("text", line, x=0, y=utils.N(height))
             height += size
         x = (self.frame + self.width) / 2 + offset
-        y = self.height + size + constants.DEFAULT_PADDING
+        y = self.total_height + size + constants.DEFAULT_PADDING
         result["transform"] = f"translate({utils.N(x)}, {utils.N(y)})"
         height += size * constants.FONT_DESCEND
         return result, height
+
+
+register(Note)

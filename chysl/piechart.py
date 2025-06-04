@@ -7,7 +7,8 @@ import schema
 import utils
 from color import Color
 from degrees import Degrees
-from chart import Chart, Element
+from chart import Chart, Layout, register
+from minixml import Element
 from path import Path
 from vector2 import Vector2
 
@@ -33,6 +34,10 @@ class Piechart(Chart):
                 "default": DEFAULT_DIAMETER,
                 "exclusiveMinimum": 0,
             },
+            "frame": {
+                "title": "Specification of the piechart perimeter.",
+                "$ref": "#frame",
+            },
             "total": {
                 "title": "Total value to relate slice values to.",
                 "type": "number",
@@ -43,7 +48,7 @@ class Piechart(Chart):
                 "type": "number",
             },
             "palette": {
-                "title": "Palette for slice colors; used for slices lacking color specification.",
+                "title": "Palette for slice colors. Used for slices lacking color specification.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
@@ -73,7 +78,7 @@ class Piechart(Chart):
                             "type": "string",
                         },
                         "color": {
-                            "title": "Color of the slice.",
+                            "title": "Color of the slice. Overrides the palette.",
                             "$ref": "#color",
                         },
                         "href": {"$ref": "#uri"},
@@ -89,28 +94,31 @@ class Piechart(Chart):
         self,
         title=None,
         description=None,
-        slices=None,
         diameter=None,
+        frame=None,
         total=None,
         start=None,
         palette=None,
+        slices=None,
     ):
         super().__init__(title=title, description=description)
-        assert slices is None or isinstance(slices, list)
         assert diameter is None or (isinstance(diameter, (int, float)) and diameter > 0)
+        assert frame is None or isinstance(frame, (bool, dict))
         assert total is None or isinstance(total, (int, float))
         assert start is None or isinstance(start, (int, float))
         assert palette is None or isinstance(palette, (tuple, list))
+        assert slices is None or isinstance(slices, list)
 
+        self.diameter = diameter or self.DEFAULT_DIAMETER
+        self.frame = True if frame is None else frame
+        self.total = total
+        self.start = start
+        # Create a copy of the palette, for safety.
+        self.palette = list(palette or constants.DEFAULT_PALETTE)
         self.slices = []
         if slices:
             for slice in slices:
                 self.add(slice)
-        self.diameter = diameter or self.DEFAULT_DIAMETER
-        self.total = total
-        self.start = start
-        # Create a copy of the palette, for safety and for YAML output.
-        self.palette = list(palette or constants.DEFAULT_PALETTE)
 
     def __iadd__(self, slice):
         self.add(slice)
@@ -133,6 +141,8 @@ class Piechart(Chart):
         result = super().as_dict()
         if self.diameter != self.DEFAULT_DIAMETER:
             result["diameter"] = self.diameter
+        if self.frame is False or isinstance(self.frame, dict):
+            result["frame"] = self.frame
         if self.total is not None:
             result["total"] = self.total
         if self.start is not None:
@@ -151,31 +161,49 @@ class Piechart(Chart):
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute.
-        Adds the title, if defined.
-        Sets the 'svg' and 'height' attributes.
-        Sets the 'width' attribute from 'diameter' and padding.
-        """
-        # XXX add line width when frame implemented.
-        self.width = self.diameter + 2 * constants.DEFAULT_PADDING
-
+        "Create the SVG elements in the 'svg' attribute."
         super().build()
+        layout = Layout(title=self.get_title(), rows=1, columns=1)
+        layout.add(0, 0, self.get_area())
+        self.svg.load_layout(layout)
 
+    def get_area(self):
+        """Get the element for the chart circle (frame) and slices.
+        Note: No clip path.
+        """
         if self.total is None:
             total = sum([s["value"] for s in self.slices])
         else:
             total = self.total
         palette = itertools.cycle(self.palette)
         radius = self.diameter / 2
-        x = radius + constants.DEFAULT_PADDING
-        y = self.height + radius + constants.DEFAULT_PADDING
-        self.height += self.diameter + 2 * constants.DEFAULT_PADDING
 
-        self.svg += (
-            pie := Element("g", transform=f"translate({utils.N(x)}, {utils.N(y)})")
-        )
-        # XXX frame
-        pie += Element("circle", r=radius)
+        result = Element("g")
+        result["class"] = "area"
+        result.total_width = self.diameter
+        result.total_height = self.diameter
+
+        if self.frame:
+            if isinstance(self.frame, dict):
+                thickness = self.frame.get("thickness") or constants.DEFAULT_FRAME_THICKNESS
+                color = self.frame.get("color") or "black"
+            else:
+                thickness = constants.DEFAULT_FRAME_THICKNESS
+                color = "black"
+            result += (frame := Element(
+                "circle",
+                r=radius + thickness / 2,
+                stroke=color,
+                fill="none",
+            )
+                       )
+            frame["class"] = "frame"
+            frame["stroke-width"] = thickness
+            result.total_width += 2 * thickness
+            result.total_height += 2 * thickness
+            
+        result += (pie := Element("circle", r=radius, fill="white"))
+        pie["class"] = "area"
 
         # Prepare and create slices.
         if self.start is None:
@@ -187,8 +215,7 @@ class Piechart(Chart):
             slice["fraction"] = slice["value"] / total
             slice["stop"] = slice["start"] + slice["fraction"] * Degrees(360)
             stop = slice["stop"]
-        pie += (slices := Element("g", stroke="black"))
-        # XXX frame?
+        result += (slices := Element("g", stroke="black"))
         slices["stroke-width"] = 1
 
         for slice in self.slices:
@@ -199,6 +226,7 @@ class Piechart(Chart):
                 "path",
                 d=Path(0, 0).L(p0.x, p0.y).A(radius, radius, 0, lof, 1, p1.x, p1.y).Z(),
             )
+            elem["class"] = "slice"
             if color := slice.get("color"):
                 elem["fill"] = slice["background"] = color
             else:
@@ -208,7 +236,10 @@ class Piechart(Chart):
             slices += elem
 
         # Labels on top of slices.
-        pie += (labels := Element("g", stroke="none", fill="black"))
+        result += (labels := Element("g"))
+        labels["class"] = "labels"
+        labels["font-family"] = constants.DEFAULT_FONT_FAMILY
+        labels["font-size"] = constants.DEFAULT_FONT_SIZE
         labels["text-anchor"] = "middle"
 
         for slice in self.slices:
@@ -222,3 +253,8 @@ class Piechart(Chart):
                     y=utils.N(pos.y),
                     fill=Color(slice["background"]).best_contrast,
                 )
+
+        return result
+
+
+register(Piechart)

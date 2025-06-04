@@ -1,4 +1,4 @@
-chysl: 0.3.7
+chysl: 0.3.8
 chart: column
 title: Pies in column
 subcharts:
@@ -35,9 +35,3 @@ subcharts:
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
-- chart: note
-  title: Comment
-  body: Strawberry pie is good.
-  footer:
-    text: Copyright 2025 Per Kraulis
-    italic: true

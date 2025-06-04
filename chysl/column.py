@@ -2,7 +2,8 @@
 
 import constants
 import schema
-from chart import Chart, Element, parse
+from chart import Chart, Layout, parse, register
+from minixml import Element
 from utils import N
 
 
@@ -44,18 +45,20 @@ class Column(Chart):
 
     schema.add_defs(SCHEMA)
 
-    def __init__(self, title=None, description=None, subcharts=None, align=None, padding=None):
+    def __init__(
+        self, title=None, description=None, subcharts=None, align=None, padding=None
+    ):
         super().__init__(title=title, description=description)
         assert subcharts is None or isinstance(subcharts, list)
         assert align is None or align in constants.HORIZONTAL
         assert padding is None or (isinstance(padding, (int, float)) and padding >= 0)
 
+        self.align = align or self.DEFAULT_ALIGN
+        self.padding = padding if padding is not None else constants.DEFAULT_PADDING
         self.subcharts = []
         if subcharts:
             for subchart in subcharts:
                 self.add(subchart)
-        self.align = align or self.DEFAULT_ALIGN
-        self.padding = padding if padding is not None else constants.DEFAULT_PADDING
 
     def __iadd__(self, subchart):
         self.add(subchart)
@@ -82,30 +85,20 @@ class Column(Chart):
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute.
-        Adds the title, if defined.
-        Sets the 'svg', 'height' and 'width' attributes.
-        """
+        "Create the SVG elements in the 'svg' attribute."
+        super().build()
+
         for subchart in self.subcharts:
             subchart.build()
 
-        self.width = max([s.width for s in self.subcharts])
+        # Create the layout, add the different parts to it and load it.
+        layout = Layout(rows=len(self.subcharts), columns=1, title=self.get_title())
+        for pos, subchart in enumerate(self.subcharts):
+            subchart.build()
+            # XXX how deal with alignment?
+            for element in subchart.svg:
+                layout.add(pos, 0, element)
+        self.svg.load_layout(layout)
 
-        super().build()
 
-        height = self.height
-        self.height += sum([s.height for s in self.subcharts])
-        self.height += (len(self.subcharts) - 1) * self.padding
-
-        for subchart in self.subcharts:
-            match self.align:
-                case constants.LEFT:
-                    x = 0
-                case constants.CENTER:
-                    x = (self.width - subchart.width) / 2
-                case constants.RIGHT:
-                    x = self.width - subchart.width
-            self.svg += Element(
-                "g", subchart.svg, transform=f"translate({N(x)}, {N(height)})"
-            )
-            height += subchart.height + self.padding
+register(Column)

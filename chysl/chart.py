@@ -66,9 +66,7 @@ class Chart:
             result["bold"] = True
         if text.get("italic"):
             result["italic"] = True
-        if (
-            color := text.get("color")
-        ) is not None and color != constants.DEFAULT_COLOR:
+        if (color := text.get("color")) is not None and color != "black":
             result["color"] = color
         if (
             anchor := text.get("anchor")
@@ -90,10 +88,10 @@ class Chart:
         self.build()
 
         if antialias:
-            extent = Vector2(self.width + 1, self.height + 1)
+            extent = Vector2(self.svg.total_width + 1, self.svg.total_height + 1)
             transform = "translate(0.5, 0.5)"
         else:
-            extent = Vector2(self.width, self.height)
+            extent = Vector2(self.svg.total_width, self.svg.total_height)
             transform = None
 
         document = Element(
@@ -104,6 +102,7 @@ class Chart:
             viewBox=f"0 0 {N(extent.x)} {N(extent.y)}",
             transform=transform,
         )
+        document.repr_indent = indent
 
         if self.title:
             if isinstance(self.title, dict):
@@ -115,8 +114,8 @@ class Chart:
         if self.description:
             document += Element("desc", self.description)
 
-        document += self.svg
-        document.repr_indent = indent
+        for elem in self.svg:
+            document += elem
 
         if isinstance(target, (str, pathlib.Path)):
             with open(target, "w") as outfile:
@@ -127,48 +126,44 @@ class Chart:
             target.write(repr(document))
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute. Adds the title, if given.
-        Sets the 'svg' and 'height' attributes.
-        Requires the 'width' attribute.
+        """Create and add the SVG elements to the 'svg' attribute.
         To be extended in subclasses.
         """
-        self.height = 0
-        assert hasattr(self, "width")
+        self.svg = SvgContainer()
 
-        self.svg = Element("g", stroke="black", fill="white")
-        self.svg["font-family"] = constants.DEFAULT_FONT_FAMILY
-        self.svg["font-size"] = constants.DEFAULT_FONT_SIZE
+    def get_title(self):
+        "Get the element for the title of the chart; possibly None."
+        if not self.title:
+            return None
 
-        if self.title:
-            if isinstance(self.title, dict):
-                text = self.title["text"] or ""
-                size = self.title.get("size") or constants.DEFAULT_TITLE_FONT_SIZE
-                color = self.title.get("color") or constants.DEFAULT_COLOR
-                anchor = self.title.get("anchor") or constants.DEFAULT_ANCHOR
-            else:
-                text = self.title
-                size = constants.DEFAULT_TITLE_FONT_SIZE
-                color = constants.DEFAULT_COLOR
-                anchor = constants.DEFAULT_ANCHOR
-            self.height += size
-            self.svg += (
-                title := Element(
-                    "text",
-                    text,
-                    x=N(self.width / 2),
-                    y=N(self.height),
-                    stroke="none",
-                    fill=color,
-                )
-            )
-            title["font-size"] = N(size)
-            title["text-anchor"] = anchor
-            if isinstance(self.title, dict):
-                if self.title.get("bold"):
-                    title["font-weight"] = "bold"
-                if self.title.get("italic"):
-                    title["font-style"] = "italic"
-            self.height += constants.DEFAULT_PADDING + constants.FONT_DESCEND * size
+        font = constants.DEFAULT_FONT_FAMILY
+        if isinstance(self.title, dict):
+            text = self.title["text"] or ""
+            size = self.title.get("size") or constants.DEFAULT_TITLE_FONT_SIZE
+            color = self.title.get("color") or "black"
+            italic = self.title.get("italice") or False
+            bold = self.title.get("bold") or False
+        else:
+            text = self.title
+            size = constants.DEFAULT_TITLE_FONT_SIZE
+            color = "black"
+            italic = False
+            bold = False
+        # Empirical factor 0.3...
+        result = Element("text", text, y=N(0.3 * size), fill=color)
+        result["class"] = "title"
+        result["text-anchor"] = "middle"
+        result["font-family"] = font
+        result["font-size"] = N(size)
+        if italic:
+            result["font-style"] = "italic"
+        if bold:
+            result["font-weight"] = "bold"
+        result.total_height = size * (1 + constants.FONT_DESCEND)
+        result.total_width = utils.get_text_length(
+            text, size, font=font, italic=italic, bold=bold
+        )
+        return result
 
     def save(self, target=None):
         """Output the chart as YAML.
@@ -192,8 +187,124 @@ class Chart:
             yaml.dump(content, outfile, allow_unicode=True, sort_keys=False)
 
 
+class SvgContainer:
+    "Helper container for SVG elements and total width and height."
+
+    def __init__(self ):
+        self.elements = []
+        self.total_width = 0
+        self.total_height = 0
+
+    def __iadd__(self, element):
+        assert isinstance(element, Element)
+        self.elements.append(element)
+        return self
+
+    def __iter__(self):
+        return iter(self.elements)
+
+    def load_layout(self, layout):
+        assert isinstance(layout, Layout)
+        self += layout.element()
+        self.total_width = max(self.total_width, layout.total_width)
+        self.total_height = max(self.total_height, layout.total_height)
+
+
+class Layout:
+    """Grid-based helper for layouting SVG elements of a chart.
+    XXX Implement this:
+    It is assumed that all elements that are added are located in
+    a bounding box between (0, 0, total_width, total_height).
+    """
+
+    class Cell:
+
+        def __init__(self):
+            self.elements = []
+            self.width = 0
+            self.height = 0
+
+        def append(self, element):
+            self.elements.append(element)
+            self.width = max(self.width, element.total_width)
+            self.height = max(self.height, element.total_height)
+
+    def __init__(self, rows=1, columns=1, title=None, hpadding=None, vpadding=None):
+        assert rows >= 1
+        assert columns >= 1
+        assert title is None or isinstance(title, Element)
+
+        self.rows = rows
+        self.columns = columns
+        self.title = title
+        self.hpadding = hpadding if hpadding is not None else constants.DEFAULT_PADDING
+        self.vpadding = vpadding if vpadding is not None else constants.DEFAULT_PADDING
+        self.cells = [[self.Cell() for column in range(columns)] for row in range(rows)]
+
+    def add(self, row, column, element):
+        "The element must have 'total_width' and 'total_height' attributes."
+        if element is None:
+            return
+        assert hasattr(element, "total_width"), element
+        assert hasattr(element, "total_height"), element
+        self.cells[row][column].append(element)
+
+    def element(self):
+        "Return the 'g' element containint the layouted elements, including title."
+        for row in range(self.rows):
+            max_height = 0
+            for column in range(self.columns):
+                max_height = max(max_height, self.cells[row][column].height)
+            for column in range(self.columns):
+                self.cells[row][column].max_height = max_height
+        for column in range(self.columns):
+            max_width = 0
+            for row in range(self.rows):
+                max_width = max(max_width, self.cells[row][column].width)
+            for row in range(self.rows):
+                self.cells[row][column].max_width = max_width
+
+        if self.title is not None:
+            y = self.title.total_height
+        else:
+            y = 0
+
+        result = Element("g")
+        result["class"] = "layout"
+        for row in range(self.rows):
+            x = 0
+            for column in range(self.columns):
+                cell = self.cells[row][column]
+                for element in cell.elements:
+                    xt = x + cell.max_width / 2
+                    yt = y + cell.max_height / 2
+                    result += Element(
+                        "g",
+                        element,
+                        transform=f"translate({N(xt)},{N(yt)})",
+                    )
+                x += cell.max_width + self.hpadding
+                if column < self.columns - 1:
+                    x += self.hpadding
+            y += self.cells[row][0].max_height
+            if row < self.rows - 1:
+                y += self.vpadding
+
+        if self.title is not None:
+            result += Element(
+                "g",
+                self.title,
+                transform=f"translate({N(x/2)},{N(self.title.total_height/2)})",
+            )
+
+        self.total_width = result.total_width = x
+        self.total_height = result.total_height = y
+
+        return result
+
+
 # Lookup for Chart subclasses. Key: name of class (lower case); value: class
-_chart_lookup = {}
+_chart_class_lookup = {}
 
 
 def register(cls):
@@ -201,14 +312,14 @@ def register(cls):
     assert issubclass(cls, Chart)
     schema.check_schema(cls.SCHEMA)
     key = cls.__name__.casefold()
-    if key in _chart_lookup:
+    if key in _chart_class_lookup:
         raise KeyError(f"chart '{key}' already registered")
-    _chart_lookup[key] = cls
+    _chart_class_lookup[key] = cls
 
 
-def get_class(name):
+def get_chart_class(name):
     "Return the class for the chart name."
-    return _chart_lookup[name]
+    return _chart_class_lookup[name]
 
 
 def parse(data):
@@ -231,7 +342,7 @@ def parse(data):
         except KeyError:
             raise ValueError(f"no chart declaration in '{data}'")
         try:
-            cls = _chart_lookup[name]
+            cls = get_chart_class(name)
         except KeyError:
             raise ValueError(f"no such chart '{name}'")
         chart = cls(**data)
@@ -312,7 +423,7 @@ class ChartReader:
         except KeyError:
             raise ValueError("no 'chart' defined in the YAML file")
         try:
-            cls = _chart_lookup[name]
+            cls = get_chart_class(name)
         except KeyError:
             raise ValueError(f"unknown chart '{name}' specified in the YAML file")
         schema.validate(self.data, cls.SCHEMA)

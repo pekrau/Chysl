@@ -2,7 +2,8 @@
 
 import constants
 import schema
-from chart import Chart, Element, parse
+from chart import Chart, register, parse
+from minixml import Element
 from utils import N
 
 
@@ -98,8 +99,11 @@ class Overlay(Chart):
             self.svg += Element(
                 "g",
                 subchart.svg,
-                transform=f"translate(0,{N(self.height)})",
+                transform=f"translate(0,{N(self.total_height)})",
                 opacity=opacity,
             )
 
-        self.height += max([s.height for s, o in self.layers])
+        self.total_height += max([s.total_height for s, o in self.layers])
+
+
+register(Overlay)

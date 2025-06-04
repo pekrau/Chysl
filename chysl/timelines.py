@@ -6,10 +6,12 @@ import constants
 import schema
 import utils
 from color import Color
-from chart import Chart, Element
+from chart import Chart, Layout, register
 from dimension import Xdimension
 from marker import Marker
+from minixml import Element
 from path import Path
+from utils import N
 from vector2 import Vector2
 
 
@@ -26,13 +28,17 @@ class Timelines(Chart):
             "title": {"$ref": "#title"},
             "description": {"$ref": "#description"},
             "width": {
-                "title": "Width of the chart, including legends etc.",
+                "title": "Width of the chart area (pixels).",
                 "type": "number",
                 "default": constants.DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
             },
+            "frame": {
+                "title": "Specification of the chart area frame.",
+                "$ref": "#frame",
+            },
             "legend": {
-                "title": "Display legend.",
+                "title": "Legend to be displayed or not.",
                 "type": "boolean",
                 "default": True,
             },
@@ -144,27 +150,30 @@ class Timelines(Chart):
         self,
         title=None,
         description=None,
-        entries=None,
         width=None,
+        frame=None,
         legend=None,
         axis=None,
         grid=None,
+        entries=None,
     ):
         super().__init__(title=title, description=description)
-        assert entries is None or isinstance(entries, list)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
         assert legend is None or isinstance(legend, bool)
+        assert frame is None or isinstance(frame, (bool, dict))
         assert axis is None or isinstance(axis, (bool, dict))
         assert grid is None or isinstance(grid, (bool, dict))
+        assert entries is None or isinstance(entries, list)
 
+        self.width = width or constants.DEFAULT_WIDTH
+        self.legend = True if legend is None else legend
+        self.frame = True if frame is None else frame
+        self.axis = True if axis is None else axis
+        self.grid = True if grid is None else grid
         self.entries = []
         if entries:
             for entry in entries:
                 self.add(entry)
-        self.width = width or constants.DEFAULT_WIDTH
-        self.legend = True if legend is None else legend
-        self.axis = True if axis is None else axis
-        self.grid = True if grid is None else grid
 
     def __iadd__(self, entry):
         self.add(entry)
@@ -189,6 +198,8 @@ class Timelines(Chart):
             result["width"] = self.width
         if self.legend is not None and not self.legend:
             result["legend"] = False
+        if self.frame is False or isinstance(self.frame, dict):
+            result["frame"] = self.frame
         if self.axis is False or isinstance(self.axis, dict):
             result["axis"] = self.axis
         if self.grid is False or isinstance(self.grid, dict):
@@ -196,35 +207,22 @@ class Timelines(Chart):
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute.
-        Adds the title, if defined.
-        Sets the 'svg' and 'height' attributes.
-        Requires the 'width' attribute.
-        """
+        "Create the SVG elements in the 'svg' attribute."
         super().build()
 
-        dimension = Xdimension(width=self.width)
-        timelines = dict()  # Key: timeline; value: height
+        # Determine the y position for each timeline; sets height of the chart area.
+        timelines = dict()  # Key: timeline; value: y (pixels)
+        self.height = 0
+        for entry in self.entries:
+            if entry.timeline not in timelines:
+                self.height += constants.DEFAULT_LINE_WIDTH
+                timelines[entry.timeline] = self.height
+                self.height += constants.DEFAULT_SIZE + constants.DEFAULT_LINE_WIDTH
 
-        # Set the span (min/max) for the axis.
+        # Set up the time axis.
+        dimension = Xdimension(self.width)
         for entry in self.entries:
             dimension.update_span(entry.minmax())
-
-        # Set the heights for each timeline and the left padding for legends.
-        ypxlow = self.height
-        kwargs = dict(
-            font=constants.DEFAULT_FONT_FAMILY,
-            size=constants.DEFAULT_FONT_SIZE,
-        )
-        for entry in self.entries:
-            if self.legend:
-                dimension.update_start(utils.get_text_length(entry.timeline, **kwargs))
-            if entry.timeline not in timelines:
-                self.height += constants.DEFAULT_PADDING
-                timelines[entry.timeline] = self.height
-                self.height += constants.DEFAULT_SIZE + constants.DEFAULT_PADDING
-        dimension.update_end(constants.DEFAULT_PADDING)
-        ypxhigh = self.height
 
         if isinstance(self.axis, dict):
             dimension.build(
@@ -238,78 +236,136 @@ class Timelines(Chart):
         else:
             dimension.build()
 
-        # Time coordinate grid.
+        # Create the layout, add the different parts to it and load.
+        layout = Layout(rows=2, columns=2, title=self.get_title())
+        layout.add(0, 0, self.get_legend(timelines))
+        layout.add(0, 1, self.get_frame())
+        layout.add(0, 1, self.get_area(dimension, timelines))
+        layout.add(1, 1, self.get_axis(dimension))
+        self.svg.load_layout(layout)
+
+    def get_legend(self, timelines):
+        "Get the element for the legend of the chart; possibly None."
+        if not self.legend:
+            return None
+
+        y_offset = (
+            constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE
+        ) / 2 - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+        result = Element("g")
+        result["class"] = "legend"
+        result.total_width = 0
+        result.total_height = 0
+        result["font-family"] = constants.DEFAULT_FONT_FAMILY
+        result["font-size"] = constants.DEFAULT_FONT_SIZE
+        result["text-anchor"] = "end"
+        for text, height in timelines.items():
+            if not text:
+                continue
+            result += Element("text", text, y=N(height + y_offset))
+            result.total_width = max(result.total_width, utils.get_text_length(text))
+            result.total_height = max(result.total_height, height + y_offset)
+            # Yes: 'result.total_width' and 'self.height'
+        result["transform"] = f"translate({N(result.total_width/2-2)},{N(-self.height/2)})"
+        return result
+
+    def get_frame(self):
+        "Get the element for the frame around the chart; possibly None."
+        if not self.frame:
+            return None
+
+        if isinstance(self.frame, dict):
+            thickness = self.frame.get("thickness") or constants.DEFAULT_FRAME_THICKNESS
+            color = self.frame.get("color") or "black"
+        else:
+            thickness = constants.DEFAULT_FRAME_THICKNESS
+            color = "black"
+        result = Element(
+            "rect",
+            x=N(-thickness / 2),
+            y=N(-thickness / 2),
+            width=N(self.width + thickness),
+            height=N(self.height + thickness),
+            stroke=color,
+            fill="none",
+        )
+        result["class"] = "frame"
+        result["stroke-width"] = thickness
+        result.total_width = self.width + 2 * thickness
+        result.total_height = self.height + 2 * thickness
+        result["transform"] = f"translate({N(-self.width/2)},{N(-self.height/2)})"
+        return result
+
+    def get_area(self, dimension, timelines):
+        """Get the element for the chart area, grid and entries.
+        Side-effect: Puts the definition of the clip path into the top element.
+        """
+        # Clip path definition into the main SVG container.
+        clippath_id = next(utils.unique_id)
+        self.svg += Element(
+            "defs",
+            Element(
+                "clipPath",
+                Element("rect", width=N(self.width), height=N(self.height)),
+                id=clippath_id,
+            ),
+        )
+        result = Element("g")
+        result["class"] = "area"
+        result["clip-path"] = f"url(#{clippath_id})"
+        result["transform"] = f"translate({N(-self.width/2)},{N(-self.height/2)})"
+        result.total_width = self.width
+        result.total_height = self.height
+
+        # Add the time axis grid.
         if self.grid:
             if isinstance(self.grid, dict):
                 color = self.grid.get("color") or constants.DEFAULT_GRID_COLOR
             else:
                 color = constants.DEFAULT_GRID_COLOR
-            self.svg += dimension.get_grid(ypxlow, ypxhigh, color)
-
-        # Chart frame; overwrite the grid.
-        self.svg += dimension.get_frame(
-            ypxlow,
-            ypxhigh,
-            color=constants.DEFAULT_COLOR,
-            linewidth=constants.DEFAULT_FRAME_WIDTH,
-        )
-
-        # Time axis labels.
-        if self.axis:
-            self.svg += (axis := Element("g"))
-            axis += (
-                labels := dimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
-            )
-            self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
-
-            # Time axis caption.
-            if isinstance(self.axis, dict) and (caption := self.axis.get("caption")):
-                self.height += constants.DEFAULT_FONT_SIZE
-                labels += Element(
-                    "text",
-                    caption,
-                    x=utils.N(
-                        dimension.get_pixel((dimension.first + dimension.last) / 2)
-                    ),
-                    y=utils.N(self.height),
-                )
-            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
-
-        # Graphics area clipping.
-        clippath_id, clippath_def = dimension.get_clippath(ypxlow, ypxhigh)
-        self.svg += clippath_def
-        self.svg += (graphics := Element("g"))
-        graphics["clip-path"] = f"url(#{clippath_id})"
+            result += dimension.get_grid(self.height, color)
 
         # Graphics for entries (periods and events).
         for entry in self.entries:
-            graphics += entry.render_graphic(timelines[entry.timeline], dimension)
+            result += entry.render_graphic(timelines[entry.timeline], dimension)
 
-        # Entry labels after graphics, to render on top.
-        self.svg += (labels := Element("g"))
-        labels["clip-path"] = f"url(#{clippath_id})"
+        # Labels for entries (periods and events). After graphics, to render on top.
+        result += (labels := Element("g"))
+        labels["class"] = "labels"
+        labels["font-family"] = constants.DEFAULT_FONT_FAMILY
+        labels["font-size"] = constants.DEFAULT_FONT_SIZE
         labels["text-anchor"] = "middle"
-        labels["stroke"] = "none"
-        labels["fill"] = "black"
         for entry in self.entries:
             if label := entry.render_label(timelines[entry.timeline], dimension):
                 labels += label
 
-        # Legend labels.
-        if self.legend:
-            self.svg += (legends := Element("g"))
-            legends["stroke"] = "none"
-            legends["fill"] = "black"
-            for text, height in timelines.items():
-                if not text:
-                    continue
-                legends += (legend := Element("text", text))
-                legend["x"] = utils.N(constants.DEFAULT_PADDING)
-                legend["y"] = utils.N(
-                    height
-                    + (constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE) / 2
-                    - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+        return result
+
+    def get_axis(self, dimension):
+        "Get the axis display; tick labels and caption; possible None."
+        if not self.axis:
+            return None
+
+        result = dimension.get_labels(constants.DEFAULT_FONT_SIZE)
+        result.total_width = self.width
+        result.total_height = constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
+
+        # Time axis caption.
+        if isinstance(self.axis, dict) and (caption := self.axis.get("caption")):
+            # Empirical factor 0.8...
+            result.total_height += 0.8 * constants.DEFAULT_FONT_SIZE
+            result += (
+                elem := Element(
+                    "text",
+                    caption,
+                    x=N(dimension.get_pixel((dimension.first + dimension.last) / 2)),
+                    y=N(result.total_height),
                 )
+            )
+            elem["class"] = "x-axis-caption"
+            result.total_height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND + 2
+        result["transform"] = f"translate({N(-result.total_width/2)},{N(-result.total_height/2)})"
+        return result
 
 
 class _Temporal:
@@ -373,6 +429,9 @@ class _Temporal:
         return result
 
 
+register(Timelines)
+
+
 class Event(_Temporal):
     "Event at a given instant in a timeline."
 
@@ -433,6 +492,7 @@ class Event(_Temporal):
 
         marker = Marker(self.marker, color=self.color, href=self.href)
         result = marker.get_graphic(x, y + constants.DEFAULT_SIZE / 2)
+        result["class"] = "event"
         self.label_x_offset = marker.label_x_offset
 
         # Get error bars if fuzzy value; place below marker itself.
@@ -456,11 +516,10 @@ class Event(_Temporal):
                         value = self.instant["low"]
                     except KeyError:
                         value = self.instant["value"] - self.instant.get("error", 0)
-                    x = dimension.get_pixel(value)
-                    x -= constants.DEFAULT_PADDING
+                    x = dimension.get_pixel(value) - 2
                 else:
                     x = dimension.get_pixel(self.instant)
-                    x -= self.label_x_offset + constants.DEFAULT_PADDING
+                    x -= self.label_x_offset + 2
                 anchor = "end"
 
             case constants.CENTER:
@@ -474,11 +533,10 @@ class Event(_Temporal):
                         value = self.instant["high"]
                     except KeyError:
                         value = self.instant["value"] + self.instant.get("error", 0)
-                    x = dimension.get_pixel(value)
-                    x += constants.DEFAULT_PADDING
+                    x = dimension.get_pixel(value) + 2
                 else:
                     x = dimension.get_pixel(self.instant)
-                    x += self.label_x_offset + constants.DEFAULT_PADDING
+                    x += self.label_x_offset + 2
                 if self.marker == constants.NONE:
                     anchor = "middle"
                 else:
@@ -488,13 +546,14 @@ class Event(_Temporal):
         label = Element(
             "text",
             self.label,
-            x=utils.N(x),
-            y=utils.N(
+            x=N(x),
+            y=N(
                 y
                 + (constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE) / 2
                 - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
             ),
         )
+        label["class"] = "event-label"
         label["text-anchor"] = anchor
         return label
 
@@ -561,12 +620,13 @@ class Period(_Temporal):
         ):
             result = Element(
                 "rect",
-                x=utils.N(dimension.get_pixel(self.begin)),
-                y=utils.N(y),
-                width=utils.N(dimension.get_width(self.begin, self.end)),
+                x=N(dimension.get_pixel(self.begin)),
+                y=N(y),
+                width=N(dimension.get_extent(self.begin, self.end)),
                 height=constants.DEFAULT_SIZE,
+                fill=self.color or "white",
             )
-            result["fill"] = self.color or "white"
+            result["stroke-width"] = constants.DEFAULT_LINE_WIDTH
 
         # Fuzzy value(s) to be shown.
         else:
@@ -608,16 +668,17 @@ class Period(_Temporal):
                 x3 = x2
 
             # Graphics depends on how to show fuzzy values.
-            result = Element("g")
+            result = Element("g", stroke="black")
+            result["stroke-width"] = constants.DEFAULT_LINE_WIDTH
 
             match self.fuzzy:
 
                 case constants.ERROR:
                     result += Element(
                         "rect",
-                        x=utils.N(dimension.get_pixel(begin)),
-                        y=utils.N(y),
-                        width=utils.N(dimension.get_width(begin, end)),
+                        x=N(dimension.get_pixel(begin)),
+                        y=N(y),
+                        width=N(dimension.get_extent(begin, end)),
                         height=constants.DEFAULT_SIZE,
                         fill=self.color or "white",
                     )
@@ -646,21 +707,20 @@ class Period(_Temporal):
                         # The filled rectangle.
                         result += Element(
                             "rect",
-                            x=utils.N(x2 - tweak),
-                            y=utils.N(y),
-                            width=utils.N(x3 - x2 + 2 * tweak),
+                            x=N(x2 - tweak),
+                            y=N(y),
+                            width=N(x3 - x2 + 2 * tweak),
                             height=constants.DEFAULT_SIZE,
-                            stroke="none",
                             fill=self.color or "white",
+                            stroke="none",
                         )
-                        # The lines at the long edges of the filled rectangle.
+                        # The horizontal lines of the filled rectangle.
                         result += Element(
                             "path",
                             d=Path(x2 - tweak, y)
                             .H(x3 + 2 * tweak)
                             .m(0, constants.DEFAULT_SIZE)
                             .H(x2 - tweak),
-                            stroke="black",
                         )
                     # The left gradient of the period.
                     if x1 < x2:
@@ -676,14 +736,14 @@ class Period(_Temporal):
                         stop["stop-opacity"] = 1
                         result += Element(
                             "rect",
-                            x=utils.N(x1),
-                            y=utils.N(y),
-                            width=utils.N(x2 - x1),
+                            x=N(x1),
+                            y=N(y),
+                            width=N(x2 - x1),
                             height=constants.DEFAULT_SIZE,
-                            stroke="none",
                             fill=f"url(#{id1})",
+                            stroke="none",
                         )
-                        # Lines at the long edges of the gradient-filled rectangle.
+                        # Horizontal lines of the gradient-filled rectangle.
                         id2 = next(utils.unique_id)
                         defs += (stroke1 := Element("linearGradient", id=id2))
                         stroke1 += (stop := Element("stop", offset=0))
@@ -698,15 +758,14 @@ class Period(_Temporal):
                             stroke=f"url(#{id2})",
                         )
 
+                    # No left gradient; path line at beginning of rectangle.
                     else:
-                        # Path line at beginning of rectangle.
                         result += Element(
                             "line",
-                            x1=utils.N(x1),
-                            y1=utils.N(y),
-                            x2=utils.N(x1),
-                            y2=utils.N(y + constants.DEFAULT_SIZE),
-                            stroke="black",
+                            x1=N(x1),
+                            y1=N(y),
+                            x2=N(x1),
+                            y2=N(y + constants.DEFAULT_SIZE),
                         )
 
                     # The right gradient of the period.
@@ -723,14 +782,14 @@ class Period(_Temporal):
                         # The gradient-filled rectangle.
                         result += Element(
                             "rect",
-                            x=utils.N(x3),
-                            y=utils.N(y),
-                            width=utils.N(x4 - x3),
+                            x=N(x3),
+                            y=N(y),
+                            width=N(x4 - x3),
                             height=constants.DEFAULT_SIZE,
-                            stroke="none",
                             fill=f"url(#{id3})",
+                            stroke="none",
                         )
-                        # Lines at the long edges of the gradient-filled rectangle.
+                        # Horizontal lines of the gradient-filled rectangle.
                         id4 = next(utils.unique_id)
                         defs += (stroke2 := Element("linearGradient", id=id4))
                         stroke2 += (stop := Element("stop", offset=0))
@@ -745,20 +804,20 @@ class Period(_Temporal):
                             stroke=f"url(#{id4})",
                         )
 
+                    # No right gradient; path line at end of rectangle.
                     else:
-                        # Path line at end of rectangle.
                         result += Element(
                             "line",
-                            x1=utils.N(x3),
-                            y1=utils.N(y),
-                            x2=utils.N(x3),
-                            y2=utils.N(y + constants.DEFAULT_SIZE),
-                            stroke="black",
+                            x1=N(x3),
+                            y1=N(y),
+                            x2=N(x3),
+                            y2=N(y + constants.DEFAULT_SIZE),
                         )
 
                 case constants.TAPER:
                     raise NotImplementedError
 
+        result["class"] = "period"
         if self.href:
             result = Element("a", result, href=self.href)
 
@@ -792,7 +851,7 @@ class Period(_Temporal):
         match self.placement:
 
             case constants.LEFT:
-                x = dimension.get_pixel(low) - constants.DEFAULT_PADDING
+                x = dimension.get_pixel(low) - 2
                 anchor = "end"
 
             case constants.CENTER:
@@ -802,19 +861,20 @@ class Period(_Temporal):
                     color = Color(self.color).best_contrast
 
             case constants.RIGHT:
-                x = dimension.get_pixel(high) + constants.DEFAULT_PADDING
+                x = dimension.get_pixel(high) + 2
                 anchor = "start"
 
         label = Element(
             "text",
             self.label,
-            x=utils.N(x),
-            y=utils.N(
+            x=N(x),
+            y=N(
                 y
                 + (constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE) / 2
                 - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
             ),
             fill=color,
         )
+        label["class"] = "period-label"
         label["text-anchor"] = anchor
         return label

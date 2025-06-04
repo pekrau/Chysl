@@ -26,23 +26,18 @@ class Dimension:
     Store min/max and set or calculate base/first/last and ticks for the span.
     """
 
-    def __init__(self, width, start=0, end=0, reversed=False):
-        assert isinstance(width, (int, float)) and width > 0
-        assert isinstance(start, (int, float)) and start >= 0
-        assert isinstance(end, (int, float)) and end >= 0
+    def __init__(self, extent, reversed=False):
+        assert isinstance(extent, (int, float)) and extent > 0
         assert isinstance(reversed, bool)
 
-        self.width = width
-        self.start = start
-        self.end = end
+        self.extent = extent
         self.reversed = reversed
         self.min = None
         self.max = None
 
     def __repr__(self):
         fields = [
-            f"{a}={getattr(self,a)}"
-            for a in ["width", "start", "end", "reversed", "min", "max"]
+            f"{a}={getattr(self,a)}" for a in ["extent", "reversed", "min", "max"]
         ]
         return f"Dimension({', '.join(fields)})"
 
@@ -78,18 +73,6 @@ class Dimension:
         expansion = fraction * (self.max - self.min)
         self.min -= expansion
         self.max += expansion
-
-    def update_start(self, value):
-        if isinstance(value, (tuple, list)):
-            self.start = max(self.start, *value)
-        else:
-            self.start = max(self.start, value)
-
-    def update_end(self, value):
-        if isinstance(value, (tuple, list)):
-            self.end = max(self.end, *value)
-        else:
-            self.end = max(self.end, value)
 
     def build(
         self,
@@ -183,7 +166,7 @@ class Dimension:
             self.first = min(self.min, self.positions[0])
             self.last = max(self.max, self.positions[-1])
 
-        self.scale = (self.width - self.start - self.end) / (self.last - self.first)
+        self.scale = self.extent / (self.last - self.first)
         if self.magnitude < 0:
             self.format = f"%.{-self.magnitude}f"
         else:
@@ -198,12 +181,12 @@ class Dimension:
     def get_pixel(self, position):
         "Convert position coordinate to pixel coordinate."
         if self.reversed:
-            return self.end + self.scale * (self.last - position)
+            return self.extent + self.scale * (self.last - position)
         else:
-            return self.start + self.scale * (position - self.first)
+            return self.scale * (position - self.first)
 
-    def get_width(self, begin, end):
-        "Convert position width to pixel width."
+    def get_extent(self, begin, end):
+        "Convert position extent to pixel extent."
         return self.scale * abs(end - begin)
 
     def get_ticks(self):
@@ -233,59 +216,28 @@ class Dimension:
 class Xdimension(Dimension):
     "Graphics for the x axis."
 
-    def get_frame(self, ypxlow, ypxhigh, color, linewidth):
-        "Return the frame around the graphics."
-        result = Element(
-            "rect",
-            x=N(self.get_pixel(self.first)),
-            y=N(ypxlow),
-            width=N(self.get_width(self.first, self.last)),
-            height=N(ypxhigh - ypxlow),
-            stroke=color,
-            fill="none",
-        )
-        result["stroke-width"] = linewidth
-        return result
-
-    def get_clippath(self, ypxlow, ypxhigh):
-        "Return a tuple (id, clippath) for the graphics."
-        id = next(utils.unique_id)
-        return (
-            id,
-            Element(
-                "defs",
-                Element(
-                    "clipPath",
-                    Element(
-                        "rect",
-                        x=N(self.get_pixel(self.first)),
-                        y=N(ypxlow),
-                        width=N(self.get_width(self.first, self.last)),
-                        height=N(ypxhigh - ypxlow),
-                    ),
-                    id=id,
-                ),
-            ),
-        )
-
-    def get_grid(self, ypxlow, ypxhigh, color):
+    def get_grid(self, height, color):
         "Get the x grid lines at the ticks for the graphic."
         ticks = self.get_ticks()
-        path = Path(ticks[0].pixel, ypxlow).V(ypxhigh)
+        result = Element("path", stroke=color)
+        result["class"] = "x-grid"
+        path = Path(ticks[0].pixel, 0).V(height)
         for tick in ticks[1:]:
-            path.M(tick.pixel, ypxlow).V(ypxhigh)
-        return Element("path", d=path, stroke=color)
+            path.M(tick.pixel, 0).V(height)
+        result["d"] = path
+        return result
 
-    def get_labels(self, height, font_size):
+    def get_labels(self, font_size):
         "Get the labels for the x dimension ticks."
         result = Element("g")
+        result["class"] = "x-axis-labels"
+        result["font-family"] = constants.DEFAULT_FONT_FAMILY
+        result["font-size"] = font_size
         result["text-anchor"] = "middle"
         result["stroke"] = "none"
         result["fill"] = "black"
-        result["font-size"] = font_size
         if not self.labels:
             return result
-        height += font_size
         ticks = self.get_ticks()
         for tick in ticks:
             result += (
@@ -293,7 +245,8 @@ class Xdimension(Dimension):
                     "text",
                     tick.label,
                     x=N(tick.pixel),
-                    y=N(height),
+                    # Empirical factor 0.9...
+                    y=N(0.9 * font_size),
                 )
             )
             if tick is ticks[0] and math.isclose(tick.position, self.first):
@@ -306,70 +259,26 @@ class Xdimension(Dimension):
 class Ydimension(Dimension):
     "Graphics for the y axis."
 
-    def get_label_length(self, font_size):
-        "Get the length of the longest tick label."
-        result = 0
-        for tick in self.get_ticks():
-            result = max(
-                result,
-                utils.get_text_length(
-                    tick.label, constants.DEFAULT_FONT_FAMILY, font_size
-                ),
-            )
-        return result
-
-    def get_frame(self, xpxlow, xpxhigh, color, linewidth):
-        "Return the frame around the graphics."
-        result = Element(
-            "rect",
-            x=N(xpxlow),
-            y=N(self.get_pixel(self.first)),
-            width=N(xpxhigh - xpxlow),
-            height=N(self.get_width(self.first, self.last)),
-            stroke=color,
-            fill="none",
-        )
-        result["stroke-width"] = linewidth
-        return result
-
-    def get_clippath(self, xpxlow, xpxhigh):
-        "Return a tuple (id, clippath) for the graphics."
-        id = next(utils.unique_id)
-        return (
-            id,
-            Element(
-                "defs",
-                Element(
-                    "clipPath",
-                    Element(
-                        "rect",
-                        x=N(xpxlow),
-                        y=N(self.get_pixel(self.first)),
-                        width=N(xpxhigh - xpxlow),
-                        height=N(self.get_width(self.first, self.last)),
-                    ),
-                    id=id,
-                ),
-            ),
-        )
-
     def get_grid(self, xpxlow, xpxhigh, color):
         "Get the x grid lines at the ticks for the graphic."
         ticks = self.get_ticks()
         path = Path(xpxlow, ticks[0].pixel).H(xpxhigh)
         for tick in ticks[1:]:
             path.M(xpxlow, tick.pixel).H(xpxhigh)
-        return Element("path", d=path, stroke=color)
+        result = Element("path", d=path, stroke=color)
+        result["class"] = "x-grid"
+        return result
 
     def get_labels(self, width, font_size):
         "Get the labels for the y dimension ticks."
         result = Element("g")
-        if not self.labels:
-            return result
+        result["class"] = "y-axis-labels"
         result["text-anchor"] = "end"
         result["stroke"] = "none"
         result["fill"] = "black"
         result["font-size"] = font_size
+        if not self.labels:
+            return result
         ticks = self.get_ticks()
         for tick in ticks:
             result += (

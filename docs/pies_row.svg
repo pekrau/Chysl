@@ -1,51 +1,63 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="511" height="352.2" viewBox="0 0 511 352.2" transform="translate(0.5, 0.5)">
+<svg xmlns="http://www.w3.org/2000/svg" width="509" height="343.4" viewBox="0 0 509 343.4" transform="translate(0.5, 0.5)">
   <title>Pies in row</title>
-  <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-    <text x="255" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Pies in row</text>
-    <g transform="translate(0, 23.6)">
-      <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-        <text x="152" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Strawberry pie</text>
-        <g transform="translate(152, 175.6)">
-          <circle r="150.0" />
-          <g stroke="black" stroke-width="1">
-            <path d="M 0 0 L 0 -150 A 150 150 0 0 1 31.187 146.722 Z" fill="white" />
-            <path d="M 0 0 L 31.187 146.722 A 150 150 0 0 1 -88.168 121.353 Z" fill="yellow" />
-            <path d="M 0 0 L -88.168 121.353 A 150 150 0 0 1 -142.658 -46.353 Z" fill="gold" />
-            <a href="https://en.wikipedia.org/wiki/Strawberry">
-              <path d="M 0 0 L -142.658 -46.353 A 150 150 0 0 1 0 -150 Z" fill="red" />
-            </a>
+  <g class="layout">
+    <g transform="translate(152,180.8)">
+      <g class="layout">
+        <g transform="translate(152,171.2)">
+          <g class="area">
+            <circle r="151.0" stroke="black" fill="none" class="frame" stroke-width="2" />
+            <circle r="150.0" fill="white" class="area" />
+            <g stroke="black" stroke-width="1">
+              <path d="M 0 0 L 0 -150 A 150 150 0 0 1 31.187 146.722 Z" class="slice" fill="white" />
+              <path d="M 0 0 L 31.187 146.722 A 150 150 0 0 1 -88.168 121.353 Z" class="slice" fill="yellow" />
+              <path d="M 0 0 L -88.168 121.353 A 150 150 0 0 1 -142.658 -46.353 Z" class="slice" fill="gold" />
+              <a href="https://en.wikipedia.org/wiki/Strawberry">
+                <path d="M 0 0 L -142.658 -46.353 A 150 150 0 0 1 0 -150 Z" class="slice" fill="red" />
+              </a>
+            </g>
+            <g class="labels" font-family="sans-serif" font-size="12" text-anchor="middle">
+              <text x="104.425" y="-10.975" fill="black">Flour</text>
+              <text x="-21.831" y="102.705" fill="black">Eggs</text>
+              <text x="-99.861" y="32.447" fill="black">Butter</text>
+              <text x="-61.717" y="-84.947" fill="white">Strawberries</text>
+            </g>
           </g>
-          <g stroke="none" fill="black" text-anchor="middle">
-            <text x="104.425" y="-10.975" fill="black">Flour</text>
-            <text x="-21.831" y="102.705" fill="black">Eggs</text>
-            <text x="-99.861" y="32.447" fill="black">Butter</text>
-            <text x="-61.717" y="-84.947" fill="white">Strawberries</text>
-          </g>
+        </g>
+        <g transform="translate(152,9.6)">
+          <text y="4.8" fill="black" class="title" text-anchor="middle" font-family="sans-serif" font-size="16">Strawberry pie</text>
         </g>
       </g>
     </g>
-    <g transform="translate(306, 73.6)">
-      <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-        <text x="102" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Rhubarb pie</text>
-        <g transform="translate(102, 125.6)">
-          <circle r="100.0" />
-          <g stroke="black" stroke-width="1">
-            <path d="M 0 0 L 0 -100 A 100 100 0 0 1 20.791 97.815 Z" fill="white" />
-            <path d="M 0 0 L 20.791 97.815 A 100 100 0 0 1 -58.779 80.902 Z" fill="yellow" />
-            <path d="M 0 0 L -58.779 80.902 A 100 100 0 0 1 -95.106 -30.902 Z" fill="gold" />
-            <a href="https://en.wikipedia.org/wiki/Rhubarb">
-              <path d="M 0 0 L -95.106 -30.902 A 100 100 0 0 1 0 -100 Z" fill="green" />
-            </a>
-          </g>
-          <g stroke="none" fill="black" text-anchor="middle">
-            <text x="69.617" y="-7.317" fill="black">Flour</text>
-            <text x="-14.554" y="68.47" fill="black">Eggs</text>
-            <text x="-66.574" y="21.631" fill="black">Butter</text>
-            <text x="-41.145" y="-56.631" fill="white">Rhubarb</text>
+    <g transform="translate(406,180.8)">
+      <g class="layout">
+        <g transform="translate(102,121.2)">
+          <g class="area">
+            <circle r="101.0" stroke="black" fill="none" class="frame" stroke-width="2" />
+            <circle r="100.0" fill="white" class="area" />
+            <g stroke="black" stroke-width="1">
+              <path d="M 0 0 L 0 -100 A 100 100 0 0 1 20.791 97.815 Z" class="slice" fill="white" />
+              <path d="M 0 0 L 20.791 97.815 A 100 100 0 0 1 -58.779 80.902 Z" class="slice" fill="yellow" />
+              <path d="M 0 0 L -58.779 80.902 A 100 100 0 0 1 -95.106 -30.902 Z" class="slice" fill="gold" />
+              <a href="https://en.wikipedia.org/wiki/Rhubarb">
+                <path d="M 0 0 L -95.106 -30.902 A 100 100 0 0 1 0 -100 Z" class="slice" fill="green" />
+              </a>
+            </g>
+            <g class="labels" font-family="sans-serif" font-size="12" text-anchor="middle">
+              <text x="69.617" y="-7.317" fill="black">Flour</text>
+              <text x="-14.554" y="68.47" fill="black">Eggs</text>
+              <text x="-66.574" y="21.631" fill="black">Butter</text>
+              <text x="-41.145" y="-56.631" fill="white">Rhubarb</text>
+            </g>
           </g>
         </g>
+        <g transform="translate(102,9.6)">
+          <text y="4.8" fill="black" class="title" text-anchor="middle" font-family="sans-serif" font-size="16">Rhubarb pie</text>
+        </g>
       </g>
+    </g>
+    <g transform="translate(254,9.6)">
+      <text y="4.8" fill="black" class="title" text-anchor="middle" font-family="sans-serif" font-size="16">Pies in row</text>
     </g>
   </g>
 </svg>

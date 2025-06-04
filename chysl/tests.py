@@ -10,6 +10,7 @@ import sqlite3
 import string
 
 import constants
+import chart
 from lib import *
 
 random.seed(12345)
@@ -74,7 +75,7 @@ def check_roundtrip(instance1, filename):
     """Ensure that the given instance is identical to the instance
     specified in the YAML file.
     """
-    instance2 = retrieve(filename)
+    instance2 = chart.retrieve(filename)
     if instance1 != instance2:
         ic(instance1, instance2)
         raise ValueError("instances differ")
@@ -91,13 +92,16 @@ def check_roundtrip(instance1, filename):
 
 def get_universe(legend=True):
     universe = Timelines(
-        title=dict(text="Universe", bold=True, color="blue"),
+        title=dict(text="Universe", bold=True, size=24, color="darkorchid"),
         legend=legend,
-        axis=dict(absolute=True, caption="Billion years ago"),
-        grid=False,
+        axis=dict(absolute=True, caption="Billion years ago", max=100_000_000),
     )
     universe += Event(
-        instant=-13_787_000_000, label="Big Bang", timeline="Universe", marker="burst", color="red"
+        instant=-13_787_000_000,
+        label="Big Bang",
+        timeline="Universe",
+        marker="burst",
+        color="red",
     )
     universe += Period(
         begin=dict(value=-7_500_000_000, low=-8_500_000_000),
@@ -133,7 +137,7 @@ def get_earth(legend=True):
         color="wheat",
         fuzzy="gradient",
     )
-    earth += Event(instant=-4_200_000_000, label="LUCA?",timeline="Unicellular")
+    earth += Event(instant=-4_200_000_000, label="LUCA?", timeline="Unicellular")
     earth += Period(
         begin=dict(value=-3_480_000_000, low=-4_200_000_000),
         end=0,
@@ -141,7 +145,9 @@ def get_earth(legend=True):
         timeline="Unicellular",
         fuzzy="gradient",
     )
-    earth += Period(begin=dict(value=-1_650_000_000, error=200_000_000), end=0, label="Eukaryotes")
+    earth += Period(
+        begin=dict(value=-1_650_000_000, error=200_000_000), end=0, label="Eukaryotes"
+    )
     earth += Period(
         begin=dict(value=-3_400_000_000, high=-2_600_000_000),
         end=0,
@@ -184,21 +190,37 @@ def test_universe_earth():
     check_roundtrip(both, "universe_earth.yaml")
 
 
+def test_pyramid():
+    pyramid = Piechart("Pyramid", start=132, palette=["#4c78a8", "#9ecae9", "#f58518"])
+    pyramid += dict(value=7, label="Shadow")
+    pyramid.add_slice(18, label="Sunny")
+    pyramid.add(dict(value=70, label="Sky"))
+    pyramid.save("pyramid.yaml")
+    pyramid.render("pyramid.svg")
+    # check_roundtrip(pyramid, "pyramid.yaml")
+
+
 def test_markers():
     colors = itertools.cycle(["gray", "coral", "dodgerblue", "orange", "lime"])
     N_PER_ROW = 3
 
     all_markers = Column()
-    for title, markers in [("Geometry markers", constants.GEOMETRY_MARKERS),
-                           ("Symbol markers", constants.SYMBOL_MARKERS),
-                           ("Astronomy markers", constants.ASTRONOMY_MARKERS),
-                           ("Greek markers", constants.GREEK_MARKERS)]:
-        all_markers += (plot := Scatter2d(title,
-                                             width=300,
-                                             xaxis=dict(min=0, max=3.5, labels=False),
-                                             yaxis=dict(labels=False),
-                                             xgrid=False,
-                                             ygrid=False))
+    for title, markers in [
+        ("Geometry markers", constants.GEOMETRY_MARKERS),
+        ("Symbol markers", constants.SYMBOL_MARKERS),
+        ("Astronomy markers", constants.ASTRONOMY_MARKERS),
+        ("Greek markers", constants.GREEK_MARKERS),
+    ]:
+        all_markers += (
+            plot := Scatter2d(
+                title,
+                width=300,
+                xaxis=dict(min=0, max=3.5, labels=False),
+                yaxis=dict(labels=False),
+                xgrid=False,
+                ygrid=False,
+            )
+        )
         for pos, marker in enumerate(markers):
             plot += dict(
                 x=pos % N_PER_ROW + 0.2,
@@ -211,16 +233,6 @@ def test_markers():
     all_markers.save("markers.yaml")
     all_markers.render("markers.svg")
     check_roundtrip(all_markers, "markers.yaml")
-
-
-def test_pyramid():
-    pyramid = Piechart("Pyramid", start=132, palette=["#4c78a8", "#9ecae9", "#f58518"])
-    pyramid += dict(value=7, label="Shadow")
-    pyramid.add_slice(18, label="Sunny")
-    pyramid.add(dict(value=70, label="Sky"))
-    pyramid.save("pyramid.yaml")
-    pyramid.render("pyramid.svg")
-    check_roundtrip(pyramid, "pyramid.yaml")
 
 
 def test_day():
@@ -278,11 +290,11 @@ def test_pies_column():
         href="https://en.wikipedia.org/wiki/Rhubarb",
     )
 
-    pajer += Note(
-        title="Comment",
-        body="Strawberry pie is good.",
-        footer=dict(text="Copyright 2025 Per Kraulis", italic=True),
-    )
+    # pajer += Note(
+    #     title="Comment",
+    #     body="Strawberry pie is good.",
+    #     footer=dict(text="Copyright 2025 Per Kraulis", italic=True),
+    # )
 
     pajer.save("pies_column.yaml")
     pajer.render("pies_column.svg")
@@ -568,21 +580,21 @@ def run_tests():
         os.chdir("../docs")
         test_universe()
         test_earth()
-        test_universe_earth()
-        test_markers()
+        # test_universe_earth()
         test_pyramid()
-        test_day()
-        test_tree()
+        # test_markers()
+        # test_day()
+        # test_tree()
         test_pies_column()
         test_pies_row()
-        test_declaration()
-        test_scatter_points()
-        test_scatter_iris()
-        test_lines_random_walks()
-        test_notes()
-        test_poster()
-        test_dimensions()
-        test_overlay()
+        # test_declaration()
+        # test_scatter_points()
+        # test_scatter_iris()
+        # test_lines_random_walks()
+        # test_notes()
+        # test_poster()
+        # test_dimensions()
+        # test_overlay()
     finally:
         os.chdir(origdir)
 

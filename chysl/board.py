@@ -4,7 +4,8 @@ import copy
 
 import constants
 import schema
-from chart import Chart, Element, parse
+from chart import Chart, register, parse
+from minixml import Element
 
 
 class Board(Chart):
@@ -122,7 +123,7 @@ class Board(Chart):
 
         super().build()
 
-        offset = self.height
+        offset = self.total_height
         for item in self.items:
             transforms = []
             if (scale := item.get("scale")) and scale != 1:
@@ -133,7 +134,12 @@ class Board(Chart):
                 g["opacity"] = opacity
             g.append(item["subchart"].svg)
             self.svg += g
-            self.height = max(
-                self.height,
-                item["y"] + offset + (item.get("scale") or 1) * item["subchart"].height,
+            self.total_height = max(
+                self.total_height,
+                item["y"]
+                + offset
+                + (item.get("scale") or 1) * item["subchart"].total_height,
             )
+
+
+register(Board)

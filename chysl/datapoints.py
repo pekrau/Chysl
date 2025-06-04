@@ -61,7 +61,15 @@ class DatapointsReader:
         self.datapoints.append(datapoint)
 
     def add_datapoint(
-            self, x=None, y=None, size=None, color=None, marker=None, label=None, opacity=None, href=None
+        self,
+        x=None,
+        y=None,
+        size=None,
+        color=None,
+        marker=None,
+        label=None,
+        opacity=None,
+        href=None,
     ):
         assert x is None or isinstance(x, (int, float))
         assert y is None or isinstance(y, (int, float))
@@ -141,7 +149,9 @@ class DatapointsReader:
                         for datapoint in self.datapoints:
                             datapoint[key] = converter(datapoint)
             except KeyError:
-                raise ValueError(f"no such field '{field}' in data for parameter '{key}'")
+                raise ValueError(
+                    f"no such field '{field}' in data for parameter '{key}'"
+                )
             except ValueError:
                 raise ValueError(
                     f"invalid value in field '{field}' in data for parameter '{key}'"
@@ -254,7 +264,9 @@ class DatapointsReader:
         for req in required:
             for num, datapoint in enumerate(self.datapoints):
                 if datapoint.get(req) is None:
-                    raise ValueError(f"Datapoint {num+1} value for '{req}' is undefined.")
+                    raise ValueError(
+                        f"Datapoint {num+1} value for '{req}' is undefined."
+                    )
 
     def minmax(self, field):
         datapoint = self.datapoints[0]

@@ -3,10 +3,11 @@
 import constants
 import schema
 import utils
-from chart import Chart, Element
+from chart import Chart, register
 from datapoints import DatapointsReader
 from dimension import Xdimension, Ydimension
 from marker import Marker
+from minixml import Element
 from path import Path
 from utils import N
 
@@ -64,7 +65,7 @@ class Scatter2d(Chart):
             "color": {
                 "title": "Default color.",
                 "$ref": "#color",
-                "default": constants.DEFAULT_COLOR,
+                "default": "black",
             },
             "opacity": {
                 "title": "Default opacity.",
@@ -111,14 +112,14 @@ class Scatter2d(Chart):
 
         self.points = DatapointsReader(points)
         self.width = width or constants.DEFAULT_WIDTH
-        self.height = height or constants.DEFAULT_WIDTH
+        self.total_height = height or constants.DEFAULT_WIDTH
         self.xaxis = True if xaxis is None else xaxis
         self.yaxis = True if yaxis is None else yaxis
         self.xgrid = True if xgrid is None else xgrid
         self.ygrid = True if ygrid is None else ygrid
         self.marker = marker or constants.DEFAULT_MARKER
         self.size = size or constants.DEFAULT_MARKER_SIZE
-        self.color = color or constants.DEFAULT_COLOR
+        self.color = color or "black"
         self.opacity = opacity
 
     def __iadd__(self, point):
@@ -144,7 +145,7 @@ class Scatter2d(Chart):
             result["marker"] = self.marker
         if self.size != constants.DEFAULT_MARKER_SIZE:
             result["size"] = self.size
-        if self.color != constants.DEFAULT_COLOR:
+        if self.color != "black":
             result["color"] = self.color
         if self.opacity is not None and self.opacity != 1:
             result["opacity"] = self.opacity
@@ -169,7 +170,7 @@ class Scatter2d(Chart):
         ydimension = Ydimension(width=self.width, reversed=True)
         ydimension.update_span(self.points.minmax("y"))
         ydimension.expand_span(0.05)
-        ydimension.update_end(self.height)
+        ydimension.update_end(self.total_height)
 
         # Y dimension has to be built first; label lengths needed for adjusting x.
         if isinstance(self.yaxis, dict):
@@ -213,9 +214,9 @@ class Scatter2d(Chart):
         # Chart area.
         xpxlow = xdimension.get_pixel(xdimension.first)
         xpxhigh = xdimension.get_pixel(xdimension.last)
-        ypxlow = self.height
-        self.height += self.width - self.height
-        ypxhigh = self.height
+        ypxlow = self.total_height
+        self.total_height += self.width - self.total_height
+        ypxhigh = self.total_height
 
         # X coordinate grid.
         if self.xgrid:
@@ -237,7 +238,7 @@ class Scatter2d(Chart):
         self.svg += xdimension.get_frame(
             ypxlow,
             ypxhigh,
-            color=constants.DEFAULT_COLOR,
+            color="black",
             linewidth=constants.DEFAULT_FRAME_WIDTH,
         )
 
@@ -252,22 +253,22 @@ class Scatter2d(Chart):
                 labels := xdimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
             )
             if len(labels) > 0:
-                self.height += constants.DEFAULT_FONT_SIZE * (
+                self.total_height += constants.DEFAULT_FONT_SIZE * (
                     1 + constants.FONT_DESCEND
                 )
 
             # X axis caption.
             if isinstance(self.xaxis, dict) and (caption := self.xaxis.get("caption")):
-                self.height += constants.DEFAULT_FONT_SIZE
+                self.total_height += constants.DEFAULT_FONT_SIZE
                 labels += Element(
                     "text",
                     caption,
                     x=utils.N(
                         xdimension.get_pixel((xdimension.first + xdimension.last) / 2)
                     ),
-                    y=utils.N(self.height),
+                    y=utils.N(self.total_height),
                 )
-            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+            self.total_height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
         # Y axis labels.
         if self.yaxis:
@@ -302,14 +303,15 @@ class Scatter2d(Chart):
                 **kwargs,
             )
             graphics += marker.get_graphic(
-                xdimension.get_pixel(datapoint["x"]), ydimension.get_pixel(datapoint["y"])
+                xdimension.get_pixel(datapoint["x"]),
+                ydimension.get_pixel(datapoint["y"]),
             )
             datapoint["label_x_offset"] = marker.label_x_offset
 
         # Labels for points.
         labels = Element("g")
         labels["stroke"] = "none"
-        labels["fill"] = constants.DEFAULT_COLOR
+        labels["fill"] = "black"
         labels["text-anchor"] = "start"
         labels["font-size"] = constants.DEFAULT_FONT_SIZE
         for datapoint in self.points:
@@ -317,8 +319,14 @@ class Scatter2d(Chart):
                 labels += Element(
                     "text",
                     label,
-                    x=xdimension.get_pixel(datapoint["x"]) + datapoint["label_x_offset"] + constants.DEFAULT_PADDING,
-                    y=ydimension.get_pixel(datapoint["y"]) + constants.DEFAULT_FONT_SIZE / 2
+                    x=xdimension.get_pixel(datapoint["x"])
+                    + datapoint["label_x_offset"]
+                    + constants.DEFAULT_PADDING,
+                    y=ydimension.get_pixel(datapoint["y"])
+                    + constants.DEFAULT_FONT_SIZE / 2,
                 )
         if len(labels) > 0:
             self.svg += labels
+
+
+register(Scatter2d)

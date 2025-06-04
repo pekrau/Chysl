@@ -1,12 +1,13 @@
-chysl: 0.3.7
+chysl: 0.3.8
 chart: column
 title: Universe and Earth
 subcharts:
 - chart: timelines
   title:
     text: Universe
+    size: 24
     bold: true
-    color: blue
+    color: darkorchid
   entries:
   - label: Big Bang
     timeline: Universe
@@ -35,7 +36,7 @@ subcharts:
   axis:
     absolute: true
     caption: Billion years ago
-  grid: false
+    max: 100000000
 - chart: timelines
   title: Earth
   entries:

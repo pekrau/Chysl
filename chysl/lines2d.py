@@ -3,9 +3,10 @@
 import constants
 import schema
 import utils
-from chart import Chart, Element
+from chart import Chart, register
 from datapoints import DatapointsReader
 from dimension import Xdimension, Ydimension
+from minixml import Element
 from path import Path
 from utils import N
 
@@ -59,7 +60,7 @@ class Lines2d(Chart):
                             "title": "Width of the line.",
                             "type": "number",
                             "minimumExclusive": 0,
-                            "default": constants.DEFAULT_LINEWIDTH,
+                            "default": constants.DEFAULT_LINE_WIDTH,
                         },
                         "color": {
                             "title": "Color of the line.",
@@ -160,7 +161,7 @@ class Lines2d(Chart):
             ydimension.update_span(line["line"].minmax("y"))
         xdimension.expand_span(0.05)
         ydimension.expand_span(0.05)
-        ydimension.update_end(self.height)
+        ydimension.update_end(self.total_height)
 
         # Y dimension has to be built first; label lengths needed for adjusting x.
         if isinstance(self.yaxis, dict):
@@ -204,9 +205,9 @@ class Lines2d(Chart):
         # Chart area.
         xpxlow = xdimension.get_pixel(xdimension.first)
         xpxhigh = xdimension.get_pixel(xdimension.last)
-        ypxlow = self.height
-        self.height += self.width - self.height
-        ypxhigh = self.height
+        ypxlow = self.total_height
+        self.total_height += self.width - self.total_height
+        ypxhigh = self.total_height
 
         # X coordinate grid.
         if self.xgrid:
@@ -228,7 +229,7 @@ class Lines2d(Chart):
         self.svg += xdimension.get_frame(
             ypxlow,
             ypxhigh,
-            color=constants.DEFAULT_COLOR,
+            color="black",
             linewidth=constants.DEFAULT_FRAME_WIDTH,
         )
 
@@ -243,22 +244,22 @@ class Lines2d(Chart):
                 labels := xdimension.get_labels(ypxhigh, constants.DEFAULT_FONT_SIZE)
             )
             if len(labels) > 0:
-                self.height += constants.DEFAULT_FONT_SIZE * (
+                self.total_height += constants.DEFAULT_FONT_SIZE * (
                     1 + constants.FONT_DESCEND
                 )
 
             # X axis caption.
             if isinstance(self.xaxis, dict) and (caption := self.xaxis.get("caption")):
-                self.height += constants.DEFAULT_FONT_SIZE
+                self.total_height += constants.DEFAULT_FONT_SIZE
                 labels += Element(
                     "text",
                     caption,
                     x=utils.N(
                         xdimension.get_pixel((xdimension.first + xdimension.last) / 2)
                     ),
-                    y=utils.N(self.height),
+                    y=utils.N(self.total_height),
                 )
-            self.height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+            self.total_height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
 
         # Y axis labels.
         if self.yaxis:
@@ -294,9 +295,12 @@ class Lines2d(Chart):
             )
             if (opacity := line.get("opacity")) is not None:
                 elem["opacity"] = opacity
-            elem["stroke-width"] = line.get("linewidth") or constants.DEFAULT_LINEWIDTH
+            elem["stroke-width"] = line.get("linewidth") or constants.DEFAULT_LINE_WIDTH
             elem["stroke-linejoin"] = "round"
             elem["stroke-linecap"] = "round"
             if href := line.get("href"):
                 elem = Element("a", elem, href=href)
             graphics += elem
+
+
+register(Lines2d)

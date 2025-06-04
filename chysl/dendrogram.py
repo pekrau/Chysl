@@ -4,8 +4,9 @@ import copy
 
 import constants
 import utils
-from chart import Chart
+from chart import Chart, register
 from dimension import Xdimension
+from minixml import Element
 from path import Path
 
 
@@ -114,47 +115,47 @@ class Dendrogram(Chart):
 
         dimension = Xdimension(width=self.width)
 
-        area_height = self.height
+        area_height = self.total_height
         for entry in self.entries:
             dimension.update_span(entry["start"])
             dimension.update_span(entry["end"])
             self.count_branches(entry)
-            self.height += constants.DEFAULT_SIZE * entry["count"]
+            self.total_height += constants.DEFAULT_SIZE * entry["count"]
 
         # Axis lines and their labels.
         absolute = False
         color = "gray"
         self.svg += (axis := Element("g"))
         ticks = dimension.get_ticks(absolute=absolute)
-        path = Path(ticks[0].pixel, area_height).V(self.height)
+        path = Path(ticks[0].pixel, area_height).V(self.total_height)
         for tick in ticks[1:]:
-            path.M(tick.pixel, area_height).V(self.height)
+            path.M(tick.pixel, area_height).V(self.total_height)
         path.M(ticks[0].pixel, area_height).H(self.width)
-        path.M(ticks[0].pixel, self.height).H(self.width)
+        path.M(ticks[0].pixel, self.total_height).H(self.width)
         axis += Element("path", d=path, stroke=color)
 
         axis += (labels := Element("g"))
         labels["text-anchor"] = "middle"
         labels["stroke"] = "none"
         labels["fill"] = "black"
-        self.height += constants.DEFAULT_FONT_SIZE
+        self.total_height += constants.DEFAULT_FONT_SIZE
         for tick in ticks:
             labels += (
                 label := Element(
                     "text",
                     tick.label,
                     x=utils.N(tick.pixel),
-                    y=utils.N(self.height),
+                    y=utils.N(self.total_height),
                 )
             )
             if tick is ticks[0]:
                 label["text-anchor"] = "start"
             elif tick is ticks[-1]:
                 label["text-anchor"] = "end"
-        self.height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
+        self.total_height += constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
 
         # Graphics for branches.
-        self.relative_height = -(self.height - area_height) / 2
+        self.relative_height = -(self.total_height - area_height) / 2
         branches = Element("g", transform=f"translate(0,{-self.relative_height})")
         for entry in self.entries:
             self.render_branch(entry, branches, dimension)
@@ -176,11 +177,14 @@ class Dendrogram(Chart):
                 dimension.get_pixel(entry["start"]),
                 self.relative_height + constants.DEFAULT_SIZE / 2,
             ).H(dimension.get_pixel(entry["end"])),
-            stroke=constants.DEFAULT_COLOR,
+            stroke="black",
         )
         branch["stroke-width"] = 4
         branches += branch
         self.relative_height += constants.DEFAULT_SIZE
+
+
+register(Dendrogram)
 
 
 class Traverser:

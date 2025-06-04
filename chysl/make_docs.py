@@ -42,7 +42,7 @@ def make_docs():
 
     result.append("## Charts\n\n")
     for name in constants.CHARTS:
-        chartschema = chart.get_class(name).SCHEMA
+        chartschema = chart.get_chart_class(name).SCHEMA
         result.append(f"- [{name}](docs/{name}.md): {chartschema['title']}\n\n")
 
     with open("../README.md", "w") as outfile:
@@ -61,7 +61,7 @@ def make_docs():
         outfile.write("".join(result))
 
     for name in constants.CHARTS:
-        chartschema = chart.get_class(name).SCHEMA
+        chartschema = chart.get_chart_class(name).SCHEMA
         with open(f"../docs/{name}.json", "w") as outfile:
             json.dump(chartschema, outfile, ensure_ascii=False, indent=2)
         result = []

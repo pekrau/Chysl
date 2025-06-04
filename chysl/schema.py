@@ -88,11 +88,6 @@ DEFS = {
                         "enum": constants.PLACEMENTS,
                         "default": constants.CENTER,
                     },
-                    "anchor": {
-                        "title": "Text anchor position. Ignored in some contexts.",
-                        "enum": constants.ANCHORS,
-                        "default": constants.MIDDLE,
-                    },
                 },
             },
         ],
@@ -148,6 +143,39 @@ DEFS = {
         "title": "A URI, absolute or relative.",
         "type": "string",
         "format": "uri-reference",
+    },
+    "frame": {
+        "$anchor": "frame",
+        "title": "Specification of the chart area frame.",
+        "oneOf": [
+            {
+                "title": "Default chart area frame, or no frame.",
+                "type": "boolean",
+                "default": True,
+            },
+            {
+                "title": "Specification of the chart area frame.",
+                "type": "object",
+                "additionalProperties": False,
+                "properties": {
+                    "thickness": {
+                        "title": "Thickness of the frame (pixels). Default depends on the context.",
+                        "type": "number",
+                        "minimumExclusive": 0,
+                    },
+                    "color": {
+                        "title": "Color of the frame. Default depends on the context.",
+                        "type": "string",
+                        "format": "color",
+                    },
+                    "radius": {
+                        "title": "Radius of the frame corner curvature (pixels). Default depends on the context.",
+                        "type": "number",
+                        "minimum": 0,
+                    },
+                },
+            },
+        ],
     },
     "axis": {
         "$anchor": "axis",

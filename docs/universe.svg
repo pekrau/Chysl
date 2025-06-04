@@ -1,62 +1,72 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="601" height="102.2" viewBox="0 0 601 102.2" transform="translate(0.5, 0.5)">
+<svg xmlns="http://www.w3.org/2000/svg" width="658.922" height="102.2" viewBox="0 0 658.922 102.2" transform="translate(0.5, 0.5)">
   <title>Universe</title>
-  <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-    <text x="300" y="18" stroke="none" fill="blue" font-size="18" text-anchor="middle" font-weight="bold">Universe</text>
-    <rect x="66.22" y="23.6" width="531.78" height="44" stroke="black" fill="none" stroke-width="1" />
-    <g>
-      <g text-anchor="middle" stroke="none" fill="black" font-size="14">
-        <text x="66.22" y="81.6" text-anchor="start">14</text>
-        <text x="142.189" y="81.6">12</text>
-        <text x="218.157" y="81.6">10</text>
-        <text x="294.126" y="81.6">8</text>
-        <text x="370.094" y="81.6">6</text>
-        <text x="446.063" y="81.6">4</text>
-        <text x="522.031" y="81.6">2</text>
-        <text x="598" y="81.6" text-anchor="end">0</text>
-        <text x="332.11" y="98.4">Billion years ago</text>
+  <defs>
+    <clipPath id="id1">
+      <rect width="600" height="40" />
+    </clipPath>
+  </defs>
+  <g class="layout">
+    <g transform="translate(26.961,50.8)">
+      <g class="legend" font-family="sans-serif" font-size="12" text-anchor="end" transform="translate(24.961,-20)">
+        <text y="13.6">Universe</text>
+        <text y="33.6">Earth</text>
       </g>
     </g>
-    <defs>
-      <clipPath id="id1">
-        <rect x="66.22" y="23.6" width="531.78" height="44" />
-      </clipPath>
-    </defs>
-    <g clip-path="url(#id1)">
-      <path d="M 65.311 34.6 h 18 M 74.311 25.6 v 18 M 67.947 28.236 L 80.675 40.964 M 80.675 28.236 L 67.947 40.964" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" />
-      <a href="https://en.wikipedia.org/wiki/Milky_Way">
-        <g>
-          <rect x="312.618" y="25.6" width="285.882" height="18" stroke="none" fill="dodgerblue" />
-          <path d="M 312.618 25.6 H 599 m 0 18 H 312.618" stroke="black" />
-          <defs>
-            <linearGradient id="id2">
-              <stop offset="0" stop-color="dodgerblue" stop-opacity="0" />
-              <stop offset="1" stop-color="dodgerblue" stop-opacity="1" />
-            </linearGradient>
-            <linearGradient id="id3">
-              <stop offset="0" stop-color="black" stop-opacity="0" />
-              <stop offset="1" stop-color="black" stop-opacity="1" />
-            </linearGradient>
-          </defs>
-          <rect x="275.134" y="25.6" width="37.984" height="18" stroke="none" fill="url(#id2)" />
-          <path d="M 275.134 25.6 H 313.118 m 0 18 H 275.134" stroke="url(#id3)" />
-          <line x1="598" y1="25.6" x2="598" y2="43.6" stroke="black" />
+    <g transform="translate(355.922,50.8)">
+      <rect x="-1" y="-1" width="602" height="42" stroke="black" fill="none" class="frame" stroke-width="2" transform="translate(-300,-20)" />
+    </g>
+    <g transform="translate(355.922,50.8)">
+      <g class="area" clip-path="url(#id1)" transform="translate(-300,-20)">
+        <path stroke="lightgray" class="x-grid" d="M 0 0 V 40 M 85.106 0 V 40 M 170.213 0 V 40 M 255.319 0 V 40 M 340.426 0 V 40 M 425.532 0 V 40 M 510.638 0 V 40 M 595.745 0 V 40" />
+        <path d="M 0.064 10 h 18 M 9.064 1 v 18 M 2.7 3.636 L 15.428 16.364 M 15.428 3.636 L 2.7 16.364" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" class="event" />
+        <a href="https://en.wikipedia.org/wiki/Milky_Way">
+          <g stroke="black" stroke-width="1" class="period">
+            <rect x="276.096" y="1" width="320.149" height="18" fill="dodgerblue" stroke="none" />
+            <path d="M 276.096 1 H 596.745 m 0 18 H 276.096" />
+            <defs>
+              <linearGradient id="id2">
+                <stop offset="0" stop-color="dodgerblue" stop-opacity="0" />
+                <stop offset="1" stop-color="dodgerblue" stop-opacity="1" />
+              </linearGradient>
+              <linearGradient id="id3">
+                <stop offset="0" stop-color="black" stop-opacity="0" />
+                <stop offset="1" stop-color="black" stop-opacity="1" />
+              </linearGradient>
+            </defs>
+            <rect x="234.043" y="1" width="42.553" height="18" fill="url(#id2)" stroke="none" />
+            <path d="M 234.043 1 H 276.596 m 0 18 H 234.043" stroke="url(#id3)" />
+            <line x1="595.745" y1="1" x2="595.745" y2="19" />
+          </g>
+        </a>
+        <a href="https://en.wikipedia.org/wiki/Milky_Way" class="event">
+          <path transform="translate(276.596, 10) scale(1.5) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" />
+        </a>
+        <g stroke="black" stroke-width="1" class="period">
+          <rect x="401.404" y="21" width="194.34" height="18" fill="lightgreen" />
         </g>
-      </a>
-      <a>
-        <path transform="translate(313.118, 34.6) scale(1.5) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" />https://en.wikipedia.org/wiki/Milky_Way</a>
-      <g>
-        <rect x="424.526" y="47.6" width="173.474" height="18" fill="lightgreen" />
+        <g class="labels" font-family="sans-serif" font-size="12" text-anchor="middle">
+          <text x="20.064" y="13.6" class="event-label" text-anchor="start">Big Bang</text>
+          <text x="436.17" y="13.6" fill="white" class="period-label" text-anchor="middle">Milky Way galaxy</text>
+          <text x="498.574" y="33.6" fill="black" class="period-label" text-anchor="middle">Earth</text>
+        </g>
       </g>
     </g>
-    <g clip-path="url(#id1)" text-anchor="middle" stroke="none" fill="black">
-      <text x="85.311" y="38.8" text-anchor="start">Big Bang</text>
-      <text x="455.559" y="38.8" fill="white" text-anchor="middle">Milky Way galaxy</text>
-      <text x="511.263" y="60.8" fill="black" text-anchor="middle">Earth</text>
+    <g transform="translate(355.922,87)">
+      <g class="x-axis-labels" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none" fill="black" transform="translate(-300,-14.2)">
+        <text x="0" y="10.8" text-anchor="start">14</text>
+        <text x="85.106" y="10.8">12</text>
+        <text x="170.213" y="10.8">10</text>
+        <text x="255.319" y="10.8">8</text>
+        <text x="340.426" y="10.8">6</text>
+        <text x="425.532" y="10.8">4</text>
+        <text x="510.638" y="10.8">2</text>
+        <text x="595.745" y="10.8">0</text>
+        <text x="300" y="24" class="x-axis-caption">Billion years ago</text>
+      </g>
     </g>
-    <g stroke="none" fill="black">
-      <text x="2" y="38.8">Universe</text>
-      <text x="2" y="60.8">Earth</text>
+    <g transform="translate(328.961,14.4)">
+      <text y="7.2" fill="darkorchid" class="title" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="bold">Universe</text>
     </g>
   </g>
 </svg>

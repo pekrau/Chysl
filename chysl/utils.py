@@ -55,11 +55,17 @@ def is_marker(value):
     return value in constants.MARKERS or len(value) == 1
 
 
-def get_text_length(text, font, size, italic=False, bold=False):
+def get_text_length(
+    text,
+    size=constants.DEFAULT_FONT_SIZE,
+    font=constants.DEFAULT_FONT_FAMILY,
+    italic=False,
+    bold=False,
+):
     """Compute length of string given the size in points (pt).
     Uses empirically based measurements.
     """
-    assert font in ("sans-serif", "serif", "monospace"), font
+    assert font in ("sans-serif", "serif", "monospace")
     widths = constants.CHARACTER_WIDTHS[font]
     if italic:
         if bold:
@@ -74,7 +80,16 @@ def get_text_length(text, font, size, italic=False, bold=False):
         total = sum([widths.get(c, widths["default"])[key] for c in text])
     else:
         total = 0
-    return total * size / 100
+    # Empirical factor 0.95...
+    return 0.95 * total * size / 100
+
+
+def sum_width(*items):
+    return sum([i.width for i in items if i is not None])
+
+
+def sum_height(*items):
+    return sum([i.height for i in items if i is not None])
 
 
 if __name__ == "__main__":
