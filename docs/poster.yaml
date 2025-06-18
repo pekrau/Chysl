@@ -1,8 +1,8 @@
-chysl: 0.3.8
+chysl: 0.4.0
 chart: board
 title: Poster
 items:
-- x: 250
+- x: 150
   y: 10
   subchart:
     chart: note
@@ -10,10 +10,10 @@ items:
     body: Ph.D.
     footer: Stockholm University
 - x: 0
-  y: 100
+  y: 150
   subchart:
     include: universe.yaml
 - x: 50
-  y: 230
+  y: 290
   subchart:
     include: earth.yaml

@@ -26,20 +26,22 @@ class Dimension:
     Store min/max and set or calculate base/first/last and ticks for the span.
     """
 
-    def __init__(self, extent, reversed=False):
+    PADDING = 2
+
+    def __init__(self, extent, axis=True, reversed=False):
         assert isinstance(extent, (int, float)) and extent > 0
+        assert isinstance(axis, (bool, dict))
         assert isinstance(reversed, bool)
 
         self.extent = extent
+        if isinstance(axis, bool):
+            self.axis = {}
+        else:
+            self.axis = axis
+        self.given_axis = axis
         self.reversed = reversed
         self.min = None
         self.max = None
-
-    def __repr__(self):
-        fields = [
-            f"{a}={getattr(self,a)}" for a in ["extent", "reversed", "min", "max"]
-        ]
-        return f"Dimension({', '.join(fields)})"
 
     @property
     def span(self):
@@ -74,32 +76,27 @@ class Dimension:
         self.min -= expansion
         self.max += expansion
 
-    def build(
-        self,
-        ticks=constants.DEFAULT_TICKS_TARGET,
-        min=None,
-        max=None,
-        labels=True,
-        factor=None,
-        absolute=False,
-    ):
+    def build(self):
         "Set or calculate tick positions and prepare graphics and labels."
+        ticks = self.axis.get("ticks") or constants.DEFAULT_TICKS_TARGET
         assert (isinstance(ticks, int) and ticks > 1) or (
             isinstance(ticks, (tuple, list))
         )
-        assert isinstance(labels, bool)
-        assert min is None or isinstance(min, (int, float))
-        assert max is None or isinstance(max, (int, float))
-        assert factor is None or (isinstance(factor, (int, float)) and factor > 0)
 
-        self.labels = labels
-        self.factor = factor
-
-        if min is not None:
+        # Set explicit min/max, if provided.
+        if (min := self.axis.get("min")) is not None:
+            assert isinstance(min, (int, float))
             self.min = min
-        if max is not None:
+        if (max := self.axis.get("max")) is not None:
+            assert isinstance(max, (int, float))
             self.max = max
         span = self.max - self.min
+        assert span > 0
+
+        self.factor = self.axis.get("factor")
+        assert self.factor is None or (
+            isinstance(self.factor, (int, float)) and self.factor > 0
+        )
 
         # Compute ticks; evaluate several different sets of positions.
         if isinstance(ticks, int):
@@ -176,12 +173,12 @@ class Dimension:
                 self.factor = 10 ** (3 * (self.magnitude // 3))
             else:
                 self.factor = 1
-        self.func = (lambda v: abs(v)) if absolute else (lambda v: v)
+        self.func = (lambda v: abs(v)) if self.axis.get("absolute") else (lambda v: v)
 
     def get_pixel(self, position):
         "Convert position coordinate to pixel coordinate."
         if self.reversed:
-            return self.extent + self.scale * (self.last - position)
+            return self.scale * (self.last - position)
         else:
             return self.scale * (position - self.first)
 
@@ -200,16 +197,10 @@ class Dimension:
             if self.first <= value <= self.last
         ]
 
-    def get_frame(self, pxlow, pxhigh, color, linewidth):
+    def get_grid(self, extent, color):
         raise NotImplementedError
 
-    def get_grid(self, pxlow, pxhigh):
-        raise NotImplementedError
-
-    def get_labels(self, baseline, font_size):
-        raise NotImplementedError
-
-    def get_clippath(self, pxlow, pxhigh):
+    def get_labels(self, extent, font_size=constants.DEFAULT_FONT_SIZE):
         raise NotImplementedError
 
 
@@ -219,16 +210,22 @@ class Xdimension(Dimension):
     def get_grid(self, height, color):
         "Get the x grid lines at the ticks for the graphic."
         ticks = self.get_ticks()
-        result = Element("path", stroke=color)
-        result["class"] = "x-grid"
         path = Path(ticks[0].pixel, 0).V(height)
         for tick in ticks[1:]:
             path.M(tick.pixel, 0).V(height)
-        result["d"] = path
+        result = Element("path", d=path, stroke=color)
+        result["class"] = "x-grid"
         return result
 
-    def get_labels(self, font_size):
+    def get_labels(self, width, font_size=constants.DEFAULT_FONT_SIZE):
         "Get the labels for the x dimension ticks."
+        labels = self.axis.get("labels")
+        if labels is None:
+            labels = True
+        caption = self.axis.get("caption")
+        if not self.given_axis or not (labels or caption):
+            return None
+
         result = Element("g")
         result["class"] = "x-axis-labels"
         result["font-family"] = constants.DEFAULT_FONT_FAMILY
@@ -236,61 +233,111 @@ class Xdimension(Dimension):
         result["text-anchor"] = "middle"
         result["stroke"] = "none"
         result["fill"] = "black"
-        if not self.labels:
-            return result
-        ticks = self.get_ticks()
-        for tick in ticks:
+        result.total_width = width
+        result.total_height = 0
+
+        if labels:
+            ticks = self.get_ticks()
+            for tick in ticks:
+                result += (
+                    label := Element(
+                        "text",
+                        tick.label,
+                        x=N(tick.pixel),
+                        y=N(font_size),
+                    )
+                )
+                if tick is ticks[0] and math.isclose(tick.position, self.first):
+                    label["text-anchor"] = "start"
+                elif tick is ticks[-1] and math.isclose(tick.position, self.last):
+                    label["text-anchor"] = "end"
+            result.total_height += font_size * (1 + constants.FONT_DESCEND)
+
+        if caption:
+            result.total_height += font_size
             result += (
-                label := Element(
+                elem := Element(
                     "text",
-                    tick.label,
-                    x=N(tick.pixel),
-                    # Empirical factor 0.9...
-                    y=N(0.9 * font_size),
+                    caption,
+                    x=N(self.get_pixel((self.first + self.last) / 2)),
+                    y=N(result.total_height),
                 )
             )
-            if tick is ticks[0] and math.isclose(tick.position, self.first):
-                label["text-anchor"] = "start"
-            elif tick is ticks[-1] and math.isclose(tick.position, self.last):
-                label["text-anchor"] = "end"
+            elem["class"] = "x-axis-caption"
+            result.total_height += font_size * constants.FONT_DESCEND + self.PADDING
+
         return result
 
 
 class Ydimension(Dimension):
     "Graphics for the y axis."
 
-    def get_grid(self, xpxlow, xpxhigh, color):
-        "Get the x grid lines at the ticks for the graphic."
+    def get_grid(self, width, color):
+        "Get the y grid lines at the ticks for the graphic."
         ticks = self.get_ticks()
-        path = Path(xpxlow, ticks[0].pixel).H(xpxhigh)
+        path = Path(0, ticks[0].pixel).H(width)
         for tick in ticks[1:]:
-            path.M(xpxlow, tick.pixel).H(xpxhigh)
+            path.M(0, tick.pixel).H(width)
         result = Element("path", d=path, stroke=color)
-        result["class"] = "x-grid"
+        result["class"] = "y-grid"
         return result
 
-    def get_labels(self, width, font_size):
+    def get_labels(self, height, font_size=constants.DEFAULT_FONT_SIZE):
         "Get the labels for the y dimension ticks."
+        labels = self.axis.get("labels")
+        if labels is None:
+            labels = True
+        caption = self.axis.get("caption")
+        if not self.given_axis or not (labels or caption):
+            return None
+
         result = Element("g")
         result["class"] = "y-axis-labels"
+        result["font-family"] = constants.DEFAULT_FONT_FAMILY
+        result["font-size"] = font_size
         result["text-anchor"] = "end"
         result["stroke"] = "none"
         result["fill"] = "black"
-        result["font-size"] = font_size
-        if not self.labels:
-            return result
-        ticks = self.get_ticks()
-        for tick in ticks:
-            result += (
-                label := Element(
-                    "text",
-                    tick.label,
-                    x=N(width - constants.DEFAULT_PADDING),
-                    y=N(tick.pixel + font_size / 3),
+        result.total_width = 0
+        result.total_height = height
+
+        if labels:
+            ticks = self.get_ticks()
+            for tick in ticks:
+                result += (
+                    label := Element(
+                        "text",
+                        tick.label,
+                        x=N(-self.PADDING),
+                        y=N(tick.pixel + font_size / 3),
+                    )
                 )
+                if tick is ticks[0] and math.isclose(tick.position, self.first):
+                    if self.reversed:
+                        label["y"] = N(tick.pixel)
+                    else:
+                        label["y"] = N(tick.pixel + 0.75 * font_size)
+                elif tick is ticks[-1] and math.isclose(tick.position, self.last):
+                    if self.reversed:
+                        label["y"] = N(tick.pixel + 0.75 * font_size)
+                    else:
+                        label["y"] = N(tick.pixel)
+                result.total_width = max(result.total_width, utils.get_text_width(tick.label))
+            result.total_width += self.PADDING
+
+        if caption:
+            x = - (result.total_width + font_size * (1 + constants.FONT_DESCEND))
+            y = self.get_pixel((self.first + self.last) / 2)
+            result += (elem := Element(
+                "text",
+                caption,
+                x=N(x),
+                y=N(y),
+                transform=f"translate({N(x)},{N(y)}) rotate(270) translate({N(-x)},{N(-y)})",
             )
-            if tick is ticks[0] and math.isclose(tick.position, self.first):
-                label["y"] = N(tick.pixel)
-            elif tick is ticks[-1] and math.isclose(tick.position, self.last):
-                label["y"] = N(tick.pixel + 0.75 * font_size)
+                       )
+            elem["text-anchor"] = "middle"
+            result.total_width += font_size * (2 + constants.FONT_DESCEND)
+
+        result["transform"] = f"translate({N(result.total_width)},0)"
         return result

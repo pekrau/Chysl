@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts can be combined in different ways."
 
-VERSION = (0, 3, 8)
+VERSION = (0, 4, 0)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -27,13 +27,9 @@ ABS_TOL = 0.0005
 
 FORMATS = ["csv", "tsv", "json", "yaml"]
 
-DEFAULT_WIDTH = 600
-DEFAULT_SIZE = 18
-DEFAULT_FRAME_THICKNESS = 2
+DEFAULT_FRAME_THICKNESS = 1
 DEFAULT_TICKS_TARGET = 8
 DEFAULT_GRID_COLOR = "lightgray"
-DEFAULT_MARKER = "disc"
-DEFAULT_MARKER_SIZE = 10
 DEFAULT_LINE_WIDTH = 1
 DEFAULT_PADDING = 0
 DEFAULT_ANCHOR = "middle"
@@ -41,7 +37,7 @@ DEFAULT_PLACEMENT = "center"
 DEFAULT_FONT_FAMILY = "sans-serif"
 DEFAULT_FONT_SIZE = 12
 DEFAULT_TITLE_FONT_SIZE = 16
-DEFAULT_FRAME_WIDTH = 1
+FONT_DESCEND = 0.3  # Empirical factor.
 
 # See: https://austingil.com/css-named-colors/#bold
 DEFAULT_PALETTE = [
@@ -52,13 +48,6 @@ DEFAULT_PALETTE = [
     "gold",
     "yellowgreen",
 ]
-
-FONT_DESCEND = 0.2
-
-START = "start"
-MIDDLE = "middle"
-END = "end"
-ANCHORS = [START, MIDDLE, END]
 
 BOTTOM = "bottom"
 MIDDLE = "middle"

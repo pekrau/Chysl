@@ -1,242 +1,250 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="301" height="1218.2" viewBox="0 0 301 1218.2" transform="translate(0.5, 0.5)">
-  <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-    <g transform="translate(0, 0)">
-      <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-        <text x="150" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Geometry markers</text>
-        <rect x="0" y="23.6" width="298" height="276.4" stroke="black" fill="none" stroke-width="1" />
-        <g>
-          <g text-anchor="middle" stroke="none" fill="black" font-size="14" />
+<svg xmlns="http://www.w3.org/2000/svg" width="403" height="761.4" viewBox="0 0 403 761.4" transform="translate(0.5, 0.5)">
+  <g class="layout">
+    <g transform="translate(0,0)">
+      <g class="layout">
+        <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(125.532,0)">
+          <text y="16" x="75.468">Geometry markers</text>
         </g>
-        <g>
-          <g />
+        <g transform="translate(0,25.6)">
+          <rect x="0.5" y="0.5" width="401" height="226" stroke="black" fill="none" class="frame" stroke-width="1" />
         </g>
-        <defs>
-          <clipPath id="id13">
-            <rect x="0" y="23.6" width="298" height="276.4" />
-          </clipPath>
-        </defs>
-        <g clip-path="url(#id13)">
-          <circle cx="17.029" cy="272.36" r="5" fill="gray" stroke="none" />
-          <circle cx="102.171" cy="272.36" r="4.5" fill="none" stroke="coral" stroke-width="1.111" />
-          <ellipse cx="187.314" cy="272.36" rx="2" ry="5" fill="dodgerblue" stroke="none" />
-          <ellipse cx="17.029" cy="244.72" rx="2" ry="5" fill="orange" stroke="none" />
-          <ellipse cx="102.171" cy="244.72" rx="5" ry="2" fill="lime" stroke="none" />
-          <ellipse cx="187.314" cy="244.72" rx="2" ry="5" fill="none" stroke="gray" stroke-width="1.111" />
-          <ellipse cx="17.029" cy="217.08" rx="2" ry="5" fill="none" stroke="coral" stroke-width="1.111" />
-          <ellipse cx="102.171" cy="217.08" rx="5" ry="2" fill="none" stroke="dodgerblue" stroke-width="1.111" />
-          <rect x="182.314" y="212.08" width="10" height="10" fill="orange" stroke="none" />
-          <rect x="12.529" y="184.94" width="9" height="9" fill="none" stroke="lime" stroke-width="1.111" />
-          <g fill="none" stroke="gray" stroke-width="1.111">
-            <rect x="97.671" y="184.94" width="9" height="9" />
-            <path d="M 97.671 184.94 l 9 9 M 97.671 193.94 l 9 -9" />
+        <g transform="translate(1,26.6)">
+          <g class="plot" clip-path="url(#id2)">
+            <defs>
+              <clipPath id="id2">
+                <rect width="400" height="225" />
+              </clipPath>
+            </defs>
+            <g class="graphics">
+              <circle cx="26.667" cy="202.5" r="5" fill="gray" stroke="none" class="marker disc" />
+              <circle cx="160" cy="202.5" r="4.5" fill="none" stroke="coral" stroke-width="1.111" class="marker circle" />
+              <ellipse cx="293.333" cy="202.5" rx="2" ry="5" fill="dodgerblue" stroke="none" class="marker oval" />
+              <ellipse cx="26.667" cy="180" rx="2" ry="5" fill="orange" stroke="none" class="marker oval-vertical" />
+              <ellipse cx="160" cy="180" rx="5" ry="2" fill="lime" stroke="none" class="marker oval-horizontal" />
+              <ellipse cx="293.333" cy="180" rx="2" ry="5" fill="none" stroke="gray" stroke-width="1.111" class="marker ellipse" />
+              <ellipse cx="26.667" cy="157.5" rx="2" ry="5" fill="none" stroke="coral" stroke-width="1.111" class="marker ellipse-vertical" />
+              <ellipse cx="160" cy="157.5" rx="5" ry="2" fill="none" stroke="dodgerblue" stroke-width="1.111" class="marker ellipse-horizontal" />
+              <rect x="288.333" y="152.5" width="10" height="10" fill="orange" stroke="none" class="marker block" />
+              <rect x="22.167" y="130.5" width="9" height="9" fill="none" stroke="lime" stroke-width="1.111" class="marker square" />
+              <g fill="none" stroke="gray" stroke-width="1.111" class="marker square-cross">
+                <rect x="155.5" y="130.5" width="9" height="9" />
+                <path d="M 155.5 130.5 l 9 9 M 155.5 139.5 l 9 -9" />
+              </g>
+              <path d="M 293.333 130 L 288.333 135 293.333 140 L 298.333 135 Z" fill="none" stroke="coral" stroke-width="1.111" class="marker diamond" />
+              <path d="M 26.667 107.5 L 21.667 112.5 26.667 117.5 L 31.667 112.5 Z M 26.667 107.5 v 10 M 21.667 112.5 h 10" fill="none" stroke="dodgerblue" stroke-width="1.111" class="marker diamond-cross" />
+              <path d="M 160 107.5 L 155 112.5 160 117.5 L 165 112.5 Z" fill="orange" stroke="none" class="marker diamond-fill" />
+              <path d="M 293.333 108.5 L 288.333 117.5 h 10 Z" fill="lime" stroke="none" class="marker pyramid" />
+              <path d="M 26.667 86 L 21.667 95 h 10 Z" fill="none" stroke="gray" stroke-width="1.111" class="marker triangle" />
+              <path d="M 160 94 L 155 85 h 10 Z" fill="coral" stroke="none" class="marker wedge" />
+              <path d="M 293.333 94 L 288.333 85 h 10 Z" fill="none" stroke="dodgerblue" stroke-width="1.111" class="marker trigon" />
+              <path d="M20,3 38,16 31,37 9,37 2,16z" transform="translate(26.667, 67.5) scale(0.25) translate(-20, -20)" fill="none" stroke="orange" stroke-width="5" class="marker pentagon" />
+              <path d="M20,3 38,16 31,37 9,37 2,16z" transform="translate(160, 67.5) scale(0.25) translate(-20, -20)" fill="lime" stroke="none" class="marker pentagon-fill" />
+              <polygon points="130.773,438.01 5.774,221.505 130.773,5 380.771,5 505.771,221.505 380.771,438.01" transform="translate(293.333, 67.5) scale(0.02) translate(-255.7, -221.5)" fill="none" stroke="gray" stroke-width="54" class="marker hexagon" />
+              <polygon points="130.773,438.01 5.774,221.505 130.773,5 380.771,5 505.771,221.505 380.771,438.01" transform="translate(26.667, 45) scale(0.02) translate(-255.7, -221.5)" fill="coral" stroke="none" class="marker hexagon-fill" />
+              <path d="m20 2 14.9 7.2 3.6 16-10.3 12.9h-16.4l-10.3-12.9 3.6-16z" transform="translate(160, 45) scale(0.25) translate(-20, -20)" fill="none" stroke="dodgerblue" stroke-width="5" class="marker heptagon" />
+              <path d="m20 2 14.9 7.2 3.6 16-10.3 12.9h-16.4l-10.3-12.9 3.6-16z" transform="translate(293.333, 45) scale(0.25) translate(-20, -20)" fill="orange" stroke="none" class="marker heptagon-fill" />
+              <polygon points="151.447,505 5,358.553 5,151.447 151.447,5 358.553,5 505,151.447 505,358.553 358.553,505" transform="translate(26.667, 22.5) scale(0.017) translate(-255.7, -221.5)" fill="none" stroke="lime" stroke-width="75" class="marker octagon" />
+              <polygon points="151.447,505 5,358.553 5,151.447 151.447,5 358.553,5 505,151.447 505,358.553 358.553,505" transform="translate(160, 22.5) scale(0.017) translate(-255.7, -221.5)" fill="gray" stroke="none" class="marker octagon-fill" />
+            </g>
+            <g class="labels" font-family="sans-serif" font-size="12" text-anchor="start">
+              <text x="33.667" y="205.5">disc</text>
+              <text x="167" y="205.5">circle</text>
+              <text x="297.333" y="205.5">oval</text>
+              <text x="30.667" y="183">oval-vertical</text>
+              <text x="167" y="183">oval-horizontal</text>
+              <text x="297.333" y="183">ellipse</text>
+              <text x="30.667" y="160.5">ellipse-vertical</text>
+              <text x="167" y="160.5">ellipse-horizontal</text>
+              <text x="300.333" y="160.5">block</text>
+              <text x="33.667" y="138">square</text>
+              <text x="167" y="138">square-cross</text>
+              <text x="300.333" y="138">diamond</text>
+              <text x="33.667" y="115.5">diamond-cross</text>
+              <text x="167" y="115.5">diamond-fill</text>
+              <text x="300.333" y="115.5">pyramid</text>
+              <text x="33.667" y="93">triangle</text>
+              <text x="167" y="93">wedge</text>
+              <text x="300.333" y="93">trigon</text>
+              <text x="33.667" y="70.5">pentagon</text>
+              <text x="167" y="70.5">pentagon-fill</text>
+              <text x="300.333" y="70.5">hexagon</text>
+              <text x="33.667" y="48">hexagon-fill</text>
+              <text x="167" y="48">heptagon</text>
+              <text x="300.333" y="48">heptagon-fill</text>
+              <text x="33.667" y="25.5">octagon</text>
+              <text x="167" y="25.5">octagon-fill</text>
+            </g>
           </g>
-          <path d="M 187.314 184.44 L 182.314 189.44 187.314 194.44 L 192.314 189.44 Z" fill="none" stroke="coral" stroke-width="1.111" />
-          <path d="M 17.029 156.8 L 12.029 161.8 17.029 166.8 L 22.029 161.8 Z M 17.029 156.8 v 10 M 12.029 161.8 h 10" fill="none" stroke="dodgerblue" stroke-width="1.111" />
-          <path d="M 102.171 156.8 L 97.171 161.8 102.171 166.8 L 107.171 161.8 Z" fill="orange" stroke="none" />
-          <path d="M 187.314 157.8 L 182.314 166.8 h 10 Z" fill="lime" stroke="none" />
-          <path d="M 17.029 130.16 L 12.029 139.16 h 10 Z" fill="none" stroke="gray" stroke-width="1.111" />
-          <path d="M 102.171 138.16 L 97.171 129.16 h 10 Z" fill="coral" stroke="none" />
-          <path d="M 187.314 138.16 L 182.314 129.16 h 10 Z" fill="none" stroke="dodgerblue" stroke-width="1.111" />
-          <path d="M20,3 38,16 31,37 9,37 2,16z" transform="translate(17.029, 106.52) scale(0.25) translate(-20, -20)" fill="none" stroke="orange" stroke-width="5" />
-          <path d="M20,3 38,16 31,37 9,37 2,16z" transform="translate(102.171, 106.52) scale(0.25) translate(-20, -20)" fill="lime" stroke="none" />
-          <polygon points="130.773,438.01 5.774,221.505 130.773,5 380.771,5 505.771,221.505 380.771,438.01" transform="translate(187.314, 106.52) scale(0.02) translate(-255.7, -221.5)" fill="none" stroke="gray" stroke-width="54" />
-          <polygon points="130.773,438.01 5.774,221.505 130.773,5 380.771,5 505.771,221.505 380.771,438.01" transform="translate(17.029, 78.88) scale(0.02) translate(-255.7, -221.5)" fill="coral" stroke="none" />
-          <path d="m20 2 14.9 7.2 3.6 16-10.3 12.9h-16.4l-10.3-12.9 3.6-16z" transform="translate(102.171, 78.88) scale(0.25) translate(-20, -20)" fill="none" stroke="dodgerblue" stroke-width="5" />
-          <path d="m20 2 14.9 7.2 3.6 16-10.3 12.9h-16.4l-10.3-12.9 3.6-16z" transform="translate(187.314, 78.88) scale(0.25) translate(-20, -20)" fill="orange" stroke="none" />
-          <polygon points="151.447,505 5,358.553 5,151.447 151.447,5 358.553,5 505,151.447 505,358.553 358.553,505" transform="translate(17.029, 51.24) scale(0.017) translate(-255.7, -221.5)" fill="none" stroke="lime" stroke-width="75" />
-          <polygon points="151.447,505 5,358.553 5,151.447 151.447,5 358.553,5 505,151.447 505,358.553 358.553,505" transform="translate(102.171, 51.24) scale(0.017) translate(-255.7, -221.5)" fill="gray" stroke="none" />
-        </g>
-        <g stroke="none" fill="black" text-anchor="start" font-size="14">
-          <text x="24.02857142857143" y="279.35999999999996">disc</text>
-          <text x="109.17142857142856" y="279.35999999999996">circle</text>
-          <text x="191.31428571428572" y="279.35999999999996">oval</text>
-          <text x="21.02857142857143" y="251.71999999999997">oval-vertical</text>
-          <text x="109.17142857142856" y="251.71999999999997">oval-horizontal</text>
-          <text x="191.31428571428572" y="251.71999999999997">ellipse</text>
-          <text x="21.02857142857143" y="224.07999999999998">ellipse-vertical</text>
-          <text x="109.17142857142856" y="224.07999999999998">ellipse-horizontal</text>
-          <text x="194.31428571428572" y="224.07999999999998">block</text>
-          <text x="24.02857142857143" y="196.43999999999997">square</text>
-          <text x="109.17142857142856" y="196.43999999999997">square-cross</text>
-          <text x="194.31428571428572" y="196.43999999999997">diamond</text>
-          <text x="24.02857142857143" y="168.79999999999998">diamond-cross</text>
-          <text x="109.17142857142856" y="168.79999999999998">diamond-fill</text>
-          <text x="194.31428571428572" y="168.79999999999998">pyramid</text>
-          <text x="24.02857142857143" y="141.16">triangle</text>
-          <text x="109.17142857142856" y="141.16">wedge</text>
-          <text x="194.31428571428572" y="141.16">trigon</text>
-          <text x="24.02857142857143" y="113.51999999999998">pentagon</text>
-          <text x="109.17142857142856" y="113.51999999999998">pentagon-fill</text>
-          <text x="194.31428571428572" y="113.51999999999998">hexagon</text>
-          <text x="24.02857142857143" y="85.88">hexagon-fill</text>
-          <text x="109.17142857142856" y="85.88">heptagon</text>
-          <text x="194.31428571428572" y="85.88">heptagon-fill</text>
-          <text x="24.02857142857143" y="58.239999999999995">octagon</text>
-          <text x="109.17142857142856" y="58.239999999999995">octagon-fill</text>
         </g>
       </g>
     </g>
-    <g transform="translate(0, 304.8)">
-      <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-        <text x="150" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Symbol markers</text>
-        <rect x="0" y="23.6" width="298" height="276.4" stroke="black" fill="none" stroke-width="1" />
-        <g>
-          <g text-anchor="middle" stroke="none" fill="black" font-size="14" />
+    <g transform="translate(0,252.6)">
+      <g class="layout">
+        <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(135.108,0)">
+          <text y="16" x="65.892">Symbol markers</text>
         </g>
-        <g>
-          <g />
+        <g transform="translate(0,25.6)">
+          <rect x="0.5" y="0.5" width="401" height="76" stroke="black" fill="none" class="frame" stroke-width="1" />
         </g>
-        <defs>
-          <clipPath id="id14">
-            <rect x="0" y="23.6" width="298" height="276.4" />
-          </clipPath>
-        </defs>
-        <g clip-path="url(#id14)">
-          <path d="M 13.493 250.398 L 20.564 257.469 M 20.564 250.398 L 13.493 257.469" fill="none" stroke="coral" stroke-width="1.667" />
-          <path d="M 97.171 253.933 h 10 M 102.171 248.933 v 10" fill="none" stroke="dodgerblue" stroke-width="1.667" />
-          <rect x="182.314" y="252.683" width="10" height="2.5" fill="orange" stroke="none" />
-          <rect x="15.779" y="156.8" width="2.5" height="10" fill="lime" stroke="none" />
-          <path d="M4 12.6111L8.92308 17.5L20 6.5" transform="translate(102.171, 161.8) scale(0.455) translate(-12, -12)" fill="none" stroke="gray" stroke-width="3" />
-          <path d="M 182.314 161.8 h 10 M 187.314 156.8 v 10 M 183.779 158.264 L 190.85 165.336 M 190.85 158.264 L 183.779 165.336" fill="none" stroke="coral" stroke-width="1.111" stroke-linecap="round" />
-          <path d="M18.1777 8C23.2737 8 23.2737 16 18.1777 16C13.0827 16 11.0447 8 5.43875 8C0.85375 8 0.85375 16 5.43875 16C11.0447 16 13.0828 8 18.1788 8H18.1777Z" transform="translate(17.029, 69.667) scale(0.417) translate(-12, -12)" fill="none" stroke="dodgerblue" stroke-width="3" />
-          <g fill="orange" stroke="none" />
-        </g>
-        <g stroke="none" fill="black" text-anchor="start" font-size="14">
-          <text x="23.02857142857143" y="260.9333333333333">cross</text>
-          <text x="109.17142857142856" y="260.9333333333333">plus</text>
-          <text x="194.31428571428572" y="260.9333333333333">minus</text>
-          <text x="20.27857142857143" y="168.79999999999998">bar</text>
-          <text x="107.50476190476189" y="168.79999999999998">check</text>
-          <text x="194.31428571428572" y="168.79999999999998">burst</text>
-          <text x="23.02857142857143" y="76.66666666666666">infinity</text>
-          <text x="104.17142857142856" y="76.66666666666666">none</text>
+        <g transform="translate(1,26.6)">
+          <g class="plot" clip-path="url(#id3)">
+            <defs>
+              <clipPath id="id3">
+                <rect width="400" height="75" />
+              </clipPath>
+            </defs>
+            <g class="graphics">
+              <path d="M 23.131 58.964 L 30.202 66.036 M 30.202 58.964 L 23.131 66.036" fill="none" stroke="coral" stroke-width="1.667" class="marker cross" />
+              <path d="M 155 62.5 h 10 M 160 57.5 v 10" fill="none" stroke="dodgerblue" stroke-width="1.667" class="marker plus" />
+              <rect x="288.333" y="61.25" width="10" height="2.5" fill="orange" stroke="none" class="marker minus" />
+              <rect x="25.417" y="32.5" width="2.5" height="10" fill="lime" stroke="none" class="marker bar" />
+              <path d="M4 12.6111L8.92308 17.5L20 6.5" transform="translate(160, 37.5) scale(0.455) translate(-12, -12)" fill="none" stroke="gray" stroke-width="3" class="marker check" />
+              <path d="M 288.333 37.5 h 10 M 293.333 32.5 v 10 M 289.798 33.964 L 296.869 41.036 M 296.869 33.964 L 289.798 41.036" fill="none" stroke="coral" stroke-width="1.111" stroke-linecap="round" class="marker burst" />
+              <path d="M18.1777 8C23.2737 8 23.2737 16 18.1777 16C13.0827 16 11.0447 8 5.43875 8C0.85375 8 0.85375 16 5.43875 16C11.0447 16 13.0828 8 18.1788 8H18.1777Z" transform="translate(26.667, 12.5) scale(0.417) translate(-12, -12)" fill="none" stroke="dodgerblue" stroke-width="3" class="marker infinity" />
+              <g fill="orange" stroke="none" class="marker none" />
+            </g>
+            <g class="labels" font-family="sans-serif" font-size="12" text-anchor="start">
+              <text x="32.667" y="65.5">cross</text>
+              <text x="167" y="65.5">plus</text>
+              <text x="300.333" y="65.5">minus</text>
+              <text x="29.917" y="40.5">bar</text>
+              <text x="165.333" y="40.5">check</text>
+              <text x="300.333" y="40.5">burst</text>
+              <text x="32.667" y="15.5">infinity</text>
+              <text x="162" y="15.5">none</text>
+            </g>
+          </g>
         </g>
       </g>
     </g>
-    <g transform="translate(0, 609.6)">
-      <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-        <text x="150" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Astronomy markers</text>
-        <rect x="0" y="23.6" width="298" height="276.4" stroke="black" fill="none" stroke-width="1" />
-        <g>
-          <g text-anchor="middle" stroke="none" fill="black" font-size="14" />
+    <g transform="translate(0,355.2)">
+      <g class="layout">
+        <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(120.896,0)">
+          <text y="16" x="80.104">Astronomy markers</text>
         </g>
-        <g>
-          <g />
+        <g transform="translate(0,25.6)">
+          <rect x="0.5" y="0.5" width="401" height="126" stroke="black" fill="none" class="frame" stroke-width="1" />
         </g>
-        <defs>
-          <clipPath id="id15">
-            <rect x="0" y="23.6" width="298" height="276.4" />
-          </clipPath>
-        </defs>
-        <g clip-path="url(#id15)">
-          <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" transform="translate(17.029, 253.933) scale(0.167) translate(-25, -24)" fill="none" stroke="lime" stroke-width="5" />
-          <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" transform="translate(102.171, 253.933) scale(0.167) translate(-25, -24)" fill="gray" stroke="none" />
-          <path transform="translate(187.314, 253.933) scale(0.833) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="coral" stroke-width="1" stroke-linecap="round" />
-          <g transform="translate(17.029, 207.867) scale(0.833) translate(-6,-6)">
-            <path d="M6 5.102a.899.899 0 1 0 0 1.797.899.899 0 0 0 0-1.797Z" fill="dodgerblue" stroke="none" />
-            <path d="M110 60c0 27.617-22.383 50-50 50S10 87.617 10 60s22.383-50 50-50 50 22.383 50 50z" transform="matrix(0.1 0 0 -0.1 0 12)" fill="none" stroke="dodgerblue" stroke-width="9" stroke-linecap="round" />
+        <g transform="translate(1,26.6)">
+          <g class="plot" clip-path="url(#id4)">
+            <defs>
+              <clipPath id="id4">
+                <rect width="400" height="125" />
+              </clipPath>
+            </defs>
+            <g class="graphics">
+              <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" transform="translate(26.667, 104.167) scale(0.167) translate(-25, -24)" fill="none" stroke="lime" stroke-width="5" class="marker star" />
+              <path d="m25,1 6,17h18l-14,11 5,17-15-10-15,10 5-17-14-11h18z" transform="translate(160, 104.167) scale(0.167) translate(-25, -24)" fill="gray" stroke="none" class="marker star-fill" />
+              <path transform="translate(293.333, 104.167) scale(0.833) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="coral" stroke-width="1" stroke-linecap="round" class="marker galaxy" />
+              <g transform="translate(26.667, 83.333) scale(0.833) translate(-6,-6)" class="marker sun">
+                <path d="M6 5.102a.899.899 0 1 0 0 1.797.899.899 0 0 0 0-1.797Z" fill="dodgerblue" stroke="none" />
+                <path d="M110 60c0 27.617-22.383 50-50 50S10 87.617 10 60s22.383-50 50-50 50 22.383 50 50z" transform="matrix(0.1 0 0 -0.1 0 12)" fill="none" stroke="dodgerblue" stroke-width="9" stroke-linecap="round" />
+              </g>
+              <path transform="translate(160, 83.333) scale(0.833) translate(-6,-6)" d="M8 5a1.999 1.999 0 1 0-4 0 1.999 1.999 0 1 0 4 0ZM4 1a1.999 1.999 0 1 0 4 0M6 11V7M4 9h4" fill="none" stroke="orange" stroke-width="1" stroke-linecap="round" class="marker mercury" />
+              <path transform="translate(293.333, 83.333) scale(0.833) translate(-6,-6)" d="M6 11V7M4 9h4m1-5a3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3Z" fill="none" stroke="lime" stroke-width="1" stroke-linecap="round" class="marker venus" />
+              <path transform="translate(26.667, 62.5) scale(0.833) translate(-6,-6)" d="M11 6A5 5 0 1 0 1 6a5 5 0 0 0 10 0zm-5 5V1M1 6h10" fill="none" stroke="gray" stroke-width="1" stroke-linecap="round" class="marker earth" />
+              <path transform="translate(160, 62.5) scale(0.833) translate(-6,-6)" d="M3.5 1a5 5 0 1 1 0 10c1.785-1.031 2.887-2.938 2.887-5S5.285 2.031 3.5 1z" fill="none" stroke="coral" stroke-width="1" class="marker moon" />
+              <path transform="translate(293.333, 62.5) scale(0.833) translate(-6,-6)" d="M9 7c0-2.207-1.793-4-4-4S1 4.793 1 7s1.793 4 4 4 4-1.793 4-4ZM7.828 4.172 11 1M9.23 1H11v1.77" fill="none" stroke="dodgerblue" stroke-width="1" stroke-linecap="round" class="marker mars" />
+              <path transform="translate(26.667, 41.667) scale(0.833) translate(-6,-6)" d="M2.25 1a4.33 4.33 0 0 1 0 7.5h7.5M7.25 6v5" fill="none" stroke="orange" stroke-width="1" stroke-linecap="round" class="marker jupiter" />
+              <path transform="translate(160, 41.667) scale(0.833) translate(-6,-6)" d="M3 3h4M5 1v5a1.999 1.999 0 1 1 3.414 1.414C7.508 8.32 7 9.72 7 11" fill="none" stroke="lime" stroke-width="0.8" stroke-linecap="round" class="marker saturn" />
+              <g transform="translate(293.333, 41.667) scale(0.833) translate(-6,-6)" class="marker uranus">
+                <path d="M6 7.602a.899.899 0 1 0 0 1.797.899.899 0 0 0 0-1.797Z" fill="gray" stroke="none" />
+                <path d="M60 60v50M35 85l25 25 25-25m0-50c0 13.79-11.21 25-25 25S35 48.79 35 35s11.21-25 25-25 25 11.21 25 25Z" transform="matrix(0.1 0 0 -0.1 0 12)" fill="none" stroke="gray" stroke-width="9" stroke-linecap="round" />
+              </g>
+              <path transform="translate(26.667, 20.833) scale(0.833) translate(-6,-6)" d="M6 11V1M3.5 7.25h5M2.25 1a3.751 3.751 0 0 0 7.5 0" fill="none" stroke="coral" stroke-width="1" stroke-linecap="round" class="marker neptune" />
+            </g>
+            <g class="labels" font-family="sans-serif" font-size="12" text-anchor="start">
+              <text x="33.667" y="107.167">star</text>
+              <text x="165.333" y="107.167">star-fill</text>
+              <text x="298.667" y="107.167">galaxy</text>
+              <text x="32.667" y="86.333">sun</text>
+              <text x="164" y="86.333">mercury</text>
+              <text x="297.833" y="86.333">venus</text>
+              <text x="32.667" y="65.5">earth</text>
+              <text x="164" y="65.5">moon</text>
+              <text x="299.333" y="65.5">mars</text>
+              <text x="32" y="44.667">jupiter</text>
+              <text x="164.5" y="44.667">saturn</text>
+              <text x="297.833" y="44.667">uranus</text>
+              <text x="32" y="23.833">neptune</text>
+            </g>
           </g>
-          <path transform="translate(102.171, 207.867) scale(0.833) translate(-6,-6)" d="M8 5a1.999 1.999 0 1 0-4 0 1.999 1.999 0 1 0 4 0ZM4 1a1.999 1.999 0 1 0 4 0M6 11V7M4 9h4" fill="none" stroke="orange" stroke-width="1" stroke-linecap="round" />
-          <path transform="translate(187.314, 207.867) scale(0.833) translate(-6,-6)" d="M6 11V7M4 9h4m1-5a3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3Z" fill="none" stroke="lime" stroke-width="1" stroke-linecap="round" />
-          <path transform="translate(17.029, 161.8) scale(0.833) translate(-6,-6)" d="M11 6A5 5 0 1 0 1 6a5 5 0 0 0 10 0zm-5 5V1M1 6h10" fill="none" stroke="gray" stroke-width="1" stroke-linecap="round" />
-          <path transform="translate(102.171, 161.8) scale(0.833) translate(-6,-6)" d="M3.5 1a5 5 0 1 1 0 10c1.785-1.031 2.887-2.938 2.887-5S5.285 2.031 3.5 1z" fill="none" stroke="coral" stroke-width="1" />
-          <path transform="translate(187.314, 161.8) scale(0.833) translate(-6,-6)" d="M9 7c0-2.207-1.793-4-4-4S1 4.793 1 7s1.793 4 4 4 4-1.793 4-4ZM7.828 4.172 11 1M9.23 1H11v1.77" fill="none" stroke="dodgerblue" stroke-width="1" stroke-linecap="round" />
-          <path transform="translate(17.029, 115.733) scale(0.833) translate(-6,-6)" d="M2.25 1a4.33 4.33 0 0 1 0 7.5h7.5M7.25 6v5" fill="none" stroke="orange" stroke-width="1" stroke-linecap="round" />
-          <path transform="translate(102.171, 115.733) scale(0.833) translate(-6,-6)" d="M3 3h4M5 1v5a1.999 1.999 0 1 1 3.414 1.414C7.508 8.32 7 9.72 7 11" fill="none" stroke="lime" stroke-width="0.8" stroke-linecap="round" />
-          <g transform="translate(187.314, 115.733) scale(0.833) translate(-6,-6)">
-            <path d="M6 7.602a.899.899 0 1 0 0 1.797.899.899 0 0 0 0-1.797Z" fill="gray" stroke="none" />
-            <path d="M60 60v50M35 85l25 25 25-25m0-50c0 13.79-11.21 25-25 25S35 48.79 35 35s11.21-25 25-25 25 11.21 25 25Z" transform="matrix(0.1 0 0 -0.1 0 12)" fill="none" stroke="gray" stroke-width="9" stroke-linecap="round" />
-          </g>
-          <path transform="translate(17.029, 69.667) scale(0.833) translate(-6,-6)" d="M6 11V1M3.5 7.25h5M2.25 1a3.751 3.751 0 0 0 7.5 0" fill="none" stroke="coral" stroke-width="1" stroke-linecap="round" />
-        </g>
-        <g stroke="none" fill="black" text-anchor="start" font-size="14">
-          <text x="24.02857142857143" y="260.9333333333333">star</text>
-          <text x="107.50476190476189" y="260.9333333333333">star-fill</text>
-          <text x="192.64761904761906" y="260.9333333333333">galaxy</text>
-          <text x="23.02857142857143" y="214.86666666666665">sun</text>
-          <text x="106.17142857142856" y="214.86666666666665">mercury</text>
-          <text x="191.81428571428572" y="214.86666666666665">venus</text>
-          <text x="23.02857142857143" y="168.79999999999998">earth</text>
-          <text x="106.17142857142856" y="168.79999999999998">moon</text>
-          <text x="193.31428571428572" y="168.79999999999998">mars</text>
-          <text x="22.36190476190476" y="122.73333333333332">jupiter</text>
-          <text x="106.67142857142856" y="122.73333333333332">saturn</text>
-          <text x="191.81428571428572" y="122.73333333333332">uranus</text>
-          <text x="22.36190476190476" y="76.66666666666666">neptune</text>
         </g>
       </g>
     </g>
-    <g transform="translate(0, 914.4)">
-      <g stroke="black" fill="white" font-family="sans-serif" font-size="14">
-        <text x="150" y="18" stroke="none" fill="black" font-size="18" text-anchor="middle">Greek markers</text>
-        <rect x="0" y="23.6" width="298" height="276.4" stroke="black" fill="none" stroke-width="1" />
-        <g>
-          <g text-anchor="middle" stroke="none" fill="black" font-size="14" />
+    <g transform="translate(0,507.8)">
+      <g class="layout">
+        <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(140.884,0)">
+          <text y="16" x="60.116">Greek markers</text>
         </g>
-        <g>
-          <g />
+        <g transform="translate(0,25.6)">
+          <rect x="0.5" y="0.5" width="401" height="226" stroke="black" fill="none" class="frame" stroke-width="1" />
         </g>
-        <defs>
-          <clipPath id="id16">
-            <rect x="0" y="23.6" width="298" height="276.4" />
-          </clipPath>
-        </defs>
-        <g clip-path="url(#id16)">
-          <path transform="translate(17.029, 272.36) scale(0.033) translate(-200,-200)" d="m239.84 120.88h31.498l-19.084 85.787q-5.5604 24.458-7.5968 30.016 7.4117 34.093 21.493 34.093 16.676 0 17.232-22.975h6.6701q-0.5282 21.493-7.9671 34.834-7.2262 13.155-19.084 13.155-9.8203 0-14.637-7.9673-4.8147-7.9673-10.376-32.61-19.27 40.578-62.997 40.578-29.831 0-47.433-23.161-17.602-23.346-17.602-66.702 0-42.616 19.27-66.332 19.269-23.716 46.321-23.716 19.084 0 31.313 13.526 12.229 13.526 21.679 44.098zm-16.305 72.632q-8.7082-29.831-19.455-46.507-10.746-16.861-25.755-16.861-33.907 0-33.907 79.302 0 75.226 32.425 75.226 28.163 0 41.689-66.332z" fill="dodgerblue" stroke="none" />
-          <path transform="translate(102.171, 272.36) scale(0.033) translate(-200,-200)" d="m150.53 371.75h-30.572q6.6701-31.313 6.6701-56.697v-201.78q0-31.498 5.5604-46.877 5.7425-15.379 22.048-27.052 16.49-11.858 41.134-11.858 29.275 0 49.101 15.564 20.01 15.379 20.01 43.913 0 33.351-31.684 54.659 47.248 22.234 47.248 69.852 0 25.94-12.599 46.507-12.414 20.381-28.904 29.09-16.305 8.7085-39.096 8.7085-25.94 0-42.245-19.455v34.463q0 35.575-6.6701 60.959zm6.6702-112.1q14.452 23.902 40.393 23.902 25.013 0 36.686-18.158 11.673-18.343 11.673-44.469 0-20.011-7.7822-40.763-7.5966-20.937-19.64-31.869-11.117 2.7791-20.011 2.7791-18.713 0-18.713-9.8202 0-8.8936 15.749-8.8936 9.8203 0 24.458 4.4471 13.155-22.234 13.155-48.359 0-23.346-10.376-35.76-10.191-12.414-26.681-12.414-13.155 0-22.604 7.4113-9.2642 7.4116-12.785 17.787-3.5229 10.191-3.5229 33.537z" fill="orange" stroke="none" />
-          <path transform="translate(187.314, 272.36) scale(0.033) translate(-200,-200)" d="m244.01 120.88h38.169l-74.299 155.82q2.7774 25.014 2.7774 43.727 0 52.065-19.455 52.065-14.081 0-14.081-21.864 0-28.534 20.751-71.52-4.0749-26.681-11.487-64.294-7.2261-37.613-15.008-53.918-7.5968-16.305-21.864-16.305-23.346 0-25.014 34.834h-6.6702q0-61.144 36.316-61.144 20.937 0 31.128 24.828 10.191 24.643 20.938 107.47z" fill="lime" stroke="none" />
-          <path transform="translate(17.029, 244.72) scale(0.033) translate(-200,-200)" d="m202.13 132.55q-9.2643-10.376-25.755-24.828-18.158-15.935-24.458-25.014-6.2997-9.2642-6.2997-20.196 0-16.305 15.193-25.569 15.193-9.4495 39.651-9.4495 24.458 0 42.615 8.3378 18.343 8.3379 18.343 22.975 0 7.0408-4.4448 11.673-4.4448 4.632-10.376 4.632-8.5227 0-20.011-12.785-11.673-12.97-19.825-18.158-7.9673-5.373-18.714-5.373-13.711 0-22.605 6.1144-8.7088 6.1144-8.7088 15.564 0 8.8936 7.2262 16.676 7.2262 7.7819 37.242 28.349 32.054 22.049 45.21 34.463 13.34 12.414 21.678 30.202 8.3383 17.787 8.3383 37.613 0 34.834-24.643 61.515-24.458 26.496-57.253 26.496-29.831 0-50.398-21.308-20.566-21.308-20.566-56.882 0-34.278 22.604-57.253 22.79-22.975 55.956-27.793zm8.1521 8.5231q-53.177 8.7083-53.177 73.002 0 33.166 13.155 51.509 13.341 18.343 30.943 18.343 18.343 0 30.201-17.602 11.858-17.787 11.858-47.989 0-43.727-32.981-77.264z" fill="gray" stroke="none" />
-          <path transform="translate(102.171, 244.72) scale(0.033) translate(-200,-200)" d="m175.45 200.74q-36.501-12.97-36.501-39.28 0-20.752 19.27-33.166 19.455-12.414 48.174-12.414 26.125 0 41.503 8.7085 15.379 8.5231 15.379 20.567 0 6.2997-4.8204 11.117-4.8149 4.632-11.117 4.632-10.376 0-17.047-14.452-9.2642-20.011-27.793-20.011-14.637 0-24.087 9.6348-9.4498 9.6347-9.4498 26.866 0 33.907 35.019 33.907 3.705 0 8.5231-0.74103 8.3384-1.1108 12.97-1.1108 11.302 0 11.302 6.4849 0 7.2261-11.488 7.2261-4.0749 0-12.229-1.2972-6.1147-1.1108-9.4498-1.1108-37.057 0-37.057 37.798 0 18.343 9.8203 29.646 9.8203 11.117 27.422 11.117 22.049 0 29.275-22.79 3.705-12.044 8.1522-16.676 4.6326-4.632 12.229-4.632 6.2996 0 11.302 4.632 5.1905 4.4467 5.1905 11.488 0 16.861-18.899 27.978-18.899 10.932-45.766 10.932-29.46 0-52.435-14.082-22.79-14.082-22.79-37.613 0-29.46 45.395-43.357z" fill="coral" stroke="none" />
-          <path transform="translate(187.314, 244.72) scale(0.033) translate(-200,-200)" d="m182.03 28.42 2.9652 6.6704q-18.343 7.5966-18.343 21.678 0 9.8202 6.6701 15.008 6.8551 5.1882 15.564 5.1882 0.92746 0 2.7772-0.18798 13.341-14.082 32.24-26.866 18.899-12.785 30.016-12.785 8.5231 0 8.5231 6.8554 0 12.229-17.417 24.272-17.417 11.858-48.36 16.676-50.027 51.324-50.027 120.62 0 28.534 11.302 42.801 11.302 14.082 40.022 14.082 3.153 0 14.452-0.74104 12.785-0.55772 17.417-0.55772 21.678 0 31.128 14.082 9.6347 14.082 9.6347 34.093 0 29.275-14.823 46.136-14.823 17.046-40.577 17.046-24.273 0-24.273-16.305 0-12.785 12.97-12.785 3.705 0 13.896 3.1501 8.5233 2.7791 15.193 2.7791 11.488 0 18.158-9.079 6.8557-8.8936 6.8557-20.196 0-12.599-7.4111-18.343-7.4117-5.7436-24.458-5.7436-3.8928 0-18.899 1.1108-6.8551 0.36974-11.302 0.36974-66.517 0-66.517-80.784 0-74.485 54.103-131.74-13.897-0.36974-23.161-7.2261-9.0787-6.8556-9.0787-19.826 0-21.308 30.757-29.46z" fill="dodgerblue" stroke="none" />
-          <path transform="translate(17.029, 217.08) scale(0.033) translate(-200,-200)" d="m180.26 152.38q29.09-36.501 57.068-36.501 43.727 0 43.727 64.294v137.48q0 35.204 7.0412 54.103h-31.313q-6.2996-17.417-6.2996-63.738v-131.92q0-19.084-5.9292-28.163-5.929-9.2643-20.752-9.2643-22.234 0-43.542 24.643v127.29h-30.572v-127.29q0-17.231-3.5172-23.716-3.3351-6.4849-11.488-6.4849-13.155 0-16.12 25.94h-6.6702q3.5229-43.172 35.575-43.172 14.267 0 23.346 10.006 9.0793 9.82 9.4498 26.496z" fill="orange" stroke="none" />
-          <path transform="translate(102.171, 217.08) scale(0.033) translate(-200,-200)" d="m201.67 27.494q31.313 0 52.806 36.686 21.493 36.501 21.493 95.237 0 63.367-23.161 99.869-23.16 36.501-53.547 36.501-29.831 0-52.621-35.389-22.605-35.575-22.605-96.348 0-60.959 22.42-98.757 22.605-37.798 55.215-37.798zm39.837 127.85q0-117.1-41.134-117.1-42.245 0-42.245 117.1zm-83.379 11.488q0 60.588 11.303 89.493 11.302 28.719 30.387 28.719 41.318 0 41.689-118.21z" fill="lime" stroke="none" />
-          <path transform="translate(187.314, 217.08) scale(0.033) translate(-200,-200)" d="m241.78 253.73h6.6702q-3.517 42.06-35.575 42.06-11.302 0-19.454-6.1145-7.9678-6.2996-10.747-14.082-2.5952-7.9671-2.5952-27.422v-61.329q0-29.646-2.2254-37.983-2.2253-8.3378-11.117-8.3378-5.1905 0-12.599 2.779l-2.5952-6.6702 51.139-20.752h8.1522v133.78q0 16.49 3.153 22.605 3.1471 6.1144 11.488 6.1144 12.599 0 16.305-24.643z" fill="gray" stroke="none" />
-          <path transform="translate(17.029, 189.44) scale(0.033) translate(-200,-200)" d="m164.61 115.87v80.97l48.174-50.953q28.719-30.016 53.918-30.016 9.8202 0 15.749 4.6322 6.1147 4.6322 6.1147 12.044 0 7.2261-4.8147 11.488-4.6328 4.2615-10.746 4.2615-5.3726 0-14.267-4.8176-8.8936-4.8176-13.711-4.8176-9.6347 0-21.308 12.599l-32.425 35.019 61.144 76.708q15.935 20.011 42.245 20.752v6.8556h-60.032l-70.038-90.975v90.975h-30.757v-103.76q0-30.572-2.4074-38.354-2.4074-7.9673-10.932-7.9673-5.1905 0-12.599 2.7791l-2.5953-6.6704 51.139-20.752z" fill="coral" stroke="none" />
-          <path transform="translate(102.171, 189.44) scale(0.033) translate(-200,-200)" d="m283.93 237.24h6.6701q0 29.275-9.6347 42.616-9.4498 13.34-23.717 13.34-11.673 0-22.42-8.7085-10.746-8.8936-19.269-47.248l-15.935-71.891-55.215 125.25h-35.019l79.302-170.83q-6.2996-33.166-15.193-49.101-8.8936-15.934-22.048-15.934-10.561 0-18.528 8.1525-7.7823 7.9673-8.7088 24.828h-6.6701q0.5282-27.237 10.932-43.542 10.376-16.49 25.94-16.49 10.005 0 18.899 8.3378 9.0788 8.1526 15.564 28.163 6.6702 19.826 20.567 82.452l13.155 58.735q7.9673 36.501 16.676 48.915 8.893 12.229 21.122 12.229 20.751 0 23.531-29.275z" fill="dodgerblue" stroke="none" />
-          <path transform="translate(187.314, 189.44) scale(0.033) translate(-200,-200)" d="m222.51 259.84q-33.536 35.945-58.365 35.945-15.934 0-29.645-12.229v9.8202q0 17.046 5.1846 34.278 5.9292 19.084 5.9292 25.199 0 8.523-5.3726 14.082-5.3724 5.5587-13.34 5.5587-8.1526 0-12.97-6.4849-4.8148-6.4849-4.8148-15.564 0-6.6704 4.8148-24.087 5.5604-19.27 5.5604-37.428v-168.05h30.572v109.87q0 16.676 2.7772 24.458 2.9652 7.7821 10.191 12.785 7.4117 4.8176 16.676 4.8176 16.49 0 42.801-22.605v-129.33h30.757v128.77q0 16.305 3.3351 22.605 3.335 6.1145 11.303 6.1145 12.599 0 16.305-24.643h6.6702q-3.5229 42.06-35.575 42.06-13.896 0-23.161-9.2643-9.0787-9.4495-9.6347-26.681z" fill="orange" stroke="none" />
-          <path transform="translate(17.029, 161.8) scale(0.033) translate(-200,-200)" d="m198.15 295.79-40.948-121.55q-4.0749-12.043-10.747-23.716-6.6701-11.673-18.343-11.673-5.5606 0-12.229 2.4086l-2.5952-6.4851 46.136-18.899h8.1522l48.73 142.48 30.201-61.7q8.3383-16.676 8.3383-26.125 0-7.5968-3.153-21.308-2.4074-10.005-2.4074-15.008 0-18.343 19.826-18.343 17.602 0 17.602 16.676 0 16.49-24.458 62.997l-52.991 100.24z" fill="lime" stroke="none" />
-          <path transform="translate(102.171, 161.8) scale(0.033) translate(-200,-200)" d="m178.04 27.679v7.0408q-18.158 2.5941-18.158 15.935 0 14.452 20.752 18.528 11.858-12.785 27.978-22.419 16.12-9.8202 28.719-9.8202 9.4498 0 9.4498 8.5231 0 11.302-18.529 22.234-18.528 10.932-44.283 11.302-15.193 15.379-15.193 32.61 0 18.158 17.787 29.831 26.681-14.638 56.327-14.638 20.381 0 20.381 10.191 0 6.8556-10.746 11.673-10.747 4.8176-30.943 4.8176-16.861 0-32.795-2.4084-48.73 31.128-48.73 70.593 0 17.417 12.229 28.904 12.229 11.488 39.651 11.488 4.8204 0 12.97-0.55771 21.308-1.6676 28.719-1.6676 22.419 0 32.61 14.452 10.191 14.452 10.191 36.131 0 30.387-16.675 46.136-16.676 15.935-37.613 15.935-11.117 0-18.343-4.6322-7.2262-4.4471-7.2262-12.229 0-5.5587 3.705-8.8936 3.8928-3.3351 8.7082-3.3351 3.3351 0 9.4498 2.0381 11.487 3.7055 18.343 3.7055 12.599 0 19.826-8.7083 7.2262-8.7085 7.2262-21.864 0-9.2643-5.5604-16.49-5.5604-7.0409-18.158-7.0409-5.5604 0-13.34 0.36974-23.161 1.2972-30.943 1.2972-32.981 0-52.621-19.27-19.64-19.27-19.64-49.471 0-47.433 52.251-79.487-18.899-15.008-18.899-34.278 0-18.158 15.935-36.131-26.496-6.6702-26.496-27.052 0-22.79 31.684-23.346z" fill="gray" stroke="none" />
-          <path transform="translate(187.314, 161.8) scale(0.033) translate(-200,-200)" d="m200.19 115.87q38.539 0 61.885 29.275 19.825 25.014 19.825 57.438 0 22.79-10.932 46.136-10.932 23.346-30.201 35.204-19.084 11.858-42.615 11.858-38.354 0-60.959-30.572-19.084-25.755-19.084-57.809 0-23.346 11.488-46.321 11.673-23.161 30.572-34.092 18.899-11.117 40.022-11.117zm-5.7425 12.044q-9.8203 0-19.826 5.929-9.8202 5.7437-15.935 20.381-6.1142 14.638-6.1142 37.613 0 37.057 14.637 63.923 14.823 26.866 38.91 26.866 17.972 0 29.646-14.823 11.673-14.823 11.673-50.953 0-45.21-19.455-71.15-13.155-17.787-33.536-17.787z" fill="coral" stroke="none" />
-          <path transform="translate(17.029, 134.16) scale(0.033) translate(-200,-200)" d="m290.51 120.88v27.052h-42.986l-3.705 56.327q-1.1092 14.638-1.1092 25.384 0 25.755 5.9292 31.498 6.1147 5.5586 14.638 5.5586 17.787 0 21.123-22.42h6.6701q-6.1147 51.509-41.133 51.509-16.305 0-26.31-10.005-9.8203-10.005-9.8203-29.646 0-12.97 3.8928-54.844l5.0027-53.362h-39.281q-3.8928 67.444-9.4497 98.572-5.3726 31.128-12.043 40.207-6.4852 9.079-17.787 9.079-8.5233 0-14.452-5.0026-5.7425-5.0026-5.7425-13.155 0-7.782 10.005-21.308 14.637-19.64 21.863-40.763 7.2262-21.308 10.932-67.629h-12.599q-15.194 0-23.346 6.8555-7.9671 6.6703-15.193 19.27h-6.6712q5.3726-19.826 13.897-32.61 8.5227-12.785 17.416-16.676 9.0793-3.8911 32.054-3.8911z" fill="dodgerblue" stroke="none" />
-          <path transform="translate(102.171, 134.16) scale(0.033) translate(-200,-200)" d="m151.73 371.75h-31.684q6.8557-21.308 6.8557-64.479v-104.5q0-44.283 25.014-65.591 25.013-21.308 55.215-21.308 32.795 0 52.806 22.605 20.01 22.419 20.01 58.921 0 39.836-24.828 69.111-24.828 29.275-56.697 29.275-21.493 0-40.948-13.711v24.272q0 38.725-5.7423 65.406zm5.7425-132.66q0 22.419 11.858 34.278 11.858 11.673 30.202 11.673 21.678 0 36.13-18.529 14.637-18.714 14.637-49.286 0-38.725-19.826-61.329-19.825-22.605-44.098-22.605-16.49 0-22.79 10.376-6.1147 10.191-6.1147 33.351z" fill="orange" stroke="none" />
-          <path transform="translate(187.314, 134.16) scale(0.033) translate(-200,-200)" d="m291.99 120.88v27.052h-72.261q23.716 13.526 38.725 34.278 15.008 20.567 15.008 43.727 0 30.201-23.902 50.027-23.716 19.826-53.918 19.826-35.76 0-61.699-27.978-25.94-28.163-25.94-65.406 0-26.31 13.526-46.506 13.711-20.196 31.684-27.608 18.158-7.4114 48.915-7.4114zm-84.675 27.052h-6.4852q-27.793 0-44.468 13.896-16.49 13.711-16.49 43.172 0 31.313 17.416 55.4 17.417 23.902 40.763 23.902 18.713 0 30.942-17.973 12.229-18.158 12.229-43.727 0-40.577-33.907-74.67z" fill="lime" stroke="none" />
-          <path transform="translate(17.029, 106.52) scale(0.033) translate(-200,-200)" d="m291.99 120.88v27.052h-72.261q23.716 13.526 38.725 34.278 15.008 20.567 15.008 43.727 0 30.201-23.902 50.027-23.716 19.826-53.918 19.826-35.76 0-61.699-27.978-25.94-28.163-25.94-65.406 0-26.31 13.526-46.506 13.711-20.196 31.684-27.608 18.158-7.4114 48.915-7.4114zm-84.675 27.052h-6.4852q-27.793 0-44.468 13.896-16.49 13.711-16.49 43.172 0 31.313 17.416 55.4 17.417 23.902 40.763 23.902 18.713 0 30.942-17.973 12.229-18.158 12.229-43.727 0-40.577-33.907-74.67z" fill="gray" stroke="none" />
-          <path transform="translate(102.171, 106.52) scale(0.033) translate(-200,-200)" d="m134.04 224.27q0-45.58 27.607-76.893 27.793-31.499 65.776-31.499 17.973 0 27.237 6.2997 9.2643 6.1144 9.2643 15.193 0 5.5587-4.2629 9.2643-4.0749 3.7055-9.2642 3.7055-6.8557 0-19.826-4.8176-15.193-5.5585-25.199-5.5585-26.496 0-41.69 22.419-15.193 22.234-15.193 53.177 0 22.605 11.488 34.278 11.673 11.673 39.837 11.673 7.9671 0 16.861-0.36974 7.5968-0.18798 9.8203-0.18798 20.751 0 30.016 13.34 9.4492 13.155 9.4492 33.907 0 28.719-15.564 46.507-15.379 17.787-40.022 17.787-24.643 0-24.643-16.49 0-12.043 11.858-12.043 4.0749 0 18.158 3.8911 6.2996 1.853 10.376 1.853 8.8936 0 17.602-7.9673 8.8938-7.9673 8.8938-23.902 0-22.79-20.382-22.79-3.705 0-8.8938 0.36974-15.564 1.2972-22.79 1.2972-29.46 0-47.989-19.27-18.528-19.455-18.528-53.177z" fill="coral" stroke="none" />
-          <path transform="translate(187.314, 106.52) scale(0.033) translate(-200,-200)" d="m217.7 147.93-5.3726 53.177q-1.2972 13.896-1.2972 27.793 0 26.496 6.1147 32.24 6.2997 5.5587 14.267 5.5587 17.787 0 21.123-22.42h6.8557q-6.1147 51.509-40.948 51.509-36.501 0-36.501-41.874 0-21.122 4.0749-52.621l6.8557-53.362h-18.343q-15.193 0-23.716 5.1882-8.3378 5.0027-15.564 20.381h-6.6702q5.9292-20.381 14.081-32.24 8.1528-12.044 15.564-16.12 7.4117-4.2616 22.049-4.2616h91.16v27.052z" fill="dodgerblue" stroke="none" />
-          <path transform="translate(17.029, 78.88) scale(0.033) translate(-200,-200)" d="m221.68 115.87q33.537 4.0763 49.471 28.349 16.12 24.272 16.12 56.141 0 39.095-23.346 67.258-23.346 28.163-55.771 28.163-17.973 0-32.795-9.6349-14.823-9.8202-19.825-23.716-5.0026-13.896-5.0026-39.095v-61.329q0-16.676-3.153-22.79-3.1471-6.1145-11.673-6.1145-12.414 0-16.306 24.828h-6.67q2.4074-42.06 36.131-42.06 11.487 0 18.899 5.9292 7.5965 5.929 10.376 13.711 2.9651 7.5967 2.9651 27.978v62.256q0 21.864 2.4075 32.981 2.5951 10.932 11.303 17.973 8.8938 7.0409 19.455 7.0409 17.787 0 28.719-20.567 10.932-20.752 10.932-62.441 0-37.242-8.1528-54.845-8.1528-17.787-25.199-23.346z" fill="orange" stroke="none" />
-          <path transform="translate(102.171, 78.88) scale(0.033) translate(-200,-200)" d="m178.41 115.87v6.6704q-40.948 10.561-40.948 77.449 0 72.447 50.954 85.231v-107.65q0-23.531 2.9651-34.278 2.9652-10.932 12.97-19.084 10.191-8.3378 24.458-8.3378 25.014 0 46.321 23.531 21.493 23.531 21.493 61.329 0 35.389-22.048 63.182-21.864 27.793-66.147 31.684v76.152h-20.011v-76.152q-38.539-3.3351-61.885-28.719-23.161-25.569-23.161-66.332 0-36.686 21.123-59.847 21.123-23.346 53.918-24.828zm30.016 169.35q58.365-8.7083 58.365-75.411 0-30.757-12.599-51.509-12.414-20.937-29.275-20.937-6.1141 0-10.376 4.4467-4.0749 4.2616-5.1905 10.191-0.92746 5.9292-0.92746 23.346z" fill="lime" stroke="none" />
-          <path transform="translate(187.314, 78.88) scale(0.033) translate(-200,-200)" d="m240.95 120.88h32.425l-67.444 132.66 12.229 51.695q6.1147 25.755 14.082 32.61 8.1528 6.8556 19.64 6.8556 27.052 0 28.905-31.498h6.8557q-0.35265 27.607-10.747 43.357-10.376 15.935-27.978 15.935-15.378 0-24.458-9.8202-9.0787-9.82-16.119-38.91l-12.229-51.509-49.471 99.498h-32.425l71.705-142.48-10.376-43.727q-5.7425-23.902-11.488-32.24-5.7425-8.5231-17.972-8.5231-21.678 0-26.866 32.981h-6.8556q0-25.94 8.8936-42.616 9.0787-16.861 26.866-16.861 15.379 0 22.976 11.302 7.7816 11.302 14.823 40.948l9.6348 40.022z" fill="gray" stroke="none" />
-          <path transform="translate(17.029, 51.24) scale(0.033) translate(-200,-200)" d="m210.1 284.67q19.641-5.7436 27.978-22.049 8.5231-16.49 13.34-63.738 4.0749-38.725 7.0412-51.695 3.1471-13.155 12.229-20.937 9.0787-7.9673 23.902-7.9673 8.7088 0 18.899 2.5941v7.0409q-2.0375-0.18798-3.5229-0.18798-7.9673 0-13.526 9.6348-5.5606 9.6348-9.6348 48.174-3.8928 34.278-8.7088 48.915-4.6326 14.452-15.193 28.534-10.376 13.896-22.975 20.937-12.599 7.0409-29.831 10.561v77.264h-20.196v-77.264q-17.972-3.7055-30.942-11.302-12.97-7.5968-22.791-21.308-9.6347-13.896-14.452-28.163-4.6326-14.452-8.7088-51.139-3.8928-35.945-9.4492-45.395-5.5604-9.4495-13.341-9.4495-1.6676 0-3.705 0.18798v-7.0409q10.191-2.5941 18.899-2.5941 14.638 0 23.716 7.9673 9.0793 7.7819 12.414 20.937 3.5229 12.97 6.4846 46.692 5.0027 55.215 14.452 70.408 9.6348 15.193 27.422 20.381v-166.39h20.196z" fill="coral" stroke="none" />
-          <path transform="translate(102.171, 51.24) scale(0.033) translate(-200,-200)" d="m200.28 259.1q-16.119 36.686-49.286 36.686-23.161 0-42.616-21.308-19.27-21.493-19.27-61.7 0-32.981 11.488-53.733 11.673-20.937 30.387-32.054 18.713-11.117 49.841-11.117v6.8556q-27.422 0-42.616 22.605-15.194 22.605-15.194 64.109 0 42.06 9.8203 57.624 10.005 15.564 23.531 15.564 8.7088 0 16.861-5.3732 8.3383-5.373 11.673-11.302 3.3351-6.1144 10.191-24.828-11.673-24.458-11.673-51.694 0-41.319 16.861-41.319 16.861 0 16.861 38.169 0 26.311-12.229 54.844 13.341 41.504 38.169 41.504 13.896 0 23.902-14.452 10.191-14.638 10.191-55.03 0-33.722-6.6701-51.509-6.4852-17.973-19.455-27.978-12.97-10.191-31.684-10.932v-6.8556q31.128 0 49.842 11.302 18.714 11.302 30.201 31.869 11.488 20.567 11.488 53.177 0 40.763-18.713 62.256-18.528 21.308-43.357 21.308-34.092 0-48.545-36.686z" fill="dodgerblue" stroke="none" />
-        </g>
-        <g stroke="none" fill="black" text-anchor="start" font-size="14">
-          <text x="22.36190476190476" y="279.35999999999996">alpha</text>
-          <text x="107.50476190476189" y="279.35999999999996">beta</text>
-          <text x="191.81428571428572" y="279.35999999999996">gamma</text>
-          <text x="21.52857142857143" y="251.71999999999997">delta</text>
-          <text x="106.67142857142856" y="251.71999999999997">epsilon</text>
-          <text x="191.81428571428572" y="251.71999999999997">zeta</text>
-          <text x="21.52857142857143" y="224.07999999999998">eta</text>
-          <text x="106.67142857142856" y="224.07999999999998">theta</text>
-          <text x="191.31428571428572" y="224.07999999999998">iota</text>
-          <text x="22.36190476190476" y="196.43999999999997">kappa</text>
-          <text x="106.67142857142856" y="196.43999999999997">lambda</text>
-          <text x="191.81428571428572" y="196.43999999999997">mu</text>
-          <text x="21.52857142857143" y="168.79999999999998">nu</text>
-          <text x="106.67142857142856" y="168.79999999999998">xi</text>
-          <text x="191.81428571428572" y="168.79999999999998">omicron</text>
-          <text x="21.52857142857143" y="141.16">pi</text>
-          <text x="106.67142857142856" y="141.16">rho</text>
-          <text x="191.81428571428572" y="141.16">sigma</text>
-          <text x="21.52857142857143" y="113.51999999999998">sigma1</text>
-          <text x="106.67142857142856" y="113.51999999999998">sigma2</text>
-          <text x="191.81428571428572" y="113.51999999999998">tau</text>
-          <text x="21.52857142857143" y="85.88">upsilon</text>
-          <text x="106.67142857142856" y="85.88">phi</text>
-          <text x="191.81428571428572" y="85.88">chi</text>
-          <text x="21.52857142857143" y="58.239999999999995">psi</text>
-          <text x="107.50476190476189" y="58.239999999999995">omega</text>
+        <g transform="translate(1,26.6)">
+          <g class="plot" clip-path="url(#id5)">
+            <defs>
+              <clipPath id="id5">
+                <rect width="400" height="225" />
+              </clipPath>
+            </defs>
+            <g class="graphics">
+              <path transform="translate(26.667, 202.5) scale(0.033) translate(-200,-200)" d="m239.84 120.88h31.498l-19.084 85.787q-5.5604 24.458-7.5968 30.016 7.4117 34.093 21.493 34.093 16.676 0 17.232-22.975h6.6701q-0.5282 21.493-7.9671 34.834-7.2262 13.155-19.084 13.155-9.8203 0-14.637-7.9673-4.8147-7.9673-10.376-32.61-19.27 40.578-62.997 40.578-29.831 0-47.433-23.161-17.602-23.346-17.602-66.702 0-42.616 19.27-66.332 19.269-23.716 46.321-23.716 19.084 0 31.313 13.526 12.229 13.526 21.679 44.098zm-16.305 72.632q-8.7082-29.831-19.455-46.507-10.746-16.861-25.755-16.861-33.907 0-33.907 79.302 0 75.226 32.425 75.226 28.163 0 41.689-66.332z" fill="dodgerblue" stroke="none" class="marker alpha" />
+              <path transform="translate(160, 202.5) scale(0.033) translate(-200,-200)" d="m150.53 371.75h-30.572q6.6701-31.313 6.6701-56.697v-201.78q0-31.498 5.5604-46.877 5.7425-15.379 22.048-27.052 16.49-11.858 41.134-11.858 29.275 0 49.101 15.564 20.01 15.379 20.01 43.913 0 33.351-31.684 54.659 47.248 22.234 47.248 69.852 0 25.94-12.599 46.507-12.414 20.381-28.904 29.09-16.305 8.7085-39.096 8.7085-25.94 0-42.245-19.455v34.463q0 35.575-6.6701 60.959zm6.6702-112.1q14.452 23.902 40.393 23.902 25.013 0 36.686-18.158 11.673-18.343 11.673-44.469 0-20.011-7.7822-40.763-7.5966-20.937-19.64-31.869-11.117 2.7791-20.011 2.7791-18.713 0-18.713-9.8202 0-8.8936 15.749-8.8936 9.8203 0 24.458 4.4471 13.155-22.234 13.155-48.359 0-23.346-10.376-35.76-10.191-12.414-26.681-12.414-13.155 0-22.604 7.4113-9.2642 7.4116-12.785 17.787-3.5229 10.191-3.5229 33.537z" fill="orange" stroke="none" class="marker beta" />
+              <path transform="translate(293.333, 202.5) scale(0.033) translate(-200,-200)" d="m244.01 120.88h38.169l-74.299 155.82q2.7774 25.014 2.7774 43.727 0 52.065-19.455 52.065-14.081 0-14.081-21.864 0-28.534 20.751-71.52-4.0749-26.681-11.487-64.294-7.2261-37.613-15.008-53.918-7.5968-16.305-21.864-16.305-23.346 0-25.014 34.834h-6.6702q0-61.144 36.316-61.144 20.937 0 31.128 24.828 10.191 24.643 20.938 107.47z" fill="lime" stroke="none" class="marker gamma" />
+              <path transform="translate(26.667, 180) scale(0.033) translate(-200,-200)" d="m202.13 132.55q-9.2643-10.376-25.755-24.828-18.158-15.935-24.458-25.014-6.2997-9.2642-6.2997-20.196 0-16.305 15.193-25.569 15.193-9.4495 39.651-9.4495 24.458 0 42.615 8.3378 18.343 8.3379 18.343 22.975 0 7.0408-4.4448 11.673-4.4448 4.632-10.376 4.632-8.5227 0-20.011-12.785-11.673-12.97-19.825-18.158-7.9673-5.373-18.714-5.373-13.711 0-22.605 6.1144-8.7088 6.1144-8.7088 15.564 0 8.8936 7.2262 16.676 7.2262 7.7819 37.242 28.349 32.054 22.049 45.21 34.463 13.34 12.414 21.678 30.202 8.3383 17.787 8.3383 37.613 0 34.834-24.643 61.515-24.458 26.496-57.253 26.496-29.831 0-50.398-21.308-20.566-21.308-20.566-56.882 0-34.278 22.604-57.253 22.79-22.975 55.956-27.793zm8.1521 8.5231q-53.177 8.7083-53.177 73.002 0 33.166 13.155 51.509 13.341 18.343 30.943 18.343 18.343 0 30.201-17.602 11.858-17.787 11.858-47.989 0-43.727-32.981-77.264z" fill="gray" stroke="none" class="marker delta" />
+              <path transform="translate(160, 180) scale(0.033) translate(-200,-200)" d="m175.45 200.74q-36.501-12.97-36.501-39.28 0-20.752 19.27-33.166 19.455-12.414 48.174-12.414 26.125 0 41.503 8.7085 15.379 8.5231 15.379 20.567 0 6.2997-4.8204 11.117-4.8149 4.632-11.117 4.632-10.376 0-17.047-14.452-9.2642-20.011-27.793-20.011-14.637 0-24.087 9.6348-9.4498 9.6347-9.4498 26.866 0 33.907 35.019 33.907 3.705 0 8.5231-0.74103 8.3384-1.1108 12.97-1.1108 11.302 0 11.302 6.4849 0 7.2261-11.488 7.2261-4.0749 0-12.229-1.2972-6.1147-1.1108-9.4498-1.1108-37.057 0-37.057 37.798 0 18.343 9.8203 29.646 9.8203 11.117 27.422 11.117 22.049 0 29.275-22.79 3.705-12.044 8.1522-16.676 4.6326-4.632 12.229-4.632 6.2996 0 11.302 4.632 5.1905 4.4467 5.1905 11.488 0 16.861-18.899 27.978-18.899 10.932-45.766 10.932-29.46 0-52.435-14.082-22.79-14.082-22.79-37.613 0-29.46 45.395-43.357z" fill="coral" stroke="none" class="marker epsilon" />
+              <path transform="translate(293.333, 180) scale(0.033) translate(-200,-200)" d="m182.03 28.42 2.9652 6.6704q-18.343 7.5966-18.343 21.678 0 9.8202 6.6701 15.008 6.8551 5.1882 15.564 5.1882 0.92746 0 2.7772-0.18798 13.341-14.082 32.24-26.866 18.899-12.785 30.016-12.785 8.5231 0 8.5231 6.8554 0 12.229-17.417 24.272-17.417 11.858-48.36 16.676-50.027 51.324-50.027 120.62 0 28.534 11.302 42.801 11.302 14.082 40.022 14.082 3.153 0 14.452-0.74104 12.785-0.55772 17.417-0.55772 21.678 0 31.128 14.082 9.6347 14.082 9.6347 34.093 0 29.275-14.823 46.136-14.823 17.046-40.577 17.046-24.273 0-24.273-16.305 0-12.785 12.97-12.785 3.705 0 13.896 3.1501 8.5233 2.7791 15.193 2.7791 11.488 0 18.158-9.079 6.8557-8.8936 6.8557-20.196 0-12.599-7.4111-18.343-7.4117-5.7436-24.458-5.7436-3.8928 0-18.899 1.1108-6.8551 0.36974-11.302 0.36974-66.517 0-66.517-80.784 0-74.485 54.103-131.74-13.897-0.36974-23.161-7.2261-9.0787-6.8556-9.0787-19.826 0-21.308 30.757-29.46z" fill="dodgerblue" stroke="none" class="marker zeta" />
+              <path transform="translate(26.667, 157.5) scale(0.033) translate(-200,-200)" d="m180.26 152.38q29.09-36.501 57.068-36.501 43.727 0 43.727 64.294v137.48q0 35.204 7.0412 54.103h-31.313q-6.2996-17.417-6.2996-63.738v-131.92q0-19.084-5.9292-28.163-5.929-9.2643-20.752-9.2643-22.234 0-43.542 24.643v127.29h-30.572v-127.29q0-17.231-3.5172-23.716-3.3351-6.4849-11.488-6.4849-13.155 0-16.12 25.94h-6.6702q3.5229-43.172 35.575-43.172 14.267 0 23.346 10.006 9.0793 9.82 9.4498 26.496z" fill="orange" stroke="none" class="marker eta" />
+              <path transform="translate(160, 157.5) scale(0.033) translate(-200,-200)" d="m201.67 27.494q31.313 0 52.806 36.686 21.493 36.501 21.493 95.237 0 63.367-23.161 99.869-23.16 36.501-53.547 36.501-29.831 0-52.621-35.389-22.605-35.575-22.605-96.348 0-60.959 22.42-98.757 22.605-37.798 55.215-37.798zm39.837 127.85q0-117.1-41.134-117.1-42.245 0-42.245 117.1zm-83.379 11.488q0 60.588 11.303 89.493 11.302 28.719 30.387 28.719 41.318 0 41.689-118.21z" fill="lime" stroke="none" class="marker theta" />
+              <path transform="translate(293.333, 157.5) scale(0.033) translate(-200,-200)" d="m241.78 253.73h6.6702q-3.517 42.06-35.575 42.06-11.302 0-19.454-6.1145-7.9678-6.2996-10.747-14.082-2.5952-7.9671-2.5952-27.422v-61.329q0-29.646-2.2254-37.983-2.2253-8.3378-11.117-8.3378-5.1905 0-12.599 2.779l-2.5952-6.6702 51.139-20.752h8.1522v133.78q0 16.49 3.153 22.605 3.1471 6.1144 11.488 6.1144 12.599 0 16.305-24.643z" fill="gray" stroke="none" class="marker iota" />
+              <path transform="translate(26.667, 135) scale(0.033) translate(-200,-200)" d="m164.61 115.87v80.97l48.174-50.953q28.719-30.016 53.918-30.016 9.8202 0 15.749 4.6322 6.1147 4.6322 6.1147 12.044 0 7.2261-4.8147 11.488-4.6328 4.2615-10.746 4.2615-5.3726 0-14.267-4.8176-8.8936-4.8176-13.711-4.8176-9.6347 0-21.308 12.599l-32.425 35.019 61.144 76.708q15.935 20.011 42.245 20.752v6.8556h-60.032l-70.038-90.975v90.975h-30.757v-103.76q0-30.572-2.4074-38.354-2.4074-7.9673-10.932-7.9673-5.1905 0-12.599 2.7791l-2.5953-6.6704 51.139-20.752z" fill="coral" stroke="none" class="marker kappa" />
+              <path transform="translate(160, 135) scale(0.033) translate(-200,-200)" d="m283.93 237.24h6.6701q0 29.275-9.6347 42.616-9.4498 13.34-23.717 13.34-11.673 0-22.42-8.7085-10.746-8.8936-19.269-47.248l-15.935-71.891-55.215 125.25h-35.019l79.302-170.83q-6.2996-33.166-15.193-49.101-8.8936-15.934-22.048-15.934-10.561 0-18.528 8.1525-7.7823 7.9673-8.7088 24.828h-6.6701q0.5282-27.237 10.932-43.542 10.376-16.49 25.94-16.49 10.005 0 18.899 8.3378 9.0788 8.1526 15.564 28.163 6.6702 19.826 20.567 82.452l13.155 58.735q7.9673 36.501 16.676 48.915 8.893 12.229 21.122 12.229 20.751 0 23.531-29.275z" fill="dodgerblue" stroke="none" class="marker lambda" />
+              <path transform="translate(293.333, 135) scale(0.033) translate(-200,-200)" d="m222.51 259.84q-33.536 35.945-58.365 35.945-15.934 0-29.645-12.229v9.8202q0 17.046 5.1846 34.278 5.9292 19.084 5.9292 25.199 0 8.523-5.3726 14.082-5.3724 5.5587-13.34 5.5587-8.1526 0-12.97-6.4849-4.8148-6.4849-4.8148-15.564 0-6.6704 4.8148-24.087 5.5604-19.27 5.5604-37.428v-168.05h30.572v109.87q0 16.676 2.7772 24.458 2.9652 7.7821 10.191 12.785 7.4117 4.8176 16.676 4.8176 16.49 0 42.801-22.605v-129.33h30.757v128.77q0 16.305 3.3351 22.605 3.335 6.1145 11.303 6.1145 12.599 0 16.305-24.643h6.6702q-3.5229 42.06-35.575 42.06-13.896 0-23.161-9.2643-9.0787-9.4495-9.6347-26.681z" fill="orange" stroke="none" class="marker mu" />
+              <path transform="translate(26.667, 112.5) scale(0.033) translate(-200,-200)" d="m198.15 295.79-40.948-121.55q-4.0749-12.043-10.747-23.716-6.6701-11.673-18.343-11.673-5.5606 0-12.229 2.4086l-2.5952-6.4851 46.136-18.899h8.1522l48.73 142.48 30.201-61.7q8.3383-16.676 8.3383-26.125 0-7.5968-3.153-21.308-2.4074-10.005-2.4074-15.008 0-18.343 19.826-18.343 17.602 0 17.602 16.676 0 16.49-24.458 62.997l-52.991 100.24z" fill="lime" stroke="none" class="marker nu" />
+              <path transform="translate(160, 112.5) scale(0.033) translate(-200,-200)" d="m178.04 27.679v7.0408q-18.158 2.5941-18.158 15.935 0 14.452 20.752 18.528 11.858-12.785 27.978-22.419 16.12-9.8202 28.719-9.8202 9.4498 0 9.4498 8.5231 0 11.302-18.529 22.234-18.528 10.932-44.283 11.302-15.193 15.379-15.193 32.61 0 18.158 17.787 29.831 26.681-14.638 56.327-14.638 20.381 0 20.381 10.191 0 6.8556-10.746 11.673-10.747 4.8176-30.943 4.8176-16.861 0-32.795-2.4084-48.73 31.128-48.73 70.593 0 17.417 12.229 28.904 12.229 11.488 39.651 11.488 4.8204 0 12.97-0.55771 21.308-1.6676 28.719-1.6676 22.419 0 32.61 14.452 10.191 14.452 10.191 36.131 0 30.387-16.675 46.136-16.676 15.935-37.613 15.935-11.117 0-18.343-4.6322-7.2262-4.4471-7.2262-12.229 0-5.5587 3.705-8.8936 3.8928-3.3351 8.7082-3.3351 3.3351 0 9.4498 2.0381 11.487 3.7055 18.343 3.7055 12.599 0 19.826-8.7083 7.2262-8.7085 7.2262-21.864 0-9.2643-5.5604-16.49-5.5604-7.0409-18.158-7.0409-5.5604 0-13.34 0.36974-23.161 1.2972-30.943 1.2972-32.981 0-52.621-19.27-19.64-19.27-19.64-49.471 0-47.433 52.251-79.487-18.899-15.008-18.899-34.278 0-18.158 15.935-36.131-26.496-6.6702-26.496-27.052 0-22.79 31.684-23.346z" fill="gray" stroke="none" class="marker xi" />
+              <path transform="translate(293.333, 112.5) scale(0.033) translate(-200,-200)" d="m200.19 115.87q38.539 0 61.885 29.275 19.825 25.014 19.825 57.438 0 22.79-10.932 46.136-10.932 23.346-30.201 35.204-19.084 11.858-42.615 11.858-38.354 0-60.959-30.572-19.084-25.755-19.084-57.809 0-23.346 11.488-46.321 11.673-23.161 30.572-34.092 18.899-11.117 40.022-11.117zm-5.7425 12.044q-9.8203 0-19.826 5.929-9.8202 5.7437-15.935 20.381-6.1142 14.638-6.1142 37.613 0 37.057 14.637 63.923 14.823 26.866 38.91 26.866 17.972 0 29.646-14.823 11.673-14.823 11.673-50.953 0-45.21-19.455-71.15-13.155-17.787-33.536-17.787z" fill="coral" stroke="none" class="marker omicron" />
+              <path transform="translate(26.667, 90) scale(0.033) translate(-200,-200)" d="m290.51 120.88v27.052h-42.986l-3.705 56.327q-1.1092 14.638-1.1092 25.384 0 25.755 5.9292 31.498 6.1147 5.5586 14.638 5.5586 17.787 0 21.123-22.42h6.6701q-6.1147 51.509-41.133 51.509-16.305 0-26.31-10.005-9.8203-10.005-9.8203-29.646 0-12.97 3.8928-54.844l5.0027-53.362h-39.281q-3.8928 67.444-9.4497 98.572-5.3726 31.128-12.043 40.207-6.4852 9.079-17.787 9.079-8.5233 0-14.452-5.0026-5.7425-5.0026-5.7425-13.155 0-7.782 10.005-21.308 14.637-19.64 21.863-40.763 7.2262-21.308 10.932-67.629h-12.599q-15.194 0-23.346 6.8555-7.9671 6.6703-15.193 19.27h-6.6712q5.3726-19.826 13.897-32.61 8.5227-12.785 17.416-16.676 9.0793-3.8911 32.054-3.8911z" fill="dodgerblue" stroke="none" class="marker pi" />
+              <path transform="translate(160, 90) scale(0.033) translate(-200,-200)" d="m151.73 371.75h-31.684q6.8557-21.308 6.8557-64.479v-104.5q0-44.283 25.014-65.591 25.013-21.308 55.215-21.308 32.795 0 52.806 22.605 20.01 22.419 20.01 58.921 0 39.836-24.828 69.111-24.828 29.275-56.697 29.275-21.493 0-40.948-13.711v24.272q0 38.725-5.7423 65.406zm5.7425-132.66q0 22.419 11.858 34.278 11.858 11.673 30.202 11.673 21.678 0 36.13-18.529 14.637-18.714 14.637-49.286 0-38.725-19.826-61.329-19.825-22.605-44.098-22.605-16.49 0-22.79 10.376-6.1147 10.191-6.1147 33.351z" fill="orange" stroke="none" class="marker rho" />
+              <path transform="translate(293.333, 90) scale(0.033) translate(-200,-200)" d="m291.99 120.88v27.052h-72.261q23.716 13.526 38.725 34.278 15.008 20.567 15.008 43.727 0 30.201-23.902 50.027-23.716 19.826-53.918 19.826-35.76 0-61.699-27.978-25.94-28.163-25.94-65.406 0-26.31 13.526-46.506 13.711-20.196 31.684-27.608 18.158-7.4114 48.915-7.4114zm-84.675 27.052h-6.4852q-27.793 0-44.468 13.896-16.49 13.711-16.49 43.172 0 31.313 17.416 55.4 17.417 23.902 40.763 23.902 18.713 0 30.942-17.973 12.229-18.158 12.229-43.727 0-40.577-33.907-74.67z" fill="lime" stroke="none" class="marker sigma" />
+              <path transform="translate(26.667, 67.5) scale(0.033) translate(-200,-200)" d="m291.99 120.88v27.052h-72.261q23.716 13.526 38.725 34.278 15.008 20.567 15.008 43.727 0 30.201-23.902 50.027-23.716 19.826-53.918 19.826-35.76 0-61.699-27.978-25.94-28.163-25.94-65.406 0-26.31 13.526-46.506 13.711-20.196 31.684-27.608 18.158-7.4114 48.915-7.4114zm-84.675 27.052h-6.4852q-27.793 0-44.468 13.896-16.49 13.711-16.49 43.172 0 31.313 17.416 55.4 17.417 23.902 40.763 23.902 18.713 0 30.942-17.973 12.229-18.158 12.229-43.727 0-40.577-33.907-74.67z" fill="gray" stroke="none" class="marker sigma1" />
+              <path transform="translate(160, 67.5) scale(0.033) translate(-200,-200)" d="m134.04 224.27q0-45.58 27.607-76.893 27.793-31.499 65.776-31.499 17.973 0 27.237 6.2997 9.2643 6.1144 9.2643 15.193 0 5.5587-4.2629 9.2643-4.0749 3.7055-9.2642 3.7055-6.8557 0-19.826-4.8176-15.193-5.5585-25.199-5.5585-26.496 0-41.69 22.419-15.193 22.234-15.193 53.177 0 22.605 11.488 34.278 11.673 11.673 39.837 11.673 7.9671 0 16.861-0.36974 7.5968-0.18798 9.8203-0.18798 20.751 0 30.016 13.34 9.4492 13.155 9.4492 33.907 0 28.719-15.564 46.507-15.379 17.787-40.022 17.787-24.643 0-24.643-16.49 0-12.043 11.858-12.043 4.0749 0 18.158 3.8911 6.2996 1.853 10.376 1.853 8.8936 0 17.602-7.9673 8.8938-7.9673 8.8938-23.902 0-22.79-20.382-22.79-3.705 0-8.8938 0.36974-15.564 1.2972-22.79 1.2972-29.46 0-47.989-19.27-18.528-19.455-18.528-53.177z" fill="coral" stroke="none" class="marker sigma2" />
+              <path transform="translate(293.333, 67.5) scale(0.033) translate(-200,-200)" d="m217.7 147.93-5.3726 53.177q-1.2972 13.896-1.2972 27.793 0 26.496 6.1147 32.24 6.2997 5.5587 14.267 5.5587 17.787 0 21.123-22.42h6.8557q-6.1147 51.509-40.948 51.509-36.501 0-36.501-41.874 0-21.122 4.0749-52.621l6.8557-53.362h-18.343q-15.193 0-23.716 5.1882-8.3378 5.0027-15.564 20.381h-6.6702q5.9292-20.381 14.081-32.24 8.1528-12.044 15.564-16.12 7.4117-4.2616 22.049-4.2616h91.16v27.052z" fill="dodgerblue" stroke="none" class="marker tau" />
+              <path transform="translate(26.667, 45) scale(0.033) translate(-200,-200)" d="m221.68 115.87q33.537 4.0763 49.471 28.349 16.12 24.272 16.12 56.141 0 39.095-23.346 67.258-23.346 28.163-55.771 28.163-17.973 0-32.795-9.6349-14.823-9.8202-19.825-23.716-5.0026-13.896-5.0026-39.095v-61.329q0-16.676-3.153-22.79-3.1471-6.1145-11.673-6.1145-12.414 0-16.306 24.828h-6.67q2.4074-42.06 36.131-42.06 11.487 0 18.899 5.9292 7.5965 5.929 10.376 13.711 2.9651 7.5967 2.9651 27.978v62.256q0 21.864 2.4075 32.981 2.5951 10.932 11.303 17.973 8.8938 7.0409 19.455 7.0409 17.787 0 28.719-20.567 10.932-20.752 10.932-62.441 0-37.242-8.1528-54.845-8.1528-17.787-25.199-23.346z" fill="orange" stroke="none" class="marker upsilon" />
+              <path transform="translate(160, 45) scale(0.033) translate(-200,-200)" d="m178.41 115.87v6.6704q-40.948 10.561-40.948 77.449 0 72.447 50.954 85.231v-107.65q0-23.531 2.9651-34.278 2.9652-10.932 12.97-19.084 10.191-8.3378 24.458-8.3378 25.014 0 46.321 23.531 21.493 23.531 21.493 61.329 0 35.389-22.048 63.182-21.864 27.793-66.147 31.684v76.152h-20.011v-76.152q-38.539-3.3351-61.885-28.719-23.161-25.569-23.161-66.332 0-36.686 21.123-59.847 21.123-23.346 53.918-24.828zm30.016 169.35q58.365-8.7083 58.365-75.411 0-30.757-12.599-51.509-12.414-20.937-29.275-20.937-6.1141 0-10.376 4.4467-4.0749 4.2616-5.1905 10.191-0.92746 5.9292-0.92746 23.346z" fill="lime" stroke="none" class="marker phi" />
+              <path transform="translate(293.333, 45) scale(0.033) translate(-200,-200)" d="m240.95 120.88h32.425l-67.444 132.66 12.229 51.695q6.1147 25.755 14.082 32.61 8.1528 6.8556 19.64 6.8556 27.052 0 28.905-31.498h6.8557q-0.35265 27.607-10.747 43.357-10.376 15.935-27.978 15.935-15.378 0-24.458-9.8202-9.0787-9.82-16.119-38.91l-12.229-51.509-49.471 99.498h-32.425l71.705-142.48-10.376-43.727q-5.7425-23.902-11.488-32.24-5.7425-8.5231-17.972-8.5231-21.678 0-26.866 32.981h-6.8556q0-25.94 8.8936-42.616 9.0787-16.861 26.866-16.861 15.379 0 22.976 11.302 7.7816 11.302 14.823 40.948l9.6348 40.022z" fill="gray" stroke="none" class="marker chi" />
+              <path transform="translate(26.667, 22.5) scale(0.033) translate(-200,-200)" d="m210.1 284.67q19.641-5.7436 27.978-22.049 8.5231-16.49 13.34-63.738 4.0749-38.725 7.0412-51.695 3.1471-13.155 12.229-20.937 9.0787-7.9673 23.902-7.9673 8.7088 0 18.899 2.5941v7.0409q-2.0375-0.18798-3.5229-0.18798-7.9673 0-13.526 9.6348-5.5606 9.6348-9.6348 48.174-3.8928 34.278-8.7088 48.915-4.6326 14.452-15.193 28.534-10.376 13.896-22.975 20.937-12.599 7.0409-29.831 10.561v77.264h-20.196v-77.264q-17.972-3.7055-30.942-11.302-12.97-7.5968-22.791-21.308-9.6347-13.896-14.452-28.163-4.6326-14.452-8.7088-51.139-3.8928-35.945-9.4492-45.395-5.5604-9.4495-13.341-9.4495-1.6676 0-3.705 0.18798v-7.0409q10.191-2.5941 18.899-2.5941 14.638 0 23.716 7.9673 9.0793 7.7819 12.414 20.937 3.5229 12.97 6.4846 46.692 5.0027 55.215 14.452 70.408 9.6348 15.193 27.422 20.381v-166.39h20.196z" fill="coral" stroke="none" class="marker psi" />
+              <path transform="translate(160, 22.5) scale(0.033) translate(-200,-200)" d="m200.28 259.1q-16.119 36.686-49.286 36.686-23.161 0-42.616-21.308-19.27-21.493-19.27-61.7 0-32.981 11.488-53.733 11.673-20.937 30.387-32.054 18.713-11.117 49.841-11.117v6.8556q-27.422 0-42.616 22.605-15.194 22.605-15.194 64.109 0 42.06 9.8203 57.624 10.005 15.564 23.531 15.564 8.7088 0 16.861-5.3732 8.3383-5.373 11.673-11.302 3.3351-6.1144 10.191-24.828-11.673-24.458-11.673-51.694 0-41.319 16.861-41.319 16.861 0 16.861 38.169 0 26.311-12.229 54.844 13.341 41.504 38.169 41.504 13.896 0 23.902-14.452 10.191-14.638 10.191-55.03 0-33.722-6.6701-51.509-6.4852-17.973-19.455-27.978-12.97-10.191-31.684-10.932v-6.8556q31.128 0 49.842 11.302 18.714 11.302 30.201 31.869 11.488 20.567 11.488 53.177 0 40.763-18.713 62.256-18.528 21.308-43.357 21.308-34.092 0-48.545-36.686z" fill="dodgerblue" stroke="none" class="marker omega" />
+            </g>
+            <g class="labels" font-family="sans-serif" font-size="12" text-anchor="start">
+              <text x="32" y="205.5">alpha</text>
+              <text x="165.333" y="205.5">beta</text>
+              <text x="297.833" y="205.5">gamma</text>
+              <text x="31.167" y="183">delta</text>
+              <text x="164.5" y="183">epsilon</text>
+              <text x="297.833" y="183">zeta</text>
+              <text x="31.167" y="160.5">eta</text>
+              <text x="164.5" y="160.5">theta</text>
+              <text x="297.333" y="160.5">iota</text>
+              <text x="32" y="138">kappa</text>
+              <text x="164.5" y="138">lambda</text>
+              <text x="297.833" y="138">mu</text>
+              <text x="31.167" y="115.5">nu</text>
+              <text x="164.5" y="115.5">xi</text>
+              <text x="297.833" y="115.5">omicron</text>
+              <text x="31.167" y="93">pi</text>
+              <text x="164.5" y="93">rho</text>
+              <text x="297.833" y="93">sigma</text>
+              <text x="31.167" y="70.5">sigma1</text>
+              <text x="164.5" y="70.5">sigma2</text>
+              <text x="297.833" y="70.5">tau</text>
+              <text x="31.167" y="48">upsilon</text>
+              <text x="164.5" y="48">phi</text>
+              <text x="297.833" y="48">chi</text>
+              <text x="31.167" y="25.5">psi</text>
+              <text x="165.333" y="25.5">omega</text>
+            </g>
+          </g>
         </g>
       </g>
     </g>

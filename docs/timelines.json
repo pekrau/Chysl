@@ -11,19 +11,25 @@
       "const": "timelines"
     },
     "title": {
-      "$ref": "#title"
+      "title": "Title of the chart.",
+      "$ref": "#text"
     },
     "description": {
-      "$ref": "#description"
+      "title": "Description of the chart. Rendered as <desc> in SVG.",
+      "type": "string"
     },
     "width": {
-      "title": "Width of the chart, including legends etc.",
+      "title": "Width of the chart area (pixels).",
       "type": "number",
       "default": 600,
       "exclusiveMinimum": 0
     },
+    "frame": {
+      "title": "Chart area frame specification.",
+      "$ref": "#frame"
+    },
     "legend": {
-      "title": "Display legend.",
+      "title": "Legend to be displayed or not.",
       "type": "boolean",
       "default": true
     },
@@ -86,7 +92,9 @@
                 "default": true
               },
               "href": {
-                "$ref": "#uri"
+                "title": "A URI for a link, absolute or relative.",
+                "type": "string",
+                "format": "uri-reference"
               }
             }
           },
@@ -141,7 +149,9 @@
                 "default": "error"
               },
               "href": {
-                "$ref": "#uri"
+                "title": "A URI for a link, absolute or relative.",
+                "type": "string",
+                "format": "uri-reference"
               }
             }
           }
@@ -150,22 +160,6 @@
     }
   },
   "$defs": {
-    "title": {
-      "$anchor": "title",
-      "title": "Title of the chart, with or without styling. Displayed at the top.",
-      "$ref": "#text"
-    },
-    "description": {
-      "$anchor": "description",
-      "title": "Description of the chart. Rendered as <desc> in SVG.",
-      "type": "string"
-    },
-    "uri": {
-      "$anchor": "uri",
-      "title": "A URI, absolute or relative.",
-      "type": "string",
-      "format": "uri-reference"
-    },
     "axis": {
       "$anchor": "axis",
       "title": "Coordinate axis specification.",
@@ -181,11 +175,11 @@
           "additionalProperties": false,
           "properties": {
             "min": {
-              "title": "Explicit minimum of span for axis.",
+              "title": "Explicit minimum for the axis.",
               "type": "number"
             },
             "max": {
-              "title": "Explicit maximum of span for axis.",
+              "title": "Explicit maximum for the axis.",
               "type": "number"
             },
             "ticks": {
@@ -198,7 +192,7 @@
               }
             },
             "labels": {
-              "title": "Display labels, or not.",
+              "title": "Display tick labels, or not.",
               "type": "boolean",
               "default": true
             },
@@ -208,17 +202,46 @@
               "minimumExclusive": 0
             },
             "absolute": {
-              "title": "Display absolute values for ticks.",
+              "title": "Display absolute values for tick labels.",
               "type": "boolean",
               "default": false
             },
             "caption": {
               "title": "Axis description.",
               "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "frame": {
+      "$anchor": "frame",
+      "title": "Specification of the chart area frame.",
+      "oneOf": [
+        {
+          "title": "Default chart area frame, or no frame.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Specification of the chart area frame.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "thickness": {
+              "title": "Thickness of the frame (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimumExclusive": 0
             },
-            "width": {
-              "title": "Space for labels and caption. Default is enough for display of specified labels and caption.",
-              "type": "number"
+            "color": {
+              "title": "Color of the frame. Default depends on the chart.",
+              "type": "string",
+              "format": "color"
+            },
+            "radius": {
+              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimum": 0
             }
           }
         }
@@ -262,9 +285,33 @@
         }
       ]
     },
+    "grid": {
+      "$anchor": "grid",
+      "title": "Coordinate grid specification.",
+      "oneOf": [
+        {
+          "title": "Display default grid.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Grid styling.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "lightgray"
+            }
+          }
+        }
+      ]
+    },
     "marker": {
       "$anchor": "marker",
-      "title": "Symbol for use as a marker in a chart.",
+      "title": "Symbol to use as data point marker in the chart.",
       "oneOf": [
         {
           "title": "Predefined symbols denoted by names.",
@@ -372,9 +419,15 @@
               "title": "The text to display.",
               "type": "string"
             },
+            "font": {
+              "title": "Name of the font.",
+              "type": "string",
+              "default": "sans-serif"
+            },
             "size": {
-              "title": "Size of font. Default depends on context.",
-              "$ref": "#size"
+              "title": "Size of font (pixels). Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
             },
             "bold": {
               "title": "Bold font.",
@@ -400,49 +453,10 @@
                 "right"
               ],
               "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
             }
           }
         }
       ]
-    },
-    "grid": {
-      "$anchor": "grid",
-      "title": "Coordinate grid specification.",
-      "oneOf": [
-        {
-          "title": "Display default grid.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Grid styling.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "lightgray"
-            }
-          }
-        }
-      ]
-    },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
     }
   }
 }

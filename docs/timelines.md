@@ -17,12 +17,13 @@
 ![universe SVG](universe.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: timelines
 title:
-  text: Universe
+  size: 24
   bold: true
-  color: blue
+  color: darkorchid
+  text: Universe
 entries:
 - label: Big Bang
   timeline: Universe
@@ -50,14 +51,14 @@ entries:
 axis:
   absolute: true
   caption: Billion years ago
-grid: false
+  max: 50000000
 ```
 ### earth
 
 ![earth SVG](earth.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: timelines
 title: Earth
 entries:
@@ -109,21 +110,23 @@ entries:
 axis:
   absolute: true
   caption: Billion years ago
+  max: 20000000
 ```
 ### universe_earth
 
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: column
 title: Universe and Earth
 subcharts:
 - chart: timelines
   title:
-    text: Universe
+    size: 24
     bold: true
-    color: blue
+    color: darkorchid
+    text: Universe
   entries:
   - label: Big Bang
     timeline: Universe
@@ -152,7 +155,7 @@ subcharts:
   axis:
     absolute: true
     caption: Billion years ago
-  grid: false
+    max: 50000000
 - chart: timelines
   title: Earth
   entries:
@@ -205,24 +208,24 @@ subcharts:
   axis:
     absolute: true
     caption: Billion years ago
+    max: 20000000
 ```
 ### markers
 
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: column
 subcharts:
 - chart: scatter2d
   title: Geometry markers
-  width: 300
+  width: 400
+  height: 225
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -358,13 +361,12 @@ subcharts:
     label: octagon-fill
 - chart: scatter2d
   title: Symbol markers
-  width: 300
+  width: 400
+  height: 75
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -410,13 +412,12 @@ subcharts:
     label: none
 - chart: scatter2d
   title: Astronomy markers
-  width: 300
+  width: 400
+  height: 125
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -487,13 +488,12 @@ subcharts:
     label: neptune
 - chart: scatter2d
   title: Greek markers
-  width: 300
+  width: 400
+  height: 225
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -633,11 +633,11 @@ subcharts:
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: board
 title: Poster
 items:
-- x: 250
+- x: 150
   y: 10
   subchart:
     chart: note
@@ -645,11 +645,11 @@ items:
     body: Ph.D.
     footer: Stockholm University
 - x: 0
-  y: 100
+  y: 150
   subchart:
     include: universe.yaml
 - x: 50
-  y: 230
+  y: 290
   subchart:
     include: earth.yaml
 ```
@@ -658,7 +658,7 @@ items:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -712,6 +712,7 @@ subcharts:
   entries:
   - begin: 1
     end: 10000000000
+padding: 20
 ```
 ## Specification
 
@@ -722,15 +723,17 @@ Timelines having events and periods.
 - **chart**:
   - *required*
   - *const* 'timelines'
-- **title**:
-  - *See* [title](schema_defs.md#title).
-- **description**:
-  - *See* [description](schema_defs.md#description).
-- **width**: Width of the chart, including legends etc.
+- **title**: Title of the chart.
+  - *See* [text](schema_defs.md#text).
+- **description**: Description of the chart. Rendered as <desc> in SVG.
+  - *type*: string
+- **width**: Width of the chart area (pixels).
   - *type*: float
   - *exclusiveMinimum*: 0
   - *default*: 600
-- **legend**: Display legend.
+- **frame**: Chart area frame specification.
+  - *See* [frame](schema_defs.md#frame).
+- **legend**: Legend to be displayed or not.
   - *type*: boolean
   - *default*: true
 - **axis**: Time axis specification.
@@ -762,8 +765,9 @@ Timelines having events and periods.
       - **fuzzy**: Error bar marker for fuzzy number.
         - *type*: boolean
         - *default*: true
-      - **href**:
-        - *See* [uri](schema_defs.md#uri).
+      - **href**: A URI for a link, absolute or relative.
+        - *type*: string
+        - *format*: uri-reference
     - Alternative 2: Period of time.
       - *type*: mapping
       - **begin**: Starting time of the period.
@@ -786,6 +790,7 @@ Timelines having events and periods.
       - **fuzzy**: Marker to use for fuzzy number.
         - *one of*: 'error', 'wedge', 'gradient', 'none'
         - *default*: 'error'
-      - **href**:
-        - *See* [uri](schema_defs.md#uri).
+      - **href**: A URI for a link, absolute or relative.
+        - *type*: string
+        - *format*: uri-reference
 

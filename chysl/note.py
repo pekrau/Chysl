@@ -1,22 +1,24 @@
 "Textual note with title, body and footer text."
 
+import components
 import constants
 import schema
 import utils
-from chart import Chart, register
+from chart import Chart, Layout, register
 from minixml import Element
 from path import Path
+from utils import N
 
 
 class Note(Chart):
     "Textual note with title, body and footer text."
 
     DEFAULT_WIDTH = 200
-    DEFAULT_FRAME = 5
-    DEFAULT_COLOR = "gold"
-    DEFAULT_BACKGROUND = "lightyellow"
+    DEFAULT_FRAME_THICKNESS = 5
+    DEFAULT_FRAME_COLOR = "gold"
+    DEFAULT_FRAME_RADIUS = 10
     DEFAULT_LINE = 1
-    DEFAULT_RADIUS = 10
+    DEFAULT_BACKGROUND = "lightyellow"
 
     SCHEMA = {
         "title": __doc__,
@@ -26,8 +28,10 @@ class Note(Chart):
         "minProperties": 2,
         "properties": {
             "chart": {"const": "note"},
-            "title": {"$ref": "#title"},
-            "description": {"$ref": "#description"},
+            "title": {
+                "title": "Title of the note.",
+                "$ref": "#text",
+            },
             "body": {
                 "title": "Body of the note.",
                 "$ref": "#text",
@@ -36,32 +40,16 @@ class Note(Chart):
                 "title": "Footer of the note.",
                 "$ref": "#text",
             },
-            "width": {
-                "title": "Width of chart (pixels).",
-                "type": "number",
-                "default": DEFAULT_WIDTH,
-                "exclusiveMinimum": 0,
+            "description": {
+                "title": "Description of the chart. Rendered as <desc> in SVG.",
+                "type": "string",
             },
             "frame": {
-                "title": "Thickness of the frame (pixels).",
-                "type": "number",
-                "minimum": 0,
-                "default": DEFAULT_FRAME,
-            },
-            "color": {
-                "title": "Color of the note frame and lines.",
-                "type": "string",
-                "format": "color",
-                "default": DEFAULT_COLOR,
-            },
-            "radius": {
-                "title": "Radius of the frame edge curvature (pixels).",
-                "type": "number",
-                "default": DEFAULT_RADIUS,
-                "minimum": 0,
+                "title": "Specification of the note frame. Default is 5 pixels gold with radius 10.",
+                "$ref": "#frame",
             },
             "line": {
-                "title": "Thickness of lines between sections (pixels).",
+                "title": "Thickness of lines between sections (pixels). Same color as frame.",
                 "type": "number",
                 "minimum": 0,
                 "default": DEFAULT_LINE,
@@ -72,6 +60,11 @@ class Note(Chart):
                 "format": "color",
                 "default": DEFAULT_BACKGROUND,
             },
+            "width": {
+                "title": "Explicit width of note (pixels).",
+                "type": "number",
+                "minimumExclusive": 0,
+            },
         },
     }
 
@@ -79,177 +72,166 @@ class Note(Chart):
 
     def __init__(
         self,
-        title=None,
-        description=None,
+        title=None,  # Allow title, body, footer to be positional args.
         body=None,
         footer=None,
-        width=None,
+        description=None,  # Allow title, body, footer to be positional args.
         frame=None,
-        color=None,
-        radius=None,
         line=None,
         background=None,
+        width=None,
     ):
         super().__init__(title=title, description=description)
         assert body is None or isinstance(body, (str, dict))
         assert footer is None or isinstance(footer, (str, dict))
-        assert width is None or isinstance(width, (int, float))
-        assert frame is None or isinstance(frame, (int, float))
-        assert color is None or isinstance(color, str)
-        assert radius is None or isinstance(radius, (int, float))
+        assert frame is None or isinstance(frame, (bool, dict))
         assert line is None or isinstance(line, (int, float))
         assert background is None or isinstance(background, str)
+        assert width is None or isinstance(width, (int, float))
 
-        self.title = title
-        self.body = body
-        self.footer = footer
-        self.width = width or self.DEFAULT_WIDTH
-        self.frame = self.DEFAULT_FRAME if frame is None else frame
-        self.color = color or self.DEFAULT_COLOR
-        self.radius = self.DEFAULT_RADIUS if radius is None else radius
+        self.body = components.Text(body)
+        self.footer = components.Text(footer)
+        self.frame = True if frame is None else frame
+        if isinstance(self.frame, dict):
+            self.frame_thickness = (
+                self.frame.get("thickness") or self.DEFAULT_FRAME_THICKNESS
+            )
+            self.frame_color = self.frame.get("color") or self.DEFAULT_FRAME_COLOR
+            self.frame_radius = self.frame.get("radius") or self.DEFAULT_FRAME_RADIUS
+        else:
+            self.frame_thickness = self.DEFAULT_FRAME_THICKNESS
+            self.frame_color = self.DEFAULT_FRAME_COLOR
+            self.frame_radius = self.DEFAULT_FRAME_RADIUS
         self.line = self.DEFAULT_LINE if line is None else line
         self.background = background or self.DEFAULT_BACKGROUND
+        self.width = width
 
     def as_dict(self):
         result = super().as_dict()  # Deals with 'title'.
-        result.update(self.text_as_dict("body"))
-        result.update(self.text_as_dict("footer"))
-        if self.width != self.DEFAULT_WIDTH:
-            result["width"] = self.width
-        if self.frame != self.DEFAULT_FRAME:
+        result.update(self.body.as_dict("body"))
+        result.update(self.footer.as_dict("footer"))
+        if self.frame is not True:
             result["frame"] = self.frame
-        if self.color != self.DEFAULT_COLOR:
-            result["color"] = self.color
-        if self.radius != self.DEFAULT_RADIUS:
-            result["radius"] = self.radius
         if self.line != self.DEFAULT_LINE:
             result["line"] = self.line
         if self.background != self.DEFAULT_BACKGROUND:
             result["background"] = self.background
+        if self.width:
+            result["width"] = self.width
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute. Adds the title, if given.
-        Set the 'svg' and 'height' attributes.
-        Requires the 'width' attribute.
-        """
-        assert hasattr(self, "width")
-
+        "Create the SVG elements in the 'svg' attribute."
         super().build()
-        self.svg += (
-            rect := Element(
-                "rect",
-                x=self.frame / 2,
-                y=self.frame / 2,
-                rx=self.radius,
-                ry=self.radius,
-                width=self.width - self.frame,
-                fill=self.background,
-                stroke=self.color,
-            )
-        )
-        rect["stroke-width"] = self.frame
 
-        self.total_height = 2 * constants.DEFAULT_PADDING
+        note = self.get_note()
+        layout = Layout(rows=1, columns=1)
+        layout.add(0, 0, self.get_frame(note.total_width, note.total_height))
+        layout.add(0, 0, note)
+        self.svg.load_layout(layout)
 
-        title, height = self.get_text(self.title)
-        if title:
-            self.svg += title
-            self.total_height += height + constants.DEFAULT_PADDING
-            if self.line:
-                self.total_height += constants.DEFAULT_PADDING
+    def get_note(self):
+        result = Element("g")
+        result.total_width = self.width or 0
+        result.total_height = 0
 
-        body, height = self.get_text(self.body)
-        if body:
-            if self.line and title:
-                self.svg += (
-                    line := Element(
-                        "line",
-                        x1=0,
-                        y1=utils.N(self.total_height),
-                        x2=utils.N(self.width),
-                        y2=utils.N(self.total_height),
-                        stroke=self.color,
-                    )
-                )
-                line["stroke-width"] = utils.N(self.line)
-                self.total_height += self.line
+        if self.title:
+            result += (title := self.title.get_element())
+            if not self.width:
+                result.total_width = max(result.total_width, title.total_width)
 
-            self.svg += body
-            self.total_height += height + constants.DEFAULT_PADDING
-            if self.line:
-                self.total_height += constants.DEFAULT_PADDING
+        if self.body:
+            result += (body := self.body.get_element())
+            if not self.width:
+                result.total_width = max(result.total_width, body.total_width)
 
-        footer, height = self.get_text(self.footer)
-        if footer:
-            if self.line and (body or (title and not body)):
-                # self.total_height += constants.DEFAULT_PADDING
-                self.svg += (
-                    line := Element(
-                        "line",
-                        x1=0,
-                        y1=utils.N(self.total_height),
-                        x2=utils.N(self.width),
-                        y2=utils.N(self.total_height),
-                        stroke=self.color,
-                    )
-                )
-                line["stroke-width"] = utils.N(self.line)
-                self.total_height += self.line
+        if self.footer:
+            result += (footer := self.footer.get_element())
+            if not self.width:
+                result.total_width = max(result.total_width, footer.total_width)
 
-            self.svg += footer
-            self.total_height += height + 2 * constants.DEFAULT_PADDING
-
-        rect["height"] = utils.N(self.total_height)
-        self.total_height += self.frame
-
-    def get_text(self, text):
-        "Return tuple (g with text elements, height)."
-        if not text:
-            return None, 0
-        result = Element("g", stroke="none")
-        if isinstance(text, dict):
-            result["fill"] = text.get("color") or "black"
-            placement = text.get("placement") or constants.CENTER
-            match placement:
+        if self.title:
+            match self.title.placement:
                 case constants.LEFT:
-                    offset = (
-                        -self.width / 2 + self.frame / 2 + constants.DEFAULT_PADDING
-                    )
-                    result["text-anchor"] = constants.START
-                case constants.CENTER:
                     offset = 0
-                    result["text-anchor"] = constants.MIDDLE
+                case constants.CENTER:
+                    offset = (result.total_width - title.total_width) / 2
                 case constants.RIGHT:
-                    offset = (
-                        +self.width / 2 - 3 * self.frame / 2 - constants.DEFAULT_PADDING
+                    offset = result.total_width - title.total_width
+            title["transform"] = f"translate({N(offset)},0)"
+            result.total_height += title.total_height
+
+        if self.body:
+            if self.title and self.line:
+                result += (
+                    line := Element(
+                        "line",
+                        x1=0,
+                        y1=utils.N(result.total_height + self.line),
+                        x2=utils.N(result.total_width),
+                        y2=utils.N(result.total_height + self.line),
+                        stroke=self.frame_color,
                     )
-                    result["text-anchor"] = constants.END
-            try:
-                size = text["size"]
-                result["font-size"] = utils.N(size)
-            except KeyError:
-                size = constants.DEFAULT_FONT_SIZE
-            if text.get("bold"):
-                result["font-weight"] = "bold"
-            if text.get("italic"):
-                result["font-style"] = "italic"
-            lines = text["text"].split("\n")
-        else:
-            result["fill"] = "black"
-            offset = 0
-            result["text-anchor"] = "middle"
-            size = constants.DEFAULT_FONT_SIZE
-            lines = text.split("\n")
-        height = 0
-        for line in lines:
-            result += Element("text", line, x=0, y=utils.N(height))
-            height += size
-        x = (self.frame + self.width) / 2 + offset
-        y = self.total_height + size + constants.DEFAULT_PADDING
-        result["transform"] = f"translate({utils.N(x)}, {utils.N(y)})"
-        height += size * constants.FONT_DESCEND
-        return result, height
+                )
+                line["stroke-width"] = utils.N(self.line)
+                result.total_height += self.line
+            match self.body.placement:
+                case constants.LEFT:
+                    offset = 0
+                case constants.CENTER:
+                    offset = (result.total_width - body.total_width) / 2
+                case constants.RIGHT:
+                    offset = result.total_width - body.total_width
+            body["transform"] = f"translate({N(offset)},{N(result.total_height)})"
+            result.total_height += body.total_height
+
+        if self.footer:
+            if (self.title or self.body) and self.line:
+                result += (
+                    line := Element(
+                        "line",
+                        x1=0,
+                        y1=utils.N(result.total_height + self.line),
+                        x2=utils.N(result.total_width),
+                        y2=utils.N(result.total_height + self.line),
+                        stroke=self.frame_color,
+                    )
+                )
+                line["stroke-width"] = utils.N(self.line)
+                result.total_height += self.line
+            match self.footer.placement:
+                case constants.LEFT:
+                    offset = 0
+                case constants.CENTER:
+                    offset = (result.total_width - footer.total_width) / 2
+                case constants.RIGHT:
+                    offset = result.total_width - footer.total_width
+            footer["transform"] = f"translate({N(offset)},{N(result.total_height)})"
+            result.total_height += footer.total_height
+
+        return result
+
+    def get_frame(self, width, height):
+        if not self.frame:
+            return None
+
+        result = Element(
+            "rect",
+            x=N(self.frame_thickness / 2),
+            y=N(self.frame_thickness / 2),
+            width=N(width + self.frame_thickness),
+            height=N(height + self.frame_thickness),
+            fill=self.background,
+            stroke=self.frame_color,
+        )
+        if self.frame_radius:
+            result["rx"] = N(self.frame_radius)
+            result["ry"] = N(self.frame_radius)
+        result["class"] = "frame"
+        result["stroke-width"] = N(self.frame_thickness)
+        result.total_width = width + 2 * self.frame_thickness
+        result.total_height = height + 2 * self.frame_thickness
+        return result
 
 
 register(Note)

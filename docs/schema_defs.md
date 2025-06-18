@@ -1,44 +1,17 @@
 # Schema definitions
-- [size](#size): Size of graphical item, in approximate display pixel units.
-- [color](#color): Color specification; hex code '#rrggbb' or CSS3 color name.
-- [opacity](#opacity): Opacity in range [0.0, 1.0].
-- [marker](#marker): Symbol for use as a marker in a chart.
+- [marker](#marker): Symbol to use as data point marker in the chart.
 - [text](#text): Text, with or without explicit styling.
-- [title](#title): Title of the chart, with or without styling. Displayed at the top.
-- [description](#description): Description of the chart. Rendered as <desc> in SVG.
 - [fuzzy_number](#fuzzy_number): Number value, exact, or fuzzy with either low/high or error.
-- [uri](#uri): A URI, absolute or relative.
+- [frame](#frame): Specification of the chart area frame.
 - [axis](#axis): Coordinate axis specification.
 - [grid](#grid): Coordinate grid specification.
 - [chart_or_include](#chart_or_include): Inline chart specification, or location (file of web resource) to read the chart specification from.
 - [datapoints](#datapoints): Data provided inline, or from a file, web resource or database.
 - [field](#field): Mapping of a plot parameter to a field in source data.
 
-## size
-
-Size of graphical item, in approximate display pixel units.
-
-- *type*: float
-
-## color
-
-Color specification; hex code '#rrggbb' or CSS3 color name.
-
-- *type*: string
-- *format*: color
-
-## opacity
-
-Opacity in range [0.0, 1.0].
-
-- *type*: float
-- *minimum*: 0
-- *maximum*: 1
-- *default*: 1
-
 ## marker
 
-Symbol for use as a marker in a chart.
+Symbol to use as data point marker in the chart.
 
 - Alternative 1: Predefined symbols denoted by names.
   - *one of*: 'disc', 'circle', 'oval', 'oval-vertical', 'oval-horizontal', 'ellipse', 'ellipse-vertical', 'ellipse-horizontal', 'block', 'square', 'square-cross', 'diamond', 'diamond-cross', 'diamond-fill', 'pyramid', 'triangle', 'wedge', 'trigon', 'pentagon', 'pentagon-fill', 'hexagon', 'hexagon-fill', 'heptagon', 'heptagon-fill', 'octagon', 'octagon-fill', 'cross', 'plus', 'minus', 'bar', 'check', 'burst', 'infinity', 'none', 'star', 'star-fill', 'galaxy', 'sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'sigma1', 'sigma2', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega'
@@ -56,8 +29,11 @@ Text, with or without explicit styling.
   - **text**: The text to display.
     - *required*
     - *type*: string
-  - **size**: Size of font. Default depends on context.
-    - *See* [size](schema_defs.md#size).
+  - **font**: Name of the font.
+    - *type*: string
+    - *default*: 'sans-serif'
+  - **size**: Size of font (pixels). Default depends on context.
+    - *type*: float
   - **bold**: Bold font.
     - *type*: boolean
     - *default*: false
@@ -71,21 +47,6 @@ Text, with or without explicit styling.
   - **placement**: Placement of text. Ignored in some contexts.
     - *one of*: 'left', 'center', 'right'
     - *default*: 'center'
-  - **anchor**: Text anchor position. Ignored in some contexts.
-    - *one of*: 'start', 'middle', 'end'
-    - *default*: 'middle'
-
-## title
-
-Title of the chart, with or without styling. Displayed at the top.
-
-- *See* [text](schema_defs.md#text).
-
-## description
-
-Description of the chart. Rendered as <desc> in SVG.
-
-- *type*: string
 
 ## fuzzy_number
 
@@ -106,12 +67,23 @@ Number value, exact, or fuzzy with either low/high or error.
     - *type*: float
     - *exclusiveMinimum*: 0
 
-## uri
+## frame
 
-A URI, absolute or relative.
+Specification of the chart area frame.
 
-- *type*: string
-- *format*: uri-reference
+- Alternative 1: Default chart area frame, or no frame.
+  - *type*: boolean
+  - *default*: true
+- Alternative 2: Specification of the chart area frame.
+  - *type*: mapping
+  - **thickness**: Thickness of the frame (pixels). Default depends on the chart.
+    - *type*: float
+  - **color**: Color of the frame. Default depends on the chart.
+    - *type*: string
+    - *format*: color
+  - **radius**: Radius of the frame corner curvature (pixels). Default depends on the chart.
+    - *type*: float
+    - *minimum*: 0
 
 ## axis
 
@@ -122,26 +94,24 @@ Coordinate axis specification.
   - *default*: true
 - Alternative 2: Coordinate axis specification.
   - *type*: mapping
-  - **min**: Explicit minimum of span for axis.
+  - **min**: Explicit minimum for the axis.
     - *type*: float
-  - **max**: Explicit maximum of span for axis.
+  - **max**: Explicit maximum for the axis.
     - *type*: float
   - **ticks**: Explicit positions for axis ticks.
     - *type*: sequence
     - *items*:
       - *type*: float
-  - **labels**: Display labels, or not.
+  - **labels**: Display tick labels, or not.
     - *type*: boolean
     - *default*: true
   - **factor**: Factor to divide tick value by for label display. Default depends on context.
     - *type*: float
-  - **absolute**: Display absolute values for ticks.
+  - **absolute**: Display absolute values for tick labels.
     - *type*: boolean
     - *default*: false
   - **caption**: Axis description.
     - *type*: string
-  - **width**: Space for labels and caption. Default is enough for display of specified labels and caption.
-    - *type*: float
 
 ## grid
 
@@ -185,12 +155,16 @@ Data provided inline, or from a file, web resource or database.
       - *type*: float
     - **y**:
       - *type*: float
-    - **size**:
-      - *See* [size](schema_defs.md#size).
-    - **color**:
-      - *See* [color](schema_defs.md#color).
-    - **opacity**:
-      - *See* [opacity](schema_defs.md#opacity).
+    - **size**: Size of the marker (pixels).
+      - *type*: float
+    - **color**: Color specified by hex code '#rrggbb' or CSS3 color name.
+      - *type*: string
+      - *format*: color
+    - **opacity**: Opacity of the marker.
+      - *type*: float
+      - *minimum*: 0
+      - *maximum*: 1
+      - *default*: 1
     - **marker**:
       - *See* [marker](schema_defs.md#marker).
 - Alternative 2: Data from file, web resource or database.

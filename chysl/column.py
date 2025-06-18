@@ -1,5 +1,6 @@
 "Charts stacked in a column."
 
+import components
 import constants
 import schema
 from chart import Chart, Layout, parse, register
@@ -10,7 +11,8 @@ from utils import N
 class Column(Chart):
     "Charts stacked in a column."
 
-    DEFAULT_TITLE_FONT_SIZE = 22
+    TITLE_CLASS = components.CompoundTitle
+
     DEFAULT_ALIGN = constants.CENTER
     DEFAULT_PADDING = 0
 
@@ -21,8 +23,14 @@ class Column(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "column"},
-            "title": {"$ref": "#title"},
-            "description": {"$ref": "#description"},
+            "title": {
+                "title": "Title of the chart.",
+                "$ref": "#text",
+            },
+            "description": {
+                "title": "Description of the chart. Rendered as <desc> in SVG.",
+                "type": "string",
+            },
             "align": {
                 "title": "Align charts horizontally within the column.",
                 "enum": constants.HORIZONTAL,
@@ -32,7 +40,7 @@ class Column(Chart):
                 "title": "Padding between the subcharts.",
                 "type": "number",
                 "minimum": 0,
-                "default": constants.DEFAULT_PADDING,
+                "default": 0,
             },
             "subcharts": {
                 "title": "Charts in the column.",
@@ -54,7 +62,7 @@ class Column(Chart):
         assert padding is None or (isinstance(padding, (int, float)) and padding >= 0)
 
         self.align = align or self.DEFAULT_ALIGN
-        self.padding = padding if padding is not None else constants.DEFAULT_PADDING
+        self.padding = padding
         self.subcharts = []
         if subcharts:
             for subchart in subcharts:
@@ -80,24 +88,27 @@ class Column(Chart):
                 result["subcharts"].append(subchart.as_dict())
         if self.align != self.DEFAULT_ALIGN:
             result["align"] = self.align
-        if self.padding is not None and self.padding != constants.DEFAULT_PADDING:
+        if self.padding is not None:
             result["padding"] = self.padding
         return result
 
     def build(self):
         "Create the SVG elements in the 'svg' attribute."
         super().build()
+        layout = Layout(
+            rows=len(self.subcharts),
+            columns=1,
+            title=self.title,
+            halign=self.align,
+            hpadding=self.padding,
+            vpadding=self.padding,
+        )
 
-        for subchart in self.subcharts:
-            subchart.build()
-
-        # Create the layout, add the different parts to it and load it.
-        layout = Layout(rows=len(self.subcharts), columns=1, title=self.get_title())
         for pos, subchart in enumerate(self.subcharts):
             subchart.build()
-            # XXX how deal with alignment?
             for element in subchart.svg:
                 layout.add(pos, 0, element)
+
         self.svg.load_layout(layout)
 
 

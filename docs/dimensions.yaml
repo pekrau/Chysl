@@ -1,4 +1,4 @@
-chysl: 0.3.8
+chysl: 0.4.0
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -52,3 +52,4 @@ subcharts:
   entries:
   - begin: 1
     end: 10000000000
+padding: 20

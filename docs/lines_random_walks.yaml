@@ -1,9 +1,9 @@
-chysl: 0.3.8
+chysl: 0.4.0
 chart: lines2d
 title: 'Random walks (source: db)'
 lines:
-- linewidth: 10
-  color: black
+- thickness: 10
+  color: blue
   opacity: 0.25
   href: https://en.wikipedia.org/wiki/Random_walk
   line:

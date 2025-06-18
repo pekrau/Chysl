@@ -1,15 +1,14 @@
-chysl: 0.3.8
+chysl: 0.4.0
 chart: column
 subcharts:
 - chart: scatter2d
   title: Geometry markers
-  width: 300
+  width: 400
+  height: 225
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -145,13 +144,12 @@ subcharts:
     label: octagon-fill
 - chart: scatter2d
   title: Symbol markers
-  width: 300
+  width: 400
+  height: 75
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -197,13 +195,12 @@ subcharts:
     label: none
 - chart: scatter2d
   title: Astronomy markers
-  width: 300
+  width: 400
+  height: 125
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -274,13 +271,12 @@ subcharts:
     label: neptune
 - chart: scatter2d
   title: Greek markers
-  width: 300
+  width: 400
+  height: 225
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:

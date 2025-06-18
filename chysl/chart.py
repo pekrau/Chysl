@@ -11,6 +11,7 @@ import requests
 import requests.exceptions
 import yaml
 
+import components
 import constants
 import memo
 import schema
@@ -23,10 +24,12 @@ from utils import N
 class Chart:
     "Abstract chart."
 
+    TITLE_CLASS = components.Title
+
     def __init__(self, title=None, description=None):
         assert title is None or isinstance(title, (str, dict))
         assert description is None or isinstance(description, (str, dict))
-        self.title = title
+        self.title = self.TITLE_CLASS(title)
         self.description = description
 
     def __eq__(self, other):
@@ -42,41 +45,10 @@ class Chart:
 
     def as_dict(self):
         result = {"chart": self.name}
-        result.update(self.text_as_dict("title"))
+        result.update(self.title.as_dict("title"))
         if self.description:
             result["description"] = self.description
         return result
-
-    def text_as_dict(self, key):
-        "Helper method to convert optionally styled text entry to dict."
-        try:
-            text = getattr(self, key)
-        except AttributeError:
-            return {}
-        if not text:
-            return {}
-        if isinstance(text, str):
-            return {key: text}
-        result = {"text": text["text"]}
-        if (
-            size := text.get("size")
-        ) is not None and size != constants.DEFAULT_TITLE_FONT_SIZE:
-            result["size"] = size
-        if text.get("bold"):
-            result["bold"] = True
-        if text.get("italic"):
-            result["italic"] = True
-        if (color := text.get("color")) is not None and color != "black":
-            result["color"] = color
-        if (
-            anchor := text.get("anchor")
-        ) is not None and anchor != constants.DEFAULT_ANCHOR:
-            result["anchor"] = anchor
-        if (
-            placement := text.get("placement")
-        ) is not None and placement != constants.DEFAULT_PLACEMENT:
-            result["placement"] = placement
-        return {key: result}
 
     def render(self, target=None, antialias=True, indent=2, restart_unique_id=False):
         """Render chart and return the SVG code.
@@ -105,12 +77,7 @@ class Chart:
         document.repr_indent = indent
 
         if self.title:
-            if isinstance(self.title, dict):
-                title = self.title["text"]
-            else:
-                title = self.title
-            if title:
-                document += Element("title", title)
+            document += Element("title", str(self.title))
         if self.description:
             document += Element("desc", self.description)
 
@@ -130,40 +97,6 @@ class Chart:
         To be extended in subclasses.
         """
         self.svg = SvgContainer()
-
-    def get_title(self):
-        "Get the element for the title of the chart; possibly None."
-        if not self.title:
-            return None
-
-        font = constants.DEFAULT_FONT_FAMILY
-        if isinstance(self.title, dict):
-            text = self.title["text"] or ""
-            size = self.title.get("size") or constants.DEFAULT_TITLE_FONT_SIZE
-            color = self.title.get("color") or "black"
-            italic = self.title.get("italice") or False
-            bold = self.title.get("bold") or False
-        else:
-            text = self.title
-            size = constants.DEFAULT_TITLE_FONT_SIZE
-            color = "black"
-            italic = False
-            bold = False
-        # Empirical factor 0.3...
-        result = Element("text", text, y=N(0.3 * size), fill=color)
-        result["class"] = "title"
-        result["text-anchor"] = "middle"
-        result["font-family"] = font
-        result["font-size"] = N(size)
-        if italic:
-            result["font-style"] = "italic"
-        if bold:
-            result["font-weight"] = "bold"
-        result.total_height = size * (1 + constants.FONT_DESCEND)
-        result.total_width = utils.get_text_length(
-            text, size, font=font, italic=italic, bold=bold
-        )
-        return result
 
     def save(self, target=None):
         """Output the chart as YAML.
@@ -190,7 +123,7 @@ class Chart:
 class SvgContainer:
     "Helper container for SVG elements and total width and height."
 
-    def __init__(self ):
+    def __init__(self):
         self.elements = []
         self.total_width = 0
         self.total_height = 0
@@ -205,15 +138,14 @@ class SvgContainer:
 
     def load_layout(self, layout):
         assert isinstance(layout, Layout)
-        self += layout.element()
+        self += layout.get_element()
         self.total_width = max(self.total_width, layout.total_width)
         self.total_height = max(self.total_height, layout.total_height)
 
 
 class Layout:
-    """Grid-based helper for layouting SVG elements of a chart.
-    XXX Implement this:
-    It is assumed that all elements that are added are located in
+    """Grid-based helper class for layouting SVG elements of a chart.
+    It is assumed that all added elements are located in
     a bounding box between (0, 0, total_width, total_height).
     """
 
@@ -229,34 +161,43 @@ class Layout:
             self.width = max(self.width, element.total_width)
             self.height = max(self.height, element.total_height)
 
-    def __init__(self, rows=1, columns=1, title=None, hpadding=None, vpadding=None):
+    def __init__(self, rows=1, columns=1, title=None, halign=None, hpadding=None, valign=None, vpadding=None):
         assert rows >= 1
         assert columns >= 1
-        assert title is None or isinstance(title, Element)
+        assert title is None or isinstance(title, components.Title)
+        assert hpadding is None or (isinstance(hpadding, (int, float)) and hpadding >= 0)
+        assert halign is None or halign in constants.HORIZONTAL
+        assert vpadding is None or (isinstance(vpadding, (int, float)) and vpadding >= 0)
+        assert valign is None or valign in constants.VERTICAL
 
         self.rows = rows
         self.columns = columns
         self.title = title
-        self.hpadding = hpadding if hpadding is not None else constants.DEFAULT_PADDING
-        self.vpadding = vpadding if vpadding is not None else constants.DEFAULT_PADDING
+        self.hpadding = hpadding or 0
+        self.halign = halign or constants.CENTER
+        self.vpadding = vpadding or 0
+        self.valign = valign or constants.MIDDLE
         self.cells = [[self.Cell() for column in range(columns)] for row in range(rows)]
 
     def add(self, row, column, element):
         "The element must have 'total_width' and 'total_height' attributes."
         if element is None:
             return
-        assert hasattr(element, "total_width"), element
-        assert hasattr(element, "total_height"), element
+        assert hasattr(element, "total_width"), repr(element)
+        assert hasattr(element, "total_height"), repr(element)
         self.cells[row][column].append(element)
 
-    def element(self):
+    def get_element(self):
         "Return the 'g' element containint the layouted elements, including title."
+        # Find max height in each row.
         for row in range(self.rows):
             max_height = 0
             for column in range(self.columns):
                 max_height = max(max_height, self.cells[row][column].height)
             for column in range(self.columns):
                 self.cells[row][column].max_height = max_height
+
+        # Find max width in each column.
         for column in range(self.columns):
             max_width = 0
             for row in range(self.rows):
@@ -264,40 +205,50 @@ class Layout:
             for row in range(self.rows):
                 self.cells[row][column].max_width = max_width
 
-        if self.title is not None:
-            y = self.title.total_height
+        result = Element("g")
+        result["class"] = "layout"
+
+        if self.title:
+            result += (title := self.title.get_element())
+            y = title.total_height
         else:
             y = 0
 
-        result = Element("g")
-        result["class"] = "layout"
         for row in range(self.rows):
             x = 0
             for column in range(self.columns):
                 cell = self.cells[row][column]
                 for element in cell.elements:
-                    xt = x + cell.max_width / 2
-                    yt = y + cell.max_height / 2
+                    match self.halign:
+                        case constants.LEFT:
+                            xt = x
+                        case constants.CENTER:
+                            xt = x + (cell.max_width - element.total_width) / 2
+                        case constants.RIGHT:
+                            xt = x + cell.max_width - element.total_width
+                    match self.valign:
+                        case constants.BOTTOM:
+                            yt = y + cell.max_height - element.total_height
+                        case constants.MIDDLE:
+                            yt = y + (cell.max_height - element.total_height) / 2
+                        case constants.TOP:
+                            yt = y
                     result += Element(
                         "g",
                         element,
                         transform=f"translate({N(xt)},{N(yt)})",
                     )
-                x += cell.max_width + self.hpadding
+                x += cell.max_width
                 if column < self.columns - 1:
                     x += self.hpadding
             y += self.cells[row][0].max_height
             if row < self.rows - 1:
                 y += self.vpadding
 
-        if self.title is not None:
-            result += Element(
-                "g",
-                self.title,
-                transform=f"translate({N(x/2)},{N(self.title.total_height/2)})",
-            )
-
         self.total_width = result.total_width = x
+        if self.title:
+            offset = (result.total_width - title.total_width) / 2
+            title["transform"] = f"translate({N(offset)},0)"
         self.total_height = result.total_height = y
 
         return result

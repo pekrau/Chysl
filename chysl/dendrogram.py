@@ -13,6 +13,9 @@ from path import Path
 class Dendrogram(Chart):
     "Dendrogram: tree formed by branches."
 
+    DEFAULT_SIZE = 18
+    DEFAULT_WIDTH = 600
+
     SCHEMA = {
         "title": __doc__,
         "type": "object",
@@ -23,10 +26,14 @@ class Dendrogram(Chart):
                 "title": "Title of the chart.",
                 "$ref": "#text",
             },
+            "description": {
+                "title": "Description of the chart. Rendered as <desc> in SVG.",
+                "type": "string",
+            },
             "width": {
-                "title": "Width of chart, in pixels.",
+                "title": "Width of the chart (pixels).",
                 "type": "number",
-                "default": constants.DEFAULT_WIDTH,
+                "default": self.DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
             },
             # "axis": {
@@ -75,7 +82,7 @@ class Dendrogram(Chart):
         super().__init__(title=title, entries=entries)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
 
-        self.width = width or constants.DEFAULT_WIDTH
+        self.width = width or self.DEFAULT_WIDTH
 
     def append(self, entry):
         "Append the entry to the diagram."
@@ -92,7 +99,7 @@ class Dendrogram(Chart):
             cleanup.process()
             entries.append(entry_copy)
         result = super().as_dict()
-        if self.width != constants.DEFAULT_WIDTH:
+        if self.width != self.DEFAULT_WIDTH:
             result["width"] = self.width
         if self.axis is not True:
             result["axis"] = self.axis
@@ -120,7 +127,7 @@ class Dendrogram(Chart):
             dimension.update_span(entry["start"])
             dimension.update_span(entry["end"])
             self.count_branches(entry)
-            self.total_height += constants.DEFAULT_SIZE * entry["count"]
+            self.total_height += self.DEFAULT_SIZE * entry["count"]
 
         # Axis lines and their labels.
         absolute = False
@@ -175,13 +182,13 @@ class Dendrogram(Chart):
             "path",
             d=Path(
                 dimension.get_pixel(entry["start"]),
-                self.relative_height + constants.DEFAULT_SIZE / 2,
+                self.relative_height + self.DEFAULT_SIZE / 2,
             ).H(dimension.get_pixel(entry["end"])),
             stroke="black",
         )
         branch["stroke-width"] = 4
         branches += branch
-        self.relative_height += constants.DEFAULT_SIZE
+        self.relative_height += self.DEFAULT_SIZE
 
 
 register(Dendrogram)

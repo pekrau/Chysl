@@ -1,17 +1,16 @@
 "Chart to place charts at specified positions."
 
-import copy
-
+import components
 import constants
 import schema
-from chart import Chart, register, parse
+from chart import Chart, Layout, register, parse
 from minixml import Element
 
 
 class Board(Chart):
-    "Chart to place charts at specified positions."
+    "Chart to place charts at specified positions, with optional opacity."
 
-    DEFAULT_TITLE_FONT_SIZE = 36
+    TITLE_CLASS = components.CompoundTitle
 
     SCHEMA = {
         "title": __doc__,
@@ -20,8 +19,14 @@ class Board(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "board"},
-            "title": {"$ref": "#title"},
-            "description": {"$ref": "#description"},
+            "title": {
+                "title": "Title of the chart.",
+                "$ref": "#text",
+            },
+            "description": {
+                "title": "Description of the chart. Rendered as <desc> in SVG.",
+                "type": "string",
+            },
             "items": {
                 "title": "Subcharts at specified positions.",
                 "type": "array",
@@ -48,7 +53,13 @@ class Board(Chart):
                             "exclusiveMinimum": 0,
                             "default": 1,
                         },
-                        "opacity": {"$ref": "#opacity"},
+                        "opacity": {
+                            "title": "Opacity of the subchart.",
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "default": 1,
+                        },
                     },
                 },
             },
@@ -107,39 +118,32 @@ class Board(Chart):
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute.
-        Adds the title, if defined.
-        Sets the 'svg', 'height' and 'width' attributes.
-        """
+        "Create the SVG elements in the 'svg' attribute."
+        super().build()
+        board = Element("g")
+        board.total_width = 0
+        board.total_height = 0
+
         for item in self.items:
             item["subchart"].build()
+            svg = item["subchart"].svg
+            xhigh = item["x"] + (item.get("scale") or 1) * svg.total_width
+            yhigh = item["y"] + (item.get("scale") or 1) * svg.total_height
+            board.total_width = max(board.total_width, xhigh)
+            board.total_height = max(board.total_height, yhigh)
 
-        self.width = 0
-        for item in self.items:
-            self.width = max(
-                self.width,
-                item["x"] + (item.get("scale") or 1) * item["subchart"].width,
-            )
-
-        super().build()
-
-        offset = self.total_height
-        for item in self.items:
-            transforms = []
+            board += (elem := Element("g", *list(svg)))
+            elem["class"] = "subchart"
+            transforms = [f"translate({item['x']},{item['y']})"]
             if (scale := item.get("scale")) and scale != 1:
                 transforms.append(f"scale({scale})")
-            transforms.append(f"translate({item['x']}, {item['y'] + offset})")
-            g = Element("g", transform=" ".join(transforms))
+            elem["transform"] = " ".join(transforms)
             if (opacity := item.get("opacity")) is not None and opacity != 1:
-                g["opacity"] = opacity
-            g.append(item["subchart"].svg)
-            self.svg += g
-            self.total_height = max(
-                self.total_height,
-                item["y"]
-                + offset
-                + (item.get("scale") or 1) * item["subchart"].total_height,
-            )
+                elem["opacity"] = opacity
+
+        layout = Layout(rows=1, columns=1, title=self.title)
+        layout.add(0, 0, board)
+        self.svg.load_layout(layout)
 
 
 register(Board)

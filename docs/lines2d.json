@@ -11,16 +11,70 @@
       "const": "lines2d"
     },
     "title": {
-      "$ref": "#title"
+      "title": "Title of the chart.",
+      "$ref": "#text"
     },
     "description": {
-      "$ref": "#description"
+      "title": "Description of the chart. Rendered as <desc> in SVG.",
+      "type": "string"
+    },
+    "lines": {
+      "title": "An array of lists of 2D points to display as lines.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "title": "A list of 2D points to display as a line.",
+        "type": "object",
+        "required": [
+          "line"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "line": {
+            "$ref": "#datapoints"
+          },
+          "thickness": {
+            "title": "Thickness of the line (pixels).",
+            "type": "number",
+            "minimumExclusive": 0,
+            "default": 1
+          },
+          "color": {
+            "title": "Color of the line.",
+            "type": "string",
+            "format": "color",
+            "default": "black"
+          },
+          "opacity": {
+            "title": "Opacity of the line.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
+          },
+          "href": {
+            "title": "A link URI from the line, absolute or relative.",
+            "type": "string",
+            "format": "uri-reference"
+          }
+        }
+      }
     },
     "width": {
-      "title": "Width of the chart, including legends etc.",
+      "title": "Width of the chart.",
       "type": "number",
       "default": 600,
       "exclusiveMinimum": 0
+    },
+    "height": {
+      "title": "Height of the chart.",
+      "type": "number",
+      "default": 600,
+      "exclusiveMinimum": 0
+    },
+    "frame": {
+      "title": "Chart area frame specification.",
+      "$ref": "#frame"
     },
     "xaxis": {
       "title": "X axis specification.",
@@ -38,60 +92,27 @@
       "title": "Y grid specification.",
       "$ref": "#grid"
     },
-    "lines": {
-      "title": "An array of containers of 2D points to display as lines.",
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "title": "A contaimer of 2D points to display as a line.",
-        "type": "object",
-        "required": [
-          "line"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "line": {
-            "$ref": "#datapoints"
-          },
-          "linewidth": {
-            "title": "Width of the line.",
-            "type": "number",
-            "minimumExclusive": 0,
-            "default": 2
-          },
-          "color": {
-            "title": "Color of the line.",
-            "$ref": "#color",
-            "default": "black"
-          },
-          "opacity": {
-            "title": "Opacity of the line.",
-            "$ref": "#opacity"
-          },
-          "href": {
-            "$ref": "#uri"
-          }
-        }
-      }
+    "thickness": {
+      "title": "Default thickness of the lines (pixels).",
+      "type": "number",
+      "minimumExclusive": 0,
+      "default": 1
+    },
+    "color": {
+      "title": "Default line color.",
+      "type": "string",
+      "format": "color",
+      "default": "black"
+    },
+    "opacity": {
+      "title": "Default line opacity.",
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 1
     }
   },
   "$defs": {
-    "title": {
-      "$anchor": "title",
-      "title": "Title of the chart, with or without styling. Displayed at the top.",
-      "$ref": "#text"
-    },
-    "description": {
-      "$anchor": "description",
-      "title": "Description of the chart. Rendered as <desc> in SVG.",
-      "type": "string"
-    },
-    "uri": {
-      "$anchor": "uri",
-      "title": "A URI, absolute or relative.",
-      "type": "string",
-      "format": "uri-reference"
-    },
     "axis": {
       "$anchor": "axis",
       "title": "Coordinate axis specification.",
@@ -107,11 +128,11 @@
           "additionalProperties": false,
           "properties": {
             "min": {
-              "title": "Explicit minimum of span for axis.",
+              "title": "Explicit minimum for the axis.",
               "type": "number"
             },
             "max": {
-              "title": "Explicit maximum of span for axis.",
+              "title": "Explicit maximum for the axis.",
               "type": "number"
             },
             "ticks": {
@@ -124,7 +145,7 @@
               }
             },
             "labels": {
-              "title": "Display labels, or not.",
+              "title": "Display tick labels, or not.",
               "type": "boolean",
               "default": true
             },
@@ -134,17 +155,70 @@
               "minimumExclusive": 0
             },
             "absolute": {
-              "title": "Display absolute values for ticks.",
+              "title": "Display absolute values for tick labels.",
               "type": "boolean",
               "default": false
             },
             "caption": {
               "title": "Axis description.",
               "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "frame": {
+      "$anchor": "frame",
+      "title": "Specification of the chart area frame.",
+      "oneOf": [
+        {
+          "title": "Default chart area frame, or no frame.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Specification of the chart area frame.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "thickness": {
+              "title": "Thickness of the frame (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimumExclusive": 0
             },
-            "width": {
-              "title": "Space for labels and caption. Default is enough for display of specified labels and caption.",
-              "type": "number"
+            "color": {
+              "title": "Color of the frame. Default depends on the chart.",
+              "type": "string",
+              "format": "color"
+            },
+            "radius": {
+              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "grid": {
+      "$anchor": "grid",
+      "title": "Coordinate grid specification.",
+      "oneOf": [
+        {
+          "title": "Display default grid.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Grid styling.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "lightgray"
             }
           }
         }
@@ -152,7 +226,7 @@
     },
     "marker": {
       "$anchor": "marker",
-      "title": "Symbol for use as a marker in a chart.",
+      "title": "Symbol to use as data point marker in the chart.",
       "oneOf": [
         {
           "title": "Predefined symbols denoted by names.",
@@ -240,136 +314,6 @@
         }
       ]
     },
-    "opacity": {
-      "$anchor": "opacity",
-      "title": "Opacity in range [0.0, 1.0].",
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "default": 1
-    },
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
-      "oneOf": [
-        {
-          "title": "Text with default styling.",
-          "type": "string"
-        },
-        {
-          "title": "Text with styling options.",
-          "type": "object",
-          "required": [
-            "text"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "size": {
-              "title": "Size of font. Default depends on context.",
-              "$ref": "#size"
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
-            }
-          }
-        }
-      ]
-    },
-    "grid": {
-      "$anchor": "grid",
-      "title": "Coordinate grid specification.",
-      "oneOf": [
-        {
-          "title": "Display default grid.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Grid styling.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "lightgray"
-            }
-          }
-        }
-      ]
-    },
-    "field": {
-      "$anchor": "field",
-      "title": "Mapping of a plot parameter to a field in source data.",
-      "oneOf": [
-        {
-          "title": "Name of the field in the source data; CSV column header. The values are used directly.",
-          "type": "string",
-          "minLength": 1
-        },
-        {
-          "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
-          "type": "integer",
-          "minimum": 1
-        },
-        {
-          "title": "Mapping of values in source data to a plot parameter.",
-          "type": "object",
-          "required": [
-            "field"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "field": {
-              "title": "Name of the field in the source data; CSV column header.",
-              "type": "string",
-              "minLength": 1
-            },
-            "map": {
-              "title": "Map a string value in the source data to a value for the plot parameter.",
-              "type": "object",
-              "properties": {}
-            }
-          }
-        }
-      ]
-    },
     "datapoints": {
       "$anchor": "datapoints",
       "title": "Data provided inline, or from a file, web resource or database.",
@@ -389,13 +333,21 @@
                 "type": "number"
               },
               "size": {
-                "$ref": "#size"
+                "title": "Size of the marker (pixels).",
+                "type": "number",
+                "minimumExclusive": 0
               },
               "color": {
-                "$ref": "#color"
+                "title": "Color specified by hex code '#rrggbb' or CSS3 color name.",
+                "type": "string",
+                "format": "color"
               },
               "opacity": {
-                "$ref": "#opacity"
+                "title": "Opacity of the marker.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "default": 1
               },
               "marker": {
                 "$ref": "#marker"
@@ -498,17 +450,100 @@
         }
       ]
     },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "font": {
+              "title": "Name of the font.",
+              "type": "string",
+              "default": "sans-serif"
+            },
+            "size": {
+              "title": "Size of font (pixels). Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            }
+          }
+        }
+      ]
     },
-    "color": {
-      "$anchor": "color",
-      "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
-      "type": "string",
-      "format": "color"
+    "field": {
+      "$anchor": "field",
+      "title": "Mapping of a plot parameter to a field in source data.",
+      "oneOf": [
+        {
+          "title": "Name of the field in the source data; CSV column header. The values are used directly.",
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "title": "Mapping of values in source data to a plot parameter.",
+          "type": "object",
+          "required": [
+            "field"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "field": {
+              "title": "Name of the field in the source data; CSV column header.",
+              "type": "string",
+              "minLength": 1
+            },
+            "map": {
+              "title": "Map a string value in the source data to a value for the plot parameter.",
+              "type": "object",
+              "properties": {}
+            }
+          }
+        }
+      ]
     }
   }
 }

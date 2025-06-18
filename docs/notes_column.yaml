@@ -1,13 +1,14 @@
-chysl: 0.3.8
+chysl: 0.4.0
 chart: column
+title: Notes in a column
 subcharts:
 - chart: note
   title: Header
-  description: Body
-  body: Footer
+  body: Body
+  footer: Footer
 - chart: note
   title: Header
-  description: Body
+  body: Body
 - chart: note
   body: Body
   footer: Footer
@@ -15,11 +16,15 @@ subcharts:
   title: Header
 - chart: note
   body: Body
+  width: 200
 - chart: note
   footer: Footer
+  width: 200
 - chart: note
   title: Header
-  description: Body
-  body: Footer
+  body: Body (no lines)
+  footer: Footer
   line: 0
+  width: 200
 - include: declaration.yaml
+padding: 4

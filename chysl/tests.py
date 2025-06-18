@@ -39,7 +39,7 @@ TESTS = {
         "scatter_points",
         "scatter_iris",
         "markers",
-        "overlay",
+        "points_marks",
     ],
     "column": [
         "universe_earth",
@@ -55,7 +55,7 @@ TESTS = {
         "scatter_iris",
     ],
     "overlay": [
-        "overlay",
+        "points_marks",
     ],
     "note": [
         "declaration",
@@ -87,14 +87,14 @@ def check_roundtrip(instance1, filename):
             outfile.write(r1)
         with open("i2.svg", "w") as outfile:
             outfile.write(r2)
-        raise ValueError("instance renderings differ: filename")
+        raise ValueError(f"instance renderings differ: {filename}")
 
 
 def get_universe(legend=True):
     universe = Timelines(
         title=dict(text="Universe", bold=True, size=24, color="darkorchid"),
         legend=legend,
-        axis=dict(absolute=True, caption="Billion years ago", max=100_000_000),
+        axis=dict(absolute=True, caption="Billion years ago", max=50_000_000),
     )
     universe += Event(
         instant=-13_787_000_000,
@@ -127,7 +127,7 @@ def get_earth(legend=True):
     earth = Timelines(
         title="Earth",
         legend=legend,
-        axis=dict(absolute=True, caption="Billion years ago"),
+        axis=dict(absolute=True, caption="Billion years ago", max=20_000_000),
     )
     earth += Period(begin=-4_567_000_000, end=0, label="Earth", color="skyblue")
     earth += Period(
@@ -197,7 +197,7 @@ def test_pyramid():
     pyramid.add(dict(value=70, label="Sky"))
     pyramid.save("pyramid.yaml")
     pyramid.render("pyramid.svg")
-    # check_roundtrip(pyramid, "pyramid.yaml")
+    check_roundtrip(pyramid, "pyramid.yaml")
 
 
 def test_markers():
@@ -212,17 +212,18 @@ def test_markers():
         ("Greek markers", constants.GREEK_MARKERS),
     ]:
         all_markers += (
-            plot := Scatter2d(
+            chart := Scatter2d(
                 title,
-                width=300,
-                xaxis=dict(min=0, max=3.5, labels=False),
-                yaxis=dict(labels=False),
+                width=400,
+                height=25 * (1 + (len(markers) - 1) // N_PER_ROW),
+                xaxis=dict(max=3.0, labels=False),
+                yaxis=False,
                 xgrid=False,
                 ygrid=False,
             )
         )
         for pos, marker in enumerate(markers):
-            plot += dict(
+            chart += dict(
                 x=pos % N_PER_ROW + 0.2,
                 y=pos // N_PER_ROW + 1,
                 marker=marker,
@@ -305,7 +306,7 @@ def test_pies_row():
     pajer = Row("Pies in row")
 
     palette = ["white", "yellow", "gold", "red"]
-    pajer += (paj := Piechart("Strawberry pie", diameter=300, palette=palette))
+    pajer += (paj := Piechart(title="Strawberry pie", diameter=300, palette=palette))
     paj += dict(value=7, label="Flour")
     paj += dict(value=2, label="Eggs")
     paj += dict(value=3, label="Butter")
@@ -313,7 +314,7 @@ def test_pies_row():
         value=3, label="Strawberries", href="https://en.wikipedia.org/wiki/Strawberry"
     )
 
-    pajer += (paj := Piechart("Rhubarb pie", palette=palette))
+    pajer += (paj := Piechart(title="Rhubarb pie", palette=palette))
     paj += dict(value=7, label="Flour")
     paj += dict(value=2, label="Eggs")
     paj += dict(value=3, label="Butter")
@@ -334,6 +335,7 @@ def test_declaration():
         title=dict(text="Declaration", placement="left", bold=True),
         body=dict(text="This software was\nwritten by me.", placement="right"),
         footer=dict(text="Copyright 2025 Per Kraulis", italic=True),
+        width=200,
     )
     decl.save("declaration.yaml")
     decl.render("declaration.svg")
@@ -346,7 +348,7 @@ def test_scatter_points():
     )
     markers = itertools.cycle(["disc", "alpha", "mars"])
     scatter = Scatter2d(
-        "Scattered points inline",
+        title="Scattered points inline",
         points=[
             dict(
                 x=random.uniform(0, 100),
@@ -358,6 +360,8 @@ def test_scatter_points():
             )
             for i in range(25)
         ],
+        xaxis=dict(caption="X dimension"),
+        yaxis=dict(caption="Y dimension"),
     )
     scatter.save("scatter_points.yaml")
     scatter.render("scatter_points.svg")
@@ -365,29 +369,27 @@ def test_scatter_points():
 
 
 def test_scatter_iris():
-    "Plots of the classic iris dataset published by R.A. Fisher, 1936."
-    all_plots = Column(dict(text="Iris flower measurements", size=30), padding=4)
-    axis = {
-        "sepal length": dict(min=4, max=8),
-        "sepal width": dict(min=2, max=4.5),
-        "petal length": dict(min=0.5, max=7.5),
-        "petal width": dict(min=0, max=3),
-    }
-    for field1 in ["sepal length", "sepal width", "petal length", "petal width"]:
-        all_plots += (row := Row(padding=4))
-        for field2 in ["sepal length", "sepal width", "petal length", "petal width"]:
-            yaxis = copy.deepcopy(axis)
+    "Charts of the classic iris dataset published by R.A. Fisher, 1936."
+    charts = Row(padding=4)
+    fields = ["sepal length", "sepal width", "petal length", "petal width"]
+    for field2 in fields:
+        charts += (column := Column(padding=4, align=constants.RIGHT))
+        for field1 in fields:
+            yaxis = dict([(f, dict()) for f in fields])
             for params in yaxis.values():
-                params["labels"] = field2 == "sepal length"
-                params["width"] = 24  # Only effective if 'labels' is True.
-            # Last row.
-            xaxis = copy.deepcopy(axis)
+                if field2 == "sepal length":
+                    params["labels"] = True
+                    params["caption"] = field1.capitalize()
+                else:
+                    params["labels"] = False
+            # Last column.
+            xaxis = dict([(f, dict()) for f in fields])
             if field1 == "petal width":
                 xaxis[field2]["caption"] = field2.capitalize()
                 xaxis[field2]["labels"] = True
             else:
                 xaxis[field2]["labels"] = False
-            row += Scatter2d(
+            column += Scatter2d(
                 points=dict(
                     source="scatter_iris.csv",
                     parameters=dict(
@@ -414,27 +416,31 @@ def test_scatter_iris():
                 xaxis=xaxis[field2],
                 yaxis=yaxis[field1],
                 width=300,
+                height=300,
                 size=6,
             )
-    all_plots += (caption := Column(padding=0))
+    caption = Column()
     caption += Note(
         body=dict(text="Iris setosa: red circles", size=24, color="red"),
         background="white",
-        frame=0,
+        frame=False,
     )
     caption += Note(
         body=dict(text="Iris versicolor: green triangles", size=24, color="green"),
         background="white",
-        frame=0,
+        frame=False,
     )
     caption += Note(
         body=dict(text="Iris virginica: blue squares", size=24, color="blue"),
         background="white",
-        frame=0,
+        frame=False,
     )
-    all_plots.save("scatter_iris.yaml")
-    all_plots.render("scatter_iris.svg")
-    check_roundtrip(all_plots, "scatter_iris.yaml")
+    aggregate = Column(dict(text="Iris flower measurements", size=30), padding=4)
+    aggregate += charts
+    aggregate += caption
+    aggregate.save("scatter_iris.yaml")
+    aggregate.render("scatter_iris.svg")
+    check_roundtrip(aggregate, "scatter_iris.yaml")
 
 
 def test_lines_random_walks():
@@ -468,8 +474,8 @@ def test_lines_random_walks():
             dict(x=15, y=-15),
             dict(x=-15, y=-15),
         ],
-        color="black",
-        linewidth=10,
+        color="blue",
+        thickness=10,
         opacity=0.25,
         href="https://en.wikipedia.org/wiki/Random_walk",
     )
@@ -494,14 +500,14 @@ def test_lines_random_walks():
 
 
 def test_notes():
-    column = Column()
+    column = Column("Notes in a column", padding=4)
     column += Note("Header", "Body", "Footer")
     column += Note("Header", "Body")
     column += Note(body="Body", footer="Footer")
     column += Note("Header")
-    column += Note(body="Body")
-    column += Note(footer="Footer")
-    column += Note("Header", "Body", "Footer", line=0)
+    column += Note(body="Body", width=200)
+    column += Note(footer="Footer", width=200)
+    column += Note("Header", "Body (no lines)", "Footer", line=0, width=200)
     column += dict(include="declaration.yaml")
 
     column.save("notes_column.yaml")
@@ -517,19 +523,20 @@ def test_notes():
 def test_poster():
     poster = Board("Poster")
     poster.add_item(
-        x=250,
+        x=150,
         y=10,
+        # scale=1.5,
         subchart=Note("By Per Kraulis", body="Ph.D.", footer="Stockholm University"),
     )
-    poster.add_item(x=0, y=100, subchart=dict(include="universe.yaml"))
-    poster.add_item(x=50, y=230, subchart=dict(include="earth.yaml"))
+    poster.add_item(x=0, y=150, subchart=dict(include="universe.yaml"))
+    poster.add_item(x=50, y=290, subchart=dict(include="earth.yaml"))
     poster.render("poster.svg")
     poster.save("poster.yaml")
     check_roundtrip(poster, "poster.yaml")
 
 
 def test_dimensions():
-    column = Column("Dimension tick ranges")
+    column = Column("Dimension tick ranges", padding=20)
     for last in [
         1.00001,
         1.0001,
@@ -549,9 +556,9 @@ def test_dimensions():
     check_roundtrip(column, "dimensions.yaml")
 
 
-def test_overlay():
-    overlay = Overlay("One scatterplot on top of another")
-    plot1 = Scatter2d(
+def test_points_marks():
+    points_marks = Overlay("One scatterplot on top of another")
+    chart1 = Scatter2d(
         points=[
             dict(x=1, y=1, color="gold", href="https://en.wikipedia.org/wiki/Gold"),
             dict(x=2, y=2, color="blue"),
@@ -559,8 +566,8 @@ def test_overlay():
         ],
         size=60,
     )
-    overlay += dict(subchart=plot1)
-    plot2 = Scatter2d(
+    points_marks += dict(subchart=chart1)
+    chart2 = Scatter2d(
         points=[
             dict(x=1, y=1, marker="alpha"),
             dict(x=2, y=2, marker="beta", color="white"),
@@ -568,10 +575,10 @@ def test_overlay():
         ],
         size=30,
     )
-    overlay += dict(subchart=plot2, opacity=0.5)
-    overlay.save("overlay.yaml")
-    overlay.render("overlay.svg")
-    check_roundtrip(overlay, "overlay.yaml")
+    points_marks += dict(subchart=chart2, opacity=0.5)
+    points_marks.save("points_marks.yaml")
+    points_marks.render("points_marks.svg")
+    check_roundtrip(points_marks, "points_marks.yaml")
 
 
 def run_tests():
@@ -580,21 +587,21 @@ def run_tests():
         os.chdir("../docs")
         test_universe()
         test_earth()
-        # test_universe_earth()
+        test_universe_earth()
         test_pyramid()
-        # test_markers()
-        # test_day()
+        test_markers()
+        test_day()
         # test_tree()
         test_pies_column()
         test_pies_row()
-        # test_declaration()
-        # test_scatter_points()
-        # test_scatter_iris()
-        # test_lines_random_walks()
-        # test_notes()
-        # test_poster()
-        # test_dimensions()
-        # test_overlay()
+        test_declaration()
+        test_scatter_points()
+        test_scatter_iris()
+        test_lines_random_walks()
+        test_notes()
+        test_poster()
+        test_dimensions()
+        test_points_marks()
     finally:
         os.chdir(origdir)
 

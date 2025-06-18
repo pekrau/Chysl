@@ -1,5 +1,5 @@
 {
-  "title": "Chart to place charts at specified positions.",
+  "title": "Chart to place charts at specified positions, with optional opacity.",
   "type": "object",
   "required": [
     "chart",
@@ -11,10 +11,12 @@
       "const": "board"
     },
     "title": {
-      "$ref": "#title"
+      "title": "Title of the chart.",
+      "$ref": "#text"
     },
     "description": {
-      "$ref": "#description"
+      "title": "Description of the chart. Rendered as <desc> in SVG.",
+      "type": "string"
     },
     "items": {
       "title": "Subcharts at specified positions.",
@@ -49,93 +51,17 @@
             "default": 1
           },
           "opacity": {
-            "$ref": "#opacity"
+            "title": "Opacity of the subchart.",
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "default": 1
           }
         }
       }
     }
   },
   "$defs": {
-    "title": {
-      "$anchor": "title",
-      "title": "Title of the chart, with or without styling. Displayed at the top.",
-      "$ref": "#text"
-    },
-    "description": {
-      "$anchor": "description",
-      "title": "Description of the chart. Rendered as <desc> in SVG.",
-      "type": "string"
-    },
-    "opacity": {
-      "$anchor": "opacity",
-      "title": "Opacity in range [0.0, 1.0].",
-      "type": "number",
-      "minimum": 0,
-      "maximum": 1,
-      "default": 1
-    },
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
-      "oneOf": [
-        {
-          "title": "Text with default styling.",
-          "type": "string"
-        },
-        {
-          "title": "Text with styling options.",
-          "type": "object",
-          "required": [
-            "text"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "size": {
-              "title": "Size of font. Default depends on context.",
-              "$ref": "#size"
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
-            }
-          }
-        }
-      ]
-    },
     "chart_or_include": {
       "$anchor": "chart_or_include",
       "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
@@ -178,11 +104,64 @@
         }
       ]
     },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "font": {
+              "title": "Name of the font.",
+              "type": "string",
+              "default": "sans-serif"
+            },
+            "size": {
+              "title": "Size of font (pixels). Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            }
+          }
+        }
+      ]
     }
   }
 }

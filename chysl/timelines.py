@@ -18,6 +18,9 @@ from vector2 import Vector2
 class Timelines(Chart):
     "Timelines having events and periods."
 
+    DEFAULT_WIDTH = 600
+    DEFAULT_SIZE = 18
+
     SCHEMA = {
         "title": __doc__,
         "type": "object",
@@ -25,16 +28,22 @@ class Timelines(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "timelines"},
-            "title": {"$ref": "#title"},
-            "description": {"$ref": "#description"},
+            "title": {
+                "title": "Title of the chart.",
+                "$ref": "#text",
+            },
+            "description": {
+                "title": "Description of the chart. Rendered as <desc> in SVG.",
+                "type": "string",
+            },
             "width": {
                 "title": "Width of the chart area (pixels).",
                 "type": "number",
-                "default": constants.DEFAULT_WIDTH,
+                "default": DEFAULT_WIDTH,
                 "exclusiveMinimum": 0,
             },
             "frame": {
-                "title": "Specification of the chart area frame.",
+                "title": "Chart area frame specification.",
                 "$ref": "#frame",
             },
             "legend": {
@@ -94,7 +103,11 @@ class Timelines(Chart):
                                     "type": "boolean",
                                     "default": True,
                                 },
-                                "href": {"$ref": "#uri"},
+                                "href": {
+                                    "title": "A URI for a link, absolute or relative.",
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                },
                             },
                         },
                         {
@@ -135,7 +148,11 @@ class Timelines(Chart):
                                     "enum": constants.FUZZY_MARKERS,
                                     "default": constants.ERROR,
                                 },
-                                "href": {"$ref": "#uri"},
+                                "href": {
+                                    "title": "A URI for a link, absolute or relative.",
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                },
                             },
                         },
                     ],
@@ -151,25 +168,25 @@ class Timelines(Chart):
         title=None,
         description=None,
         width=None,
-        frame=None,
-        legend=None,
-        axis=None,
-        grid=None,
+        frame=True,
+        legend=True,
+        axis=True,
+        grid=True,
         entries=None,
     ):
         super().__init__(title=title, description=description)
         assert width is None or (isinstance(width, (int, float)) and width > 0)
-        assert legend is None or isinstance(legend, bool)
-        assert frame is None or isinstance(frame, (bool, dict))
-        assert axis is None or isinstance(axis, (bool, dict))
-        assert grid is None or isinstance(grid, (bool, dict))
+        assert isinstance(legend, bool)
+        assert isinstance(frame, (bool, dict))
+        assert isinstance(axis, (bool, dict))
+        assert isinstance(grid, (bool, dict))
         assert entries is None or isinstance(entries, list)
 
-        self.width = width or constants.DEFAULT_WIDTH
-        self.legend = True if legend is None else legend
-        self.frame = True if frame is None else frame
-        self.axis = True if axis is None else axis
-        self.grid = True if grid is None else grid
+        self.width = width or self.DEFAULT_WIDTH
+        self.frame = frame
+        self.legend = legend
+        self.axis = axis
+        self.grid = grid
         self.entries = []
         if entries:
             for entry in entries:
@@ -194,13 +211,13 @@ class Timelines(Chart):
     def as_dict(self):
         result = super().as_dict()
         result["entries"] = [e.as_dict() for e in self.entries]
-        if self.width != constants.DEFAULT_WIDTH:
+        if self.width != self.DEFAULT_WIDTH:
             result["width"] = self.width
-        if self.legend is not None and not self.legend:
+        if not self.legend:
             result["legend"] = False
         if self.frame is False or isinstance(self.frame, dict):
             result["frame"] = self.frame
-        if self.axis is False or isinstance(self.axis, dict):
+        if self.axis is False or isinstance(self.axis, dict): # XXX Get from dimension as_dict
             result["axis"] = self.axis
         if self.grid is False or isinstance(self.grid, dict):
             result["grid"] = self.grid
@@ -217,31 +234,20 @@ class Timelines(Chart):
             if entry.timeline not in timelines:
                 self.height += constants.DEFAULT_LINE_WIDTH
                 timelines[entry.timeline] = self.height
-                self.height += constants.DEFAULT_SIZE + constants.DEFAULT_LINE_WIDTH
+                self.height += self.DEFAULT_SIZE + constants.DEFAULT_LINE_WIDTH
 
         # Set up the time axis.
-        dimension = Xdimension(self.width)
+        dimension = Xdimension(self.width, self.axis)
         for entry in self.entries:
             dimension.update_span(entry.minmax())
-
-        if isinstance(self.axis, dict):
-            dimension.build(
-                ticks=self.axis.get("ticks") or constants.DEFAULT_TICKS_TARGET,
-                min=self.axis.get("min"),
-                max=self.axis.get("max"),
-                labels=self.axis.get("labels", True),
-                factor=self.axis.get("factor"),
-                absolute=bool(self.axis.get("absolute")),
-            )
-        else:
-            dimension.build()
+        dimension.build()
 
         # Create the layout, add the different parts to it and load.
-        layout = Layout(rows=2, columns=2, title=self.get_title())
+        layout = Layout(rows=2, columns=2, title=self.title)
         layout.add(0, 0, self.get_legend(timelines))
         layout.add(0, 1, self.get_frame())
-        layout.add(0, 1, self.get_area(dimension, timelines))
-        layout.add(1, 1, self.get_axis(dimension))
+        layout.add(0, 1, self.get_plot(dimension, timelines))
+        layout.add(1, 1, dimension.get_labels(self.width))
         self.svg.load_layout(layout)
 
     def get_legend(self, timelines):
@@ -250,12 +256,13 @@ class Timelines(Chart):
             return None
 
         y_offset = (
-            constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE
-        ) / 2 - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+            self.DEFAULT_SIZE
+            + constants.DEFAULT_FONT_SIZE
+            - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+        ) / 2
         result = Element("g")
         result["class"] = "legend"
         result.total_width = 0
-        result.total_height = 0
         result["font-family"] = constants.DEFAULT_FONT_FAMILY
         result["font-size"] = constants.DEFAULT_FONT_SIZE
         result["text-anchor"] = "end"
@@ -263,10 +270,12 @@ class Timelines(Chart):
             if not text:
                 continue
             result += Element("text", text, y=N(height + y_offset))
-            result.total_width = max(result.total_width, utils.get_text_length(text))
-            result.total_height = max(result.total_height, height + y_offset)
-            # Yes: 'result.total_width' and 'self.height'
-        result["transform"] = f"translate({N(result.total_width/2-2)},{N(-self.height/2)})"
+            result.total_width = max(result.total_width, utils.get_text_width(text))
+        result.total_height = self.height
+        # Empirical factor 0.5
+        padding = 0.5 * constants.DEFAULT_FONT_SIZE
+        result.total_width += padding
+        result["transform"] = f"translate({N(result.total_width - padding)}, 0)"
         return result
 
     def get_frame(self):
@@ -282,27 +291,30 @@ class Timelines(Chart):
             color = "black"
         result = Element(
             "rect",
-            x=N(-thickness / 2),
-            y=N(-thickness / 2),
+            x=N(thickness / 2),
+            y=N(thickness / 2),
             width=N(self.width + thickness),
             height=N(self.height + thickness),
             stroke=color,
             fill="none",
         )
         result["class"] = "frame"
-        result["stroke-width"] = thickness
+        result["stroke-width"] = N(thickness)
         result.total_width = self.width + 2 * thickness
         result.total_height = self.height + 2 * thickness
-        result["transform"] = f"translate({N(-self.width/2)},{N(-self.height/2)})"
         return result
 
-    def get_area(self, dimension, timelines):
-        """Get the element for the chart area, grid and entries.
-        Side-effect: Puts the definition of the clip path into the top element.
-        """
-        # Clip path definition into the main SVG container.
+    def get_plot(self, dimension, timelines):
+        "Get the element for the chart plot area, grid and entries."
+        result = Element("g")
+        result["class"] = "plot"
         clippath_id = next(utils.unique_id)
-        self.svg += Element(
+        result["clip-path"] = f"url(#{clippath_id})"
+        result.total_width = self.width
+        result.total_height = self.height
+
+        # Clip path definition. Yes, can be added as part of the result.
+        result += Element(
             "defs",
             Element(
                 "clipPath",
@@ -310,12 +322,6 @@ class Timelines(Chart):
                 id=clippath_id,
             ),
         )
-        result = Element("g")
-        result["class"] = "area"
-        result["clip-path"] = f"url(#{clippath_id})"
-        result["transform"] = f"translate({N(-self.width/2)},{N(-self.height/2)})"
-        result.total_width = self.width
-        result.total_height = self.height
 
         # Add the time axis grid.
         if self.grid:
@@ -341,31 +347,8 @@ class Timelines(Chart):
 
         return result
 
-    def get_axis(self, dimension):
-        "Get the axis display; tick labels and caption; possible None."
-        if not self.axis:
-            return None
 
-        result = dimension.get_labels(constants.DEFAULT_FONT_SIZE)
-        result.total_width = self.width
-        result.total_height = constants.DEFAULT_FONT_SIZE * (1 + constants.FONT_DESCEND)
-
-        # Time axis caption.
-        if isinstance(self.axis, dict) and (caption := self.axis.get("caption")):
-            # Empirical factor 0.8...
-            result.total_height += 0.8 * constants.DEFAULT_FONT_SIZE
-            result += (
-                elem := Element(
-                    "text",
-                    caption,
-                    x=N(dimension.get_pixel((dimension.first + dimension.last) / 2)),
-                    y=N(result.total_height),
-                )
-            )
-            elem["class"] = "x-axis-caption"
-            result.total_height += constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND + 2
-        result["transform"] = f"translate({N(-result.total_width/2)},{N(-result.total_height/2)})"
-        return result
+register(Timelines)
 
 
 class _Temporal:
@@ -410,9 +393,9 @@ class _Temporal:
             xlow = dimension.get_pixel(instant["value"] - instant.get("error", 0))
         result += Element(
             "path",
-            d=Path(xlow, y + 0.25 * constants.DEFAULT_SIZE)
-            .v(0.5 * constants.DEFAULT_SIZE)
-            .m(0, -0.25 * constants.DEFAULT_SIZE)
+            d=Path(xlow, y + 0.25 * Timelines.DEFAULT_SIZE)
+            .v(0.5 * Timelines.DEFAULT_SIZE)
+            .m(0, -0.25 * Timelines.DEFAULT_SIZE)
             .H(x),
         )
         try:  # If 'high' is given, then ignore 'error'.
@@ -421,15 +404,12 @@ class _Temporal:
             xhigh = dimension.get_pixel(instant["value"] + instant.get("error", 0))
         result += Element(
             "path",
-            d=Path(xhigh, y + 0.25 * constants.DEFAULT_SIZE)
-            .v(0.5 * constants.DEFAULT_SIZE)
-            .m(0, -0.25 * constants.DEFAULT_SIZE)
+            d=Path(xhigh, y + 0.25 * Timelines.DEFAULT_SIZE)
+            .v(0.5 * Timelines.DEFAULT_SIZE)
+            .m(0, -0.25 * Timelines.DEFAULT_SIZE)
             .H(x),
         )
         return result
-
-
-register(Timelines)
 
 
 class Event(_Temporal):
@@ -491,7 +471,7 @@ class Event(_Temporal):
             x = dimension.get_pixel(self.instant)
 
         marker = Marker(self.marker, color=self.color, href=self.href)
-        result = marker.get_graphic(x, y + constants.DEFAULT_SIZE / 2)
+        result = marker.get_graphic(x, y + Timelines.DEFAULT_SIZE / 2)
         result["class"] = "event"
         self.label_x_offset = marker.label_x_offset
 
@@ -549,8 +529,12 @@ class Event(_Temporal):
             x=N(x),
             y=N(
                 y
-                + (constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE) / 2
-                - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+                + (
+                    Timelines.DEFAULT_SIZE
+                    + constants.DEFAULT_FONT_SIZE
+                    - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+                )
+                / 2
             ),
         )
         label["class"] = "event-label"
@@ -623,7 +607,7 @@ class Period(_Temporal):
                 x=N(dimension.get_pixel(self.begin)),
                 y=N(y),
                 width=N(dimension.get_extent(self.begin, self.end)),
-                height=constants.DEFAULT_SIZE,
+                height=Timelines.DEFAULT_SIZE,
                 fill=self.color or "white",
             )
             result["stroke-width"] = constants.DEFAULT_LINE_WIDTH
@@ -679,7 +663,7 @@ class Period(_Temporal):
                         x=N(dimension.get_pixel(begin)),
                         y=N(y),
                         width=N(dimension.get_extent(begin, end)),
-                        height=constants.DEFAULT_SIZE,
+                        height=Timelines.DEFAULT_SIZE,
                         fill=self.color or "white",
                     )
                     if isinstance(self.begin, dict):
@@ -690,12 +674,12 @@ class Period(_Temporal):
                 case constants.WEDGE:
                     path = (
                         Path(x2, y)
-                        .L(x1, y + constants.DEFAULT_SIZE / 2)
-                        .L(x2, y + constants.DEFAULT_SIZE)
+                        .L(x1, y + Timelines.DEFAULT_SIZE / 2)
+                        .L(x2, y + Timelines.DEFAULT_SIZE)
                     )
                     if x2 < x3:
                         path.H(x3)
-                    path.L(x4, y + constants.DEFAULT_SIZE / 2)
+                    path.L(x4, y + Timelines.DEFAULT_SIZE / 2)
                     path.L(x3, y)
                     path.Z()
                     result += Element("path", d=path, fill=self.color or "white")
@@ -703,14 +687,15 @@ class Period(_Temporal):
                 case constants.GRADIENT:
                     # The constant-color part of the period.
                     if x2 < x3:
-                        tweak = 0.5  # In some viewers, there is a glitch between parts.
+                        # In some viewers, there is a glitch between parts.
+                        tweak = constants.DEFAULT_LINE_WIDTH / 4
                         # The filled rectangle.
                         result += Element(
                             "rect",
                             x=N(x2 - tweak),
                             y=N(y),
                             width=N(x3 - x2 + 2 * tweak),
-                            height=constants.DEFAULT_SIZE,
+                            height=Timelines.DEFAULT_SIZE,
                             fill=self.color or "white",
                             stroke="none",
                         )
@@ -719,7 +704,7 @@ class Period(_Temporal):
                             "path",
                             d=Path(x2 - tweak, y)
                             .H(x3 + 2 * tweak)
-                            .m(0, constants.DEFAULT_SIZE)
+                            .m(0, Timelines.DEFAULT_SIZE)
                             .H(x2 - tweak),
                         )
                     # The left gradient of the period.
@@ -739,7 +724,7 @@ class Period(_Temporal):
                             x=N(x1),
                             y=N(y),
                             width=N(x2 - x1),
-                            height=constants.DEFAULT_SIZE,
+                            height=Timelines.DEFAULT_SIZE,
                             fill=f"url(#{id1})",
                             stroke="none",
                         )
@@ -754,7 +739,7 @@ class Period(_Temporal):
                         stop["stop-opacity"] = 1
                         result += Element(
                             "path",
-                            d=Path(x1, y).H(x2).m(0, constants.DEFAULT_SIZE).H(x1),
+                            d=Path(x1, y).H(x2).m(0, Timelines.DEFAULT_SIZE).H(x1),
                             stroke=f"url(#{id2})",
                         )
 
@@ -765,7 +750,7 @@ class Period(_Temporal):
                             x1=N(x1),
                             y1=N(y),
                             x2=N(x1),
-                            y2=N(y + constants.DEFAULT_SIZE),
+                            y2=N(y + Timelines.DEFAULT_SIZE),
                         )
 
                     # The right gradient of the period.
@@ -785,7 +770,7 @@ class Period(_Temporal):
                             x=N(x3),
                             y=N(y),
                             width=N(x4 - x3),
-                            height=constants.DEFAULT_SIZE,
+                            height=Timelines.DEFAULT_SIZE,
                             fill=f"url(#{id3})",
                             stroke="none",
                         )
@@ -800,7 +785,7 @@ class Period(_Temporal):
                         stop["stop-opacity"] = 0
                         result += Element(
                             "path",
-                            d=Path(x3, y).H(x4).m(0, constants.DEFAULT_SIZE).H(x3),
+                            d=Path(x3, y).H(x4).m(0, Timelines.DEFAULT_SIZE).H(x3),
                             stroke=f"url(#{id4})",
                         )
 
@@ -811,7 +796,7 @@ class Period(_Temporal):
                             x1=N(x3),
                             y1=N(y),
                             x2=N(x3),
-                            y2=N(y + constants.DEFAULT_SIZE),
+                            y2=N(y + Timelines.DEFAULT_SIZE),
                         )
 
                 case constants.TAPER:
@@ -870,8 +855,12 @@ class Period(_Temporal):
             x=N(x),
             y=N(
                 y
-                + (constants.DEFAULT_SIZE + constants.DEFAULT_FONT_SIZE) / 2
-                - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+                + (
+                    Timelines.DEFAULT_SIZE
+                    + constants.DEFAULT_FONT_SIZE
+                    - constants.DEFAULT_FONT_SIZE * constants.FONT_DESCEND
+                )
+                / 2
             ),
             fill=color,
         )

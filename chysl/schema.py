@@ -9,29 +9,9 @@ import constants
 
 # Subschema for defs to be used in chart schemas.
 DEFS = {
-    "size": {
-        "$anchor": "size",
-        "title": "Size of graphical item, in approximate display pixel units.",
-        "type": "number",
-        "minimumExclusive": 0,
-    },
-    "color": {
-        "$anchor": "color",
-        "title": "Color specification; hex code '#rrggbb' or CSS3 color name.",
-        "type": "string",
-        "format": "color",
-    },
-    "opacity": {
-        "$anchor": "opacity",
-        "title": "Opacity in range [0.0, 1.0].",
-        "type": "number",
-        "minimum": 0,
-        "maximum": 1,
-        "default": 1,
-    },
     "marker": {
         "$anchor": "marker",
-        "title": "Symbol for use as a marker in a chart.",
+        "title": "Symbol to use as data point marker in the chart.",
         "oneOf": [
             {
                 "title": "Predefined symbols denoted by names.",
@@ -63,9 +43,15 @@ DEFS = {
                         "title": "The text to display.",
                         "type": "string",
                     },
+                    "font": {
+                        "title": "Name of the font.",
+                        "type": "string",
+                        "default": constants.DEFAULT_FONT_FAMILY,
+                    },
                     "size": {
-                        "title": "Size of font. Default depends on context.",
-                        "$ref": "#size",
+                        "title": "Size of font (pixels). Default depends on context.",
+                        "type": "number",
+                        "minimumExclusive": 0,
                     },
                     "bold": {
                         "title": "Bold font.",
@@ -91,16 +77,6 @@ DEFS = {
                 },
             },
         ],
-    },
-    "title": {
-        "$anchor": "title",
-        "title": "Title of the chart, with or without styling. Displayed at the top.",
-        "$ref": "#text",
-    },
-    "description": {
-        "$anchor": "description",
-        "title": "Description of the chart. Rendered as <desc> in SVG.",
-        "type": "string",
     },
     "fuzzy_number": {
         "$anchor": "fuzzy_number",
@@ -138,12 +114,6 @@ DEFS = {
             },
         ],
     },
-    "uri": {
-        "$anchor": "uri",
-        "title": "A URI, absolute or relative.",
-        "type": "string",
-        "format": "uri-reference",
-    },
     "frame": {
         "$anchor": "frame",
         "title": "Specification of the chart area frame.",
@@ -159,17 +129,17 @@ DEFS = {
                 "additionalProperties": False,
                 "properties": {
                     "thickness": {
-                        "title": "Thickness of the frame (pixels). Default depends on the context.",
+                        "title": "Thickness of the frame (pixels). Default depends on the chart.",
                         "type": "number",
                         "minimumExclusive": 0,
                     },
                     "color": {
-                        "title": "Color of the frame. Default depends on the context.",
+                        "title": "Color of the frame. Default depends on the chart.",
                         "type": "string",
                         "format": "color",
                     },
                     "radius": {
-                        "title": "Radius of the frame corner curvature (pixels). Default depends on the context.",
+                        "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
                         "type": "number",
                         "minimum": 0,
                     },
@@ -192,11 +162,11 @@ DEFS = {
                 "additionalProperties": False,
                 "properties": {
                     "min": {
-                        "title": "Explicit minimum of span for axis.",
+                        "title": "Explicit minimum for the axis.",
                         "type": "number",
                     },
                     "max": {
-                        "title": "Explicit maximum of span for axis.",
+                        "title": "Explicit maximum for the axis.",
                         "type": "number",
                     },
                     "ticks": {
@@ -209,7 +179,7 @@ DEFS = {
                         },
                     },
                     "labels": {
-                        "title": "Display labels, or not.",
+                        "title": "Display tick labels, or not.",
                         "type": "boolean",
                         "default": True,
                     },
@@ -219,17 +189,13 @@ DEFS = {
                         "minimumExclusive": 0,
                     },
                     "absolute": {
-                        "title": "Display absolute values for ticks.",
+                        "title": "Display absolute values for tick labels.",
                         "type": "boolean",
                         "default": False,
                     },
                     "caption": {
                         "title": "Axis description.",
                         "type": "string",
-                    },
-                    "width": {
-                        "title": "Space for labels and caption. Default is enough for display of specified labels and caption.",
-                        "type": "number",
                     },
                 },
             },
@@ -300,9 +266,23 @@ DEFS = {
                     "properties": {
                         "x": {"type": "number"},
                         "y": {"type": "number"},
-                        "size": {"$ref": "#size"},
-                        "color": {"$ref": "#color"},
-                        "opacity": {"$ref": "#opacity"},
+                        "size": {
+                            "title": "Size of the marker (pixels).",
+                            "type": "number",
+                            "minimumExclusive": 0,
+                        },
+                        "color": {
+                            "title": "Color specified by hex code '#rrggbb' or CSS3 color name.",
+                            "type": "string",
+                            "format": "color",
+                        },
+                        "opacity": {
+                            "title": "Opacity of the marker.",
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "default": 1,
+                        },
                         "marker": {"$ref": "#marker"},
                     },
                 },

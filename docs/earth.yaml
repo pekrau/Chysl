@@ -1,4 +1,4 @@
-chysl: 0.3.8
+chysl: 0.4.0
 chart: timelines
 title: Earth
 entries:
@@ -50,3 +50,4 @@ entries:
 axis:
   absolute: true
   caption: Billion years ago
+  max: 20000000

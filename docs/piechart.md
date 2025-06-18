@@ -15,7 +15,7 @@
 ![pyramid SVG](pyramid.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: piechart
 title: Pyramid
 start: 132
@@ -36,11 +36,11 @@ slices:
 ![day SVG](day.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: piechart
 title:
-  text: Day
   size: 30
+  text: Day
 diameter: 400
 total: 24
 slices:
@@ -80,7 +80,7 @@ slices:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: column
 title: Pies in column
 subcharts:
@@ -117,19 +117,13 @@ subcharts:
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
-- chart: note
-  title: Comment
-  body: Strawberry pie is good.
-  footer:
-    text: Copyright 2025 Per Kraulis
-    italic: true
 ```
 ### pies_row
 
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: row
 title: Pies in row
 subcharts:
@@ -179,20 +173,22 @@ Pie chart displaying slices.
 - **chart**:
   - *required*
   - *const* 'piechart'
-- **title**:
-  - *See* [title](schema_defs.md#title).
-- **description**:
-  - *See* [description](schema_defs.md#description).
+- **title**: Title of the chart.
+  - *See* [text](schema_defs.md#text).
+- **description**: Description of the chart. Rendered as <desc> in SVG.
+  - *type*: string
 - **diameter**: Diameter of the pie chart.
   - *type*: float
   - *exclusiveMinimum*: 0
   - *default*: 200
+- **frame**: Specification of the piechart perimeter.
+  - *See* [frame](schema_defs.md#frame).
 - **total**: Total value to relate slice values to.
   - *type*: float
   - *exclusiveMinimum*: 0
 - **start**: Starting point for first slice; in degrees from the top.
   - *type*: float
-- **palette**: Palette for slice colors; used for slices lacking color specification.
+- **palette**: Palette used for slices lacking explicit color specification.
   - *type*: sequence
   - *items*:
     - *type*: string
@@ -209,8 +205,10 @@ Pie chart displaying slices.
       - *exclusiveMinimum*: 0
     - **label**: Description of the value.
       - *type*: string
-    - **color**: Color of the slice.
-      - *See* [color](schema_defs.md#color).
-    - **href**:
-      - *See* [uri](schema_defs.md#uri).
+    - **color**: Color of the slice. Overrides the palette.
+      - *type*: string
+      - *format*: color
+    - **href**: A URI for a link, absolute or relative.
+      - *type*: string
+      - *format*: uri-reference
 

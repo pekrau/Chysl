@@ -1,18 +1,18 @@
 # overlay
 
 - [Examples](#examples)
-  - [overlay](#overlay)
+  - [points_marks](#points_marks)
 
 - [Specification](#specification)
 
 ## Examples
 
-### overlay
+### points_marks
 
-![overlay SVG](overlay.svg)
+![points_marks SVG](points_marks.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: overlay
 title: One scatterplot on top of another
 layers:
@@ -55,10 +55,10 @@ Charts overlayed over one another, with optional opacity.
 - **chart**:
   - *required*
   - *const* 'overlay'
-- **title**:
-  - *See* [title](schema_defs.md#title).
-- **description**:
-  - *See* [description](schema_defs.md#description).
+- **title**: Title of the chart.
+  - *See* [text](schema_defs.md#text).
+- **description**: Description of the chart. Rendered as <desc> in SVG.
+  - *type*: string
 - **layers**: Charts to overlay, with optional opacity.
   - *required*
   - *type*: sequence
@@ -67,6 +67,9 @@ Charts overlayed over one another, with optional opacity.
     - **subchart**:
       - *See* [chart_or_include](schema_defs.md#chart_or_include).
       - *required*
-    - **opacity**:
-      - *See* [opacity](schema_defs.md#opacity).
+    - **opacity**: Opacity of the subchart.
+      - *type*: float
+      - *minimum*: 0
+      - *maximum*: 1
+      - *default*: 1
 

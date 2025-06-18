@@ -1,6 +1,10 @@
-chysl: 0.3.8
+chysl: 0.4.0
 chart: scatter2d
 title: Scattered points inline
+xaxis:
+  caption: X dimension
+yaxis:
+  caption: Y dimension
 points:
 - x: 41.66198725453412
   y: 1.016916945706836

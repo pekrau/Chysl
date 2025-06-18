@@ -11,10 +11,8 @@
       "const": "note"
     },
     "title": {
-      "$ref": "#title"
-    },
-    "description": {
-      "$ref": "#description"
+      "title": "Title of the note.",
+      "$ref": "#text"
     },
     "body": {
       "title": "Body of the note.",
@@ -24,32 +22,16 @@
       "title": "Footer of the note.",
       "$ref": "#text"
     },
-    "width": {
-      "title": "Width of chart, in pixels.",
-      "type": "number",
-      "default": 200,
-      "exclusiveMinimum": 0
+    "description": {
+      "title": "Description of the chart. Rendered as <desc> in SVG.",
+      "type": "string"
     },
     "frame": {
-      "title": "Thickness of the frame.",
-      "type": "number",
-      "minimum": 0,
-      "default": 5
-    },
-    "color": {
-      "title": "Color of the note frame and lines.",
-      "type": "string",
-      "format": "color",
-      "default": "gold"
-    },
-    "radius": {
-      "title": "Radius of the frame edge curvature.",
-      "type": "number",
-      "default": 10,
-      "minimum": 0
+      "title": "Specification of the note frame. Default is 5 pixels gold with radius 10.",
+      "$ref": "#frame"
     },
     "line": {
-      "title": "Thickness of lines between sections.",
+      "title": "Thickness of lines between sections (pixels). Same color as frame.",
       "type": "number",
       "minimum": 0,
       "default": 1
@@ -59,18 +41,46 @@
       "type": "string",
       "format": "color",
       "default": "lightyellow"
+    },
+    "width": {
+      "title": "Explicit width of note (pixels).",
+      "type": "number",
+      "minimumExclusive": 0
     }
   },
   "$defs": {
-    "title": {
-      "$anchor": "title",
-      "title": "Title of the chart, with or without styling. Displayed at the top.",
-      "$ref": "#text"
-    },
-    "description": {
-      "$anchor": "description",
-      "title": "Description of the chart. Rendered as <desc> in SVG.",
-      "type": "string"
+    "frame": {
+      "$anchor": "frame",
+      "title": "Specification of the chart area frame.",
+      "oneOf": [
+        {
+          "title": "Default chart area frame, or no frame.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Specification of the chart area frame.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "thickness": {
+              "title": "Thickness of the frame (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "color": {
+              "title": "Color of the frame. Default depends on the chart.",
+              "type": "string",
+              "format": "color"
+            },
+            "radius": {
+              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      ]
     },
     "text": {
       "$anchor": "text",
@@ -92,9 +102,15 @@
               "title": "The text to display.",
               "type": "string"
             },
+            "font": {
+              "title": "Name of the font.",
+              "type": "string",
+              "default": "sans-serif"
+            },
             "size": {
-              "title": "Size of font. Default depends on context.",
-              "$ref": "#size"
+              "title": "Size of font (pixels). Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
             },
             "bold": {
               "title": "Bold font.",
@@ -120,25 +136,10 @@
                 "right"
               ],
               "default": "center"
-            },
-            "anchor": {
-              "title": "Text anchor position. Ignored in some contexts.",
-              "enum": [
-                "start",
-                "middle",
-                "end"
-              ],
-              "default": "middle"
             }
           }
         }
       ]
-    },
-    "size": {
-      "$anchor": "size",
-      "title": "Size of graphical item, in approximate display pixel units.",
-      "type": "number",
-      "minimumExclusive": 0
     }
   }
 }

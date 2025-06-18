@@ -1,13 +1,17 @@
 "Charts overlayed over one another, with optional opacity."
 
+import components
 import constants
 import schema
-from chart import Chart, register, parse
+import utils
+from chart import Chart, Layout, register, parse
 from minixml import Element
-from utils import N
 
 
 class Overlay(Chart):
+    "Charts overlayed over one another, with optional opacity."
+
+    TITLE_CLASS = components.CompoundTitle
 
     SCHEMA = {
         "title": __doc__,
@@ -16,8 +20,14 @@ class Overlay(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "overlay"},
-            "title": {"$ref": "#title"},
-            "description": {"$ref": "#description"},
+            "title": {
+                "title": "Title of the chart.",
+                "$ref": "#text",
+            },
+            "description": {
+                "title": "Description of the chart. Rendered as <desc> in SVG.",
+                "type": "string",
+            },
             "layers": {
                 "title": "Charts to overlay, with optional opacity.",
                 "type": "array",
@@ -29,7 +39,13 @@ class Overlay(Chart):
                     "additionalProperties": False,
                     "properties": {
                         "subchart": {"$ref": "#chart_or_include"},
-                        "opacity": {"$ref": "#opacity"},
+                        "opacity": {
+                            "title": "Opacity of the subchart.",
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "default": 1,
+                        },
                     },
                 },
             },
@@ -84,26 +100,21 @@ class Overlay(Chart):
         return result
 
     def build(self):
-        """Create the SVG elements in the 'svg' attribute.
-        Adds the title, if defined.
-        Sets the 'svg', 'height' and 'width' attributes.
-        """
+        "Create the SVG elements in the 'svg' attribute."
+        super().build()
+        layout = Layout(rows=1, columns=1, title=self.title)
+
         for subchart, opacity in self.layers:
             subchart.build()
+            element = Element("g", *list(subchart.svg))
+            element["class"] = "layer"
+            if opacity != 1:
+                element["opacity"] = utils.N(opacity)
+            element.total_width = subchart.svg.total_width
+            element.total_height = subchart.svg.total_height
+            layout.add(0, 0, element)
 
-        self.width = max([s.width for s, o in self.layers])
-
-        super().build()
-
-        for subchart, opacity in self.layers:
-            self.svg += Element(
-                "g",
-                subchart.svg,
-                transform=f"translate(0,{N(self.total_height)})",
-                opacity=opacity,
-            )
-
-        self.total_height += max([s.total_height for s, o in self.layers])
+        self.svg.load_layout(layout)
 
 
 register(Overlay)

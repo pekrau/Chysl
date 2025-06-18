@@ -1,8 +1,8 @@
-chysl: 0.3.8
+chysl: 0.4.0
 chart: piechart
 title:
-  text: Day
   size: 30
+  text: Day
 diameter: 400
 total: 24
 slices:

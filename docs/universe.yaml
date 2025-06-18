@@ -1,10 +1,10 @@
-chysl: 0.3.8
+chysl: 0.4.0
 chart: timelines
 title:
-  text: Universe
   size: 24
   bold: true
   color: darkorchid
+  text: Universe
 entries:
 - label: Big Bang
   timeline: Universe
@@ -32,4 +32,4 @@ entries:
 axis:
   absolute: true
   caption: Billion years ago
-  max: 100000000
+  max: 50000000

@@ -10,6 +10,7 @@ from degrees import Degrees
 from chart import Chart, Layout, register
 from minixml import Element
 from path import Path
+from utils import N
 from vector2 import Vector2
 
 
@@ -26,8 +27,14 @@ class Piechart(Chart):
         "additionalProperties": False,
         "properties": {
             "chart": {"const": "piechart"},
-            "title": {"$ref": "#title"},
-            "description": {"$ref": "#description"},
+            "title": {
+                "title": "Title of the chart.",
+                "$ref": "#text",
+            },
+            "description": {
+                "title": "Description of the chart. Rendered as <desc> in SVG.",
+                "type": "string",
+            },
             "diameter": {
                 "title": "Diameter of the pie chart.",
                 "type": "number",
@@ -48,11 +55,11 @@ class Piechart(Chart):
                 "type": "number",
             },
             "palette": {
-                "title": "Palette for slice colors. Used for slices lacking color specification.",
+                "title": "Palette used for slices lacking explicit color specification.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
-                    "title": "Color in palette.",
+                    "title": "Color entry in the palette.",
                     "type": "string",
                     "format": "color",
                 },
@@ -79,9 +86,14 @@ class Piechart(Chart):
                         },
                         "color": {
                             "title": "Color of the slice. Overrides the palette.",
-                            "$ref": "#color",
+                            "type": "string",
+                            "format": "color",
                         },
-                        "href": {"$ref": "#uri"},
+                        "href": {
+                            "title": "A URI for a link, absolute or relative.",
+                            "type": "string",
+                            "format": "uri-reference",
+                        },
                     },
                 },
             },
@@ -163,14 +175,12 @@ class Piechart(Chart):
     def build(self):
         "Create the SVG elements in the 'svg' attribute."
         super().build()
-        layout = Layout(title=self.get_title(), rows=1, columns=1)
-        layout.add(0, 0, self.get_area())
+        layout = Layout(rows=1, columns=1, title=self.title)
+        layout.add(0, 0, self.get_plot())
         self.svg.load_layout(layout)
 
-    def get_area(self):
-        """Get the element for the chart circle (frame) and slices.
-        Note: No clip path.
-        """
+    def get_plot(self):
+        "Get the element for the chart circle (frame) and slices."
         if self.total is None:
             total = sum([s["value"] for s in self.slices])
         else:
@@ -179,29 +189,50 @@ class Piechart(Chart):
         radius = self.diameter / 2
 
         result = Element("g")
-        result["class"] = "area"
+        result["class"] = "plot"
+        clippath_id = next(utils.unique_id)
+        result["clip-path"] = f"url(#{clippath_id})"
         result.total_width = self.diameter
         result.total_height = self.diameter
 
         if self.frame:
             if isinstance(self.frame, dict):
-                thickness = self.frame.get("thickness") or constants.DEFAULT_FRAME_THICKNESS
+                thickness = (
+                    self.frame.get("thickness") or constants.DEFAULT_FRAME_THICKNESS
+                )
                 color = self.frame.get("color") or "black"
             else:
                 thickness = constants.DEFAULT_FRAME_THICKNESS
                 color = "black"
-            result += (frame := Element(
-                "circle",
-                r=radius + thickness / 2,
-                stroke=color,
-                fill="none",
+            result += (
+                frame := Element(
+                    "circle",
+                    r=radius + thickness / 2,
+                    stroke=color,
+                    fill="none",
+                )
             )
-                       )
             frame["class"] = "frame"
             frame["stroke-width"] = thickness
             result.total_width += 2 * thickness
             result.total_height += 2 * thickness
-            
+
+        # Clip path definition. Yes, can be added as part of the result.
+        result += Element(
+            "defs",
+            Element(
+                "clipPath",
+                Element(
+                    "rect",
+                    x=N(-result.total_width / 2),
+                    y=N(-result.total_height / 2),
+                    width=N(result.total_width),
+                    height=N(result.total_height),
+                    id=clippath_id,
+                ),
+            ),
+        )
+
         result += (pie := Element("circle", r=radius, fill="white"))
         pie["class"] = "area"
 
@@ -249,11 +280,15 @@ class Piechart(Chart):
                 labels += Element(
                     "text",
                     label,
-                    x=utils.N(pos.x),
-                    y=utils.N(pos.y),
+                    x=N(pos.x),
+                    y=N(pos.y),
                     fill=Color(slice["background"]).best_contrast,
                 )
 
+        # Move it to (0, 0, total_width, total_height).
+        result["transform"] = (
+            f"translate({N(result.total_width/2)},{N(result.total_height/2)})"
+        )
         return result
 
 

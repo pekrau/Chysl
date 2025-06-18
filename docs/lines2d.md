@@ -14,12 +14,12 @@
 ![lines_random_walks SVG](lines_random_walks.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: lines2d
 title: 'Random walks (source: db)'
 lines:
-- linewidth: 10
-  color: black
+- thickness: 10
+  color: blue
   opacity: 0.25
   href: https://en.wikipedia.org/wiki/Random_walk
   line:
@@ -97,14 +97,43 @@ lines:
 - **chart**:
   - *required*
   - *const* 'lines2d'
-- **title**:
-  - *See* [title](schema_defs.md#title).
-- **description**:
-  - *See* [description](schema_defs.md#description).
-- **width**: Width of the chart, including legends etc.
+- **title**: Title of the chart.
+  - *See* [text](schema_defs.md#text).
+- **description**: Description of the chart. Rendered as <desc> in SVG.
+  - *type*: string
+- **lines**: An array of lists of 2D points to display as lines.
+  - *required*
+  - *type*: sequence
+  - *items*:
+    - *type*: mapping
+    - **line**:
+      - *See* [datapoints](schema_defs.md#datapoints).
+      - *required*
+    - **thickness**: Thickness of the line (pixels).
+      - *type*: float
+      - *default*: 1
+    - **color**: Color of the line.
+      - *type*: string
+      - *format*: color
+      - *default*: 'black'
+    - **opacity**: Opacity of the line.
+      - *type*: float
+      - *minimum*: 0
+      - *maximum*: 1
+      - *default*: 1
+    - **href**: A link URI from the line, absolute or relative.
+      - *type*: string
+      - *format*: uri-reference
+- **width**: Width of the chart.
   - *type*: float
   - *exclusiveMinimum*: 0
   - *default*: 600
+- **height**: Height of the chart.
+  - *type*: float
+  - *exclusiveMinimum*: 0
+  - *default*: 600
+- **frame**: Chart area frame specification.
+  - *See* [frame](schema_defs.md#frame).
 - **xaxis**: X axis specification.
   - *See* [axis](schema_defs.md#axis).
 - **yaxis**: Y axis specification.
@@ -113,22 +142,16 @@ lines:
   - *See* [grid](schema_defs.md#grid).
 - **ygrid**: Y grid specification.
   - *See* [grid](schema_defs.md#grid).
-- **lines**: An array of containers of 2D points to display as lines.
-  - *required*
-  - *type*: sequence
-  - *items*:
-    - *type*: mapping
-    - **line**:
-      - *See* [datapoints](schema_defs.md#datapoints).
-      - *required*
-    - **linewidth**: Width of the line.
-      - *type*: float
-      - *default*: 2
-    - **color**: Color of the line.
-      - *See* [color](schema_defs.md#color).
-      - *default*: 'black'
-    - **opacity**: Opacity of the line.
-      - *See* [opacity](schema_defs.md#opacity).
-    - **href**:
-      - *See* [uri](schema_defs.md#uri).
+- **thickness**: Default thickness of the lines (pixels).
+  - *type*: float
+  - *default*: 1
+- **color**: Default line color.
+  - *type*: string
+  - *format*: color
+  - *default*: 'black'
+- **opacity**: Default line opacity.
+  - *type*: float
+  - *minimum*: 0
+  - *maximum*: 1
+  - *default*: 1
 

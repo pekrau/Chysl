@@ -13,6 +13,8 @@ from utils import N
 class Marker:
     "Create graphics and label for a marker."
 
+    DEFAULT_SIZE = 18
+
     def __init__(self, marker, size=None, color=None, opacity=None, href=None):
         assert utils.is_marker(marker)
         assert color is None or utils.is_color(color)
@@ -23,7 +25,7 @@ class Marker:
         assert href is None or isinstance(href, str)
 
         self.marker = marker
-        self.size = size or constants.DEFAULT_SIZE
+        self.size = size or self.DEFAULT_SIZE
         self.color = color or "black"
         self.opacity = opacity
         self.href = href
@@ -57,7 +59,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2
 
             case constants.OVAL | constants.OVAL_V:
@@ -94,7 +96,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 5
 
             case constants.ELLIPSE_H:
@@ -107,7 +109,7 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2
 
             case constants.BLOCK:
@@ -132,12 +134,12 @@ class Marker:
                     fill="none",
                     stroke=self.color,
                 )
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2
 
             case constants.SQUARE_CROSS:
                 elem = Element("g", fill="none", stroke=self.color)
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 elem += Element(
                     "rect",
                     x=N(x - 0.9 * self.size / 2),
@@ -163,7 +165,7 @@ class Marker:
                     .Z()
                 )
                 elem = Element("path", d=path, fill="none", stroke=self.color)
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2
 
             case constants.DIAMOND_CROSS:
@@ -179,7 +181,7 @@ class Marker:
                     .h(self.size)
                 )
                 elem = Element("path", d=path, fill="none", stroke=self.color)
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2
 
             case constants.DIAMOND_F:
@@ -211,7 +213,7 @@ class Marker:
                     .Z()
                 )
                 elem = Element("path", d=path, fill="none", stroke=self.color)
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2
 
             case constants.WEDGE:
@@ -232,7 +234,7 @@ class Marker:
                     .Z()
                 )
                 elem = Element("path", d=path, fill="none", stroke=self.color)
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2
 
             case constants.PENTAGON:
@@ -345,7 +347,7 @@ class Marker:
                     .L(center.x - length, center.y + length)
                 )
                 elem = Element("path", d=path, fill="none", stroke=self.color)
-                elem["stroke-width"] = N(3 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(3 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2.5
 
             case constants.PLUS:
@@ -358,7 +360,7 @@ class Marker:
                     .v(self.size)
                 )
                 elem = Element("path", d=path, fill="none", stroke=self.color)
-                elem["stroke-width"] = N(3 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(3 * self.size / self.DEFAULT_SIZE)
                 self.label_x_offset = self.size / 2
 
             case constants.MINUS:
@@ -412,7 +414,7 @@ class Marker:
                     .L(center.x - length, center.y + length)
                 )
                 elem = Element("path", d=path, fill="none", stroke=self.color)
-                elem["stroke-width"] = N(2 * self.size / constants.DEFAULT_SIZE)
+                elem["stroke-width"] = N(2 * self.size / self.DEFAULT_SIZE)
                 elem["stroke-linecap"] = "round"
                 self.label_x_offset = self.size / 2
 
@@ -925,8 +927,9 @@ class Marker:
                 elem["font-size"] = self.size
                 self.label_x_offset = self.size / 3
 
+        elem["class"] = f"marker {self.marker}"
         if self.opacity is not None and self.opacity != 1:
-            elem["opacity"] = self.opacity
+            elem["opacity"] = N(self.opacity)
         if self.href:
             elem = Element("a", elem, href=self.href)
 

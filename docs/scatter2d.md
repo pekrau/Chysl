@@ -4,7 +4,7 @@
   - [scatter_points](#scatter_points)
   - [scatter_iris](#scatter_iris)
   - [markers](#markers)
-  - [overlay](#overlay)
+  - [points_marks](#points_marks)
 
 - [Specification](#specification)
 
@@ -15,9 +15,13 @@
 ![scatter_points SVG](scatter_points.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: scatter2d
 title: Scattered points inline
+xaxis:
+  caption: X dimension
+yaxis:
+  caption: Y dimension
 points:
 - x: 41.66198725453412
   y: 1.016916945706836
@@ -177,516 +181,462 @@ points:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: column
 title:
-  text: Iris flower measurements
   size: 30
+  text: Iris flower measurements
 subcharts:
 - chart: row
   subcharts:
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 4
-      max: 8
-      labels: false
-    yaxis:
-      min: 4
-      max: 8
-      labels: true
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: sepal length
-        y: sepal length
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 2
-      max: 4.5
-      labels: false
-    yaxis:
-      min: 4
-      max: 8
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: sepal width
-        y: sepal length
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 0.5
-      max: 7.5
-      labels: false
-    yaxis:
-      min: 4
-      max: 8
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: petal length
-        y: sepal length
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 0
-      max: 3
-      labels: false
-    yaxis:
-      min: 4
-      max: 8
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: petal width
-        y: sepal length
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  padding: 4
-- chart: row
-  subcharts:
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 4
-      max: 8
-      labels: false
-    yaxis:
-      min: 2
-      max: 4.5
-      labels: true
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: sepal length
-        y: sepal width
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 2
-      max: 4.5
-      labels: false
-    yaxis:
-      min: 2
-      max: 4.5
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: sepal width
-        y: sepal width
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 0.5
-      max: 7.5
-      labels: false
-    yaxis:
-      min: 2
-      max: 4.5
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: petal length
-        y: sepal width
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 0
-      max: 3
-      labels: false
-    yaxis:
-      min: 2
-      max: 4.5
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: petal width
-        y: sepal width
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  padding: 4
-- chart: row
-  subcharts:
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 4
-      max: 8
-      labels: false
-    yaxis:
-      min: 0.5
-      max: 7.5
-      labels: true
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: sepal length
-        y: petal length
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 2
-      max: 4.5
-      labels: false
-    yaxis:
-      min: 0.5
-      max: 7.5
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: sepal width
-        y: petal length
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 0.5
-      max: 7.5
-      labels: false
-    yaxis:
-      min: 0.5
-      max: 7.5
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: petal length
-        y: petal length
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 0
-      max: 3
-      labels: false
-    yaxis:
-      min: 0.5
-      max: 7.5
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: petal width
-        y: petal length
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  padding: 4
-- chart: row
-  subcharts:
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 4
-      max: 8
-      caption: Sepal length
-      labels: true
-    yaxis:
-      min: 0
-      max: 3
-      labels: true
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: sepal length
-        y: petal width
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 2
-      max: 4.5
-      caption: Sepal width
-      labels: true
-    yaxis:
-      min: 0
-      max: 3
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: sepal width
-        y: petal width
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 0.5
-      max: 7.5
-      caption: Petal length
-      labels: true
-    yaxis:
-      min: 0
-      max: 3
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: petal length
-        y: petal width
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
-  - chart: scatter2d
-    width: 300
-    xaxis:
-      min: 0
-      max: 3
-      caption: Petal width
-      labels: true
-    yaxis:
-      min: 0
-      max: 3
-      labels: false
-      width: 24
-    size: 6
-    points:
-      source: scatter_iris.csv
-      parameters:
-        x: petal width
-        y: petal width
-        color:
-          field: class
-          map:
-            Iris-setosa: red
-            Iris-versicolor: green
-            Iris-virginica: blue
-        marker:
-          field: class
-          map:
-            Iris-setosa: circle
-            Iris-versicolor: triangle
-            Iris-virginica: square
+  - chart: column
+    subcharts:
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: true
+        caption: Sepal length
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: sepal length
+          y: sepal length
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: true
+        caption: Sepal width
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: sepal length
+          y: sepal width
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: true
+        caption: Petal length
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: sepal length
+          y: petal length
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        caption: Sepal length
+        labels: true
+      yaxis:
+        labels: true
+        caption: Petal width
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: sepal length
+          y: petal width
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    align: right
+    padding: 4
+  - chart: column
+    subcharts:
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: sepal width
+          y: sepal length
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: sepal width
+          y: sepal width
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: sepal width
+          y: petal length
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        caption: Sepal width
+        labels: true
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: sepal width
+          y: petal width
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    align: right
+    padding: 4
+  - chart: column
+    subcharts:
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: petal length
+          y: sepal length
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: petal length
+          y: sepal width
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: petal length
+          y: petal length
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        caption: Petal length
+        labels: true
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: petal length
+          y: petal width
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    align: right
+    padding: 4
+  - chart: column
+    subcharts:
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: petal width
+          y: sepal length
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: petal width
+          y: sepal width
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        labels: false
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: petal width
+          y: petal length
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    - chart: scatter2d
+      width: 300
+      height: 300
+      xaxis:
+        caption: Petal width
+        labels: true
+      yaxis:
+        labels: false
+      size: 6
+      points:
+        source: scatter_iris.csv
+        parameters:
+          x: petal width
+          y: petal width
+          color:
+            field: class
+            map:
+              Iris-setosa: red
+              Iris-versicolor: green
+              Iris-virginica: blue
+          marker:
+            field: class
+            map:
+              Iris-setosa: circle
+              Iris-versicolor: triangle
+              Iris-virginica: square
+    align: right
+    padding: 4
   padding: 4
 - chart: column
   subcharts:
   - chart: note
     body:
-      text: 'Iris setosa: red circles'
       size: 24
       color: red
-    frame: 0
+      text: 'Iris setosa: red circles'
+    frame: false
     background: white
   - chart: note
     body:
-      text: 'Iris versicolor: green triangles'
       size: 24
       color: green
-    frame: 0
+      text: 'Iris versicolor: green triangles'
+    frame: false
     background: white
   - chart: note
     body:
-      text: 'Iris virginica: blue squares'
       size: 24
       color: blue
-    frame: 0
+      text: 'Iris virginica: blue squares'
+    frame: false
     background: white
-  padding: 0
 padding: 4
 ```
 ### markers
@@ -694,18 +644,17 @@ padding: 4
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: column
 subcharts:
 - chart: scatter2d
   title: Geometry markers
-  width: 300
+  width: 400
+  height: 225
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -841,13 +790,12 @@ subcharts:
     label: octagon-fill
 - chart: scatter2d
   title: Symbol markers
-  width: 300
+  width: 400
+  height: 75
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -893,13 +841,12 @@ subcharts:
     label: none
 - chart: scatter2d
   title: Astronomy markers
-  width: 300
+  width: 400
+  height: 125
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -970,13 +917,12 @@ subcharts:
     label: neptune
 - chart: scatter2d
   title: Greek markers
-  width: 300
+  width: 400
+  height: 225
   xaxis:
-    min: 0
-    max: 3.5
+    max: 3.0
     labels: false
-  yaxis:
-    labels: false
+  yaxis: false
   xgrid: false
   ygrid: false
   points:
@@ -1111,12 +1057,12 @@ subcharts:
     marker: omega
     label: omega
 ```
-### overlay
+### points_marks
 
-![overlay SVG](overlay.svg)
+![points_marks SVG](points_marks.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: overlay
 title: One scatterplot on top of another
 layers:
@@ -1159,18 +1105,23 @@ layers:
 - **chart**:
   - *required*
   - *const* 'scatter2d'
-- **title**:
-  - *See* [title](schema_defs.md#title).
-- **description**:
-  - *See* [description](schema_defs.md#description).
-- **width**: Width of the chart, including legends etc.
+- **title**: Title of the chart.
+  - *See* [text](schema_defs.md#text).
+- **description**: Description of the chart. Rendered as <desc> in SVG.
+  - *type*: string
+- **points**: The list of 2D points to display by markers.
+  - *See* [datapoints](schema_defs.md#datapoints).
+  - *required*
+- **width**: Width of the chart.
   - *type*: float
   - *exclusiveMinimum*: 0
   - *default*: 600
-- **height**: Height of the chart, including legends etc.
+- **height**: Height of the chart.
   - *type*: float
   - *exclusiveMinimum*: 0
   - *default*: 600
+- **frame**: Chart area frame specification.
+  - *See* [frame](schema_defs.md#frame).
 - **xaxis**: X axis specification.
   - *See* [axis](schema_defs.md#axis).
 - **yaxis**: Y axis specification.
@@ -1182,15 +1133,16 @@ layers:
 - **marker**: Default marker.
   - *See* [marker](schema_defs.md#marker).
   - *default*: 'disc'
-- **size**: Default size.
-  - *See* [size](schema_defs.md#size).
+- **size**: Default size of the markers (pixels).
+  - *type*: float
   - *default*: 10
-- **color**: Default color.
-  - *See* [color](schema_defs.md#color).
+- **color**: Default marker color.
+  - *type*: string
+  - *format*: color
   - *default*: 'black'
-- **opacity**: Default opacity.
-  - *See* [opacity](schema_defs.md#opacity).
-- **points**: A container of 2D points to display as markers.
-  - *See* [datapoints](schema_defs.md#datapoints).
-  - *required*
+- **opacity**: Default marker opacity.
+  - *type*: float
+  - *minimum*: 0
+  - *maximum*: 1
+  - *default*: 1
 

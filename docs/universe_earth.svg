@@ -1,25 +1,31 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1" height="253.8" viewBox="0 0 1 253.8" transform="translate(0.5, 0.5)">
+<svg xmlns="http://www.w3.org/2000/svg" width="603" height="310.6" viewBox="0 0 603 310.6" transform="translate(0.5, 0.5)">
   <title>Universe and Earth</title>
-  <g>
-    <g transform="translate(0, 0)">
-      <g>
-        <defs>
-          <clipPath id="id10">
-            <rect width="600" height="40" />
-          </clipPath>
-        </defs>
-        <g transform="translate(302,50.8)">
-          <rect x="-1" y="-1" width="602" height="42" stroke="black" fill="none" class="frame" stroke-width="2" transform="translate(-300,-20)" />
+  <g class="layout">
+    <g fill="black" font-family="sans-serif" font-size="22" text-anchor="middle" transform="translate(194.619,0)">
+      <text y="22" x="106.381">Universe and Earth</text>
+    </g>
+    <g transform="translate(0,35.2)">
+      <g class="layout">
+        <g fill="darkorchid" font-family="sans-serif" font-size="24" font-weight="bold" text-anchor="middle" transform="translate(243.544,0)">
+          <text y="24" x="57.456">Universe</text>
         </g>
-        <g transform="translate(302,50.8)">
-          <g class="area" clip-path="url(#id10)" transform="translate(-300,-20)">
-            <path stroke="lightgray" class="x-grid" d="M 0 0 V 40 M 85.106 0 V 40 M 170.213 0 V 40 M 255.319 0 V 40 M 340.426 0 V 40 M 425.532 0 V 40 M 510.638 0 V 40 M 595.745 0 V 40" />
-            <path d="M 0.064 10 h 18 M 9.064 1 v 18 M 2.7 3.636 L 15.428 16.364 M 15.428 3.636 L 2.7 16.364" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" class="event" />
+        <g transform="translate(0,38.4)">
+          <rect x="0.5" y="0.5" width="601" height="41" stroke="black" fill="none" class="frame" stroke-width="1" />
+        </g>
+        <g transform="translate(1,39.4)">
+          <g class="plot" clip-path="url(#id10)">
+            <defs>
+              <clipPath id="id10">
+                <rect width="600" height="40" />
+              </clipPath>
+            </defs>
+            <path d="M 0 0 V 40 M 85.409 0 V 40 M 170.819 0 V 40 M 256.228 0 V 40 M 341.637 0 V 40 M 427.046 0 V 40 M 512.456 0 V 40 M 597.865 0 V 40" stroke="lightgray" class="x-grid" />
+            <path d="M 0.096 10 h 18 M 9.096 1 v 18 M 2.732 3.636 L 15.46 16.364 M 15.46 3.636 L 2.732 16.364" fill="none" stroke="red" stroke-width="2" stroke-linecap="round" class="event" />
             <a href="https://en.wikipedia.org/wiki/Milky_Way">
               <g stroke="black" stroke-width="1" class="period">
-                <rect x="276.096" y="1" width="320.149" height="18" fill="dodgerblue" stroke="none" />
-                <path d="M 276.096 1 H 596.745 m 0 18 H 276.096" />
+                <rect x="277.33" y="1" width="320.785" height="18" fill="dodgerblue" stroke="none" />
+                <path d="M 277.33 1 H 598.365 m 0 18 H 277.33" />
                 <defs>
                   <linearGradient id="id11">
                     <stop offset="0" stop-color="dodgerblue" stop-opacity="0" />
@@ -30,61 +36,61 @@
                     <stop offset="1" stop-color="black" stop-opacity="1" />
                   </linearGradient>
                 </defs>
-                <rect x="234.043" y="1" width="42.553" height="18" fill="url(#id11)" stroke="none" />
-                <path d="M 234.043 1 H 276.596 m 0 18 H 234.043" stroke="url(#id12)" />
-                <line x1="595.745" y1="1" x2="595.745" y2="19" />
+                <rect x="234.875" y="1" width="42.705" height="18" fill="url(#id11)" stroke="none" />
+                <path d="M 234.875 1 H 277.58 m 0 18 H 234.875" stroke="url(#id12)" />
+                <line x1="597.865" y1="1" x2="597.865" y2="19" />
               </g>
             </a>
             <a href="https://en.wikipedia.org/wiki/Milky_Way" class="event">
-              <path transform="translate(276.596, 10) scale(1.5) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" />
+              <path transform="translate(277.58, 10) scale(1.5) translate(-6,-6)" d="M8.316 1a5.553 5.553 0 0 1 1.629 3.94A3.443 3.443 0 0 1 6.5 8.378 2.127 2.127 0 0 1 4.375 6.25 1.315 1.315 0 0 1 5.69 4.936c.45 0 .813.365.812.813a.503.503 0 0 1-.147.355l-.71-.208a.502.502 0 0 0-.147.355c0 .449.363.813.812.813A1.315 1.315 0 0 0 7.625 5.75 2.127 2.127 0 0 0 5.5 3.622 3.443 3.443 0 0 0 2.055 7.06c0 1.538.622 2.93 1.629 3.939" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" class="marker galaxy" />
             </a>
             <g stroke="black" stroke-width="1" class="period">
-              <rect x="401.404" y="21" width="194.34" height="18" fill="lightgreen" />
+              <rect x="402.833" y="21" width="195.032" height="18" fill="lightgreen" />
             </g>
             <g class="labels" font-family="sans-serif" font-size="12" text-anchor="middle">
-              <text x="20.064" y="13.6" class="event-label" text-anchor="start">Big Bang</text>
-              <text x="436.17" y="13.6" fill="white" class="period-label" text-anchor="middle">Milky Way galaxy</text>
-              <text x="498.574" y="33.6" fill="black" class="period-label" text-anchor="middle">Earth</text>
+              <text x="20.096" y="14.2" class="event-label" text-anchor="start">Big Bang</text>
+              <text x="437.722" y="14.2" fill="white" class="period-label" text-anchor="middle">Milky Way galaxy</text>
+              <text x="500.349" y="34.2" fill="black" class="period-label" text-anchor="middle">Earth</text>
             </g>
           </g>
         </g>
-        <g transform="translate(302,87)">
-          <g class="x-axis-labels" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none" fill="black" transform="translate(-300,-14.2)">
-            <text x="0" y="10.8" text-anchor="start">14</text>
-            <text x="85.106" y="10.8">12</text>
-            <text x="170.213" y="10.8">10</text>
-            <text x="255.319" y="10.8">8</text>
-            <text x="340.426" y="10.8">6</text>
-            <text x="425.532" y="10.8">4</text>
-            <text x="510.638" y="10.8">2</text>
-            <text x="595.745" y="10.8">0</text>
-            <text x="300" y="24" class="x-axis-caption">Billion years ago</text>
+        <g transform="translate(1,80.4)">
+          <g class="x-axis-labels" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none" fill="black">
+            <text x="0" y="12" text-anchor="start">14</text>
+            <text x="85.409" y="12">12</text>
+            <text x="170.819" y="12">10</text>
+            <text x="256.228" y="12">8</text>
+            <text x="341.637" y="12">6</text>
+            <text x="427.046" y="12">4</text>
+            <text x="512.456" y="12">2</text>
+            <text x="597.865" y="12">0</text>
+            <text x="300" y="27.6" class="x-axis-caption">Billion years ago</text>
           </g>
-        </g>
-        <g transform="translate(302,14.4)">
-          <text y="7.2" fill="darkorchid" class="title" text-anchor="middle" font-family="sans-serif" font-size="24" font-weight="bold">Universe</text>
         </g>
       </g>
     </g>
-    <g transform="translate(0, 101.2)">
-      <g>
-        <defs>
-          <clipPath id="id13">
-            <rect width="600" height="100" />
-          </clipPath>
-        </defs>
-        <g transform="translate(302,71.2)">
-          <rect x="-1" y="-1" width="602" height="102" stroke="black" fill="none" class="frame" stroke-width="2" transform="translate(-300,-50)" />
+    <g transform="translate(0,148.8)">
+      <g class="layout">
+        <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(279.036,0)">
+          <text y="16" x="21.964">Earth</text>
         </g>
-        <g transform="translate(302,71.2)">
-          <g class="area" clip-path="url(#id13)" transform="translate(-300,-50)">
-            <path stroke="lightgray" class="x-grid" d="M 0 0 V 100 M 120 0 V 100 M 240 0 V 100 M 360 0 V 100 M 480 0 V 100 M 600 0 V 100" />
+        <g transform="translate(0,25.6)">
+          <rect x="0.5" y="0.5" width="601" height="101" stroke="black" fill="none" class="frame" stroke-width="1" />
+        </g>
+        <g transform="translate(1,26.6)">
+          <g class="plot" clip-path="url(#id13)">
+            <defs>
+              <clipPath id="id13">
+                <rect width="600" height="100" />
+              </clipPath>
+            </defs>
+            <path d="M 0 0 V 100 M 119.522 0 V 100 M 239.044 0 V 100 M 358.566 0 V 100 M 478.088 0 V 100 M 597.61 0 V 100" stroke="lightgray" class="x-grid" />
             <g stroke="black" stroke-width="1" class="period">
-              <rect x="51.96" y="1" width="548.04" height="18" fill="skyblue" />
+              <rect x="51.753" y="1" width="545.857" height="18" fill="skyblue" />
             </g>
             <g stroke="black" stroke-width="1" class="period">
-              <rect x="125.5" y="21" width="151" height="18" fill="wheat" stroke="none" />
-              <path d="M 125.5 21 H 277 m 0 18 H 125.5" />
+              <rect x="125.248" y="21" width="149.902" height="18" fill="wheat" stroke="none" />
+              <path d="M 125.248 21 H 275.4 m 0 18 H 125.248" />
               <defs>
                 <linearGradient id="id14">
                   <stop offset="0" stop-color="wheat" stop-opacity="0" />
@@ -95,8 +101,8 @@
                   <stop offset="1" stop-color="black" stop-opacity="1" />
                 </linearGradient>
               </defs>
-              <rect x="108" y="21" width="18" height="18" fill="url(#id14)" stroke="none" />
-              <path d="M 108 21 H 126 m 0 18 H 108" stroke="url(#id15)" />
+              <rect x="107.57" y="21" width="17.928" height="18" fill="url(#id14)" stroke="none" />
+              <path d="M 107.57 21 H 125.498 m 0 18 H 107.57" stroke="url(#id15)" />
               <defs>
                 <linearGradient id="id16">
                   <stop offset="0" stop-color="wheat" stop-opacity="1" />
@@ -107,13 +113,13 @@
                   <stop offset="1" stop-color="black" stop-opacity="0" />
                 </linearGradient>
               </defs>
-              <rect x="276" y="21" width="48" height="18" fill="url(#id16)" stroke="none" />
-              <path d="M 276 21 H 324 m 0 18 H 276" stroke="url(#id17)" />
+              <rect x="274.9" y="21" width="47.809" height="18" fill="url(#id16)" stroke="none" />
+              <path d="M 274.9 21 H 322.709 m 0 18 H 274.9" stroke="url(#id17)" />
             </g>
-            <ellipse cx="96" cy="50" rx="3.6" ry="9" fill="black" stroke="none" class="event" />
+            <ellipse cx="95.618" cy="50" rx="3.6" ry="9" fill="black" stroke="none" class="event" />
             <g stroke="black" stroke-width="1" class="period">
-              <rect x="181.9" y="41" width="418.6" height="18" fill="white" stroke="none" />
-              <path d="M 181.9 41 H 601 m 0 18 H 181.9" />
+              <rect x="181.423" y="41" width="416.436" height="18" fill="white" stroke="none" />
+              <path d="M 181.423 41 H 598.11 m 0 18 H 181.423" />
               <defs>
                 <linearGradient id="id18">
                   <stop offset="0" stop-color="white" stop-opacity="0" />
@@ -124,20 +130,20 @@
                   <stop offset="1" stop-color="black" stop-opacity="1" />
                 </linearGradient>
               </defs>
-              <rect x="96" y="41" width="86.4" height="18" fill="url(#id18)" stroke="none" />
-              <path d="M 96 41 H 182.4 m 0 18 H 96" stroke="url(#id19)" />
-              <line x1="600" y1="41" x2="600" y2="59" />
+              <rect x="95.618" y="41" width="86.056" height="18" fill="url(#id18)" stroke="none" />
+              <path d="M 95.618 41 H 181.673 m 0 18 H 95.618" stroke="url(#id19)" />
+              <line x1="597.61" y1="41" x2="597.61" y2="59" />
             </g>
             <g stroke="black" stroke-width="1" class="period">
-              <rect x="402" y="61" width="198" height="18" fill="white" />
+              <rect x="400.398" y="61" width="197.211" height="18" fill="white" />
               <g stroke="black">
-                <path d="M 378 65.5 v 9 m 0 -4.5 H 402" />
-                <path d="M 426 65.5 v 9 m 0 -4.5 H 402" />
+                <path d="M 376.494 65.5 v 9 m 0 -4.5 H 400.398" />
+                <path d="M 424.303 65.5 v 9 m 0 -4.5 H 400.398" />
               </g>
             </g>
             <g stroke="black" stroke-width="1" class="period">
-              <rect x="287.5" y="81" width="313" height="18" fill="springgreen" stroke="none" />
-              <path d="M 287.5 81 H 601 m 0 18 H 287.5" />
+              <rect x="286.603" y="81" width="311.257" height="18" fill="springgreen" stroke="none" />
+              <path d="M 286.603 81 H 598.11 m 0 18 H 286.603" />
               <defs>
                 <linearGradient id="id20">
                   <stop offset="0" stop-color="springgreen" stop-opacity="0" />
@@ -148,37 +154,34 @@
                   <stop offset="1" stop-color="black" stop-opacity="1" />
                 </linearGradient>
               </defs>
-              <rect x="192" y="81" width="96" height="18" fill="url(#id20)" stroke="none" />
-              <path d="M 192 81 H 288 m 0 18 H 192" stroke="url(#id21)" />
-              <line x1="600" y1="81" x2="600" y2="99" />
+              <rect x="191.235" y="81" width="95.618" height="18" fill="url(#id20)" stroke="none" />
+              <path d="M 191.235 81 H 286.853 m 0 18 H 191.235" stroke="url(#id21)" />
+              <line x1="597.61" y1="81" x2="597.61" y2="99" />
             </g>
             <g stroke="black" stroke-width="1" class="period">
-              <path d="M 549.6 81 L 537.6 90 549.6 99 H 600 L 600 90 600 81 Z" fill="green" />
+              <path d="M 547.41 81 L 535.458 90 547.41 99 H 597.61 L 597.61 90 597.61 81 Z" fill="green" />
             </g>
             <g class="labels" font-family="sans-serif" font-size="12" text-anchor="middle">
-              <text x="325.98" y="13.6" fill="black" class="period-label" text-anchor="middle">Earth</text>
-              <text x="210" y="33.6" fill="black" class="period-label" text-anchor="middle">Archean</text>
-              <text x="101.6" y="53.6" class="event-label" text-anchor="start">LUCA?</text>
-              <text x="391.2" y="53.6" fill="black" class="period-label" text-anchor="middle">Unicellular organisms</text>
-              <text x="501" y="73.6" fill="black" class="period-label" text-anchor="middle">Eukaryotes</text>
-              <text x="396" y="93.6" fill="black" class="period-label" text-anchor="middle">Photosynthesis</text>
-              <text x="535.6" y="93.6" fill="black" class="period-label" text-anchor="end">Plants</text>
+              <text x="324.681" y="14.2" fill="black" class="period-label" text-anchor="middle">Earth</text>
+              <text x="209.163" y="34.2" fill="black" class="period-label" text-anchor="middle">Archean</text>
+              <text x="101.218" y="54.2" class="event-label" text-anchor="start">LUCA?</text>
+              <text x="389.641" y="54.2" fill="black" class="period-label" text-anchor="middle">Unicellular organisms</text>
+              <text x="499" y="74.2" fill="black" class="period-label" text-anchor="middle">Eukaryotes</text>
+              <text x="394.422" y="94.2" fill="black" class="period-label" text-anchor="middle">Photosynthesis</text>
+              <text x="533.458" y="94.2" fill="black" class="period-label" text-anchor="end">Plants</text>
             </g>
           </g>
         </g>
-        <g transform="translate(302,137.4)">
-          <g class="x-axis-labels" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none" fill="black" transform="translate(-300,-14.2)">
-            <text x="0" y="10.8" text-anchor="start">5</text>
-            <text x="120" y="10.8">4</text>
-            <text x="240" y="10.8">3</text>
-            <text x="360" y="10.8">2</text>
-            <text x="480" y="10.8">1</text>
-            <text x="600" y="10.8" text-anchor="end">0</text>
-            <text x="300" y="24" class="x-axis-caption">Billion years ago</text>
+        <g transform="translate(1,127.6)">
+          <g class="x-axis-labels" font-family="sans-serif" font-size="12" text-anchor="middle" stroke="none" fill="black">
+            <text x="0" y="12" text-anchor="start">5</text>
+            <text x="119.522" y="12">4</text>
+            <text x="239.044" y="12">3</text>
+            <text x="358.566" y="12">2</text>
+            <text x="478.088" y="12">1</text>
+            <text x="597.61" y="12">0</text>
+            <text x="300" y="27.6" class="x-axis-caption">Billion years ago</text>
           </g>
-        </g>
-        <g transform="translate(302,9.6)">
-          <text y="4.8" fill="black" class="title" text-anchor="middle" font-family="sans-serif" font-size="16">Earth</text>
         </g>
       </g>
     </g>

@@ -16,36 +16,38 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: note
 title:
-  text: Declaration
   bold: true
   placement: left
+  text: Declaration
 body:
+  placement: right
   text: 'This software was
 
     written by me.'
-  placement: right
 footer:
-  text: Copyright 2025 Per Kraulis
   italic: true
+  text: Copyright 2025 Per Kraulis
+width: 200
 ```
 ### notes_column
 
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: column
+title: Notes in a column
 subcharts:
 - chart: note
   title: Header
-  description: Body
-  body: Footer
+  body: Body
+  footer: Footer
 - chart: note
   title: Header
-  description: Body
+  body: Body
 - chart: note
   body: Body
   footer: Footer
@@ -53,35 +55,40 @@ subcharts:
   title: Header
 - chart: note
   body: Body
+  width: 200
 - chart: note
   footer: Footer
+  width: 200
 - chart: note
   title: Header
-  description: Body
-  body: Footer
+  body: Body (no lines)
+  footer: Footer
   line: 0
+  width: 200
 - include: declaration.yaml
+padding: 4
 ```
 ### notes
 
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: board
 items:
 - x: 0
   y: 0
   subchart:
     chart: column
+    title: Notes in a column
     subcharts:
     - chart: note
       title: Header
-      description: Body
-      body: Footer
+      body: Body
+      footer: Footer
     - chart: note
       title: Header
-      description: Body
+      body: Body
     - chart: note
       body: Body
       footer: Footer
@@ -89,14 +96,18 @@ items:
       title: Header
     - chart: note
       body: Body
+      width: 200
     - chart: note
       footer: Footer
+      width: 200
     - chart: note
       title: Header
-      description: Body
-      body: Footer
+      body: Body (no lines)
+      footer: Footer
       line: 0
+      width: 200
     - include: declaration.yaml
+    padding: 4
   scale: 1.5
 ```
 ### pies_column
@@ -104,7 +115,7 @@ items:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: column
 title: Pies in column
 subcharts:
@@ -141,23 +152,17 @@ subcharts:
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
-- chart: note
-  title: Comment
-  body: Strawberry pie is good.
-  footer:
-    text: Copyright 2025 Per Kraulis
-    italic: true
 ```
 ### poster
 
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.3.7
+chysl: 0.4.0
 chart: board
 title: Poster
 items:
-- x: 250
+- x: 150
   y: 10
   subchart:
     chart: note
@@ -165,11 +170,11 @@ items:
     body: Ph.D.
     footer: Stockholm University
 - x: 0
-  y: 100
+  y: 150
   subchart:
     include: universe.yaml
 - x: 50
-  y: 230
+  y: 290
   subchart:
     include: earth.yaml
 ```
@@ -182,31 +187,17 @@ Textual note with title, body and footer text.
 - **chart**:
   - *required*
   - *const* 'note'
-- **title**:
-  - *See* [title](schema_defs.md#title).
-- **description**:
-  - *See* [description](schema_defs.md#description).
+- **title**: Title of the note.
+  - *See* [text](schema_defs.md#text).
 - **body**: Body of the note.
   - *See* [text](schema_defs.md#text).
 - **footer**: Footer of the note.
   - *See* [text](schema_defs.md#text).
-- **width**: Width of chart, in pixels.
-  - *type*: float
-  - *exclusiveMinimum*: 0
-  - *default*: 200
-- **frame**: Thickness of the frame.
-  - *type*: float
-  - *minimum*: 0
-  - *default*: 5
-- **color**: Color of the note frame and lines.
+- **description**: Description of the chart. Rendered as <desc> in SVG.
   - *type*: string
-  - *format*: color
-  - *default*: 'gold'
-- **radius**: Radius of the frame edge curvature.
-  - *type*: float
-  - *minimum*: 0
-  - *default*: 10
-- **line**: Thickness of lines between sections.
+- **frame**: Specification of the note frame. Default is 5 pixels gold with radius 10.
+  - *See* [frame](schema_defs.md#frame).
+- **line**: Thickness of lines between sections (pixels). Same color as frame.
   - *type*: float
   - *minimum*: 0
   - *default*: 1
@@ -214,4 +205,6 @@ Textual note with title, body and footer text.
   - *type*: string
   - *format*: color
   - *default*: 'lightyellow'
+- **width**: Explicit width of note (pixels).
+  - *type*: float
 
