@@ -13,7 +13,7 @@
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: row
 title: Pies in row
 subcharts:
@@ -26,13 +26,13 @@ subcharts:
   - gold
   - red
   slices:
-  - value: 7
+  - x: 7
     label: Flour
-  - value: 2
+  - x: 2
     label: Eggs
-  - value: 3
+  - x: 3
     label: Butter
-  - value: 3
+  - x: 3
     label: Strawberries
     href: https://en.wikipedia.org/wiki/Strawberry
 - chart: piechart
@@ -43,16 +43,17 @@ subcharts:
   - gold
   - red
   slices:
-  - value: 7
+  - x: 7
     label: Flour
-  - value: 2
+  - x: 2
     label: Eggs
-  - value: 3
+  - x: 3
     label: Butter
-  - value: 3
+  - x: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
+padding: 10
 ```
 ### scatter_iris
 
@@ -61,7 +62,7 @@ subcharts:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title:
   size: 30

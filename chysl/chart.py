@@ -161,13 +161,26 @@ class Layout:
             self.width = max(self.width, element.total_width)
             self.height = max(self.height, element.total_height)
 
-    def __init__(self, rows=1, columns=1, title=None, halign=None, hpadding=None, valign=None, vpadding=None):
+    def __init__(
+        self,
+        rows=1,
+        columns=1,
+        title=None,
+        halign=None,
+        hpadding=None,
+        valign=None,
+        vpadding=None,
+    ):
         assert rows >= 1
         assert columns >= 1
         assert title is None or isinstance(title, components.Title)
-        assert hpadding is None or (isinstance(hpadding, (int, float)) and hpadding >= 0)
+        assert hpadding is None or (
+            isinstance(hpadding, (int, float)) and hpadding >= 0
+        )
         assert halign is None or halign in constants.HORIZONTAL
-        assert vpadding is None or (isinstance(vpadding, (int, float)) and vpadding >= 0)
+        assert vpadding is None or (
+            isinstance(vpadding, (int, float)) and vpadding >= 0
+        )
         assert valign is None or valign in constants.VERTICAL
 
         self.rows = rows

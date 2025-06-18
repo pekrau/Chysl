@@ -13,7 +13,7 @@
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: board
 title: Poster
 items:
@@ -24,6 +24,7 @@ items:
     title: By Per Kraulis
     body: Ph.D.
     footer: Stockholm University
+  scale: 1.5
 - x: 0
   y: 150
   subchart:
@@ -38,7 +39,7 @@ items:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: board
 items:
 - x: 0

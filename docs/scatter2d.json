@@ -80,6 +80,65 @@
     }
   },
   "$defs": {
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "font": {
+              "title": "Name of the font.",
+              "type": "string",
+              "default": "sans-serif"
+            },
+            "size": {
+              "title": "Size of font (pixels). Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            }
+          }
+        }
+      ]
+    },
     "axis": {
       "$anchor": "axis",
       "title": "Coordinate axis specification.",
@@ -129,63 +188,6 @@
             "caption": {
               "title": "Axis description.",
               "type": "string"
-            }
-          }
-        }
-      ]
-    },
-    "frame": {
-      "$anchor": "frame",
-      "title": "Specification of the chart area frame.",
-      "oneOf": [
-        {
-          "title": "Default chart area frame, or no frame.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Specification of the chart area frame.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "thickness": {
-              "title": "Thickness of the frame (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "color": {
-              "title": "Color of the frame. Default depends on the chart.",
-              "type": "string",
-              "format": "color"
-            },
-            "radius": {
-              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimum": 0
-            }
-          }
-        }
-      ]
-    },
-    "grid": {
-      "$anchor": "grid",
-      "title": "Coordinate grid specification.",
-      "oneOf": [
-        {
-          "title": "Display default grid.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Grid styling.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "lightgray"
             }
           }
         }
@@ -417,60 +419,34 @@
         }
       ]
     },
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
+    "frame": {
+      "$anchor": "frame",
+      "title": "Specification of the chart area frame.",
       "oneOf": [
         {
-          "title": "Text with default styling.",
-          "type": "string"
+          "title": "Default chart area frame, or no frame.",
+          "type": "boolean",
+          "default": true
         },
         {
-          "title": "Text with styling options.",
+          "title": "Specification of the chart area frame.",
           "type": "object",
-          "required": [
-            "text"
-          ],
           "additionalProperties": false,
           "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "font": {
-              "title": "Name of the font.",
-              "type": "string",
-              "default": "sans-serif"
-            },
-            "size": {
-              "title": "Size of font (pixels). Default depends on context.",
+            "thickness": {
+              "title": "Thickness of the frame (pixels). Default depends on the chart.",
               "type": "number",
               "minimumExclusive": 0
             },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
             "color": {
-              "title": "Color of text.",
+              "title": "Color of the frame. Default depends on the chart.",
               "type": "string",
-              "format": "color",
-              "default": "black"
+              "format": "color"
             },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
+            "radius": {
+              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimum": 0
             }
           }
         }
@@ -507,6 +483,30 @@
               "title": "Map a string value in the source data to a value for the plot parameter.",
               "type": "object",
               "properties": {}
+            }
+          }
+        }
+      ]
+    },
+    "grid": {
+      "$anchor": "grid",
+      "title": "Coordinate grid specification.",
+      "oneOf": [
+        {
+          "title": "Display default grid.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Grid styling.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "lightgray"
             }
           }
         }

@@ -13,8 +13,8 @@
             <rect x="-201" y="-201" width="402" height="402" id="id5" />
           </clipPath>
         </defs>
-        <circle r="200.0" fill="white" class="area" />
-        <g stroke="black" stroke-width="1">
+        <g class="graphics">
+          <circle r="200.0" fill="white" />
           <path d="M 0 0 L 0 -200 A 200 200 0 0 1 173.205 100 Z" class="slice" fill="gray" />
           <path d="M 0 0 L 173.205 100 A 200 200 0 0 1 141.421 141.421 Z" class="slice" fill="lightgreen" />
           <path d="M 0 0 L 141.421 141.421 A 200 200 0 0 1 51.764 193.185 Z" class="slice" fill="lightblue" />

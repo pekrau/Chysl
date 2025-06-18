@@ -3,7 +3,7 @@
   <title>Declaration</title>
   <g class="layout">
     <g transform="translate(0,0)">
-      <rect x="2.5" y="2.5" width="205" height="83" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+      <rect x="2.5" y="2.5" width="205" height="83" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
     </g>
     <g transform="translate(5,5)">
       <g>

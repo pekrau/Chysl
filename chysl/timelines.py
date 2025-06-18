@@ -2,6 +2,7 @@
 
 import math
 
+import components
 import constants
 import schema
 import utils
@@ -20,6 +21,7 @@ class Timelines(Chart):
 
     DEFAULT_WIDTH = 600
     DEFAULT_SIZE = 18
+    DEFAULT_COLOR = "black"
 
     SCHEMA = {
         "title": __doc__,
@@ -91,7 +93,7 @@ class Timelines(Chart):
                                     "title": "Color of the event marker.",
                                     "type": "string",
                                     "format": "color",
-                                    "default": "black",
+                                    "default": DEFAULT_COLOR,
                                 },
                                 "placement": {
                                     "title": "Placement of event label.",
@@ -183,7 +185,7 @@ class Timelines(Chart):
         assert entries is None or isinstance(entries, list)
 
         self.width = width or self.DEFAULT_WIDTH
-        self.frame = frame
+        self.frame = components.Frame(frame)
         self.legend = legend
         self.axis = axis
         self.grid = grid
@@ -215,9 +217,9 @@ class Timelines(Chart):
             result["width"] = self.width
         if not self.legend:
             result["legend"] = False
-        if self.frame is False or isinstance(self.frame, dict):
-            result["frame"] = self.frame
-        if self.axis is False or isinstance(self.axis, dict): # XXX Get from dimension as_dict
+        result.update(self.frame.as_dict())
+        if self.axis is False or isinstance(self.axis, dict):
+            # XXX Get from dimension as_dict
             result["axis"] = self.axis
         if self.grid is False or isinstance(self.grid, dict):
             result["grid"] = self.grid
@@ -236,16 +238,14 @@ class Timelines(Chart):
                 timelines[entry.timeline] = self.height
                 self.height += self.DEFAULT_SIZE + constants.DEFAULT_LINE_WIDTH
 
-        # Set up the time axis.
         dimension = Xdimension(self.width, self.axis)
         for entry in self.entries:
             dimension.update_span(entry.minmax())
         dimension.build()
 
-        # Create the layout, add the different parts to it and load.
         layout = Layout(rows=2, columns=2, title=self.title)
         layout.add(0, 0, self.get_legend(timelines))
-        layout.add(0, 1, self.get_frame())
+        layout.add(0, 1, self.frame.get_element(self.width, self.height))
         layout.add(0, 1, self.get_plot(dimension, timelines))
         layout.add(1, 1, dimension.get_labels(self.width))
         self.svg.load_layout(layout)
@@ -276,32 +276,6 @@ class Timelines(Chart):
         padding = 0.5 * constants.DEFAULT_FONT_SIZE
         result.total_width += padding
         result["transform"] = f"translate({N(result.total_width - padding)}, 0)"
-        return result
-
-    def get_frame(self):
-        "Get the element for the frame around the chart; possibly None."
-        if not self.frame:
-            return None
-
-        if isinstance(self.frame, dict):
-            thickness = self.frame.get("thickness") or constants.DEFAULT_FRAME_THICKNESS
-            color = self.frame.get("color") or "black"
-        else:
-            thickness = constants.DEFAULT_FRAME_THICKNESS
-            color = "black"
-        result = Element(
-            "rect",
-            x=N(thickness / 2),
-            y=N(thickness / 2),
-            width=N(self.width + thickness),
-            height=N(self.height + thickness),
-            stroke=color,
-            fill="none",
-        )
-        result["class"] = "frame"
-        result["stroke-width"] = N(thickness)
-        result.total_width = self.width + 2 * thickness
-        result.total_height = self.height + 2 * thickness
         return result
 
     def get_plot(self, dimension, timelines):
@@ -386,7 +360,7 @@ class _Temporal:
         "Get the error bars for the fuzzy instant."
         assert isinstance(instant, dict)
         x = dimension.get_pixel(instant["value"])
-        result = Element("g", stroke="black")
+        result = Element("g", stroke=Timelines.DEFAULT_COLOR)
         try:  # If 'low' is given, then ignore 'error'.
             xlow = dimension.get_pixel(instant["low"])
         except KeyError:
@@ -652,7 +626,7 @@ class Period(_Temporal):
                 x3 = x2
 
             # Graphics depends on how to show fuzzy values.
-            result = Element("g", stroke="black")
+            result = Element("g", stroke=Timelines.DEFAULT_COLOR)
             result["stroke-width"] = constants.DEFAULT_LINE_WIDTH
 
             match self.fuzzy:
@@ -732,10 +706,10 @@ class Period(_Temporal):
                         id2 = next(utils.unique_id)
                         defs += (stroke1 := Element("linearGradient", id=id2))
                         stroke1 += (stop := Element("stop", offset=0))
-                        stop["stop-color"] = "black"
+                        stop["stop-color"] = Timelines.DEFAULT_COLOR
                         stop["stop-opacity"] = 0
                         stroke1 += (stop := Element("stop", offset=1))
-                        stop["stop-color"] = "black"
+                        stop["stop-color"] = Timelines.DEFAULT_COLOR
                         stop["stop-opacity"] = 1
                         result += Element(
                             "path",
@@ -778,10 +752,10 @@ class Period(_Temporal):
                         id4 = next(utils.unique_id)
                         defs += (stroke2 := Element("linearGradient", id=id4))
                         stroke2 += (stop := Element("stop", offset=0))
-                        stop["stop-color"] = "black"
+                        stop["stop-color"] = Timelines.DEFAULT_COLOR
                         stop["stop-opacity"] = 1
                         stroke2 += (stop := Element("stop", offset=1))
-                        stop["stop-color"] = "black"
+                        stop["stop-color"] = Timelines.DEFAULT_COLOR
                         stop["stop-opacity"] = 0
                         result += Element(
                             "path",
@@ -832,7 +806,7 @@ class Period(_Temporal):
             end = self.end
             high = end
 
-        color = "black"
+        color = Timelines.DEFAULT_COLOR
         match self.placement:
 
             case constants.LEFT:

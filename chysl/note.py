@@ -10,13 +10,17 @@ from path import Path
 from utils import N
 
 
+class NoteFrame(components.Frame):
+
+    DEFAULT_THICKNESS = 5
+    DEFAULT_COLOR = "gold"
+    DEFAULT_RADIUS = 10
+
+
 class Note(Chart):
     "Textual note with title, body and footer text."
 
     DEFAULT_WIDTH = 200
-    DEFAULT_FRAME_THICKNESS = 5
-    DEFAULT_FRAME_COLOR = "gold"
-    DEFAULT_FRAME_RADIUS = 10
     DEFAULT_LINE = 1
     DEFAULT_BACKGROUND = "lightyellow"
 
@@ -76,7 +80,7 @@ class Note(Chart):
         body=None,
         footer=None,
         description=None,  # Allow title, body, footer to be positional args.
-        frame=None,
+        frame=True,
         line=None,
         background=None,
         width=None,
@@ -84,24 +88,14 @@ class Note(Chart):
         super().__init__(title=title, description=description)
         assert body is None or isinstance(body, (str, dict))
         assert footer is None or isinstance(footer, (str, dict))
-        assert frame is None or isinstance(frame, (bool, dict))
+        assert isinstance(frame, (bool, dict))
         assert line is None or isinstance(line, (int, float))
         assert background is None or isinstance(background, str)
         assert width is None or isinstance(width, (int, float))
 
         self.body = components.Text(body)
         self.footer = components.Text(footer)
-        self.frame = True if frame is None else frame
-        if isinstance(self.frame, dict):
-            self.frame_thickness = (
-                self.frame.get("thickness") or self.DEFAULT_FRAME_THICKNESS
-            )
-            self.frame_color = self.frame.get("color") or self.DEFAULT_FRAME_COLOR
-            self.frame_radius = self.frame.get("radius") or self.DEFAULT_FRAME_RADIUS
-        else:
-            self.frame_thickness = self.DEFAULT_FRAME_THICKNESS
-            self.frame_color = self.DEFAULT_FRAME_COLOR
-            self.frame_radius = self.DEFAULT_FRAME_RADIUS
+        self.frame = NoteFrame(frame)
         self.line = self.DEFAULT_LINE if line is None else line
         self.background = background or self.DEFAULT_BACKGROUND
         self.width = width
@@ -110,8 +104,7 @@ class Note(Chart):
         result = super().as_dict()  # Deals with 'title'.
         result.update(self.body.as_dict("body"))
         result.update(self.footer.as_dict("footer"))
-        if self.frame is not True:
-            result["frame"] = self.frame
+        result.update(self.frame.as_dict())
         if self.line != self.DEFAULT_LINE:
             result["line"] = self.line
         if self.background != self.DEFAULT_BACKGROUND:
@@ -126,7 +119,7 @@ class Note(Chart):
 
         note = self.get_note()
         layout = Layout(rows=1, columns=1)
-        layout.add(0, 0, self.get_frame(note.total_width, note.total_height))
+        layout.add(0, 0, self.frame.get_element(note.total_width, note.total_height))
         layout.add(0, 0, note)
         self.svg.load_layout(layout)
 
@@ -170,7 +163,7 @@ class Note(Chart):
                         y1=utils.N(result.total_height + self.line),
                         x2=utils.N(result.total_width),
                         y2=utils.N(result.total_height + self.line),
-                        stroke=self.frame_color,
+                        stroke=self.frame.color,
                     )
                 )
                 line["stroke-width"] = utils.N(self.line)
@@ -194,7 +187,7 @@ class Note(Chart):
                         y1=utils.N(result.total_height + self.line),
                         x2=utils.N(result.total_width),
                         y2=utils.N(result.total_height + self.line),
-                        stroke=self.frame_color,
+                        stroke=self.frame.color,
                     )
                 )
                 line["stroke-width"] = utils.N(self.line)
@@ -209,28 +202,6 @@ class Note(Chart):
             footer["transform"] = f"translate({N(offset)},{N(result.total_height)})"
             result.total_height += footer.total_height
 
-        return result
-
-    def get_frame(self, width, height):
-        if not self.frame:
-            return None
-
-        result = Element(
-            "rect",
-            x=N(self.frame_thickness / 2),
-            y=N(self.frame_thickness / 2),
-            width=N(width + self.frame_thickness),
-            height=N(height + self.frame_thickness),
-            fill=self.background,
-            stroke=self.frame_color,
-        )
-        if self.frame_radius:
-            result["rx"] = N(self.frame_radius)
-            result["ry"] = N(self.frame_radius)
-        result["class"] = "frame"
-        result["stroke-width"] = N(self.frame_thickness)
-        result.total_width = width + 2 * self.frame_thickness
-        result.total_height = height + 2 * self.frame_thickness
         return result
 
 

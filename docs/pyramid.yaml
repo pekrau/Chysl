@@ -1,15 +1,18 @@
-chysl: 0.4.0
+chysl: 0.4.1
 chart: piechart
 title: Pyramid
+frame:
+  thickness: 4
+  color: gray
 start: 132
 palette:
 - '#4c78a8'
 - '#9ecae9'
 - '#f58518'
 slices:
-- value: 7
+- x: 7
   label: Shadow
-- value: 18
+- x: 18
   label: Sunny
-- value: 70
+- x: 70
   label: Sky

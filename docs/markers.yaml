@@ -1,4 +1,4 @@
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 subcharts:
 - chart: scatter2d
@@ -410,3 +410,4 @@ subcharts:
     color: dodgerblue
     marker: omega
     label: omega
+padding: 10

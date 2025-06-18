@@ -1,20 +1,20 @@
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title: Pies in column
 subcharts:
 - chart: piechart
   title: Strawberry pie
   slices:
-  - value: 7
+  - x: 7
     label: Flour
     color: white
-  - value: 2
+  - x: 2
     label: Eggs
     color: yellow
-  - value: 3
+  - x: 3
     label: Butter
     color: gold
-  - value: 3
+  - x: 3
     label: Strawberries
     color: orangered
     href: https://en.wikipedia.org/wiki/Strawberry
@@ -22,16 +22,23 @@ subcharts:
   title: Rhubarb pie
   diameter: 250
   slices:
-  - value: 7
+  - x: 7
     label: Flour
     color: white
-  - value: 2
+  - x: 2
     label: Eggs
     color: yellow
-  - value: 3
+  - x: 3
     label: Butter
     color: gold
-  - value: 3
+  - x: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
+- chart: note
+  title: Comment
+  body: Strawberry pie is good.
+  footer:
+    italic: true
+    text: Copyright 2025 Per Kraulis
+padding: 10

@@ -1,5 +1,6 @@
 "2D scatter chart."
 
+import components
 import constants
 import schema
 import utils
@@ -137,7 +138,7 @@ class Scatter2d(Chart):
         self.points = DatapointsReader(points)
         self.width = width or self.DEFAULT_WIDTH
         self.height = height or self.DEFAULT_HEIGHT
-        self.frame = True if frame is None else frame
+        self.frame = components.Frame(frame)
         self.xaxis = xaxis
         self.yaxis = yaxis
         self.xgrid = xgrid
@@ -160,8 +161,7 @@ class Scatter2d(Chart):
             result["width"] = self.width
         if self.height != self.DEFAULT_HEIGHT:
             result["height"] = self.height
-        if self.frame is False or isinstance(self.frame, dict):
-            result["frame"] = self.frame
+        result.update(self.frame.as_dict())
         if self.xaxis is False or isinstance(self.xaxis, dict):
             result["xaxis"] = self.xaxis
         if self.yaxis is False or isinstance(self.yaxis, dict):
@@ -199,36 +199,10 @@ class Scatter2d(Chart):
 
         layout = Layout(rows=2, columns=2, title=self.title)
         layout.add(0, 0, ydimension.get_labels(self.height))
-        layout.add(0, 1, self.get_frame())
+        layout.add(0, 1, self.frame.get_element(self.width, self.height))
         layout.add(0, 1, self.get_plot(xdimension, ydimension))
         layout.add(1, 1, xdimension.get_labels(self.width))
         self.svg.load_layout(layout)
-
-    def get_frame(self):
-        "Get the element for the frame around the chart; possibly None."
-        if not self.frame:
-            return None
-
-        if isinstance(self.frame, dict):
-            thickness = self.frame.get("thickness") or constants.DEFAULT_FRAME_THICKNESS
-            color = self.frame.get("color") or self.DEFAULT_COLOR
-        else:
-            thickness = constants.DEFAULT_FRAME_THICKNESS
-            color = self.DEFAULT_COLOR
-        result = Element(
-            "rect",
-            x=N(thickness / 2),
-            y=N(thickness / 2),
-            width=N(self.width + thickness),
-            height=N(self.height + thickness),
-            stroke=color,
-            fill="none",
-        )
-        result["class"] = "frame"
-        result["stroke-width"] = N(thickness)
-        result.total_width = self.width + 2 * thickness
-        result.total_height = self.height + 2 * thickness
-        return result
 
     def get_plot(self, xdimension, ydimension):
         "Get the element for the chart plot area, grid and datapoints."
@@ -300,11 +274,15 @@ class Scatter2d(Chart):
                 labels += Element(
                     "text",
                     label,
-                    x=N(xdimension.get_pixel(datapoint["x"])
+                    x=N(
+                        xdimension.get_pixel(datapoint["x"])
                         + datapoint["label_x_offset"]
-                        + self.PADDING),
-                    y=N(ydimension.get_pixel(datapoint["y"])
-                        + constants.DEFAULT_FONT_SIZE / 4)
+                        + self.PADDING
+                    ),
+                    y=N(
+                        ydimension.get_pixel(datapoint["y"])
+                        + constants.DEFAULT_FONT_SIZE / 4
+                    ),
                 )
 
         return result

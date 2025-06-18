@@ -7,10 +7,10 @@
     </g>
     <g transform="translate(0,35.2)">
       <g>
-        <g class="subchart" transform="translate(150,10)">
+        <g class="subchart" transform="translate(150,10) scale(1.5)">
           <g class="layout">
             <g transform="translate(0,0)">
-              <rect x="2.5" y="2.5" width="136.67" height="71" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+              <rect x="2.5" y="2.5" width="136.67" height="71" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
             </g>
             <g transform="translate(5,5)">
               <g>

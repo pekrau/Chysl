@@ -322,20 +322,23 @@ class Ydimension(Dimension):
                         label["y"] = N(tick.pixel + 0.75 * font_size)
                     else:
                         label["y"] = N(tick.pixel)
-                result.total_width = max(result.total_width, utils.get_text_width(tick.label))
+                result.total_width = max(
+                    result.total_width, utils.get_text_width(tick.label)
+                )
             result.total_width += self.PADDING
 
         if caption:
-            x = - (result.total_width + font_size * (1 + constants.FONT_DESCEND))
+            x = -(result.total_width + font_size * (1 + constants.FONT_DESCEND))
             y = self.get_pixel((self.first + self.last) / 2)
-            result += (elem := Element(
-                "text",
-                caption,
-                x=N(x),
-                y=N(y),
-                transform=f"translate({N(x)},{N(y)}) rotate(270) translate({N(-x)},{N(-y)})",
+            result += (
+                elem := Element(
+                    "text",
+                    caption,
+                    x=N(x),
+                    y=N(y),
+                    transform=f"translate({N(x)},{N(y)}) rotate(270) translate({N(-x)},{N(-y)})",
+                )
             )
-                       )
             elem["text-anchor"] = "middle"
             result.total_width += font_size * (2 + constants.FONT_DESCEND)
 

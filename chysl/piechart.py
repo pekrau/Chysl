@@ -2,6 +2,7 @@
 
 import itertools
 
+import components
 import constants
 import schema
 import utils
@@ -46,7 +47,7 @@ class Piechart(Chart):
                 "$ref": "#frame",
             },
             "total": {
-                "title": "Total value to relate slice values to.",
+                "title": "Sum total x value to relate slice x values to.",
                 "type": "number",
                 "exclusiveMinimum": 0,
             },
@@ -72,16 +73,16 @@ class Piechart(Chart):
                 "items": {
                     "title": "Slice in the pie chart.",
                     "type": "object",
-                    "required": ["value"],
+                    "required": ["x"],
                     "additionalProperties": False,
                     "properties": {
-                        "value": {
+                        "x": {
                             "title": "The value visualized by the slice.",
                             "type": "number",
                             "exclusiveMinimum": 0,
                         },
                         "label": {
-                            "title": "Description of the value.",
+                            "title": "Description of the x value.",
                             "type": "string",
                         },
                         "color": {
@@ -107,7 +108,7 @@ class Piechart(Chart):
         title=None,
         description=None,
         diameter=None,
-        frame=None,
+        frame=True,
         total=None,
         start=None,
         palette=None,
@@ -115,14 +116,14 @@ class Piechart(Chart):
     ):
         super().__init__(title=title, description=description)
         assert diameter is None or (isinstance(diameter, (int, float)) and diameter > 0)
-        assert frame is None or isinstance(frame, (bool, dict))
+        assert isinstance(frame, (bool, dict))
         assert total is None or isinstance(total, (int, float))
         assert start is None or isinstance(start, (int, float))
         assert palette is None or isinstance(palette, (tuple, list))
         assert slices is None or isinstance(slices, list)
 
         self.diameter = diameter or self.DEFAULT_DIAMETER
-        self.frame = True if frame is None else frame
+        self.frame = components.CircularFrame(frame)
         self.total = total
         self.start = start
         # Create a copy of the palette, for safety.
@@ -139,22 +140,21 @@ class Piechart(Chart):
     def add(self, slice):
         assert isinstance(slice, dict)
 
-        self.add_slice(*[slice.get(key) for key in ["value", "label", "color", "href"]])
+        self.add_slice(*[slice.get(key) for key in ["x", "label", "color", "href"]])
 
-    def add_slice(self, value, label=None, color=None, href=None):
-        assert isinstance(value, (int, float)) and value > 0
+    def add_slice(self, x, label=None, color=None, href=None):
+        assert isinstance(x, (int, float)) and x > 0
         assert label is None or isinstance(label, str)
         assert color is None or utils.is_color(color)
         assert href is None or isinstance(href, str)
 
-        self.slices.append(dict(value=value, color=color, label=label, href=href))
+        self.slices.append(dict(x=x, color=color, label=label, href=href))
 
     def as_dict(self):
         result = super().as_dict()
         if self.diameter != self.DEFAULT_DIAMETER:
             result["diameter"] = self.diameter
-        if self.frame is False or isinstance(self.frame, dict):
-            result["frame"] = self.frame
+        result.update(self.frame.as_dict())
         if self.total is not None:
             result["total"] = self.total
         if self.start is not None:
@@ -163,7 +163,7 @@ class Piechart(Chart):
             result["palette"] = self.palette
         result["slices"] = slices = []
         for slice in self.slices:
-            slices.append(s := dict(value=slice["value"]))
+            slices.append(s := dict(x=slice["x"]))
             if label := slice.get("label"):
                 s["label"] = label
             if color := slice.get("color"):
@@ -182,7 +182,7 @@ class Piechart(Chart):
     def get_plot(self):
         "Get the element for the chart circle (frame) and slices."
         if self.total is None:
-            total = sum([s["value"] for s in self.slices])
+            total = sum([s["x"] for s in self.slices])
         else:
             total = self.total
         palette = itertools.cycle(self.palette)
@@ -196,26 +196,9 @@ class Piechart(Chart):
         result.total_height = self.diameter
 
         if self.frame:
-            if isinstance(self.frame, dict):
-                thickness = (
-                    self.frame.get("thickness") or constants.DEFAULT_FRAME_THICKNESS
-                )
-                color = self.frame.get("color") or "black"
-            else:
-                thickness = constants.DEFAULT_FRAME_THICKNESS
-                color = "black"
-            result += (
-                frame := Element(
-                    "circle",
-                    r=radius + thickness / 2,
-                    stroke=color,
-                    fill="none",
-                )
-            )
-            frame["class"] = "frame"
-            frame["stroke-width"] = thickness
-            result.total_width += 2 * thickness
-            result.total_height += 2 * thickness
+            result += self.frame.get_element(self.diameter)
+            result.total_width += 2 * self.frame.thickness
+            result.total_height += 2 * self.frame.thickness
 
         # Clip path definition. Yes, can be added as part of the result.
         result += Element(
@@ -233,9 +216,6 @@ class Piechart(Chart):
             ),
         )
 
-        result += (pie := Element("circle", r=radius, fill="white"))
-        pie["class"] = "area"
-
         # Prepare and create slices.
         if self.start is None:
             stop = self.DEFAULT_START
@@ -243,11 +223,13 @@ class Piechart(Chart):
             stop = Degrees(self.start) + self.DEFAULT_START
         for slice in self.slices:
             slice["start"] = stop
-            slice["fraction"] = slice["value"] / total
+            slice["fraction"] = slice["x"] / total
             slice["stop"] = slice["start"] + slice["fraction"] * Degrees(360)
             stop = slice["stop"]
-        result += (slices := Element("g", stroke="black"))
-        slices["stroke-width"] = 1
+
+        result += (graphics := Element("g"))
+        graphics["class"] = "graphics"
+        graphics += Element("circle", r=radius, fill="white")
 
         for slice in self.slices:
             p0 = Vector2.from_polar(radius, float(slice["start"]))
@@ -264,7 +246,7 @@ class Piechart(Chart):
                 elem["fill"] = slice["background"] = next(palette)
             if href := slice.get("href"):
                 elem = Element("a", elem, href=href)
-            slices += elem
+            graphics += elem
 
         # Labels on top of slices.
         result += (labels := Element("g"))

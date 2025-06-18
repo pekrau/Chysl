@@ -8,7 +8,7 @@
     <g transform="translate(70.816,35.2)">
       <g class="layout">
         <g transform="translate(0,0)">
-          <rect x="2.5" y="2.5" width="63.368" height="71" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+          <rect x="2.5" y="2.5" width="63.368" height="71" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
         </g>
         <g transform="translate(5,5)">
           <g>
@@ -30,7 +30,7 @@
     <g transform="translate(70.816,115.2)">
       <g class="layout">
         <g transform="translate(0,0)">
-          <rect x="2.5" y="2.5" width="63.368" height="50.8" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+          <rect x="2.5" y="2.5" width="63.368" height="50.8" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
         </g>
         <g transform="translate(5,5)">
           <g>
@@ -48,7 +48,7 @@
     <g transform="translate(80.164,175)">
       <g class="layout">
         <g transform="translate(0,0)">
-          <rect x="2.5" y="2.5" width="44.672" height="44.4" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+          <rect x="2.5" y="2.5" width="44.672" height="44.4" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
         </g>
         <g transform="translate(5,5)">
           <g>
@@ -66,7 +66,7 @@
     <g transform="translate(70.816,228.4)">
       <g class="layout">
         <g transform="translate(0,0)">
-          <rect x="2.5" y="2.5" width="63.368" height="30.6" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+          <rect x="2.5" y="2.5" width="63.368" height="30.6" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
         </g>
         <g transform="translate(5,5)">
           <g>
@@ -80,7 +80,7 @@
     <g transform="translate(0,268)">
       <g class="layout">
         <g transform="translate(0,0)">
-          <rect x="2.5" y="2.5" width="205" height="24.2" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+          <rect x="2.5" y="2.5" width="205" height="24.2" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
         </g>
         <g transform="translate(5,5)">
           <g>
@@ -94,7 +94,7 @@
     <g transform="translate(0,301.2)">
       <g class="layout">
         <g transform="translate(0,0)">
-          <rect x="2.5" y="2.5" width="205" height="24.2" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+          <rect x="2.5" y="2.5" width="205" height="24.2" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
         </g>
         <g transform="translate(5,5)">
           <g>
@@ -108,7 +108,7 @@
     <g transform="translate(0,334.4)">
       <g class="layout">
         <g transform="translate(0,0)">
-          <rect x="2.5" y="2.5" width="205" height="69" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+          <rect x="2.5" y="2.5" width="205" height="69" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
         </g>
         <g transform="translate(5,5)">
           <g>
@@ -128,7 +128,7 @@
     <g transform="translate(0,412.4)">
       <g class="layout">
         <g transform="translate(0,0)">
-          <rect x="2.5" y="2.5" width="205" height="83" fill="lightyellow" stroke="gold" rx="10" ry="10" class="frame" stroke-width="5" />
+          <rect x="2.5" y="2.5" width="205" height="83" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />
         </g>
         <g transform="translate(5,5)">
           <g>

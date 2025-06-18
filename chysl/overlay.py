@@ -107,7 +107,7 @@ class Overlay(Chart):
         for subchart, opacity in self.layers:
             subchart.build()
             element = Element("g", *list(subchart.svg))
-            element["class"] = "layer"
+            element["class"] = "subchart"
             if opacity != 1:
                 element["opacity"] = utils.N(opacity)
             element.total_width = subchart.svg.total_width

@@ -191,10 +191,15 @@ def test_universe_earth():
 
 
 def test_pyramid():
-    pyramid = Piechart("Pyramid", start=132, palette=["#4c78a8", "#9ecae9", "#f58518"])
-    pyramid += dict(value=7, label="Shadow")
+    pyramid = Piechart(
+        "Pyramid",
+        start=132,
+        palette=["#4c78a8", "#9ecae9", "#f58518"],
+        frame=dict(color="gray", thickness=4)
+    )
+    pyramid += dict(x=7, label="Shadow")
     pyramid.add_slice(18, label="Sunny")
-    pyramid.add(dict(value=70, label="Sky"))
+    pyramid.add(dict(x=70, label="Sky"))
     pyramid.save("pyramid.yaml")
     pyramid.render("pyramid.svg")
     check_roundtrip(pyramid, "pyramid.yaml")
@@ -204,7 +209,7 @@ def test_markers():
     colors = itertools.cycle(["gray", "coral", "dodgerblue", "orange", "lime"])
     N_PER_ROW = 3
 
-    all_markers = Column()
+    all_markers = Column(padding=10)
     for title, markers in [
         ("Geometry markers", constants.GEOMETRY_MARKERS),
         ("Symbol markers", constants.SYMBOL_MARKERS),
@@ -238,16 +243,16 @@ def test_markers():
 
 def test_day():
     day = Piechart(dict(text="Day", size=30), total=24, diameter=400)
-    day += dict(value=8, label="Sleep", color="gray")
-    day += dict(value=1, label="Breakfast", color="lightgreen")
-    day += dict(value=2, label="Gym", color="lightblue")
-    day += dict(value=1, label="Read", color="navy")
-    day += dict(value=1, label="Lunch", color="lightgreen")
-    day += dict(value=0.4, label="Shuteye", color="gray")
-    day += dict(value=4.6, label="Write", color="pink")
-    day += dict(value=1, label="Dinner", color="lightgreen")
-    day += dict(value=3, label="TV", color="orange")
-    day += dict(value=2, label="Read", color="navy")
+    day += dict(x=8, label="Sleep", color="gray")
+    day += dict(x=1, label="Breakfast", color="lightgreen")
+    day += dict(x=2, label="Gym", color="lightblue")
+    day += dict(x=1, label="Read", color="navy")
+    day += dict(x=1, label="Lunch", color="lightgreen")
+    day += dict(x=0.4, label="Shuteye", color="gray")
+    day += dict(x=4.6, label="Write", color="pink")
+    day += dict(x=1, label="Dinner", color="lightgreen")
+    day += dict(x=3, label="TV", color="orange")
+    day += dict(x=2, label="Read", color="navy")
 
     day.save("day.yaml")
     day.render("day.svg")
@@ -267,35 +272,35 @@ def test_tree():
 
 
 def test_pies_column():
-    pajer = Column("Pies in column")
+    pajer = Column("Pies in column", padding=10)
 
     pajer += (paj := Piechart("Strawberry pie", diameter=200))
-    paj += dict(value=7, label="Flour", color="white")
-    paj += dict(value=2, label="Eggs", color="yellow")
-    paj += dict(value=3, label="Butter", color="gold")
+    paj += dict(x=7, label="Flour", color="white")
+    paj += dict(x=2, label="Eggs", color="yellow")
+    paj += dict(x=3, label="Butter", color="gold")
     paj += dict(
-        value=3,
+        x=3,
         label="Strawberries",
         color="orangered",
         href="https://en.wikipedia.org/wiki/Strawberry",
     )
 
     pajer += (paj := Piechart("Rhubarb pie", diameter=250))
-    paj += dict(value=7, label="Flour", color="white")
-    paj += dict(value=2, label="Eggs", color="yellow")
-    paj += dict(value=3, label="Butter", color="gold")
+    paj += dict(x=7, label="Flour", color="white")
+    paj += dict(x=2, label="Eggs", color="yellow")
+    paj += dict(x=3, label="Butter", color="gold")
     paj += dict(
-        value=3,
+        x=3,
         label="Rhubarb",
         color="green",
         href="https://en.wikipedia.org/wiki/Rhubarb",
     )
 
-    # pajer += Note(
-    #     title="Comment",
-    #     body="Strawberry pie is good.",
-    #     footer=dict(text="Copyright 2025 Per Kraulis", italic=True),
-    # )
+    pajer += Note(
+        title="Comment",
+        body="Strawberry pie is good.",
+        footer=dict(text="Copyright 2025 Per Kraulis", italic=True),
+    )
 
     pajer.save("pies_column.yaml")
     pajer.render("pies_column.svg")
@@ -303,23 +308,23 @@ def test_pies_column():
 
 
 def test_pies_row():
-    pajer = Row("Pies in row")
+    pajer = Row("Pies in row", padding=10)
 
     palette = ["white", "yellow", "gold", "red"]
     pajer += (paj := Piechart(title="Strawberry pie", diameter=300, palette=palette))
-    paj += dict(value=7, label="Flour")
-    paj += dict(value=2, label="Eggs")
-    paj += dict(value=3, label="Butter")
+    paj += dict(x=7, label="Flour")
+    paj += dict(x=2, label="Eggs")
+    paj += dict(x=3, label="Butter")
     paj += dict(
-        value=3, label="Strawberries", href="https://en.wikipedia.org/wiki/Strawberry"
+        x=3, label="Strawberries", href="https://en.wikipedia.org/wiki/Strawberry"
     )
 
     pajer += (paj := Piechart(title="Rhubarb pie", palette=palette))
-    paj += dict(value=7, label="Flour")
-    paj += dict(value=2, label="Eggs")
-    paj += dict(value=3, label="Butter")
+    paj += dict(x=7, label="Flour")
+    paj += dict(x=2, label="Eggs")
+    paj += dict(x=3, label="Butter")
     paj += dict(
-        value=3,
+        x=3,
         label="Rhubarb",
         color="green",
         href="https://en.wikipedia.org/wiki/Rhubarb",
@@ -525,7 +530,7 @@ def test_poster():
     poster.add_item(
         x=150,
         y=10,
-        # scale=1.5,
+        scale=1.5,
         subchart=Note("By Per Kraulis", body="Ph.D.", footer="Stockholm University"),
     )
     poster.add_item(x=0, y=150, subchart=dict(include="universe.yaml"))

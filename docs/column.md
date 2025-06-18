@@ -18,7 +18,7 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title: Universe and Earth
 subcharts:
@@ -116,23 +116,23 @@ subcharts:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title: Pies in column
 subcharts:
 - chart: piechart
   title: Strawberry pie
   slices:
-  - value: 7
+  - x: 7
     label: Flour
     color: white
-  - value: 2
+  - x: 2
     label: Eggs
     color: yellow
-  - value: 3
+  - x: 3
     label: Butter
     color: gold
-  - value: 3
+  - x: 3
     label: Strawberries
     color: orangered
     href: https://en.wikipedia.org/wiki/Strawberry
@@ -140,26 +140,33 @@ subcharts:
   title: Rhubarb pie
   diameter: 250
   slices:
-  - value: 7
+  - x: 7
     label: Flour
     color: white
-  - value: 2
+  - x: 2
     label: Eggs
     color: yellow
-  - value: 3
+  - x: 3
     label: Butter
     color: gold
-  - value: 3
+  - x: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
+- chart: note
+  title: Comment
+  body: Strawberry pie is good.
+  footer:
+    italic: true
+    text: Copyright 2025 Per Kraulis
+padding: 10
 ```
 ### notes_column
 
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title: Notes in a column
 subcharts:
@@ -195,7 +202,7 @@ padding: 4
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: board
 items:
 - x: 0
@@ -237,7 +244,7 @@ items:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 subcharts:
 - chart: scatter2d
@@ -649,13 +656,14 @@ subcharts:
     color: dodgerblue
     marker: omega
     label: omega
+padding: 10
 ```
 ### dimensions
 
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -718,7 +726,7 @@ padding: 20
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title:
   size: 30

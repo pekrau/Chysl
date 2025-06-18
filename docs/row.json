@@ -43,48 +43,6 @@
     }
   },
   "$defs": {
-    "chart_or_include": {
-      "$anchor": "chart_or_include",
-      "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
-      "oneOf": [
-        {
-          "title": "Read the chart specification (YAML) from the URI reference.",
-          "type": "object",
-          "required": [
-            "include"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "include": {
-              "type": "string",
-              "format": "uri-reference"
-            }
-          }
-        },
-        {
-          "title": "Specification of a chart.",
-          "type": "object",
-          "required": [
-            "chart"
-          ],
-          "properties": {
-            "chart": {
-              "enum": [
-                "timelines",
-                "piechart",
-                "scatter2d",
-                "lines2d",
-                "note",
-                "column",
-                "row",
-                "overlay",
-                "board"
-              ]
-            }
-          }
-        }
-      ]
-    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -139,6 +97,48 @@
                 "right"
               ],
               "default": "center"
+            }
+          }
+        }
+      ]
+    },
+    "chart_or_include": {
+      "$anchor": "chart_or_include",
+      "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
+      "oneOf": [
+        {
+          "title": "Read the chart specification (YAML) from the URI reference.",
+          "type": "object",
+          "required": [
+            "include"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "include": {
+              "type": "string",
+              "format": "uri-reference"
+            }
+          }
+        },
+        {
+          "title": "Specification of a chart.",
+          "type": "object",
+          "required": [
+            "chart"
+          ],
+          "properties": {
+            "chart": {
+              "enum": [
+                "timelines",
+                "piechart",
+                "scatter2d",
+                "lines2d",
+                "note",
+                "column",
+                "row",
+                "overlay",
+                "board"
+              ]
             }
           }
         }

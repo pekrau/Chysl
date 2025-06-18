@@ -6,7 +6,7 @@
       <text y="22" x="182.77">One scatterplot on top of another</text>
     </g>
     <g transform="translate(0,35.2)">
-      <g class="layer">
+      <g class="subchart">
         <g class="layout">
           <g transform="translate(0,1)">
             <g class="y-axis-labels" font-family="sans-serif" font-size="12" text-anchor="end" stroke="none" fill="black" transform="translate(21.038,0)">
@@ -56,7 +56,7 @@
       </g>
     </g>
     <g transform="translate(0,35.2)">
-      <g class="layer" opacity="0.5">
+      <g class="subchart" opacity="0.5">
         <g class="layout">
           <g transform="translate(0,1)">
             <g class="y-axis-labels" font-family="sans-serif" font-size="12" text-anchor="end" stroke="none" fill="black" transform="translate(21.038,0)">

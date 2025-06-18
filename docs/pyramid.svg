@@ -1,20 +1,20 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="203" height="228.6" viewBox="0 0 203 228.6" transform="translate(0.5, 0.5)">
+<svg xmlns="http://www.w3.org/2000/svg" width="209" height="234.6" viewBox="0 0 209 234.6" transform="translate(0.5, 0.5)">
   <title>Pyramid</title>
   <g class="layout">
-    <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(66.648,0)">
+    <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(69.648,0)">
       <text y="16" x="34.352">Pyramid</text>
     </g>
     <g transform="translate(0,25.6)">
-      <g class="plot" clip-path="url(#id13)" transform="translate(101,101)">
-        <circle r="100.5" stroke="black" fill="none" class="frame" stroke-width="1" />
+      <g class="plot" clip-path="url(#id13)" transform="translate(104,104)">
+        <circle r="102" stroke="gray" fill="none" class="frame" stroke-width="4" />
         <defs>
           <clipPath>
-            <rect x="-101" y="-101" width="202" height="202" id="id13" />
+            <rect x="-104" y="-104" width="208" height="208" id="id13" />
           </clipPath>
         </defs>
-        <circle r="100.0" fill="white" class="area" />
-        <g stroke="black" stroke-width="1">
+        <g class="graphics">
+          <circle r="100.0" fill="white" />
           <path d="M 0 0 L 74.314 66.913 A 100 100 0 0 1 36.607 93.059 Z" class="slice" fill="#4c78a8" />
           <path d="M 0 0 L 36.607 93.059 A 100 100 0 0 1 -72.821 68.535 Z" class="slice" fill="#9ecae9" />
           <path d="M 0 0 L -72.821 68.535 A 100 100 0 1 1 74.314 66.913 Z" class="slice" fill="#f58518" />

@@ -15,7 +15,7 @@
 ![scatter_points SVG](scatter_points.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: scatter2d
 title: Scattered points inline
 xaxis:
@@ -181,7 +181,7 @@ points:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title:
   size: 30
@@ -644,7 +644,7 @@ padding: 4
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 subcharts:
 - chart: scatter2d
@@ -1056,13 +1056,14 @@ subcharts:
     color: dodgerblue
     marker: omega
     label: omega
+padding: 10
 ```
 ### points_marks
 
 ![points_marks SVG](points_marks.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: overlay
 title: One scatterplot on top of another
 layers:

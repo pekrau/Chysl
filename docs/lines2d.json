@@ -113,6 +113,65 @@
     }
   },
   "$defs": {
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "font": {
+              "title": "Name of the font.",
+              "type": "string",
+              "default": "sans-serif"
+            },
+            "size": {
+              "title": "Size of font (pixels). Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            }
+          }
+        }
+      ]
+    },
     "axis": {
       "$anchor": "axis",
       "title": "Coordinate axis specification.",
@@ -167,150 +226,39 @@
         }
       ]
     },
-    "frame": {
-      "$anchor": "frame",
-      "title": "Specification of the chart area frame.",
+    "field": {
+      "$anchor": "field",
+      "title": "Mapping of a plot parameter to a field in source data.",
       "oneOf": [
         {
-          "title": "Default chart area frame, or no frame.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Specification of the chart area frame.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "thickness": {
-              "title": "Thickness of the frame (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "color": {
-              "title": "Color of the frame. Default depends on the chart.",
-              "type": "string",
-              "format": "color"
-            },
-            "radius": {
-              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimum": 0
-            }
-          }
-        }
-      ]
-    },
-    "grid": {
-      "$anchor": "grid",
-      "title": "Coordinate grid specification.",
-      "oneOf": [
-        {
-          "title": "Display default grid.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Grid styling.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "lightgray"
-            }
-          }
-        }
-      ]
-    },
-    "marker": {
-      "$anchor": "marker",
-      "title": "Symbol to use as data point marker in the chart.",
-      "oneOf": [
-        {
-          "title": "Predefined symbols denoted by names.",
-          "enum": [
-            "disc",
-            "circle",
-            "oval",
-            "oval-vertical",
-            "oval-horizontal",
-            "ellipse",
-            "ellipse-vertical",
-            "ellipse-horizontal",
-            "block",
-            "square",
-            "square-cross",
-            "diamond",
-            "diamond-cross",
-            "diamond-fill",
-            "pyramid",
-            "triangle",
-            "wedge",
-            "trigon",
-            "pentagon",
-            "pentagon-fill",
-            "hexagon",
-            "hexagon-fill",
-            "heptagon",
-            "heptagon-fill",
-            "octagon",
-            "octagon-fill",
-            "cross",
-            "plus",
-            "minus",
-            "bar",
-            "check",
-            "burst",
-            "infinity",
-            "none",
-            "star",
-            "star-fill",
-            "galaxy",
-            "sun",
-            "mercury",
-            "venus",
-            "earth",
-            "moon",
-            "mars",
-            "jupiter",
-            "saturn",
-            "uranus",
-            "neptune",
-            "alpha",
-            "beta",
-            "gamma",
-            "delta",
-            "epsilon",
-            "zeta",
-            "eta",
-            "theta",
-            "iota",
-            "kappa",
-            "lambda",
-            "mu",
-            "nu",
-            "xi",
-            "omicron",
-            "pi",
-            "rho",
-            "sigma",
-            "sigma1",
-            "sigma2",
-            "tau",
-            "upsilon",
-            "phi",
-            "chi",
-            "psi",
-            "omega"
-          ]
-        },
-        {
-          "title": "A single character as marker.",
+          "title": "Name of the field in the source data; CSV column header. The values are used directly.",
           "type": "string",
-          "minLength": 1,
-          "maxLength": 1
+          "minLength": 1
+        },
+        {
+          "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
+          "type": "integer",
+          "minimum": 1
+        },
+        {
+          "title": "Mapping of values in source data to a plot parameter.",
+          "type": "object",
+          "required": [
+            "field"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "field": {
+              "title": "Name of the field in the source data; CSV column header.",
+              "type": "string",
+              "minLength": 1
+            },
+            "map": {
+              "title": "Map a string value in the source data to a value for the plot parameter.",
+              "type": "object",
+              "properties": {}
+            }
+          }
         }
       ]
     },
@@ -450,96 +398,148 @@
         }
       ]
     },
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
+    "frame": {
+      "$anchor": "frame",
+      "title": "Specification of the chart area frame.",
       "oneOf": [
         {
-          "title": "Text with default styling.",
-          "type": "string"
+          "title": "Default chart area frame, or no frame.",
+          "type": "boolean",
+          "default": true
         },
         {
-          "title": "Text with styling options.",
+          "title": "Specification of the chart area frame.",
           "type": "object",
-          "required": [
-            "text"
-          ],
           "additionalProperties": false,
           "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "font": {
-              "title": "Name of the font.",
-              "type": "string",
-              "default": "sans-serif"
-            },
-            "size": {
-              "title": "Size of font (pixels). Default depends on context.",
+            "thickness": {
+              "title": "Thickness of the frame (pixels). Default depends on the chart.",
               "type": "number",
               "minimumExclusive": 0
             },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
             "color": {
-              "title": "Color of text.",
+              "title": "Color of the frame. Default depends on the chart.",
               "type": "string",
-              "format": "color",
-              "default": "black"
+              "format": "color"
             },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
+            "radius": {
+              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimum": 0
             }
           }
         }
       ]
     },
-    "field": {
-      "$anchor": "field",
-      "title": "Mapping of a plot parameter to a field in source data.",
+    "marker": {
+      "$anchor": "marker",
+      "title": "Symbol to use as data point marker in the chart.",
       "oneOf": [
         {
-          "title": "Name of the field in the source data; CSV column header. The values are used directly.",
+          "title": "Predefined symbols denoted by names.",
+          "enum": [
+            "disc",
+            "circle",
+            "oval",
+            "oval-vertical",
+            "oval-horizontal",
+            "ellipse",
+            "ellipse-vertical",
+            "ellipse-horizontal",
+            "block",
+            "square",
+            "square-cross",
+            "diamond",
+            "diamond-cross",
+            "diamond-fill",
+            "pyramid",
+            "triangle",
+            "wedge",
+            "trigon",
+            "pentagon",
+            "pentagon-fill",
+            "hexagon",
+            "hexagon-fill",
+            "heptagon",
+            "heptagon-fill",
+            "octagon",
+            "octagon-fill",
+            "cross",
+            "plus",
+            "minus",
+            "bar",
+            "check",
+            "burst",
+            "infinity",
+            "none",
+            "star",
+            "star-fill",
+            "galaxy",
+            "sun",
+            "mercury",
+            "venus",
+            "earth",
+            "moon",
+            "mars",
+            "jupiter",
+            "saturn",
+            "uranus",
+            "neptune",
+            "alpha",
+            "beta",
+            "gamma",
+            "delta",
+            "epsilon",
+            "zeta",
+            "eta",
+            "theta",
+            "iota",
+            "kappa",
+            "lambda",
+            "mu",
+            "nu",
+            "xi",
+            "omicron",
+            "pi",
+            "rho",
+            "sigma",
+            "sigma1",
+            "sigma2",
+            "tau",
+            "upsilon",
+            "phi",
+            "chi",
+            "psi",
+            "omega"
+          ]
+        },
+        {
+          "title": "A single character as marker.",
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "maxLength": 1
+        }
+      ]
+    },
+    "grid": {
+      "$anchor": "grid",
+      "title": "Coordinate grid specification.",
+      "oneOf": [
+        {
+          "title": "Display default grid.",
+          "type": "boolean",
+          "default": true
         },
         {
-          "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
-          "type": "integer",
-          "minimum": 1
-        },
-        {
-          "title": "Mapping of values in source data to a plot parameter.",
+          "title": "Grid styling.",
           "type": "object",
-          "required": [
-            "field"
-          ],
           "additionalProperties": false,
           "properties": {
-            "field": {
-              "title": "Name of the field in the source data; CSV column header.",
+            "color": {
+              "title": "Color of grid lines.",
               "type": "string",
-              "minLength": 1
-            },
-            "map": {
-              "title": "Map a string value in the source data to a value for the plot parameter.",
-              "type": "object",
-              "properties": {}
+              "format": "color",
+              "default": "lightgray"
             }
           }
         }

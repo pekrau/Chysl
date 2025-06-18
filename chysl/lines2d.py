@@ -1,5 +1,6 @@
 "2D lines chart."
 
+import components
 import constants
 import schema
 import utils
@@ -153,7 +154,9 @@ class Lines2d(Chart):
         assert isinstance(yaxis, (bool, dict))
         assert isinstance(xgrid, (bool, dict))
         assert isinstance(ygrid, (bool, dict))
-        assert thickness is None or (isinstance(thickness, (int, float)) and thickness > 0)
+        assert thickness is None or (
+            isinstance(thickness, (int, float)) and thickness > 0
+        )
         assert color is None or utils.is_color(color)
         assert opacity is None or (
             isinstance(opacity, (int, float)) and (0 <= opacity <= 1)
@@ -165,7 +168,7 @@ class Lines2d(Chart):
                 self.add(line)
         self.width = width or self.DEFAULT_WIDTH
         self.height = height or self.DEFAULT_HEIGHT
-        self.frame = True if frame is None else frame
+        self.frame = components.Frame(frame)
         self.xaxis = True if xaxis is None else xaxis
         self.yaxis = True if yaxis is None else yaxis
         self.xgrid = True if xgrid is None else xgrid
@@ -190,8 +193,7 @@ class Lines2d(Chart):
             result["width"] = self.width
         if self.height != self.DEFAULT_HEIGHT:
             result["height"] = self.height
-        if self.frame is False or isinstance(self.frame, dict):
-            result["frame"] = self.frame
+        result.update(self.frame.as_dict())
         if self.xaxis is False or isinstance(self.xaxis, dict):
             result["xaxis"] = self.xaxis
         if self.yaxis is False or isinstance(self.yaxis, dict):
@@ -242,36 +244,10 @@ class Lines2d(Chart):
 
         layout = Layout(rows=2, columns=2, title=self.title)
         layout.add(0, 0, ydimension.get_labels(self.height))
-        layout.add(0, 1, self.get_frame())
+        layout.add(0, 1, self.frame.get_element(self.width, self.height))
         layout.add(0, 1, self.get_plot(xdimension, ydimension))
         layout.add(1, 1, xdimension.get_labels(self.width))
         self.svg.load_layout(layout)
-
-    def get_frame(self):
-        "Get the element for the frame around the chart; possibly None."
-        if not self.frame:
-            return None
-
-        if isinstance(self.frame, dict):
-            thickness = self.frame.get("thickness") or constants.DEFAULT_FRAME_THICKNESS
-            color = self.frame.get("color") or self.DEFAULT_COLOR
-        else:
-            thickness = constants.DEFAULT_FRAME_THICKNESS
-            color = self.DEFAULT_COLOR
-        result = Element(
-            "rect",
-            x=N(thickness / 2),
-            y=N(thickness / 2),
-            width=N(self.width + thickness),
-            height=N(self.height + thickness),
-            stroke=color,
-            fill="none",
-        )
-        result["class"] = "frame"
-        result["stroke-width"] = N(thickness)
-        result.total_width = self.width + 2 * thickness
-        result.total_height = self.height + 2 * thickness
-        return result
 
     def get_plot(self, xdimension, ydimension):
         "Get the element for the chart plot area, grid and datapoints."
@@ -322,7 +298,9 @@ class Lines2d(Chart):
             for dp in line["line"]:
                 x = dp["x"]
                 y = dp["y"]
-                points.append(f"{N(xdimension.get_pixel(x))} {N(ydimension.get_pixel(y))}")
+                points.append(
+                    f"{N(xdimension.get_pixel(x))} {N(ydimension.get_pixel(y))}"
+                )
             elem = Element("polyline", points=",".join(points))
             if (thickness := line.get("thickness")) is not None:
                 elem["stroke-width"] = thickness

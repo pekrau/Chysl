@@ -15,20 +15,23 @@
 ![pyramid SVG](pyramid.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: piechart
 title: Pyramid
+frame:
+  thickness: 4
+  color: gray
 start: 132
 palette:
 - '#4c78a8'
 - '#9ecae9'
 - '#f58518'
 slices:
-- value: 7
+- x: 7
   label: Shadow
-- value: 18
+- x: 18
   label: Sunny
-- value: 70
+- x: 70
   label: Sky
 ```
 ### day
@@ -36,7 +39,7 @@ slices:
 ![day SVG](day.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: piechart
 title:
   size: 30
@@ -44,34 +47,34 @@ title:
 diameter: 400
 total: 24
 slices:
-- value: 8
+- x: 8
   label: Sleep
   color: gray
-- value: 1
+- x: 1
   label: Breakfast
   color: lightgreen
-- value: 2
+- x: 2
   label: Gym
   color: lightblue
-- value: 1
+- x: 1
   label: Read
   color: navy
-- value: 1
+- x: 1
   label: Lunch
   color: lightgreen
-- value: 0.4
+- x: 0.4
   label: Shuteye
   color: gray
-- value: 4.6
+- x: 4.6
   label: Write
   color: pink
-- value: 1
+- x: 1
   label: Dinner
   color: lightgreen
-- value: 3
+- x: 3
   label: TV
   color: orange
-- value: 2
+- x: 2
   label: Read
   color: navy
 ```
@@ -80,23 +83,23 @@ slices:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title: Pies in column
 subcharts:
 - chart: piechart
   title: Strawberry pie
   slices:
-  - value: 7
+  - x: 7
     label: Flour
     color: white
-  - value: 2
+  - x: 2
     label: Eggs
     color: yellow
-  - value: 3
+  - x: 3
     label: Butter
     color: gold
-  - value: 3
+  - x: 3
     label: Strawberries
     color: orangered
     href: https://en.wikipedia.org/wiki/Strawberry
@@ -104,26 +107,33 @@ subcharts:
   title: Rhubarb pie
   diameter: 250
   slices:
-  - value: 7
+  - x: 7
     label: Flour
     color: white
-  - value: 2
+  - x: 2
     label: Eggs
     color: yellow
-  - value: 3
+  - x: 3
     label: Butter
     color: gold
-  - value: 3
+  - x: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
+- chart: note
+  title: Comment
+  body: Strawberry pie is good.
+  footer:
+    italic: true
+    text: Copyright 2025 Per Kraulis
+padding: 10
 ```
 ### pies_row
 
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: row
 title: Pies in row
 subcharts:
@@ -136,13 +146,13 @@ subcharts:
   - gold
   - red
   slices:
-  - value: 7
+  - x: 7
     label: Flour
-  - value: 2
+  - x: 2
     label: Eggs
-  - value: 3
+  - x: 3
     label: Butter
-  - value: 3
+  - x: 3
     label: Strawberries
     href: https://en.wikipedia.org/wiki/Strawberry
 - chart: piechart
@@ -153,16 +163,17 @@ subcharts:
   - gold
   - red
   slices:
-  - value: 7
+  - x: 7
     label: Flour
-  - value: 2
+  - x: 2
     label: Eggs
-  - value: 3
+  - x: 3
     label: Butter
-  - value: 3
+  - x: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
+padding: 10
 ```
 ## Specification
 
@@ -183,7 +194,7 @@ Pie chart displaying slices.
   - *default*: 200
 - **frame**: Specification of the piechart perimeter.
   - *See* [frame](schema_defs.md#frame).
-- **total**: Total value to relate slice values to.
+- **total**: Sum total x value to relate slice x values to.
   - *type*: float
   - *exclusiveMinimum*: 0
 - **start**: Starting point for first slice; in degrees from the top.
@@ -199,11 +210,11 @@ Pie chart displaying slices.
   - *type*: sequence
   - *items*:
     - *type*: mapping
-    - **value**: The value visualized by the slice.
+    - **x**: The value visualized by the slice.
       - *required*
       - *type*: float
       - *exclusiveMinimum*: 0
-    - **label**: Description of the value.
+    - **label**: Description of the x value.
       - *type*: string
     - **color**: Color of the slice. Overrides the palette.
       - *type*: string

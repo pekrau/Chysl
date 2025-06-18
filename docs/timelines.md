@@ -17,7 +17,7 @@
 ![universe SVG](universe.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: timelines
 title:
   size: 24
@@ -58,7 +58,7 @@ axis:
 ![earth SVG](earth.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: timelines
 title: Earth
 entries:
@@ -117,7 +117,7 @@ axis:
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title: Universe and Earth
 subcharts:
@@ -215,7 +215,7 @@ subcharts:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 subcharts:
 - chart: scatter2d
@@ -627,13 +627,14 @@ subcharts:
     color: dodgerblue
     marker: omega
     label: omega
+padding: 10
 ```
 ### poster
 
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: board
 title: Poster
 items:
@@ -644,6 +645,7 @@ items:
     title: By Per Kraulis
     body: Ph.D.
     footer: Stockholm University
+  scale: 1.5
 - x: 0
   y: 150
   subchart:
@@ -658,7 +660,7 @@ items:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.4.0
+chysl: 0.4.1
 chart: column
 title: Dimension tick ranges
 subcharts:
