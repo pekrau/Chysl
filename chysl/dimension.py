@@ -1,7 +1,6 @@
 "Dimension classes."
 
-import collections
-import enum
+from dataclasses import dataclass
 import itertools
 import math
 
@@ -12,41 +11,23 @@ from path import Path
 from utils import N
 
 
-Tick = collections.namedtuple("Tick", ["position", "pixel", "label"], defaults=[None])
-
-
-class Epoch(enum.StrEnum):
-    ORDINAL = "ordinal"
-    DATE = "Julian date"  # XXX not implemented
-    DATETIME = "Julian date and time"  # XXX not implemented
-
-
 class Dimension:
-    """Graphics for coordinate axis.
+    """Conversion function, ticks and graphics for a coordinate axis.
     Store min/max and set or calculate base/first/last and ticks for the span.
     """
 
     PADDING = 2
 
-    def __init__(self, extent, axis=True, reversed=False):
+    def __init__(self, extent, axis, reversed=False):
         assert isinstance(extent, (int, float)) and extent > 0
-        assert isinstance(axis, (bool, dict))
+        assert isinstance(axis, Axis)
         assert isinstance(reversed, bool)
 
         self.extent = extent
-        if isinstance(axis, bool):
-            self.axis = {}
-        else:
-            self.axis = axis
-        self.given_axis = axis
+        self.axis = axis
         self.reversed = reversed
         self.min = None
         self.max = None
-
-    @property
-    def span(self):
-        "Return current min and max values."
-        return (self.min, self.max)
 
     def update_span(self, value):
         "Update current min and max values."
@@ -78,30 +59,18 @@ class Dimension:
 
     def build(self):
         "Set or calculate tick positions and prepare graphics and labels."
-        ticks = self.axis.get("ticks") or constants.DEFAULT_TICKS_TARGET
-        assert (isinstance(ticks, int) and ticks > 1) or (
-            isinstance(ticks, (tuple, list))
-        )
-
         # Set explicit min/max, if provided.
-        if (min := self.axis.get("min")) is not None:
-            assert isinstance(min, (int, float))
-            self.min = min
-        if (max := self.axis.get("max")) is not None:
-            assert isinstance(max, (int, float))
-            self.max = max
+        if self.axis.min is not None:
+            self.min = self.axis.min
+        if self.axis.max is not None:
+            self.max = self.axis.max
         span = self.max - self.min
         assert span > 0
 
-        self.factor = self.axis.get("factor")
-        assert self.factor is None or (
-            isinstance(self.factor, (int, float)) and self.factor > 0
-        )
-
         # Compute ticks; evaluate several different sets of positions.
-        if isinstance(ticks, int):
+        if isinstance(self.axis.ticks, int):
             series = []
-            self.magnitude = math.log10(span / ticks)
+            self.magnitude = math.log10(span / self.axis.ticks)
             for magnitude in [math.floor(self.magnitude), math.ceil(self.magnitude)]:
                 for base in [1, 2, 5]:
                     step = base * 10**magnitude
@@ -128,9 +97,9 @@ class Dimension:
                             values.pop()
                     series.append((magnitude, values))
             self.magnitude, self.positions = series[0]
-            score = abs(len(self.positions) - ticks)
+            score = abs(len(self.positions) - self.axis.ticks)
             for magnitude, values in series[1:]:
-                s = abs(len(values) - ticks)
+                s = abs(len(values) - self.axis.ticks)
                 if s < score:
                     self.magnitude = magnitude
                     self.positions = values
@@ -140,26 +109,23 @@ class Dimension:
             assert self.positions[-1] >= self.max
             assert self.positions[-2] < self.max
             # If min and/or max set explicitly, exclude those positions.
-            if min is None:
+            if self.axis.min is None:
                 self.first = self.positions[0]
             else:
-                while self.positions and self.positions[0] < min:
+                while self.positions and self.positions[0] < self.axis.min:
                     self.positions.pop(0)
-                self.first = min
-            if max is None:
+                self.first = self.axis.min
+            if self.axis.max is None:
                 self.last = self.positions[-1]
             else:
-                while self.positions and self.positions[-1] > max:
+                while self.positions and self.positions[-1] > self.axis.max:
                     self.positions.pop()
-                self.last = max
+                self.last = self.axis.max
 
         # Explicit tick positions given.
         else:
-            self.magnitude = round(math.log10(span / len(ticks)))
-            for tick in ticks:
-                assert isinstance(tick, (int, float))
-            assert list(ticks) == list(sorted(ticks))
-            self.positions = ticks
+            self.magnitude = round(math.log10(span / len(self.axis.ticks)))
+            self.positions = self.axis.ticks
             self.first = min(self.min, self.positions[0])
             self.last = max(self.max, self.positions[-1])
 
@@ -168,12 +134,14 @@ class Dimension:
             self.format = f"%.{-self.magnitude}f"
         else:
             self.format = "%d"
-        if self.factor is None:
+        if self.axis.factor is None:
             if self.magnitude // 3 > 1:
                 self.factor = 10 ** (3 * (self.magnitude // 3))
             else:
                 self.factor = 1
-        self.func = (lambda v: abs(v)) if self.axis.get("absolute") else (lambda v: v)
+        else:
+            self.factor = self.axis.factor
+        self.func = (lambda v: abs(v)) if self.axis.absolute else (lambda v: v)
 
     def get_pixel(self, position):
         "Convert position coordinate to pixel coordinate."
@@ -197,7 +165,8 @@ class Dimension:
             if self.first <= value <= self.last
         ]
 
-    def get_grid(self, extent, color):
+    def get_grid(self, extent, grid):
+        assert isinstance(grid, Grid)
         raise NotImplementedError
 
     def get_labels(self, extent, font_size=constants.DEFAULT_FONT_SIZE):
@@ -207,23 +176,23 @@ class Dimension:
 class Xdimension(Dimension):
     "Graphics for the x axis."
 
-    def get_grid(self, height, color):
+    def get_grid(self, height, grid):
         "Get the x grid lines at the ticks for the graphic."
+        assert isinstance(grid, Grid)
+
         ticks = self.get_ticks()
         path = Path(ticks[0].pixel, 0).V(height)
         for tick in ticks[1:]:
             path.M(tick.pixel, 0).V(height)
-        result = Element("path", d=path, stroke=color)
+        result = Element("path", d=path, stroke=grid.color)
         result["class"] = "x-grid"
         return result
 
     def get_labels(self, width, font_size=constants.DEFAULT_FONT_SIZE):
         "Get the labels for the x dimension ticks."
-        labels = self.axis.get("labels")
-        if labels is None:
-            labels = True
-        caption = self.axis.get("caption")
-        if not self.given_axis or not (labels or caption):
+        if not self.axis:
+            return None
+        if not (self.axis.labels or self.axis.caption):
             return None
 
         result = Element("g")
@@ -236,7 +205,7 @@ class Xdimension(Dimension):
         result.total_width = width
         result.total_height = 0
 
-        if labels:
+        if self.axis.labels:
             ticks = self.get_ticks()
             for tick in ticks:
                 result += (
@@ -253,12 +222,12 @@ class Xdimension(Dimension):
                     label["text-anchor"] = "end"
             result.total_height += font_size * (1 + constants.FONT_DESCEND)
 
-        if caption:
+        if self.axis.caption:
             result.total_height += font_size
             result += (
                 elem := Element(
                     "text",
-                    caption,
+                    self.axis.caption,
                     x=N(self.get_pixel((self.first + self.last) / 2)),
                     y=N(result.total_height),
                 )
@@ -272,23 +241,23 @@ class Xdimension(Dimension):
 class Ydimension(Dimension):
     "Graphics for the y axis."
 
-    def get_grid(self, width, color):
+    def get_grid(self, width, grid):
         "Get the y grid lines at the ticks for the graphic."
+        assert isinstance(grid, Grid)
+
         ticks = self.get_ticks()
         path = Path(0, ticks[0].pixel).H(width)
         for tick in ticks[1:]:
             path.M(0, tick.pixel).H(width)
-        result = Element("path", d=path, stroke=color)
+        result = Element("path", d=path, stroke=grid.color)
         result["class"] = "y-grid"
         return result
 
     def get_labels(self, height, font_size=constants.DEFAULT_FONT_SIZE):
         "Get the labels for the y dimension ticks."
-        labels = self.axis.get("labels")
-        if labels is None:
-            labels = True
-        caption = self.axis.get("caption")
-        if not self.given_axis or not (labels or caption):
+        if not self.axis:
+            return None
+        if not (self.axis.labels or self.axis.caption):
             return None
 
         result = Element("g")
@@ -301,7 +270,7 @@ class Ydimension(Dimension):
         result.total_width = 0
         result.total_height = height
 
-        if labels:
+        if self.axis.labels:
             ticks = self.get_ticks()
             for tick in ticks:
                 result += (
@@ -327,13 +296,13 @@ class Ydimension(Dimension):
                 )
             result.total_width += self.PADDING
 
-        if caption:
+        if self.axis.caption:
             x = -(result.total_width + font_size * (1 + constants.FONT_DESCEND))
             y = self.get_pixel((self.first + self.last) / 2)
             result += (
                 elem := Element(
                     "text",
-                    caption,
+                    self.axis.caption,
                     x=N(x),
                     y=N(y),
                     transform=f"translate({N(x)},{N(y)}) rotate(270) translate({N(-x)},{N(-y)})",
@@ -344,3 +313,121 @@ class Ydimension(Dimension):
 
         result["transform"] = f"translate({N(result.total_width)},0)"
         return result
+
+
+@dataclass
+class Tick:
+    "A tick along the coordinate axis."
+
+    position: float
+    pixel: float
+    label: str
+
+
+class Axis:
+    "Container for a coordinate axis specification."
+
+    TICKS_TARGET = 8
+
+    def __init__(self, spec):
+        assert isinstance(spec, (bool, dict))
+
+        # Explicit specification.
+        if isinstance(spec, dict):
+            self.display = True
+            self.min = spec.get("min")
+            assert self.min is None or isinstance(self.min, (int, float))
+            self.max = spec.get("max")
+            assert self.max is None or isinstance(self.max, (int, float))
+            self.ticks = spec.get("ticks") or self.TICKS_TARGET
+            assert (isinstance(self.ticks, int) and self.ticks >= 2) or (isinstance(self.ticks, (tuple, list)) and all([isinstance(t, (int, float)) for t in self.ticks]) and sorted(self.ticks) == self.ticks)
+            if (labels := spec.get("labels")) is None:
+                self.labels = True
+            else:
+                self.labels = bool(labels)
+            self.factor = spec.get("factor")
+            assert self.factor is None or isinstance(self.factor, (int, float)) and self.factor > 0
+            self.absolute = bool(spec.get("absolute"))
+            self.caption = spec.get("caption")
+            assert self.caption is None or isinstance(self.caption, str)
+
+        # Default specification.
+        elif spec:
+            self.display = True
+            self.min = None
+            self.max = None
+            self.ticks = self.TICKS_TARGET
+            self.labels = True
+            self.factor = None
+            self.absolute = False
+            self.caption = None
+
+        # Do not display axis.
+        else:
+            self.display = False
+            self.min = None
+            self.max = None
+            self.ticks = self.TICKS_TARGET
+            self.factor = None
+            self.absolute = False
+
+    def __bool__(self):
+        return self.display
+
+    def as_dict(self, key="axis"):
+        if not self:
+            return {key: False}
+        result = {}
+        if self.min is not None:
+            result["min"] = self.min
+        if self.max is not None:
+            result["max"] = self.max
+        if self.ticks != self.TICKS_TARGET:
+            result["ticks"] = self.ticks
+        if not self.labels:
+            result["labels"] = False
+        if self.factor is not None:
+            result["factor"] = self.factor
+        if self.absolute:
+            result["absolute"] = True
+        if self.caption is not None:
+            result["caption"] = self.caption
+        if result:
+            return {key: result}
+        else:
+            return {}
+
+
+class Grid:
+    "Container for a coordinate grid specification."
+
+    DEFAULT_COLOR = "lightgray"
+
+    def __init__(self, spec):
+        assert isinstance(spec, (bool, dict))
+
+        if isinstance(spec, dict):
+            self.display = True
+            self.color = spec.get("color") or self.DEFAULT_COLOR
+            assert utils.is_color(self.color)
+
+        elif spec:
+            self.display = True
+            self.color = self.DEFAULT_COLOR
+
+        else:
+            self.display = False
+
+    def __bool__(self):
+        return self.display
+
+    def as_dict(self, key="grid"):
+        if not self:
+            return {key: False}
+        result = {}
+        if self.color != self.DEFAULT_COLOR:
+            result["color"] = self.color
+        if result:
+            return {key: result}
+        else:
+            return {}

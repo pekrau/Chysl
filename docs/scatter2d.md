@@ -15,7 +15,7 @@
 ![scatter_points SVG](scatter_points.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: scatter2d
 title: Scattered points inline
 xaxis:
@@ -181,7 +181,7 @@ points:
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title:
   size: 30
@@ -197,7 +197,6 @@ subcharts:
       xaxis:
         labels: false
       yaxis:
-        labels: true
         caption: Sepal length
       size: 6
       points:
@@ -223,7 +222,6 @@ subcharts:
       xaxis:
         labels: false
       yaxis:
-        labels: true
         caption: Sepal width
       size: 6
       points:
@@ -249,7 +247,6 @@ subcharts:
       xaxis:
         labels: false
       yaxis:
-        labels: true
         caption: Petal length
       size: 6
       points:
@@ -274,9 +271,7 @@ subcharts:
       height: 300
       xaxis:
         caption: Sepal length
-        labels: true
       yaxis:
-        labels: true
         caption: Petal width
       size: 6
       points:
@@ -380,7 +375,6 @@ subcharts:
       height: 300
       xaxis:
         caption: Sepal width
-        labels: true
       yaxis:
         labels: false
       size: 6
@@ -485,7 +479,6 @@ subcharts:
       height: 300
       xaxis:
         caption: Petal length
-        labels: true
       yaxis:
         labels: false
       size: 6
@@ -590,7 +583,6 @@ subcharts:
       height: 300
       xaxis:
         caption: Petal width
-        labels: true
       yaxis:
         labels: false
       size: 6
@@ -644,7 +636,7 @@ padding: 4
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 subcharts:
 - chart: scatter2d
@@ -1063,7 +1055,7 @@ padding: 10
 ![points_marks SVG](points_marks.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: overlay
 title: One scatterplot on top of another
 layers:

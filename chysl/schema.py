@@ -203,15 +203,15 @@ DEFS = {
     },
     "grid": {
         "$anchor": "grid",
-        "title": "Coordinate grid specification.",
+        "title": "Coordinate grid, with optional styling.",
         "oneOf": [
             {
-                "title": "Display default grid.",
+                "title": "Display default grid or not.",
                 "type": "boolean",
                 "default": True,
             },
             {
-                "title": "Grid styling.",
+                "title": "Grid with styling.",
                 "type": "object",
                 "additionalProperties": False,
                 "properties": {
@@ -219,7 +219,7 @@ DEFS = {
                         "title": "Color of grid lines.",
                         "type": "string",
                         "format": "color",
-                        "default": constants.DEFAULT_GRID_COLOR,
+                        "default": "lightgray",
                     },
                 },
             },
@@ -230,7 +230,16 @@ DEFS = {
         "title": "Inline chart specification, or location (file of web resource) to read the chart specification from.",
         "oneOf": [
             {
-                "title": "Read the chart specification (YAML) from the URI reference.",
+                "title": "Specification of a chart.",
+                "type": "object",
+                "required": ["chart"],
+                "properties": {
+                    "chart": {"enum": constants.CHARTS},
+                    # No need to fully specify contents here.
+                },
+            },
+            {
+                "title": "Read the chart specification (YAML) referenced by the URL.",
                 "type": "object",
                 "required": ["include"],
                 "additionalProperties": False,
@@ -239,15 +248,6 @@ DEFS = {
                         "type": "string",
                         "format": "uri-reference",
                     },
-                },
-            },
-            {
-                "title": "Specification of a chart.",
-                "type": "object",
-                "required": ["chart"],
-                "properties": {
-                    "chart": {"enum": constants.CHARTS},
-                    # No need to fully specify contents here.
                 },
             },
         ],

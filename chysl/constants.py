@@ -1,6 +1,6 @@
 "Charts defined in YAML for rendering into SVG. Charts can be combined in different ways."
 
-VERSION = (0, 4, 1)
+VERSION = (0, 4, 2)
 __version__ = ".".join([str(n) for n in VERSION])
 
 SVG_XMLNS = "http://www.w3.org/2000/svg"
@@ -27,9 +27,6 @@ ABS_TOL = 0.0005
 
 FORMATS = ["csv", "tsv", "json", "yaml"]
 
-DEFAULT_FRAME_THICKNESS = 1
-DEFAULT_TICKS_TARGET = 8
-DEFAULT_GRID_COLOR = "lightgray"
 DEFAULT_LINE_WIDTH = 1
 DEFAULT_PADDING = 0
 DEFAULT_ANCHOR = "middle"

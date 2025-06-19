@@ -8,7 +8,7 @@ import schema
 import utils
 from color import Color
 from chart import Chart, Layout, register
-from dimension import Xdimension
+from dimension import Xdimension, Axis, Grid
 from marker import Marker
 from minixml import Element
 from path import Path
@@ -106,7 +106,7 @@ class Timelines(Chart):
                                     "default": True,
                                 },
                                 "href": {
-                                    "title": "A URI for a link, absolute or relative.",
+                                    "title": "A link URL, absolute or relative.",
                                     "type": "string",
                                     "format": "uri-reference",
                                 },
@@ -151,7 +151,7 @@ class Timelines(Chart):
                                     "default": constants.ERROR,
                                 },
                                 "href": {
-                                    "title": "A URI for a link, absolute or relative.",
+                                    "title": "A link URL, absolute or relative.",
                                     "type": "string",
                                     "format": "uri-reference",
                                 },
@@ -187,8 +187,8 @@ class Timelines(Chart):
         self.width = width or self.DEFAULT_WIDTH
         self.frame = components.Frame(frame)
         self.legend = legend
-        self.axis = axis
-        self.grid = grid
+        self.axis = Axis(axis)
+        self.grid = Grid(grid)
         self.entries = []
         if entries:
             for entry in entries:
@@ -218,11 +218,8 @@ class Timelines(Chart):
         if not self.legend:
             result["legend"] = False
         result.update(self.frame.as_dict())
-        if self.axis is False or isinstance(self.axis, dict):
-            # XXX Get from dimension as_dict
-            result["axis"] = self.axis
-        if self.grid is False or isinstance(self.grid, dict):
-            result["grid"] = self.grid
+        result.update(self.axis.as_dict())
+        result.update(self.grid.as_dict())
         return result
 
     def build(self):
@@ -297,13 +294,9 @@ class Timelines(Chart):
             ),
         )
 
-        # Add the time axis grid.
+        # Add the time coordinate grid.
         if self.grid:
-            if isinstance(self.grid, dict):
-                color = self.grid.get("color") or constants.DEFAULT_GRID_COLOR
-            else:
-                color = constants.DEFAULT_GRID_COLOR
-            result += dimension.get_grid(self.height, color)
+            result += dimension.get_grid(self.height, self.grid)
 
         # Graphics for entries (periods and events).
         for entry in self.entries:
@@ -325,7 +318,7 @@ class Timelines(Chart):
 register(Timelines)
 
 
-class _Temporal:
+class _Entry:
     "Abstract temporal entry in a timelines chart."
 
     def __init__(self, label=None, timeline=None, color=None):
@@ -386,7 +379,7 @@ class _Temporal:
         return result
 
 
-class Event(_Temporal):
+class Event(_Entry):
     "Event at a given instant in a timeline."
 
     DEFAULT_PLACEMENT = constants.RIGHT
@@ -516,7 +509,7 @@ class Event(_Temporal):
         return label
 
 
-class Period(_Temporal):
+class Period(_Entry):
     "Period of time in a timeline."
 
     DEFAULT_PLACEMENT = constants.CENTER

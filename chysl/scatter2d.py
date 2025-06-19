@@ -6,7 +6,7 @@ import schema
 import utils
 from chart import Chart, Layout, register
 from datapoints import DatapointsReader
-from dimension import Xdimension, Ydimension
+from dimension import Xdimension, Ydimension, Axis, Grid
 from marker import Marker
 from minixml import Element
 from path import Path
@@ -139,10 +139,10 @@ class Scatter2d(Chart):
         self.width = width or self.DEFAULT_WIDTH
         self.height = height or self.DEFAULT_HEIGHT
         self.frame = components.Frame(frame)
-        self.xaxis = xaxis
-        self.yaxis = yaxis
-        self.xgrid = xgrid
-        self.ygrid = ygrid
+        self.xaxis = Axis(xaxis)
+        self.yaxis = Axis(yaxis)
+        self.xgrid = Grid(xgrid)
+        self.ygrid = Grid(ygrid)
         self.marker = marker or self.DEFAULT_MARKER
         self.size = size or self.DEFAULT_SIZE
         self.color = color or self.DEFAULT_COLOR
@@ -162,14 +162,10 @@ class Scatter2d(Chart):
         if self.height != self.DEFAULT_HEIGHT:
             result["height"] = self.height
         result.update(self.frame.as_dict())
-        if self.xaxis is False or isinstance(self.xaxis, dict):
-            result["xaxis"] = self.xaxis
-        if self.yaxis is False or isinstance(self.yaxis, dict):
-            result["yaxis"] = self.yaxis
-        if self.xgrid is False or isinstance(self.xgrid, dict):
-            result["xgrid"] = self.xgrid
-        if self.ygrid is False or isinstance(self.ygrid, dict):
-            result["ygrid"] = self.ygrid
+        result.update(self.xaxis.as_dict("xaxis"))
+        result.update(self.yaxis.as_dict("yaxis"))
+        result.update(self.xgrid.as_dict("xgrid"))
+        result.update(self.ygrid.as_dict("ygrid"))
         if self.marker != self.DEFAULT_MARKER:
             result["marker"] = self.marker
         if self.size != self.DEFAULT_SIZE:
@@ -223,21 +219,13 @@ class Scatter2d(Chart):
             ),
         )
 
-        # Add the x axis grid.
+        # Add the x coordinate grid.
         if self.xgrid:
-            if isinstance(self.xgrid, dict):
-                color = self.xgrid.get("color") or constants.DEFAULT_GRID_COLOR
-            else:
-                color = constants.DEFAULT_GRID_COLOR
-            result += xdimension.get_grid(self.height, color)
+            result += xdimension.get_grid(self.height, self.xgrid)
 
-        # Add the y axis grid.
+        # Add the y coordinate grid.
         if self.ygrid:
-            if isinstance(self.ygrid, dict):
-                color = self.ygrid.get("color") or constants.DEFAULT_GRID_COLOR
-            else:
-                color = constants.DEFAULT_GRID_COLOR
-            result += ydimension.get_grid(self.width, color)
+            result += ydimension.get_grid(self.width, self.ygrid)
 
         # Graphics for points.
         result += (graphics := Element("g"))

@@ -17,7 +17,7 @@
 ![universe SVG](universe.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: timelines
 title:
   size: 24
@@ -49,16 +49,16 @@ entries:
   begin: -4567000000
   end: 0
 axis:
+  max: 50000000
   absolute: true
   caption: Billion years ago
-  max: 50000000
 ```
 ### earth
 
 ![earth SVG](earth.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: timelines
 title: Earth
 entries:
@@ -108,16 +108,16 @@ entries:
   placement: left
   fuzzy: wedge
 axis:
+  max: 20000000
   absolute: true
   caption: Billion years ago
-  max: 20000000
 ```
 ### universe_earth
 
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title: Universe and Earth
 subcharts:
@@ -153,9 +153,9 @@ subcharts:
     end: 0
   legend: false
   axis:
+    max: 50000000
     absolute: true
     caption: Billion years ago
-    max: 50000000
 - chart: timelines
   title: Earth
   entries:
@@ -206,16 +206,16 @@ subcharts:
     fuzzy: wedge
   legend: false
   axis:
+    max: 20000000
     absolute: true
     caption: Billion years ago
-    max: 20000000
 ```
 ### markers
 
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 subcharts:
 - chart: scatter2d
@@ -634,7 +634,7 @@ padding: 10
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: board
 title: Poster
 items:
@@ -660,7 +660,7 @@ items:
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -767,7 +767,7 @@ Timelines having events and periods.
       - **fuzzy**: Error bar marker for fuzzy number.
         - *type*: boolean
         - *default*: true
-      - **href**: A URI for a link, absolute or relative.
+      - **href**: A link URL, absolute or relative.
         - *type*: string
         - *format*: uri-reference
     - Alternative 2: Period of time.
@@ -792,7 +792,7 @@ Timelines having events and periods.
       - **fuzzy**: Marker to use for fuzzy number.
         - *one of*: 'error', 'wedge', 'gradient', 'none'
         - *default*: 'error'
-      - **href**: A URI for a link, absolute or relative.
+      - **href**: A link URL, absolute or relative.
         - *type*: string
         - *format*: uri-reference
 

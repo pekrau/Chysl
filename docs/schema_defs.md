@@ -4,7 +4,7 @@
 - [fuzzy_number](#fuzzy_number): Number value, exact, or fuzzy with either low/high or error.
 - [frame](#frame): Specification of the chart area frame.
 - [axis](#axis): Coordinate axis specification.
-- [grid](#grid): Coordinate grid specification.
+- [grid](#grid): Coordinate grid, with optional styling.
 - [chart_or_include](#chart_or_include): Inline chart specification, or location (file of web resource) to read the chart specification from.
 - [datapoints](#datapoints): Data provided inline, or from a file, web resource or database.
 - [field](#field): Mapping of a plot parameter to a field in source data.
@@ -115,12 +115,12 @@ Coordinate axis specification.
 
 ## grid
 
-Coordinate grid specification.
+Coordinate grid, with optional styling.
 
-- Alternative 1: Display default grid.
+- Alternative 1: Display default grid or not.
   - *type*: boolean
   - *default*: true
-- Alternative 2: Grid styling.
+- Alternative 2: Grid with styling.
   - *type*: mapping
   - **color**: Color of grid lines.
     - *type*: string
@@ -131,17 +131,17 @@ Coordinate grid specification.
 
 Inline chart specification, or location (file of web resource) to read the chart specification from.
 
-- Alternative 1: Read the chart specification (YAML) from the URI reference.
+- Alternative 1: Specification of a chart.
+  - *type*: mapping
+  - **chart**:
+    - *required*
+    - *one of*: 'timelines', 'piechart', 'scatter2d', 'lines2d', 'note', 'column', 'row', 'overlay', 'board'
+- Alternative 2: Read the chart specification (YAML) referenced by the URL.
   - *type*: mapping
   - **include**:
     - *required*
     - *type*: string
     - *format*: uri-reference
-- Alternative 2: Specification of a chart.
-  - *type*: mapping
-  - **chart**:
-    - *required*
-    - *one of*: 'timelines', 'piechart', 'scatter2d', 'lines2d', 'note', 'column', 'row', 'overlay', 'board'
 
 ## datapoints
 

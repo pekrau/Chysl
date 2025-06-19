@@ -91,7 +91,7 @@ class Piechart(Chart):
                             "format": "color",
                         },
                         "href": {
-                            "title": "A URI for a link, absolute or relative.",
+                            "title": "A link URL, absolute or relative.",
                             "type": "string",
                             "format": "uri-reference",
                         },

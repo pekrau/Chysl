@@ -18,7 +18,7 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title: Universe and Earth
 subcharts:
@@ -54,9 +54,9 @@ subcharts:
     end: 0
   legend: false
   axis:
+    max: 50000000
     absolute: true
     caption: Billion years ago
-    max: 50000000
 - chart: timelines
   title: Earth
   entries:
@@ -107,16 +107,16 @@ subcharts:
     fuzzy: wedge
   legend: false
   axis:
+    max: 20000000
     absolute: true
     caption: Billion years ago
-    max: 20000000
 ```
 ### pies_column
 
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title: Pies in column
 subcharts:
@@ -166,7 +166,7 @@ padding: 10
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title: Notes in a column
 subcharts:
@@ -202,7 +202,7 @@ padding: 4
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: board
 items:
 - x: 0
@@ -244,7 +244,7 @@ items:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 subcharts:
 - chart: scatter2d
@@ -663,7 +663,7 @@ padding: 10
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -726,7 +726,7 @@ padding: 20
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title:
   size: 30
@@ -742,7 +742,6 @@ subcharts:
       xaxis:
         labels: false
       yaxis:
-        labels: true
         caption: Sepal length
       size: 6
       points:
@@ -768,7 +767,6 @@ subcharts:
       xaxis:
         labels: false
       yaxis:
-        labels: true
         caption: Sepal width
       size: 6
       points:
@@ -794,7 +792,6 @@ subcharts:
       xaxis:
         labels: false
       yaxis:
-        labels: true
         caption: Petal length
       size: 6
       points:
@@ -819,9 +816,7 @@ subcharts:
       height: 300
       xaxis:
         caption: Sepal length
-        labels: true
       yaxis:
-        labels: true
         caption: Petal width
       size: 6
       points:
@@ -925,7 +920,6 @@ subcharts:
       height: 300
       xaxis:
         caption: Sepal width
-        labels: true
       yaxis:
         labels: false
       size: 6
@@ -1030,7 +1024,6 @@ subcharts:
       height: 300
       xaxis:
         caption: Petal length
-        labels: true
       yaxis:
         labels: false
       size: 6
@@ -1135,7 +1128,6 @@ subcharts:
       height: 300
       xaxis:
         caption: Petal width
-        labels: true
       yaxis:
         labels: false
       size: 6

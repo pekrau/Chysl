@@ -1,4 +1,4 @@
-chysl: 0.4.1
+chysl: 0.4.2
 chart: timelines
 title:
   size: 24
@@ -30,6 +30,6 @@ entries:
   begin: -4567000000
   end: 0
 axis:
+  max: 50000000
   absolute: true
   caption: Billion years ago
-  max: 50000000

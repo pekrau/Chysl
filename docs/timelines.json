@@ -92,7 +92,7 @@
                 "default": true
               },
               "href": {
-                "title": "A URI for a link, absolute or relative.",
+                "title": "A link URL, absolute or relative.",
                 "type": "string",
                 "format": "uri-reference"
               }
@@ -149,7 +149,7 @@
                 "default": "error"
               },
               "href": {
-                "title": "A URI for a link, absolute or relative.",
+                "title": "A link URL, absolute or relative.",
                 "type": "string",
                 "format": "uri-reference"
               }
@@ -160,114 +160,39 @@
     }
   },
   "$defs": {
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
+    "fuzzy_number": {
+      "$anchor": "fuzzy_number",
+      "title": "Number value, exact, or fuzzy with either low/high or error.",
       "oneOf": [
         {
-          "title": "Text with default styling.",
-          "type": "string"
+          "title": "Exact number value.",
+          "type": "number"
         },
         {
-          "title": "Text with styling options.",
+          "title": "Fuzzy number value,  with either low/high or error",
           "type": "object",
           "required": [
-            "text"
+            "value"
           ],
           "additionalProperties": false,
+          "minProperties": 2,
           "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "font": {
-              "title": "Name of the font.",
-              "type": "string",
-              "default": "sans-serif"
-            },
-            "size": {
-              "title": "Size of font (pixels). Default depends on context.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            }
-          }
-        }
-      ]
-    },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
-      "oneOf": [
-        {
-          "title": "Display default axis, or no display.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Coordinate axis specification.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "min": {
-              "title": "Explicit minimum for the axis.",
+            "value": {
+              "title": "Central value for the fuzzy number.",
               "type": "number"
             },
-            "max": {
-              "title": "Explicit maximum for the axis.",
+            "low": {
+              "title": "Low value for the fuzzy number.",
               "type": "number"
             },
-            "ticks": {
-              "title": "Explicit positions for axis ticks.",
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "title": "Axis coordinate of a tick.",
-                "type": "number"
-              }
+            "high": {
+              "title": "High value for the fuzzy number.",
+              "type": "number"
             },
-            "labels": {
-              "title": "Display tick labels, or not.",
-              "type": "boolean",
-              "default": true
-            },
-            "factor": {
-              "title": "Factor to divide tick value by for label display. Default depends on context.",
+            "error": {
+              "title": "Symmetrical error around the central value.",
               "type": "number",
-              "minimumExclusive": 0
-            },
-            "absolute": {
-              "title": "Display absolute values for tick labels.",
-              "type": "boolean",
-              "default": false
-            },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
+              "exclusiveMinimum": 0
             }
           }
         }
@@ -363,6 +288,143 @@
         }
       ]
     },
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
+      "oneOf": [
+        {
+          "title": "Display default axis, or no display.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Coordinate axis specification.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "title": "Explicit minimum for the axis.",
+              "type": "number"
+            },
+            "max": {
+              "title": "Explicit maximum for the axis.",
+              "type": "number"
+            },
+            "ticks": {
+              "title": "Explicit positions for axis ticks.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "title": "Axis coordinate of a tick.",
+                "type": "number"
+              }
+            },
+            "labels": {
+              "title": "Display tick labels, or not.",
+              "type": "boolean",
+              "default": true
+            },
+            "factor": {
+              "title": "Factor to divide tick value by for label display. Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "absolute": {
+              "title": "Display absolute values for tick labels.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "font": {
+              "title": "Name of the font.",
+              "type": "string",
+              "default": "sans-serif"
+            },
+            "size": {
+              "title": "Size of font (pixels). Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            }
+          }
+        }
+      ]
+    },
+    "grid": {
+      "$anchor": "grid",
+      "title": "Coordinate grid, with optional styling.",
+      "oneOf": [
+        {
+          "title": "Display default grid or not.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Grid with styling.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "lightgray"
+            }
+          }
+        }
+      ]
+    },
     "frame": {
       "$anchor": "frame",
       "title": "Specification of the chart area frame.",
@@ -391,68 +453,6 @@
               "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
               "type": "number",
               "minimum": 0
-            }
-          }
-        }
-      ]
-    },
-    "grid": {
-      "$anchor": "grid",
-      "title": "Coordinate grid specification.",
-      "oneOf": [
-        {
-          "title": "Display default grid.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Grid styling.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "lightgray"
-            }
-          }
-        }
-      ]
-    },
-    "fuzzy_number": {
-      "$anchor": "fuzzy_number",
-      "title": "Number value, exact, or fuzzy with either low/high or error.",
-      "oneOf": [
-        {
-          "title": "Exact number value.",
-          "type": "number"
-        },
-        {
-          "title": "Fuzzy number value,  with either low/high or error",
-          "type": "object",
-          "required": [
-            "value"
-          ],
-          "additionalProperties": false,
-          "minProperties": 2,
-          "properties": {
-            "value": {
-              "title": "Central value for the fuzzy number.",
-              "type": "number"
-            },
-            "low": {
-              "title": "Low value for the fuzzy number.",
-              "type": "number"
-            },
-            "high": {
-              "title": "High value for the fuzzy number.",
-              "type": "number"
-            },
-            "error": {
-              "title": "Symmetrical error around the central value.",
-              "type": "number",
-              "exclusiveMinimum": 0
             }
           }
         }

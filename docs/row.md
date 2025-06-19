@@ -13,7 +13,7 @@
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: row
 title: Pies in row
 subcharts:
@@ -62,7 +62,7 @@ padding: 10
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title:
   size: 30
@@ -78,7 +78,6 @@ subcharts:
       xaxis:
         labels: false
       yaxis:
-        labels: true
         caption: Sepal length
       size: 6
       points:
@@ -104,7 +103,6 @@ subcharts:
       xaxis:
         labels: false
       yaxis:
-        labels: true
         caption: Sepal width
       size: 6
       points:
@@ -130,7 +128,6 @@ subcharts:
       xaxis:
         labels: false
       yaxis:
-        labels: true
         caption: Petal length
       size: 6
       points:
@@ -155,9 +152,7 @@ subcharts:
       height: 300
       xaxis:
         caption: Sepal length
-        labels: true
       yaxis:
-        labels: true
         caption: Petal width
       size: 6
       points:
@@ -261,7 +256,6 @@ subcharts:
       height: 300
       xaxis:
         caption: Sepal width
-        labels: true
       yaxis:
         labels: false
       size: 6
@@ -366,7 +360,6 @@ subcharts:
       height: 300
       xaxis:
         caption: Petal length
-        labels: true
       yaxis:
         labels: false
       size: 6
@@ -471,7 +464,6 @@ subcharts:
       height: 300
       xaxis:
         caption: Petal width
-        labels: true
       yaxis:
         labels: false
       size: 6

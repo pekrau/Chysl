@@ -14,7 +14,7 @@
 ![lines_random_walks SVG](lines_random_walks.svg)
 
 ```yaml
-chysl: 0.4.1
+chysl: 0.4.2
 chart: lines2d
 title: 'Random walks (source: db)'
 lines:
@@ -121,7 +121,7 @@ lines:
       - *minimum*: 0
       - *maximum*: 1
       - *default*: 1
-    - **href**: A link URI from the line, absolute or relative.
+    - **href**: A link URL, absolute or relative.
       - *type*: string
       - *format*: uri-reference
 - **width**: Width of the chart.

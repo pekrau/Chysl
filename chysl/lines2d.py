@@ -6,7 +6,7 @@ import schema
 import utils
 from chart import Chart, Layout, register
 from datapoints import DatapointsReader
-from dimension import Xdimension, Ydimension
+from dimension import Xdimension, Ydimension, Axis, Grid
 from minixml import Element
 from path import Path
 from utils import N
@@ -66,7 +66,7 @@ class Lines2d(Chart):
                             "default": 1,
                         },
                         "href": {
-                            "title": "A link URI from the line, absolute or relative.",
+                            "title": "A link URL, absolute or relative.",
                             "type": "string",
                             "format": "uri-reference",
                         },
@@ -169,10 +169,10 @@ class Lines2d(Chart):
         self.width = width or self.DEFAULT_WIDTH
         self.height = height or self.DEFAULT_HEIGHT
         self.frame = components.Frame(frame)
-        self.xaxis = True if xaxis is None else xaxis
-        self.yaxis = True if yaxis is None else yaxis
-        self.xgrid = True if xgrid is None else xgrid
-        self.ygrid = True if ygrid is None else ygrid
+        self.xaxis = Axis(xaxis)
+        self.yaxis = Axis(yaxis)
+        self.xgrid = Grid(xgrid)
+        self.ygrid = Grid(ygrid)
         self.thickness = thickness or self.DEFAULT_THICKNESS
         self.color = color or self.DEFAULT_COLOR
         self.opacity = 1 if opacity is None else opacity
@@ -194,14 +194,10 @@ class Lines2d(Chart):
         if self.height != self.DEFAULT_HEIGHT:
             result["height"] = self.height
         result.update(self.frame.as_dict())
-        if self.xaxis is False or isinstance(self.xaxis, dict):
-            result["xaxis"] = self.xaxis
-        if self.yaxis is False or isinstance(self.yaxis, dict):
-            result["yaxis"] = self.yaxis
-        if self.xgrid is False or isinstance(self.xgrid, dict):
-            result["xgrid"] = self.xgrid
-        if self.ygrid is False or isinstance(self.ygrid, dict):
-            result["ygrid"] = self.ygrid
+        result.update(self.xaxis.as_dict("xaxis"))
+        result.update(self.yaxis.as_dict("yaxis"))
+        result.update(self.xgrid.as_dict("xgrid"))
+        result.update(self.ygrid.as_dict("ygrid"))
         if self.thickness != self.DEFAULT_THICKNESS:
             result["thickness"] = self.thickness
         if self.color != self.DEFAULT_COLOR:
@@ -268,21 +264,13 @@ class Lines2d(Chart):
             ),
         )
 
-        # Add the x axis grid.
+        # Add the x coordinate grid.
         if self.xgrid:
-            if isinstance(self.xgrid, dict):
-                color = self.xgrid.get("color") or constants.DEFAULT_GRID_COLOR
-            else:
-                color = constants.DEFAULT_GRID_COLOR
-            result += xdimension.get_grid(self.height, color)
+            result += xdimension.get_grid(self.height, self.xgrid)
 
-        # Add the y axis grid.
+        # Add the y coordinate grid.
         if self.ygrid:
-            if isinstance(self.ygrid, dict):
-                color = self.ygrid.get("color") or constants.DEFAULT_GRID_COLOR
-            else:
-                color = constants.DEFAULT_GRID_COLOR
-            result += ydimension.get_grid(self.width, color)
+            result += ydimension.get_grid(self.width, self.ygrid)
 
         # Graphics for lines.
         result += (graphics := Element("g", fill="none", stroke=self.color))

@@ -314,7 +314,7 @@ def parse(data):
 
 
 def retrieve(location):
-    """Read and parse the YAML file given by its path or URI.
+    """Read and parse the YAML file given by its path or URL.
     Return a Chart instance.
     """
     reader = ChartReader(location)

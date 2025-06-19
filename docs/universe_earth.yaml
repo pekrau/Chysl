@@ -1,4 +1,4 @@
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 title: Universe and Earth
 subcharts:
@@ -34,9 +34,9 @@ subcharts:
     end: 0
   legend: false
   axis:
+    max: 50000000
     absolute: true
     caption: Billion years ago
-    max: 50000000
 - chart: timelines
   title: Earth
   entries:
@@ -87,6 +87,6 @@ subcharts:
     fuzzy: wedge
   legend: false
   axis:
+    max: 20000000
     absolute: true
     caption: Billion years ago
-    max: 20000000

@@ -1,4 +1,4 @@
-chysl: 0.4.1
+chysl: 0.4.2
 chart: column
 subcharts:
 - chart: scatter2d
