@@ -1,5 +1,7 @@
 "Pie chart displaying slices."
 
+__all__ = ["Piechart", "Slice"]
+
 import itertools
 
 import components
@@ -126,7 +128,7 @@ class Piechart(Chart):
         self.frame = components.CircularFrame(frame)
         self.total = total
         self.start = start
-        # Create a copy of the palette, for safety.
+        # Create a copy of the palette, just in case.
         self.palette = list(palette or constants.DEFAULT_PALETTE)
         self.slices = []
         if slices:
@@ -138,17 +140,11 @@ class Piechart(Chart):
         return self
 
     def add(self, slice):
-        assert isinstance(slice, dict)
-
-        self.add_slice(*[slice.get(key) for key in ["x", "label", "color", "href"]])
-
-    def add_slice(self, x, label=None, color=None, href=None):
-        assert isinstance(x, (int, float)) and x > 0
-        assert label is None or isinstance(label, str)
-        assert color is None or utils.is_color(color)
-        assert href is None or isinstance(href, str)
-
-        self.slices.append(dict(x=x, color=color, label=label, href=href))
+        assert isinstance(slice, (dict, Slice))
+        if isinstance(slice, dict):
+            slice = Slice(**slice)
+        assert isinstance(slice, Slice)
+        self.slices.append(slice)
 
     def as_dict(self):
         result = super().as_dict()
@@ -163,13 +159,7 @@ class Piechart(Chart):
             result["palette"] = self.palette
         result["slices"] = slices = []
         for slice in self.slices:
-            slices.append(s := dict(x=slice["x"]))
-            if label := slice.get("label"):
-                s["label"] = label
-            if color := slice.get("color"):
-                s["color"] = color
-            if href := slice.get("href"):
-                s["href"] = href
+            slices.append(slice.as_dict())
         return result
 
     def build(self):
@@ -182,7 +172,7 @@ class Piechart(Chart):
     def get_plot(self):
         "Get the element for the chart circle (frame) and slices."
         if self.total is None:
-            total = sum([s["x"] for s in self.slices])
+            total = sum([s.x for s in self.slices])
         else:
             total = self.total
         palette = itertools.cycle(self.palette)
@@ -222,31 +212,16 @@ class Piechart(Chart):
         else:
             stop = Degrees(self.start) + self.DEFAULT_START
         for slice in self.slices:
-            slice["start"] = stop
-            slice["fraction"] = slice["x"] / total
-            slice["stop"] = slice["start"] + slice["fraction"] * Degrees(360)
-            stop = slice["stop"]
+            slice.start = stop
+            slice.fraction = slice.x / total
+            slice.stop = slice.start + slice.fraction * Degrees(360)
+            stop = slice.stop
 
         result += (graphics := Element("g"))
         graphics["class"] = "graphics"
         graphics += Element("circle", r=radius, fill="white")
-
         for slice in self.slices:
-            p0 = Vector2.from_polar(radius, float(slice["start"]))
-            p1 = Vector2.from_polar(radius, float(slice["stop"]))
-            lof = 1 if slice["stop"] - slice["start"] > Degrees(180) else 0
-            elem = Element(
-                "path",
-                d=Path(0, 0).L(p0.x, p0.y).A(radius, radius, 0, lof, 1, p1.x, p1.y).Z(),
-            )
-            elem["class"] = "slice"
-            if color := slice.get("color"):
-                elem["fill"] = slice["background"] = color
-            else:
-                elem["fill"] = slice["background"] = next(palette)
-            if href := slice.get("href"):
-                elem = Element("a", elem, href=href)
-            graphics += elem
+            graphics += slice.render_graphic(radius, palette)
 
         # Labels on top of slices.
         result += (labels := Element("g"))
@@ -254,20 +229,11 @@ class Piechart(Chart):
         labels["font-family"] = constants.DEFAULT_FONT_FAMILY
         labels["font-size"] = constants.DEFAULT_FONT_SIZE
         labels["text-anchor"] = "middle"
-
         for slice in self.slices:
-            if label := slice.get("label"):
-                middle = slice["start"] + 0.5 * slice["fraction"] * Degrees(360)
-                pos = Vector2.from_polar(0.7 * radius, float(middle))
-                labels += Element(
-                    "text",
-                    label,
-                    x=N(pos.x),
-                    y=N(pos.y),
-                    fill=Color(slice["background"]).best_contrast,
-                )
+            if label := slice.render_label(radius):
+                labels += label
 
-        # Move it to (0, 0, total_width, total_height).
+        # Move pie to (0, 0, total_width, total_height).
         result["transform"] = (
             f"translate({N(result.total_width/2)},{N(result.total_height/2)})"
         )
@@ -275,3 +241,59 @@ class Piechart(Chart):
 
 
 register(Piechart)
+
+
+class Slice:
+    "Slice in a pie chart."
+
+    def __init__(self, x, label=None, color=None, href=None):
+        assert isinstance(x, (int, float)) and x > 0
+        assert label is None or isinstance(label, str)
+        assert color is None or (isinstance(color, str) and utils.is_color(color))
+        assert href is None or isinstance(href, str)
+
+        self.x = x
+        self.label = label
+        self.color = color
+        self.href = href
+
+    def as_dict(self):
+        result = {"x": self.x}
+        if self.label:
+            result["label"] = self.label
+        if self.color:
+            result["color"] = self.color
+        if self.href:
+            result["href"] = self.href
+        return result
+
+    def render_graphic(self, radius, palette):
+        p0 = Vector2.from_polar(radius, float(self.start))
+        p1 = Vector2.from_polar(radius, float(self.stop))
+        lof = 1 if self.stop - self.start > Degrees(180) else 0
+        result = Element(
+            "path",
+            d=Path(0, 0).L(p0.x, p0.y).A(radius, radius, 0, lof, 1, p1.x, p1.y).Z(),
+        )
+        result["class"] = "slice"
+        if self.color:
+            result["fill"] = self.background = self.color
+        else:
+            result["fill"] = self.background = next(palette)
+        if self.href:
+            result = Element("a", result, href=self.href)
+        return result
+
+    def render_label(self, radius):
+        if not self.label:
+            return None
+        middle = self.start + 0.5 * self.fraction * Degrees(360)
+        # Empirical factor 0.7
+        pos = Vector2.from_polar(0.7 * radius, float(middle))
+        return Element(
+            "text",
+            self.label,
+            x=N(pos.x),
+            y=N(pos.y),
+            fill=Color(self.background).best_contrast,
+        )

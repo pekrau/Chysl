@@ -11,7 +11,7 @@ import constants
 DEFS = {
     "marker": {
         "$anchor": "marker",
-        "title": "Symbol to use as data point marker in the chart.",
+        "title": "Symbol to use as data point marker.",
         "oneOf": [
             {
                 "title": "Predefined symbols denoted by names.",

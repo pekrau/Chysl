@@ -274,10 +274,9 @@ _chart_class_lookup = {}
 def register(cls):
     "Register the chart for parsing."
     assert issubclass(cls, Chart)
-    schema.check_schema(cls.SCHEMA)
     key = cls.__name__.casefold()
-    if key in _chart_class_lookup:
-        raise KeyError(f"chart '{key}' already registered")
+    assert key not in _chart_class_lookup
+    schema.check_schema(cls.SCHEMA)
     _chart_class_lookup[key] = cls
 
 

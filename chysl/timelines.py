@@ -1,5 +1,7 @@
 "Timelines having events and periods."
 
+__all__ = ["Timelines", "Event", "Period"]
+
 import math
 
 import components
@@ -324,7 +326,7 @@ class _Entry:
     def __init__(self, label=None, timeline=None, color=None):
         assert label is None or isinstance(label, str)
         assert timeline is None or isinstance(timeline, str)
-        assert color is None or isinstance(color, str)
+        assert color is None or (isinstance(color, str) and utils.is_color(color))
 
         self.label = label
         self.timeline = timeline or label

@@ -197,9 +197,9 @@ def test_pyramid():
         palette=["#4c78a8", "#9ecae9", "#f58518"],
         frame=dict(color="gray", thickness=4)
     )
-    pyramid += dict(x=7, label="Shadow")
-    pyramid.add_slice(18, label="Sunny")
-    pyramid.add(dict(x=70, label="Sky"))
+    pyramid += Slice(x=7, label="Shadow")
+    pyramid.add(Slice(x=18, label="Sunny"))
+    pyramid.add(Slice(x=70, label="Sky"))
     pyramid.save("pyramid.yaml")
     pyramid.render("pyramid.svg")
     check_roundtrip(pyramid, "pyramid.yaml")
@@ -243,16 +243,16 @@ def test_markers():
 
 def test_day():
     day = Piechart(dict(text="Day", size=30), total=24, diameter=400)
-    day += dict(x=8, label="Sleep", color="gray")
-    day += dict(x=1, label="Breakfast", color="lightgreen")
-    day += dict(x=2, label="Gym", color="lightblue")
-    day += dict(x=1, label="Read", color="navy")
-    day += dict(x=1, label="Lunch", color="lightgreen")
-    day += dict(x=0.4, label="Shuteye", color="gray")
-    day += dict(x=4.6, label="Write", color="pink")
-    day += dict(x=1, label="Dinner", color="lightgreen")
-    day += dict(x=3, label="TV", color="orange")
-    day += dict(x=2, label="Read", color="navy")
+    day += Slice(x=8, label="Sleep", color="gray")
+    day += Slice(x=1, label="Breakfast", color="lightgreen")
+    day += Slice(x=2, label="Gym", color="lightblue")
+    day += Slice(x=1, label="Read", color="navy")
+    day += Slice(x=1, label="Lunch", color="lightgreen")
+    day += Slice(x=0.4, label="Shuteye", color="gray")
+    day += Slice(x=4.6, label="Write", color="pink")
+    day += Slice(x=1, label="Dinner", color="lightgreen")
+    day += Slice(x=3, label="TV", color="orange")
+    day += Slice(x=2, label="Read", color="navy")
 
     day.save("day.yaml")
     day.render("day.svg")
@@ -275,10 +275,10 @@ def test_pies_column():
     pajer = Column("Pies in column", padding=10)
 
     pajer += (paj := Piechart("Strawberry pie", diameter=200))
-    paj += dict(x=7, label="Flour", color="white")
-    paj += dict(x=2, label="Eggs", color="yellow")
-    paj += dict(x=3, label="Butter", color="gold")
-    paj += dict(
+    paj += Slice(x=7, label="Flour", color="white")
+    paj += Slice(x=2, label="Eggs", color="yellow")
+    paj += Slice(x=3, label="Butter", color="gold")
+    paj += Slice(
         x=3,
         label="Strawberries",
         color="orangered",
@@ -286,10 +286,10 @@ def test_pies_column():
     )
 
     pajer += (paj := Piechart("Rhubarb pie", diameter=250))
-    paj += dict(x=7, label="Flour", color="white")
-    paj += dict(x=2, label="Eggs", color="yellow")
-    paj += dict(x=3, label="Butter", color="gold")
-    paj += dict(
+    paj += Slice(x=7, label="Flour", color="white")
+    paj += Slice(x=2, label="Eggs", color="yellow")
+    paj += Slice(x=3, label="Butter", color="gold")
+    paj += Slice(
         x=3,
         label="Rhubarb",
         color="green",
