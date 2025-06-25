@@ -143,7 +143,7 @@ class Frame:
             self.radius = self.DEFAULT_RADIUS
         else:
             self.thickness = 0
-            
+
     def __bool__(self):
         return bool(self.thickness)
 

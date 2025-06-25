@@ -195,11 +195,11 @@ def test_pyramid():
         "Pyramid",
         start=132,
         palette=["#4c78a8", "#9ecae9", "#f58518"],
-        frame=dict(color="gray", thickness=4)
+        frame=dict(color="gray", thickness=4),
     )
-    pyramid += Slice(x=7, label="Shadow")
-    pyramid.add(Slice(x=18, label="Sunny"))
-    pyramid.add(Slice(x=70, label="Sky"))
+    pyramid += Slice(value=7, label="Shadow")
+    pyramid.add(Slice(value=18, label="Sunny"))
+    pyramid.add(Slice(value=70, label="Sky"))
     pyramid.save("pyramid.yaml")
     pyramid.render("pyramid.svg")
     check_roundtrip(pyramid, "pyramid.yaml")
@@ -242,17 +242,12 @@ def test_markers():
 
 
 def test_day():
-    day = Piechart(dict(text="Day", size=30), total=24, diameter=400)
-    day += Slice(x=8, label="Sleep", color="gray")
-    day += Slice(x=1, label="Breakfast", color="lightgreen")
-    day += Slice(x=2, label="Gym", color="lightblue")
-    day += Slice(x=1, label="Read", color="navy")
-    day += Slice(x=1, label="Lunch", color="lightgreen")
-    day += Slice(x=0.4, label="Shuteye", color="gray")
-    day += Slice(x=4.6, label="Write", color="pink")
-    day += Slice(x=1, label="Dinner", color="lightgreen")
-    day += Slice(x=3, label="TV", color="orange")
-    day += Slice(x=2, label="Read", color="navy")
+    day = Piechart(
+        title=dict(text="Day", size=30),
+        slices=dict(source="day.csv", map=dict(value="hours")),
+        total=24,
+        diameter=400,
+    )
 
     day.save("day.yaml")
     day.render("day.svg")
@@ -275,22 +270,22 @@ def test_pies_column():
     pajer = Column("Pies in column", padding=10)
 
     pajer += (paj := Piechart("Strawberry pie", diameter=200))
-    paj += Slice(x=7, label="Flour", color="white")
-    paj += Slice(x=2, label="Eggs", color="yellow")
-    paj += Slice(x=3, label="Butter", color="gold")
+    paj += Slice(value=7, label="Flour", color="white")
+    paj += Slice(value=2, label="Eggs", color="yellow")
+    paj += Slice(value=3, label="Butter", color="gold")
     paj += Slice(
-        x=3,
+        value=3,
         label="Strawberries",
         color="orangered",
         href="https://en.wikipedia.org/wiki/Strawberry",
     )
 
     pajer += (paj := Piechart("Rhubarb pie", diameter=250))
-    paj += Slice(x=7, label="Flour", color="white")
-    paj += Slice(x=2, label="Eggs", color="yellow")
-    paj += Slice(x=3, label="Butter", color="gold")
+    paj += Slice(value=7, label="Flour", color="white")
+    paj += Slice(value=2, label="Eggs", color="yellow")
+    paj += Slice(value=3, label="Butter", color="gold")
     paj += Slice(
-        x=3,
+        value=3,
         label="Rhubarb",
         color="green",
         href="https://en.wikipedia.org/wiki/Rhubarb",
@@ -312,19 +307,19 @@ def test_pies_row():
 
     palette = ["white", "yellow", "gold", "red"]
     pajer += (paj := Piechart(title="Strawberry pie", diameter=300, palette=palette))
-    paj += dict(x=7, label="Flour")
-    paj += dict(x=2, label="Eggs")
-    paj += dict(x=3, label="Butter")
+    paj += dict(value=7, label="Flour")
+    paj += dict(value=2, label="Eggs")
+    paj += dict(value=3, label="Butter")
     paj += dict(
-        x=3, label="Strawberries", href="https://en.wikipedia.org/wiki/Strawberry"
+        value=3, label="Strawberries", href="https://en.wikipedia.org/wiki/Strawberry"
     )
 
     pajer += (paj := Piechart(title="Rhubarb pie", palette=palette))
-    paj += dict(x=7, label="Flour")
-    paj += dict(x=2, label="Eggs")
-    paj += dict(x=3, label="Butter")
+    paj += dict(value=7, label="Flour")
+    paj += dict(value=2, label="Eggs")
+    paj += dict(value=3, label="Butter")
     paj += dict(
-        x=3,
+        value=3,
         label="Rhubarb",
         color="green",
         href="https://en.wikipedia.org/wiki/Rhubarb",
@@ -397,7 +392,7 @@ def test_scatter_iris():
             column += Scatter2d(
                 points=dict(
                     source="scatter_iris.csv",
-                    parameters=dict(
+                    map=dict(
                         x=field2,
                         y=field1,
                         color=dict(
@@ -461,7 +456,7 @@ def test_lines_random_walks():
     for run in runs:
         x = 0
         y = 0
-        for i in range(1, 200):
+        for i in range(200):
             x += random.uniform(-1.0, 1.0)
             y += random.uniform(-1.0, 1.0)
             cnx.execute(
@@ -490,11 +485,9 @@ def test_lines_random_walks():
     for run in runs:
         lines += dict(
             line=dict(
-                source=dict(
-                    database="sqlite",
-                    location="lines_random_walks.db",
-                    select=f"SELECT x, y FROM walks WHERE run={run} ORDER BY i",
-                )
+                database="sqlite",
+                source="lines_random_walks.db",
+                select=f"SELECT x, y FROM walks WHERE run={run} ORDER BY i",
             ),
             color=next(colors),
         )

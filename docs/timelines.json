@@ -160,6 +160,65 @@
     }
   },
   "$defs": {
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "font": {
+              "title": "Name of the font.",
+              "type": "string",
+              "default": "sans-serif"
+            },
+            "size": {
+              "title": "Size of font (pixels). Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            }
+          }
+        }
+      ]
+    },
     "fuzzy_number": {
       "$anchor": "fuzzy_number",
       "title": "Number value, exact, or fuzzy with either low/high or error.",
@@ -198,9 +257,33 @@
         }
       ]
     },
+    "grid": {
+      "$anchor": "grid",
+      "title": "Coordinate grid, with optional styling.",
+      "oneOf": [
+        {
+          "title": "Display default grid or not.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Grid with styling.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "lightgray"
+            }
+          }
+        }
+      ]
+    },
     "marker": {
       "$anchor": "marker",
-      "title": "Symbol to use as data point marker in the chart.",
+      "title": "Symbol to use as data point marker.",
       "oneOf": [
         {
           "title": "Predefined symbols denoted by names.",
@@ -288,6 +371,39 @@
         }
       ]
     },
+    "frame": {
+      "$anchor": "frame",
+      "title": "Specification of the chart area frame.",
+      "oneOf": [
+        {
+          "title": "Default chart area frame, or no frame.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Specification of the chart area frame.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "thickness": {
+              "title": "Thickness of the frame (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "color": {
+              "title": "Color of the frame. Default depends on the chart.",
+              "type": "string",
+              "format": "color"
+            },
+            "radius": {
+              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
     "axis": {
       "$anchor": "axis",
       "title": "Coordinate axis specification.",
@@ -337,122 +453,6 @@
             "caption": {
               "title": "Axis description.",
               "type": "string"
-            }
-          }
-        }
-      ]
-    },
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
-      "oneOf": [
-        {
-          "title": "Text with default styling.",
-          "type": "string"
-        },
-        {
-          "title": "Text with styling options.",
-          "type": "object",
-          "required": [
-            "text"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "font": {
-              "title": "Name of the font.",
-              "type": "string",
-              "default": "sans-serif"
-            },
-            "size": {
-              "title": "Size of font (pixels). Default depends on context.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
-              "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
-            }
-          }
-        }
-      ]
-    },
-    "grid": {
-      "$anchor": "grid",
-      "title": "Coordinate grid, with optional styling.",
-      "oneOf": [
-        {
-          "title": "Display default grid or not.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Grid with styling.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "lightgray"
-            }
-          }
-        }
-      ]
-    },
-    "frame": {
-      "$anchor": "frame",
-      "title": "Specification of the chart area frame.",
-      "oneOf": [
-        {
-          "title": "Default chart area frame, or no frame.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Specification of the chart area frame.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "thickness": {
-              "title": "Thickness of the frame (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "color": {
-              "title": "Color of the frame. Default depends on the chart.",
-              "type": "string",
-              "format": "color"
-            },
-            "radius": {
-              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimum": 0
             }
           }
         }

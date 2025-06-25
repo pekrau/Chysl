@@ -1,4 +1,4 @@
-chysl: 0.4.2
+chysl: 0.5.0
 chart: piechart
 title:
   size: 30
@@ -6,33 +6,6 @@ title:
 diameter: 400
 total: 24
 slices:
-- x: 8
-  label: Sleep
-  color: gray
-- x: 1
-  label: Breakfast
-  color: lightgreen
-- x: 2
-  label: Gym
-  color: lightblue
-- x: 1
-  label: Read
-  color: navy
-- x: 1
-  label: Lunch
-  color: lightgreen
-- x: 0.4
-  label: Shuteye
-  color: gray
-- x: 4.6
-  label: Write
-  color: pink
-- x: 1
-  label: Dinner
-  color: lightgreen
-- x: 3
-  label: TV
-  color: orange
-- x: 2
-  label: Read
-  color: navy
+  source: day.csv
+  map:
+    value: hours

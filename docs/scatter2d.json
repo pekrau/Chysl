@@ -19,8 +19,58 @@
       "type": "string"
     },
     "points": {
-      "title": "The list of 2D points to display by markers.",
-      "$ref": "#datapoints"
+      "oneOf": [
+        {
+          "title": "Inline list of 2D points.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "marker": {
+                "$ref": "#marker"
+              },
+              "size": {
+                "title": "Size of the marker (pixels).",
+                "type": "number",
+                "minimumExclusive": 0
+              },
+              "color": {
+                "title": "Color specified by hex code '#rrggbb' or CSS3 color name.",
+                "type": "string",
+                "format": "color"
+              },
+              "opacity": {
+                "title": "Opacity of the marker.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1,
+                "default": 1
+              },
+              "label": {
+                "title": "Description of the point.",
+                "type": "string"
+              },
+              "href": {
+                "title": "A link URL, absolute or relative.",
+                "type": "string",
+                "format": "uri-reference"
+              }
+            }
+          }
+        },
+        {
+          "title": "External source of 2D points data.",
+          "$ref": "#datasource"
+        }
+      ]
     },
     "width": {
       "title": "Width of the chart.",
@@ -80,9 +130,122 @@
     }
   },
   "$defs": {
+    "text": {
+      "$anchor": "text",
+      "title": "Text, with or without explicit styling.",
+      "oneOf": [
+        {
+          "title": "Text with default styling.",
+          "type": "string"
+        },
+        {
+          "title": "Text with styling options.",
+          "type": "object",
+          "required": [
+            "text"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "text": {
+              "title": "The text to display.",
+              "type": "string"
+            },
+            "font": {
+              "title": "Name of the font.",
+              "type": "string",
+              "default": "sans-serif"
+            },
+            "size": {
+              "title": "Size of font (pixels). Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "bold": {
+              "title": "Bold font.",
+              "type": "boolean",
+              "default": false
+            },
+            "italic": {
+              "title": "Italics font.",
+              "type": "boolean",
+              "default": false
+            },
+            "color": {
+              "title": "Color of text.",
+              "type": "string",
+              "format": "color",
+              "default": "black"
+            },
+            "placement": {
+              "title": "Placement of text. Ignored in some contexts.",
+              "enum": [
+                "left",
+                "center",
+                "right"
+              ],
+              "default": "center"
+            }
+          }
+        }
+      ]
+    },
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
+      "oneOf": [
+        {
+          "title": "Display default axis, or no display.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Coordinate axis specification.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "title": "Explicit minimum for the axis.",
+              "type": "number"
+            },
+            "max": {
+              "title": "Explicit maximum for the axis.",
+              "type": "number"
+            },
+            "ticks": {
+              "title": "Explicit positions for axis ticks.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "title": "Axis coordinate of a tick.",
+                "type": "number"
+              }
+            },
+            "labels": {
+              "title": "Display tick labels, or not.",
+              "type": "boolean",
+              "default": true
+            },
+            "factor": {
+              "title": "Factor to divide tick value by for label display. Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "absolute": {
+              "title": "Display absolute values for tick labels.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
     "marker": {
       "$anchor": "marker",
-      "title": "Symbol to use as data point marker in the chart.",
+      "title": "Symbol to use as data point marker.",
       "oneOf": [
         {
           "title": "Predefined symbols denoted by names.",
@@ -170,114 +333,60 @@
         }
       ]
     },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
+    "datasource": {
+      "$anchor": "datasource",
+      "title": "Data from a file, web resource or database.",
       "oneOf": [
         {
-          "title": "Display default axis, or no display.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Coordinate axis specification.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "min": {
-              "title": "Explicit minimum for the axis.",
-              "type": "number"
-            },
-            "max": {
-              "title": "Explicit maximum for the axis.",
-              "type": "number"
-            },
-            "ticks": {
-              "title": "Explicit positions for axis ticks.",
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "title": "Axis coordinate of a tick.",
-                "type": "number"
-              }
-            },
-            "labels": {
-              "title": "Display tick labels, or not.",
-              "type": "boolean",
-              "default": true
-            },
-            "factor": {
-              "title": "Factor to divide tick value by for label display. Default depends on context.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "absolute": {
-              "title": "Display absolute values for tick labels.",
-              "type": "boolean",
-              "default": false
-            },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
-            }
-          }
-        }
-      ]
-    },
-    "text": {
-      "$anchor": "text",
-      "title": "Text, with or without explicit styling.",
-      "oneOf": [
-        {
-          "title": "Text with default styling.",
-          "type": "string"
-        },
-        {
-          "title": "Text with styling options.",
+          "title": "File path or web resource URL, with optional explicit file format and parameter map.",
           "type": "object",
           "required": [
-            "text"
+            "source"
           ],
           "additionalProperties": false,
           "properties": {
-            "text": {
-              "title": "The text to display.",
-              "type": "string"
-            },
-            "font": {
-              "title": "Name of the font.",
+            "source": {
+              "title": "File path or web resource URL.",
               "type": "string",
-              "default": "sans-serif"
+              "format": "uri-reference"
             },
-            "size": {
-              "title": "Size of font (pixels). Default depends on context.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "bold": {
-              "title": "Bold font.",
-              "type": "boolean",
-              "default": false
-            },
-            "italic": {
-              "title": "Italics font.",
-              "type": "boolean",
-              "default": false
-            },
-            "color": {
-              "title": "Color of text.",
-              "type": "string",
-              "format": "color",
-              "default": "black"
-            },
-            "placement": {
-              "title": "Placement of text. Ignored in some contexts.",
+            "format": {
+              "title": "File format.",
               "enum": [
-                "left",
-                "center",
-                "right"
-              ],
-              "default": "center"
+                "csv",
+                "tsv",
+                "json",
+                "yaml"
+              ]
+            },
+            "map": {
+              "title": "For a chart parameter, specify the source data field to use.",
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        {
+          "title": "Sqlite database.",
+          "type": "object",
+          "required": [
+            "database",
+            "source",
+            "select"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "database": {
+              "const": "sqlite"
+            },
+            "source": {
+              "title": "File path or URL for the Sqlite database file.",
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "select": {
+              "title": "SQL 'select' statement retrieving the data from the database.",
+              "type": "string"
             }
           }
         }
@@ -335,178 +444,6 @@
               "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
               "type": "number",
               "minimum": 0
-            }
-          }
-        }
-      ]
-    },
-    "field": {
-      "$anchor": "field",
-      "title": "Mapping of a plot parameter to a field in source data.",
-      "oneOf": [
-        {
-          "title": "Name of the field in the source data; CSV column header. The values are used directly.",
-          "type": "string",
-          "minLength": 1
-        },
-        {
-          "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
-          "type": "integer",
-          "minimum": 1
-        },
-        {
-          "title": "Mapping of values in source data to a plot parameter.",
-          "type": "object",
-          "required": [
-            "field"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "field": {
-              "title": "Name of the field in the source data; CSV column header.",
-              "type": "string",
-              "minLength": 1
-            },
-            "map": {
-              "title": "Map a string value in the source data to a value for the plot parameter.",
-              "type": "object",
-              "properties": {}
-            }
-          }
-        }
-      ]
-    },
-    "datapoints": {
-      "$anchor": "datapoints",
-      "title": "Data provided inline, or from a file, web resource or database.",
-      "oneOf": [
-        {
-          "title": "Inline data points.",
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "x": {
-                "type": "number"
-              },
-              "y": {
-                "type": "number"
-              },
-              "size": {
-                "title": "Size of the marker (pixels).",
-                "type": "number",
-                "minimumExclusive": 0
-              },
-              "color": {
-                "title": "Color specified by hex code '#rrggbb' or CSS3 color name.",
-                "type": "string",
-                "format": "color"
-              },
-              "opacity": {
-                "title": "Opacity of the marker.",
-                "type": "number",
-                "minimum": 0,
-                "maximum": 1,
-                "default": 1
-              },
-              "marker": {
-                "$ref": "#marker"
-              }
-            }
-          }
-        },
-        {
-          "title": "Data from file, web resource or database.",
-          "type": "object",
-          "required": [
-            "source"
-          ],
-          "additionalProperties": false,
-          "properties": {
-            "source": {
-              "oneOf": [
-                {
-                  "title": "File path or href. File format is deduced from the extension, or 'csv' if not recognized.",
-                  "type": "string",
-                  "format": "uri-reference"
-                },
-                {
-                  "title": "File path or href, with explicit file format.",
-                  "type": "object",
-                  "required": [
-                    "location",
-                    "format"
-                  ],
-                  "additionalProperties": false,
-                  "properties": {
-                    "location": {
-                      "title": "File path or href.",
-                      "type": "string",
-                      "format": "uri-reference"
-                    },
-                    "format": {
-                      "title": "File format.",
-                      "enum": [
-                        "csv",
-                        "tsv",
-                        "json",
-                        "yaml"
-                      ]
-                    }
-                  }
-                },
-                {
-                  "title": "Sqlite database.",
-                  "type": "object",
-                  "required": [
-                    "database",
-                    "location",
-                    "select"
-                  ],
-                  "additionalProperties": false,
-                  "properties": {
-                    "database": {
-                      "const": "sqlite"
-                    },
-                    "location": {
-                      "title": "File path or href.",
-                      "type": "string",
-                      "format": "uri-reference"
-                    },
-                    "select": {
-                      "title": "SQL 'select' statement retrieving the data from the database.",
-                      "type": "string"
-                    }
-                  }
-                }
-              ]
-            },
-            "parameters": {
-              "title": "Mapping of plot parameters to the fields in the source data.",
-              "type": "object",
-              "additionalProperties": false,
-              "properties": {
-                "x": {
-                  "$ref": "#field"
-                },
-                "y": {
-                  "$ref": "#field"
-                },
-                "size": {
-                  "$ref": "#field"
-                },
-                "color": {
-                  "$ref": "#field"
-                },
-                "opacity": {
-                  "$ref": "#field"
-                },
-                "marker": {
-                  "$ref": "#field"
-                }
-              }
             }
           }
         }

@@ -14,7 +14,7 @@
 ![lines_random_walks SVG](lines_random_walks.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: lines2d
 title: 'Random walks (source: db)'
 lines:
@@ -35,58 +35,49 @@ lines:
     y: -15
 - color: red
   line:
-    source:
-      database: sqlite
-      location: lines_random_walks.db
-      select: SELECT x, y FROM walks WHERE run=1 ORDER BY i
+    source: lines_random_walks.db
+    database: sqlite
+    select: SELECT x, y FROM walks WHERE run=1 ORDER BY i
 - color: green
   line:
-    source:
-      database: sqlite
-      location: lines_random_walks.db
-      select: SELECT x, y FROM walks WHERE run=2 ORDER BY i
+    source: lines_random_walks.db
+    database: sqlite
+    select: SELECT x, y FROM walks WHERE run=2 ORDER BY i
 - color: blue
   line:
-    source:
-      database: sqlite
-      location: lines_random_walks.db
-      select: SELECT x, y FROM walks WHERE run=3 ORDER BY i
+    source: lines_random_walks.db
+    database: sqlite
+    select: SELECT x, y FROM walks WHERE run=3 ORDER BY i
 - color: lime
   line:
-    source:
-      database: sqlite
-      location: lines_random_walks.db
-      select: SELECT x, y FROM walks WHERE run=4 ORDER BY i
+    source: lines_random_walks.db
+    database: sqlite
+    select: SELECT x, y FROM walks WHERE run=4 ORDER BY i
 - color: orange
   line:
-    source:
-      database: sqlite
-      location: lines_random_walks.db
-      select: SELECT x, y FROM walks WHERE run=5 ORDER BY i
+    source: lines_random_walks.db
+    database: sqlite
+    select: SELECT x, y FROM walks WHERE run=5 ORDER BY i
 - color: cyan
   line:
-    source:
-      database: sqlite
-      location: lines_random_walks.db
-      select: SELECT x, y FROM walks WHERE run=6 ORDER BY i
+    source: lines_random_walks.db
+    database: sqlite
+    select: SELECT x, y FROM walks WHERE run=6 ORDER BY i
 - color: gold
   line:
-    source:
-      database: sqlite
-      location: lines_random_walks.db
-      select: SELECT x, y FROM walks WHERE run=7 ORDER BY i
+    source: lines_random_walks.db
+    database: sqlite
+    select: SELECT x, y FROM walks WHERE run=7 ORDER BY i
 - color: dodgerblue
   line:
-    source:
-      database: sqlite
-      location: lines_random_walks.db
-      select: SELECT x, y FROM walks WHERE run=8 ORDER BY i
+    source: lines_random_walks.db
+    database: sqlite
+    select: SELECT x, y FROM walks WHERE run=8 ORDER BY i
 - color: gray
   line:
-    source:
-      database: sqlite
-      location: lines_random_walks.db
-      select: SELECT x, y FROM walks WHERE run=9 ORDER BY i
+    source: lines_random_walks.db
+    database: sqlite
+    select: SELECT x, y FROM walks WHERE run=9 ORDER BY i
 ```
 ## Specification
 
@@ -101,14 +92,23 @@ lines:
   - *See* [text](schema_defs.md#text).
 - **description**: Description of the chart. Rendered as <desc> in SVG.
   - *type*: string
-- **lines**: An array of lists of 2D points to display as lines.
+- **lines**: Array of lines.
   - *required*
   - *type*: sequence
   - *items*:
     - *type*: mapping
     - **line**:
-      - *See* [datapoints](schema_defs.md#datapoints).
       - *required*
+      - Alternative 1: Inline list of 2D points.
+        - *type*: sequence
+        - *items*:
+          - *type*: mapping
+          - **x**:
+            - *type*: float
+          - **y**:
+            - *type*: float
+      - Alternative 2: External source of 2D points data.
+        - *See* [datasource](schema_defs.md#datasource).
     - **thickness**: Thickness of the line (pixels).
       - *type*: float
       - *default*: 1

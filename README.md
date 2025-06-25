@@ -1,4 +1,4 @@
-# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.4.2
+# ![Chysl](https://github.com/pekrau/Chysl/blob/main/docs/logo32.svg) Chysl 0.5.0
 
 Charts defined in YAML for rendering into SVG. Charts can be combined in different ways.
 

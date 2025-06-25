@@ -340,13 +340,21 @@ class Axis:
             self.max = spec.get("max")
             assert self.max is None or isinstance(self.max, (int, float))
             self.ticks = spec.get("ticks") or self.TICKS_TARGET
-            assert (isinstance(self.ticks, int) and self.ticks >= 2) or (isinstance(self.ticks, (tuple, list)) and all([isinstance(t, (int, float)) for t in self.ticks]) and sorted(self.ticks) == self.ticks)
+            assert (isinstance(self.ticks, int) and self.ticks >= 2) or (
+                isinstance(self.ticks, (tuple, list))
+                and all([isinstance(t, (int, float)) for t in self.ticks])
+                and sorted(self.ticks) == self.ticks
+            )
             if (labels := spec.get("labels")) is None:
                 self.labels = True
             else:
                 self.labels = bool(labels)
             self.factor = spec.get("factor")
-            assert self.factor is None or isinstance(self.factor, (int, float)) and self.factor > 0
+            assert (
+                self.factor is None
+                or isinstance(self.factor, (int, float))
+                and self.factor > 0
+            )
             self.absolute = bool(spec.get("absolute"))
             self.caption = spec.get("caption")
             assert self.caption is None or isinstance(self.caption, str)

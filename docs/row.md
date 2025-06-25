@@ -13,7 +13,7 @@
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: row
 title: Pies in row
 subcharts:
@@ -26,13 +26,13 @@ subcharts:
   - gold
   - red
   slices:
-  - x: 7
+  - value: 7
     label: Flour
-  - x: 2
+  - value: 2
     label: Eggs
-  - x: 3
+  - value: 3
     label: Butter
-  - x: 3
+  - value: 3
     label: Strawberries
     href: https://en.wikipedia.org/wiki/Strawberry
 - chart: piechart
@@ -43,13 +43,13 @@ subcharts:
   - gold
   - red
   slices:
-  - x: 7
+  - value: 7
     label: Flour
-  - x: 2
+  - value: 2
     label: Eggs
-  - x: 3
+  - value: 3
     label: Butter
-  - x: 3
+  - value: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
@@ -62,7 +62,7 @@ padding: 10
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 title:
   size: 30
@@ -82,7 +82,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal length
           y: sepal length
           color:
@@ -107,7 +107,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal length
           y: sepal width
           color:
@@ -132,7 +132,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal length
           y: petal length
           color:
@@ -157,7 +157,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal length
           y: petal width
           color:
@@ -186,7 +186,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal width
           y: sepal length
           color:
@@ -211,7 +211,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal width
           y: sepal width
           color:
@@ -236,7 +236,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal width
           y: petal length
           color:
@@ -261,7 +261,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal width
           y: petal width
           color:
@@ -290,7 +290,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal length
           y: sepal length
           color:
@@ -315,7 +315,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal length
           y: sepal width
           color:
@@ -340,7 +340,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal length
           y: petal length
           color:
@@ -365,7 +365,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal length
           y: petal width
           color:
@@ -394,7 +394,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal width
           y: sepal length
           color:
@@ -419,7 +419,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal width
           y: sepal width
           color:
@@ -444,7 +444,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal width
           y: petal length
           color:
@@ -469,7 +469,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal width
           y: petal width
           color:

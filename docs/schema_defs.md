@@ -1,17 +1,17 @@
 # Schema definitions
-- [marker](#marker): Symbol to use as data point marker in the chart.
+- [marker](#marker): Symbol to use as data point marker.
 - [text](#text): Text, with or without explicit styling.
 - [fuzzy_number](#fuzzy_number): Number value, exact, or fuzzy with either low/high or error.
 - [frame](#frame): Specification of the chart area frame.
 - [axis](#axis): Coordinate axis specification.
 - [grid](#grid): Coordinate grid, with optional styling.
 - [chart_or_include](#chart_or_include): Inline chart specification, or location (file of web resource) to read the chart specification from.
-- [datapoints](#datapoints): Data provided inline, or from a file, web resource or database.
-- [field](#field): Mapping of a plot parameter to a field in source data.
+- [datasource](#datasource): Data from a file, web resource or database.
+- [field](#field): For a chart parameter, give the source data field to use.
 
 ## marker
 
-Symbol to use as data point marker in the chart.
+Symbol to use as data point marker.
 
 - Alternative 1: Predefined symbols denoted by names.
   - *one of*: 'disc', 'circle', 'oval', 'oval-vertical', 'oval-horizontal', 'ellipse', 'ellipse-vertical', 'ellipse-horizontal', 'block', 'square', 'square-cross', 'diamond', 'diamond-cross', 'diamond-fill', 'pyramid', 'triangle', 'wedge', 'trigon', 'pentagon', 'pentagon-fill', 'hexagon', 'hexagon-fill', 'heptagon', 'heptagon-fill', 'octagon', 'octagon-fill', 'cross', 'plus', 'minus', 'bar', 'check', 'burst', 'infinity', 'none', 'star', 'star-fill', 'galaxy', 'sun', 'mercury', 'venus', 'earth', 'moon', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'alpha', 'beta', 'gamma', 'delta', 'epsilon', 'zeta', 'eta', 'theta', 'iota', 'kappa', 'lambda', 'mu', 'nu', 'xi', 'omicron', 'pi', 'rho', 'sigma', 'sigma1', 'sigma2', 'tau', 'upsilon', 'phi', 'chi', 'psi', 'omega'
@@ -143,86 +143,47 @@ Inline chart specification, or location (file of web resource) to read the chart
     - *type*: string
     - *format*: uri-reference
 
-## datapoints
+## datasource
 
-Data provided inline, or from a file, web resource or database.
+Data from a file, web resource or database.
 
-- Alternative 1: Inline data points.
-  - *type*: sequence
-  - *items*:
-    - *type*: mapping
-    - **x**:
-      - *type*: float
-    - **y**:
-      - *type*: float
-    - **size**: Size of the marker (pixels).
-      - *type*: float
-    - **color**: Color specified by hex code '#rrggbb' or CSS3 color name.
-      - *type*: string
-      - *format*: color
-    - **opacity**: Opacity of the marker.
-      - *type*: float
-      - *minimum*: 0
-      - *maximum*: 1
-      - *default*: 1
-    - **marker**:
-      - *See* [marker](schema_defs.md#marker).
-- Alternative 2: Data from file, web resource or database.
+- Alternative 1: File path or web resource URL, with optional explicit file format and parameter map.
   - *type*: mapping
-  - **source**:
+  - **source**: File path or web resource URL.
     - *required*
-    - Alternative 1: File path or href. File format is deduced from the extension, or 'csv' if not recognized.
-      - *type*: string
-      - *format*: uri-reference
-    - Alternative 2: File path or href, with explicit file format.
-      - *type*: mapping
-      - **location**: File path or href.
-        - *required*
-        - *type*: string
-        - *format*: uri-reference
-      - **format**: File format.
-        - *required*
-        - *one of*: 'csv', 'tsv', 'json', 'yaml'
-    - Alternative 3: Sqlite database.
-      - *type*: mapping
-      - **database**:
-        - *required*
-        - *const* 'sqlite'
-      - **location**: File path or href.
-        - *required*
-        - *type*: string
-        - *format*: uri-reference
-      - **select**: SQL 'select' statement retrieving the data from the database.
-        - *required*
-        - *type*: string
-  - **parameters**: Mapping of plot parameters to the fields in the source data.
+    - *type*: string
+    - *format*: uri-reference
+  - **format**: File format.
+    - *one of*: 'csv', 'tsv', 'json', 'yaml'
+  - **map**: For a chart parameter, specify the source data field to use.
     - *type*: mapping
-    - **x**:
-      - *See* [field](schema_defs.md#field).
-    - **y**:
-      - *See* [field](schema_defs.md#field).
-    - **size**:
-      - *See* [field](schema_defs.md#field).
-    - **color**:
-      - *See* [field](schema_defs.md#field).
-    - **opacity**:
-      - *See* [field](schema_defs.md#field).
-    - **marker**:
-      - *See* [field](schema_defs.md#field).
+- Alternative 2: Sqlite database.
+  - *type*: mapping
+  - **database**:
+    - *required*
+    - *const* 'sqlite'
+  - **source**: File path or URL for the Sqlite database file.
+    - *required*
+    - *type*: string
+    - *format*: uri-reference
+  - **select**: SQL 'select' statement retrieving the data from the database.
+    - *required*
+    - *type*: string
 
 ## field
 
-Mapping of a plot parameter to a field in source data.
+For a chart parameter, give the source data field to use.
 
-- Alternative 1: Name of the field in the source data; CSV column header. The values are used directly.
+- Alternative 1: Name of the field in the source data; e.g. CSV column header.
   - *type*: string
-- Alternative 2: Number of the field in the source data; CSV column number, starting with 1. The values are used directly.
+- Alternative 2: Number of the field in the source data; e.g. CSV column number, starting with 1.
   - *type*: integer
   - *minimum*: 1
-- Alternative 3: Mapping of values in source data to a plot parameter.
+- Alternative 3: Mapping of values in a field of source data to values in a chart parameter.
   - *type*: mapping
-  - **field**: Name of the field in the source data; CSV column header.
+  - **field**: Name of the field in the source data; e.g. CSV column header.
     - *required*
     - *type*: string
-  - **map**: Map a string value in the source data to a value for the plot parameter.
+  - **map**: Convert a string value in the source data to a value for the chart parameter.
+    - *required*
     - *type*: mapping

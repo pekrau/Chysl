@@ -9,8 +9,9 @@ import constants
 import schema
 import utils
 from color import Color
-from degrees import Degrees
 from chart import Chart, Layout, register
+from datasource import Datasource
+from degrees import Degrees
 from minixml import Element
 from path import Path
 from utils import N
@@ -70,35 +71,44 @@ class Piechart(Chart):
             },
             "slices": {
                 "title": "Slices in the pie chart.",
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                    "title": "Slice in the pie chart.",
-                    "type": "object",
-                    "required": ["x"],
-                    "additionalProperties": False,
-                    "properties": {
-                        "x": {
-                            "title": "The value visualized by the slice.",
-                            "type": "number",
-                            "exclusiveMinimum": 0,
-                        },
-                        "label": {
-                            "title": "Description of the x value.",
-                            "type": "string",
-                        },
-                        "color": {
-                            "title": "Color of the slice. Overrides the palette.",
-                            "type": "string",
-                            "format": "color",
-                        },
-                        "href": {
-                            "title": "A link URL, absolute or relative.",
-                            "type": "string",
-                            "format": "uri-reference",
+                "oneOf": [
+                    {
+                        "title": "Inline slices data.",
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "title": "Slice in the pie chart.",
+                            "type": "object",
+                            "required": ["value"],
+                            "additionalProperties": False,
+                            "properties": {
+                                "value": {
+                                    "title": "The value visualized by the slice.",
+                                    "type": "number",
+                                    "exclusiveMinimum": 0,
+                                },
+                                "label": {
+                                    "title": "Description of the x value.",
+                                    "type": "string",
+                                },
+                                "color": {
+                                    "title": "Color of the slice. Overrides the palette.",
+                                    "type": "string",
+                                    "format": "color",
+                                },
+                                "href": {
+                                    "title": "A link URL, absolute or relative.",
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                },
+                            },
                         },
                     },
-                },
+                    {
+                        "title": "External source of slices data.",
+                        "$ref": "#datasource",
+                    },
+                ],
             },
         },
     }
@@ -122,7 +132,7 @@ class Piechart(Chart):
         assert total is None or isinstance(total, (int, float))
         assert start is None or isinstance(start, (int, float))
         assert palette is None or isinstance(palette, (tuple, list))
-        assert slices is None or isinstance(slices, list)
+        assert slices is None or isinstance(slices, (tuple, list, dict))
 
         self.diameter = diameter or self.DEFAULT_DIAMETER
         self.frame = components.CircularFrame(frame)
@@ -130,10 +140,16 @@ class Piechart(Chart):
         self.start = start
         # Create a copy of the palette, just in case.
         self.palette = list(palette or constants.DEFAULT_PALETTE)
-        self.slices = []
-        if slices:
-            for slice in slices:
-                self.add(slice)
+
+        if isinstance(slices, dict):
+            self.datasource = Datasource(slices, Slice)
+            self.slices = self.datasource.data
+        else:
+            self.datasource = None
+            self.slices = []
+            if slices:
+                for slice in slices:
+                    self.add(slice)
 
     def __iadd__(self, slice):
         self.add(slice)
@@ -143,7 +159,6 @@ class Piechart(Chart):
         assert isinstance(slice, (dict, Slice))
         if isinstance(slice, dict):
             slice = Slice(**slice)
-        assert isinstance(slice, Slice)
         self.slices.append(slice)
 
     def as_dict(self):
@@ -157,9 +172,12 @@ class Piechart(Chart):
             result["start"] = self.start
         if self.palette != constants.DEFAULT_PALETTE:
             result["palette"] = self.palette
-        result["slices"] = slices = []
-        for slice in self.slices:
-            slices.append(slice.as_dict())
+        if self.datasource:
+            result["slices"] = self.datasource.as_dict()
+        else:
+            result["slices"] = slices = []
+            for slice in self.slices:
+                slices.append(slice.as_dict())
         return result
 
     def build(self):
@@ -172,7 +190,7 @@ class Piechart(Chart):
     def get_plot(self):
         "Get the element for the chart circle (frame) and slices."
         if self.total is None:
-            total = sum([s.x for s in self.slices])
+            total = sum([s.value for s in self.slices])
         else:
             total = self.total
         palette = itertools.cycle(self.palette)
@@ -213,7 +231,7 @@ class Piechart(Chart):
             stop = Degrees(self.start) + self.DEFAULT_START
         for slice in self.slices:
             slice.start = stop
-            slice.fraction = slice.x / total
+            slice.fraction = slice.value / total
             slice.stop = slice.start + slice.fraction * Degrees(360)
             stop = slice.stop
 
@@ -246,19 +264,27 @@ register(Piechart)
 class Slice:
     "Slice in a pie chart."
 
-    def __init__(self, x, label=None, color=None, href=None):
-        assert isinstance(x, (int, float)) and x > 0
+    # Fields, with converter and checker functions.
+    fields = dict(
+        value=dict(convert=float, check=lambda v: v > 0, required=True),
+        label=None,
+        color=dict(check=lambda c: utils.is_color(c)),
+        href=None,
+    )
+
+    def __init__(self, value, label=None, color=None, href=None):
+        assert isinstance(value, (int, float)) and value > 0
         assert label is None or isinstance(label, str)
         assert color is None or (isinstance(color, str) and utils.is_color(color))
         assert href is None or isinstance(href, str)
 
-        self.x = x
+        self.value = value
         self.label = label
         self.color = color
         self.href = href
 
     def as_dict(self):
-        result = {"x": self.x}
+        result = {"value": self.value}
         if self.label:
             result["label"] = self.label
         if self.color:

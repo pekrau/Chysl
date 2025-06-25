@@ -5,7 +5,7 @@ import constants
 import schema
 import utils
 from chart import Chart, Layout, register
-from datapoints import DatapointsReader
+from datasource import Datasource
 from dimension import Xdimension, Ydimension, Axis, Grid
 from minixml import Element
 from path import Path
@@ -36,16 +36,36 @@ class Lines2d(Chart):
                 "type": "string",
             },
             "lines": {
-                "title": "An array of lists of 2D points to display as lines.",
+                "title": "Array of lines.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
-                    "title": "A list of 2D points to display as a line.",
+                    "title": "Line consisting of 2D points with optional styling.",
                     "type": "object",
                     "required": ["line"],
                     "additionalProperties": False,
                     "properties": {
-                        "line": {"$ref": "#datapoints"},
+                        "line": {
+                            "oneOf": [
+                                {
+                                    "title": "Inline list of 2D points.",
+                                    "type": "array",
+                                    "minItems": 2,
+                                    "items": {
+                                        "type": "object",
+                                        "additionalProperties": False,
+                                        "properties": {
+                                            "x": {"type": "number"},
+                                            "y": {"type": "number"},
+                                        },
+                                    },
+                                },
+                                {
+                                    "title": "External source of 2D points data.",
+                                    "$ref": "#datasource",
+                                },
+                            ],
+                        },
                         "thickness": {
                             "title": "Thickness of the line (pixels).",
                             "type": "number",
@@ -162,10 +182,6 @@ class Lines2d(Chart):
             isinstance(opacity, (int, float)) and (0 <= opacity <= 1)
         )
 
-        self.lines = []
-        if lines:
-            for line in lines:
-                self.add(line)
         self.width = width or self.DEFAULT_WIDTH
         self.height = height or self.DEFAULT_HEIGHT
         self.frame = components.Frame(frame)
@@ -177,18 +193,27 @@ class Lines2d(Chart):
         self.color = color or self.DEFAULT_COLOR
         self.opacity = 1 if opacity is None else opacity
 
+        self.lines = []
+        if lines:
+            for line in lines:
+                self.add(line)
+
     def __iadd__(self, line):
         self.add(line)
         return self
 
     def add(self, line):
         assert isinstance(line, dict)
-        line["line"] = DatapointsReader(line["line"])
+        if isinstance(line["line"], dict):
+            line["datasource"] = Datasource(line["line"], Point2d)
+            line["line"] = line["datasource"].data
+        else:
+            for pos, data in enumerate(line["line"]):
+                line["line"][pos] = Point2d(**data)
         self.lines.append(line)
 
     def as_dict(self):
         result = super().as_dict()
-        result["lines"] = lines = []
         if self.width != self.DEFAULT_WIDTH:
             result["width"] = self.width
         if self.height != self.DEFAULT_HEIGHT:
@@ -205,6 +230,7 @@ class Lines2d(Chart):
         if self.opacity != 1:
             result["opacity"] = self.opacity
 
+        result["lines"] = lines = []
         for line in self.lines:
             item = {}
             if (thickness := line.get("thickness")) is not None:
@@ -215,7 +241,12 @@ class Lines2d(Chart):
                 item["opacity"] = opacity
             if href := line.get("href"):
                 item["href"] = href
-            item["line"] = line["line"].as_dict()
+            try:
+                datasource = line["datasource"]
+            except KeyError:
+                item["line"] = [p.as_dict() for p in line["line"]]
+            else:
+                item["line"] = datasource.as_dict()
             lines.append(item)
         return result
 
@@ -223,18 +254,15 @@ class Lines2d(Chart):
         "Create the SVG elements in the 'svg' attribute."
         super().build()
 
-        for line in self.lines:
-            line["line"].check_required("x", "y")
-
         xdimension = Xdimension(self.width, self.xaxis)
         for line in self.lines:
-            xdimension.update_span(line["line"].minmax("x"))
+            xdimension.update_span([p.x for p in line["line"]])
         xdimension.expand_span(0.05)
         xdimension.build()
 
         ydimension = Ydimension(self.height, self.yaxis, reversed=True)
         for line in self.lines:
-            ydimension.update_span(line["line"].minmax("y"))
+            ydimension.update_span([p.y for p in line["line"]])
         ydimension.expand_span(0.05)
         ydimension.build()
 
@@ -246,7 +274,7 @@ class Lines2d(Chart):
         self.svg.load_layout(layout)
 
     def get_plot(self, xdimension, ydimension):
-        "Get the element for the chart plot area, grid and datapoints."
+        "Get the element for the chart plot area, grid and points."
         result = Element("g")
         result["class"] = "plot"
         clippath_id = next(utils.unique_id)
@@ -283,11 +311,9 @@ class Lines2d(Chart):
 
         for line in self.lines:
             points = []
-            for dp in line["line"]:
-                x = dp["x"]
-                y = dp["y"]
+            for p in line["line"]:
                 points.append(
-                    f"{N(xdimension.get_pixel(x))} {N(ydimension.get_pixel(y))}"
+                    f"{N(xdimension.get_pixel(p.x))} {N(ydimension.get_pixel(p.y))}"
                 )
             elem = Element("polyline", points=",".join(points))
             if (thickness := line.get("thickness")) is not None:
@@ -304,3 +330,23 @@ class Lines2d(Chart):
 
 
 register(Lines2d)
+
+
+class Point2d:
+    "2d point in a line."
+
+    # Fields, with converter and checker functions.
+    fields = dict(
+        x=dict(convert=float, required=True),
+        y=dict(convert=float, required=True),
+    )
+
+    def __init__(self, x, y):
+        assert isinstance(x, (int, float))
+        assert isinstance(y, (int, float))
+
+        self.x = x
+        self.y = y
+
+    def as_dict(self):
+        return dict(x=self.x, y=self.y)

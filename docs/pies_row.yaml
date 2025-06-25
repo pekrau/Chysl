@@ -1,4 +1,4 @@
-chysl: 0.4.2
+chysl: 0.5.0
 chart: row
 title: Pies in row
 subcharts:
@@ -11,13 +11,13 @@ subcharts:
   - gold
   - red
   slices:
-  - x: 7
+  - value: 7
     label: Flour
-  - x: 2
+  - value: 2
     label: Eggs
-  - x: 3
+  - value: 3
     label: Butter
-  - x: 3
+  - value: 3
     label: Strawberries
     href: https://en.wikipedia.org/wiki/Strawberry
 - chart: piechart
@@ -28,13 +28,13 @@ subcharts:
   - gold
   - red
   slices:
-  - x: 7
+  - value: 7
     label: Flour
-  - x: 2
+  - value: 2
     label: Eggs
-  - x: 3
+  - value: 3
     label: Butter
-  - x: 3
+  - value: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb

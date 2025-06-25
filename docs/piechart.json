@@ -57,40 +57,108 @@
     },
     "slices": {
       "title": "Slices in the pie chart.",
-      "type": "array",
-      "minItems": 1,
-      "items": {
-        "title": "Slice in the pie chart.",
-        "type": "object",
-        "required": [
-          "x"
-        ],
-        "additionalProperties": false,
-        "properties": {
-          "x": {
-            "title": "The value visualized by the slice.",
-            "type": "number",
-            "exclusiveMinimum": 0
-          },
-          "label": {
-            "title": "Description of the x value.",
-            "type": "string"
-          },
-          "color": {
-            "title": "Color of the slice. Overrides the palette.",
-            "type": "string",
-            "format": "color"
-          },
-          "href": {
-            "title": "A link URL, absolute or relative.",
-            "type": "string",
-            "format": "uri-reference"
+      "oneOf": [
+        {
+          "title": "Inline slices data.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "title": "Slice in the pie chart.",
+            "type": "object",
+            "required": [
+              "value"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "value": {
+                "title": "The value visualized by the slice.",
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "label": {
+                "title": "Description of the x value.",
+                "type": "string"
+              },
+              "color": {
+                "title": "Color of the slice. Overrides the palette.",
+                "type": "string",
+                "format": "color"
+              },
+              "href": {
+                "title": "A link URL, absolute or relative.",
+                "type": "string",
+                "format": "uri-reference"
+              }
+            }
           }
+        },
+        {
+          "title": "External source of slices data.",
+          "$ref": "#datasource"
         }
-      }
+      ]
     }
   },
   "$defs": {
+    "datasource": {
+      "$anchor": "datasource",
+      "title": "Data from a file, web resource or database.",
+      "oneOf": [
+        {
+          "title": "File path or web resource URL, with optional explicit file format and parameter map.",
+          "type": "object",
+          "required": [
+            "source"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "source": {
+              "title": "File path or web resource URL.",
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "format": {
+              "title": "File format.",
+              "enum": [
+                "csv",
+                "tsv",
+                "json",
+                "yaml"
+              ]
+            },
+            "map": {
+              "title": "For a chart parameter, specify the source data field to use.",
+              "type": "object",
+              "properties": {}
+            }
+          }
+        },
+        {
+          "title": "Sqlite database.",
+          "type": "object",
+          "required": [
+            "database",
+            "source",
+            "select"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "database": {
+              "const": "sqlite"
+            },
+            "source": {
+              "title": "File path or URL for the Sqlite database file.",
+              "type": "string",
+              "format": "uri-reference"
+            },
+            "select": {
+              "title": "SQL 'select' statement retrieving the data from the database.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
     "frame": {
       "$anchor": "frame",
       "title": "Specification of the chart area frame.",

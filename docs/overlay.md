@@ -12,7 +12,7 @@
 ![points_marks SVG](points_marks.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: overlay
 title: One scatterplot on top of another
 layers:
@@ -40,8 +40,8 @@ layers:
       marker: alpha
     - x: 2
       y: 2
-      color: white
       marker: beta
+      color: white
     - x: 3
       y: 3
       marker: gamma

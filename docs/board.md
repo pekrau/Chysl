@@ -13,7 +13,7 @@
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: board
 title: Poster
 items:
@@ -39,7 +39,7 @@ items:
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: board
 items:
 - x: 0

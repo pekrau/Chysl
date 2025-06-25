@@ -18,7 +18,7 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 title: Universe and Earth
 subcharts:
@@ -116,23 +116,23 @@ subcharts:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 title: Pies in column
 subcharts:
 - chart: piechart
   title: Strawberry pie
   slices:
-  - x: 7
+  - value: 7
     label: Flour
     color: white
-  - x: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - x: 3
+  - value: 3
     label: Butter
     color: gold
-  - x: 3
+  - value: 3
     label: Strawberries
     color: orangered
     href: https://en.wikipedia.org/wiki/Strawberry
@@ -140,16 +140,16 @@ subcharts:
   title: Rhubarb pie
   diameter: 250
   slices:
-  - x: 7
+  - value: 7
     label: Flour
     color: white
-  - x: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - x: 3
+  - value: 3
     label: Butter
     color: gold
-  - x: 3
+  - value: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
@@ -166,7 +166,7 @@ padding: 10
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 title: Notes in a column
 subcharts:
@@ -202,7 +202,7 @@ padding: 4
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: board
 items:
 - x: 0
@@ -244,7 +244,7 @@ items:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 subcharts:
 - chart: scatter2d
@@ -260,133 +260,133 @@ subcharts:
   points:
   - x: 0.2
     y: 1
-    color: gray
     marker: disc
+    color: gray
     label: disc
   - x: 1.2
     y: 1
-    color: coral
     marker: circle
+    color: coral
     label: circle
   - x: 2.2
     y: 1
-    color: dodgerblue
     marker: oval
+    color: dodgerblue
     label: oval
   - x: 0.2
     y: 2
-    color: orange
     marker: oval-vertical
+    color: orange
     label: oval-vertical
   - x: 1.2
     y: 2
-    color: lime
     marker: oval-horizontal
+    color: lime
     label: oval-horizontal
   - x: 2.2
     y: 2
-    color: gray
     marker: ellipse
+    color: gray
     label: ellipse
   - x: 0.2
     y: 3
-    color: coral
     marker: ellipse-vertical
+    color: coral
     label: ellipse-vertical
   - x: 1.2
     y: 3
-    color: dodgerblue
     marker: ellipse-horizontal
+    color: dodgerblue
     label: ellipse-horizontal
   - x: 2.2
     y: 3
-    color: orange
     marker: block
+    color: orange
     label: block
   - x: 0.2
     y: 4
-    color: lime
     marker: square
+    color: lime
     label: square
   - x: 1.2
     y: 4
-    color: gray
     marker: square-cross
+    color: gray
     label: square-cross
   - x: 2.2
     y: 4
-    color: coral
     marker: diamond
+    color: coral
     label: diamond
   - x: 0.2
     y: 5
-    color: dodgerblue
     marker: diamond-cross
+    color: dodgerblue
     label: diamond-cross
   - x: 1.2
     y: 5
-    color: orange
     marker: diamond-fill
+    color: orange
     label: diamond-fill
   - x: 2.2
     y: 5
-    color: lime
     marker: pyramid
+    color: lime
     label: pyramid
   - x: 0.2
     y: 6
-    color: gray
     marker: triangle
+    color: gray
     label: triangle
   - x: 1.2
     y: 6
-    color: coral
     marker: wedge
+    color: coral
     label: wedge
   - x: 2.2
     y: 6
-    color: dodgerblue
     marker: trigon
+    color: dodgerblue
     label: trigon
   - x: 0.2
     y: 7
-    color: orange
     marker: pentagon
+    color: orange
     label: pentagon
   - x: 1.2
     y: 7
-    color: lime
     marker: pentagon-fill
+    color: lime
     label: pentagon-fill
   - x: 2.2
     y: 7
-    color: gray
     marker: hexagon
+    color: gray
     label: hexagon
   - x: 0.2
     y: 8
-    color: coral
     marker: hexagon-fill
+    color: coral
     label: hexagon-fill
   - x: 1.2
     y: 8
-    color: dodgerblue
     marker: heptagon
+    color: dodgerblue
     label: heptagon
   - x: 2.2
     y: 8
-    color: orange
     marker: heptagon-fill
+    color: orange
     label: heptagon-fill
   - x: 0.2
     y: 9
-    color: lime
     marker: octagon
+    color: lime
     label: octagon
   - x: 1.2
     y: 9
-    color: gray
     marker: octagon-fill
+    color: gray
     label: octagon-fill
 - chart: scatter2d
   title: Symbol markers
@@ -401,43 +401,43 @@ subcharts:
   points:
   - x: 0.2
     y: 1
-    color: coral
     marker: cross
+    color: coral
     label: cross
   - x: 1.2
     y: 1
-    color: dodgerblue
     marker: plus
+    color: dodgerblue
     label: plus
   - x: 2.2
     y: 1
-    color: orange
     marker: minus
+    color: orange
     label: minus
   - x: 0.2
     y: 2
-    color: lime
     marker: bar
+    color: lime
     label: bar
   - x: 1.2
     y: 2
-    color: gray
     marker: check
+    color: gray
     label: check
   - x: 2.2
     y: 2
-    color: coral
     marker: burst
+    color: coral
     label: burst
   - x: 0.2
     y: 3
-    color: dodgerblue
     marker: infinity
+    color: dodgerblue
     label: infinity
   - x: 1.2
     y: 3
-    color: orange
     marker: none
+    color: orange
     label: none
 - chart: scatter2d
   title: Astronomy markers
@@ -452,68 +452,68 @@ subcharts:
   points:
   - x: 0.2
     y: 1
-    color: lime
     marker: star
+    color: lime
     label: star
   - x: 1.2
     y: 1
-    color: gray
     marker: star-fill
+    color: gray
     label: star-fill
   - x: 2.2
     y: 1
-    color: coral
     marker: galaxy
+    color: coral
     label: galaxy
   - x: 0.2
     y: 2
-    color: dodgerblue
     marker: sun
+    color: dodgerblue
     label: sun
   - x: 1.2
     y: 2
-    color: orange
     marker: mercury
+    color: orange
     label: mercury
   - x: 2.2
     y: 2
-    color: lime
     marker: venus
+    color: lime
     label: venus
   - x: 0.2
     y: 3
-    color: gray
     marker: earth
+    color: gray
     label: earth
   - x: 1.2
     y: 3
-    color: coral
     marker: moon
+    color: coral
     label: moon
   - x: 2.2
     y: 3
-    color: dodgerblue
     marker: mars
+    color: dodgerblue
     label: mars
   - x: 0.2
     y: 4
-    color: orange
     marker: jupiter
+    color: orange
     label: jupiter
   - x: 1.2
     y: 4
-    color: lime
     marker: saturn
+    color: lime
     label: saturn
   - x: 2.2
     y: 4
-    color: gray
     marker: uranus
+    color: gray
     label: uranus
   - x: 0.2
     y: 5
-    color: coral
     marker: neptune
+    color: coral
     label: neptune
 - chart: scatter2d
   title: Greek markers
@@ -528,133 +528,133 @@ subcharts:
   points:
   - x: 0.2
     y: 1
-    color: dodgerblue
     marker: alpha
+    color: dodgerblue
     label: alpha
   - x: 1.2
     y: 1
-    color: orange
     marker: beta
+    color: orange
     label: beta
   - x: 2.2
     y: 1
-    color: lime
     marker: gamma
+    color: lime
     label: gamma
   - x: 0.2
     y: 2
-    color: gray
     marker: delta
+    color: gray
     label: delta
   - x: 1.2
     y: 2
-    color: coral
     marker: epsilon
+    color: coral
     label: epsilon
   - x: 2.2
     y: 2
-    color: dodgerblue
     marker: zeta
+    color: dodgerblue
     label: zeta
   - x: 0.2
     y: 3
-    color: orange
     marker: eta
+    color: orange
     label: eta
   - x: 1.2
     y: 3
-    color: lime
     marker: theta
+    color: lime
     label: theta
   - x: 2.2
     y: 3
-    color: gray
     marker: iota
+    color: gray
     label: iota
   - x: 0.2
     y: 4
-    color: coral
     marker: kappa
+    color: coral
     label: kappa
   - x: 1.2
     y: 4
-    color: dodgerblue
     marker: lambda
+    color: dodgerblue
     label: lambda
   - x: 2.2
     y: 4
-    color: orange
     marker: mu
+    color: orange
     label: mu
   - x: 0.2
     y: 5
-    color: lime
     marker: nu
+    color: lime
     label: nu
   - x: 1.2
     y: 5
-    color: gray
     marker: xi
+    color: gray
     label: xi
   - x: 2.2
     y: 5
-    color: coral
     marker: omicron
+    color: coral
     label: omicron
   - x: 0.2
     y: 6
-    color: dodgerblue
     marker: pi
+    color: dodgerblue
     label: pi
   - x: 1.2
     y: 6
-    color: orange
     marker: rho
+    color: orange
     label: rho
   - x: 2.2
     y: 6
-    color: lime
     marker: sigma
+    color: lime
     label: sigma
   - x: 0.2
     y: 7
-    color: gray
     marker: sigma1
+    color: gray
     label: sigma1
   - x: 1.2
     y: 7
-    color: coral
     marker: sigma2
+    color: coral
     label: sigma2
   - x: 2.2
     y: 7
-    color: dodgerblue
     marker: tau
+    color: dodgerblue
     label: tau
   - x: 0.2
     y: 8
-    color: orange
     marker: upsilon
+    color: orange
     label: upsilon
   - x: 1.2
     y: 8
-    color: lime
     marker: phi
+    color: lime
     label: phi
   - x: 2.2
     y: 8
-    color: gray
     marker: chi
+    color: gray
     label: chi
   - x: 0.2
     y: 9
-    color: coral
     marker: psi
+    color: coral
     label: psi
   - x: 1.2
     y: 9
-    color: dodgerblue
     marker: omega
+    color: dodgerblue
     label: omega
 padding: 10
 ```
@@ -663,7 +663,7 @@ padding: 10
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -726,7 +726,7 @@ padding: 20
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 title:
   size: 30
@@ -746,7 +746,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal length
           y: sepal length
           color:
@@ -771,7 +771,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal length
           y: sepal width
           color:
@@ -796,7 +796,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal length
           y: petal length
           color:
@@ -821,7 +821,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal length
           y: petal width
           color:
@@ -850,7 +850,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal width
           y: sepal length
           color:
@@ -875,7 +875,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal width
           y: sepal width
           color:
@@ -900,7 +900,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal width
           y: petal length
           color:
@@ -925,7 +925,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: sepal width
           y: petal width
           color:
@@ -954,7 +954,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal length
           y: sepal length
           color:
@@ -979,7 +979,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal length
           y: sepal width
           color:
@@ -1004,7 +1004,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal length
           y: petal length
           color:
@@ -1029,7 +1029,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal length
           y: petal width
           color:
@@ -1058,7 +1058,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal width
           y: sepal length
           color:
@@ -1083,7 +1083,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal width
           y: sepal width
           color:
@@ -1108,7 +1108,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal width
           y: petal length
           color:
@@ -1133,7 +1133,7 @@ subcharts:
       size: 6
       points:
         source: scatter_iris.csv
-        parameters:
+        map:
           x: petal width
           y: petal width
           color:

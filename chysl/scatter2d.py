@@ -5,7 +5,7 @@ import constants
 import schema
 import utils
 from chart import Chart, Layout, register
-from datapoints import DatapointsReader
+from datasource import Datasource
 from dimension import Xdimension, Ydimension, Axis, Grid
 from marker import Marker
 from minixml import Element
@@ -39,8 +39,52 @@ class Scatter2d(Chart):
                 "type": "string",
             },
             "points": {
-                "title": "The list of 2D points to display by markers.",
-                "$ref": "#datapoints",
+                "oneOf": [
+                    {
+                        "title": "Inline list of 2D points.",
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                            "type": "object",
+                            "additionalProperties": False,
+                            "properties": {
+                                "x": {"type": "number"},
+                                "y": {"type": "number"},
+                                "marker": {"$ref": "#marker"},
+                                "size": {
+                                    "title": "Size of the marker (pixels).",
+                                    "type": "number",
+                                    "minimumExclusive": 0,
+                                },
+                                "color": {
+                                    "title": "Color specified by hex code '#rrggbb' or CSS3 color name.",
+                                    "type": "string",
+                                    "format": "color",
+                                },
+                                "opacity": {
+                                    "title": "Opacity of the marker.",
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1,
+                                    "default": 1,
+                                },
+                                "label": {
+                                    "title": "Description of the point.",
+                                    "type": "string",
+                                },
+                                "href": {
+                                    "title": "A link URL, absolute or relative.",
+                                    "type": "string",
+                                    "format": "uri-reference",
+                                },
+                            },
+                        },
+                    },
+                    {
+                        "title": "External source of 2D points data.",
+                        "$ref": "#datasource",
+                    },
+                ],
             },
             "width": {
                 "title": "Width of the chart.",
@@ -135,7 +179,6 @@ class Scatter2d(Chart):
             isinstance(opacity, (int, float)) and (0 <= opacity <= 1)
         )
 
-        self.points = DatapointsReader(points)
         self.width = width or self.DEFAULT_WIDTH
         self.height = height or self.DEFAULT_HEIGHT
         self.frame = components.Frame(frame)
@@ -148,12 +191,25 @@ class Scatter2d(Chart):
         self.color = color or self.DEFAULT_COLOR
         self.opacity = 1 if opacity is None else opacity
 
+        if isinstance(points, dict):
+            self.datasource = Datasource(points, Point2d)
+            self.points = self.datasource.data
+        else:
+            self.datasource = None
+            self.points = []
+            if points:
+                for point in points:
+                    self.add(point)
+
     def __iadd__(self, point):
         self.add(point)
         return self
 
     def add(self, point):
-        self.points.add(point)
+        assert isinstance(point, (dict, Point2d))
+        if isinstance(point, dict):
+            point = Point2d(**point)
+        self.points.append(point)
 
     def as_dict(self):
         result = super().as_dict()
@@ -174,22 +230,25 @@ class Scatter2d(Chart):
             result["color"] = self.color
         if self.opacity != 1:
             result["opacity"] = self.opacity
-        result["points"] = self.points.as_dict()
+        if self.datasource:
+            result["points"] = self.datasource.as_dict()
+        else:
+            result["points"] = points = []
+            for point in self.points:
+                points.append(point.as_dict())
         return result
 
     def build(self):
         "Create the SVG elements in the 'svg' attribute."
         super().build()
 
-        self.points.check_required("x", "y")
-
         xdimension = Xdimension(self.width, self.xaxis)
-        xdimension.update_span(self.points.minmax("x"))
+        xdimension.update_span([p.x for p in self.points])
         xdimension.expand_span(0.05)
         xdimension.build()
 
         ydimension = Ydimension(self.height, self.yaxis, reversed=True)
-        ydimension.update_span(self.points.minmax("y"))
+        ydimension.update_span([p.y for p in self.points])
         ydimension.expand_span(0.05)
         ydimension.build()
 
@@ -201,7 +260,7 @@ class Scatter2d(Chart):
         self.svg.load_layout(layout)
 
     def get_plot(self, xdimension, ydimension):
-        "Get the element for the chart plot area, grid and datapoints."
+        "Get the element for the chart plot area, grid and points."
         result = Element("g")
         result["class"] = "plot"
         clippath_id = next(utils.unique_id)
@@ -232,23 +291,23 @@ class Scatter2d(Chart):
         graphics["class"] = "graphics"
         if self.opacity != 1:
             graphics["opacity"] = self.opacity
-        for datapoint in self.points:
+        for point in self.points:
             kwargs = {}
-            if (opacity := datapoint.get("opacity")) is not None:
-                kwargs["opacity"] = opacity
-            if href := datapoint.get("href"):
-                kwargs["href"] = href
+            if point.opacity is not None:
+                kwargs["opacity"] = point.opacity
+            if point.href:
+                kwargs["href"] = point.href
             marker = Marker(
-                datapoint.get("marker") or self.marker,
-                size=datapoint.get("size") or self.size,
-                color=datapoint.get("color") or self.color,
+                point.marker or self.marker,
+                size=point.size or self.size,
+                color=point.color or self.color,
                 **kwargs,
             )
             graphics += marker.get_graphic(
-                xdimension.get_pixel(datapoint["x"]),
-                ydimension.get_pixel(datapoint["y"]),
+                xdimension.get_pixel(point.x),
+                ydimension.get_pixel(point.y),
             )
-            datapoint["label_x_offset"] = marker.label_x_offset
+            point.label_x_offset = marker.label_x_offset
 
         # Labels for points. After graphics, to render on top.
         result += (labels := Element("g"))
@@ -257,18 +316,18 @@ class Scatter2d(Chart):
         labels["font-size"] = constants.DEFAULT_FONT_SIZE
         labels["text-anchor"] = "start"
 
-        for datapoint in self.points:
-            if label := datapoint.get("label"):
+        for point in self.points:
+            if point.label:
                 labels += Element(
                     "text",
-                    label,
+                    point.label,
                     x=N(
-                        xdimension.get_pixel(datapoint["x"])
-                        + datapoint["label_x_offset"]
+                        xdimension.get_pixel(point.x)
+                        + point.label_x_offset
                         + self.PADDING
                     ),
                     y=N(
-                        ydimension.get_pixel(datapoint["y"])
+                        ydimension.get_pixel(point.y)
                         + constants.DEFAULT_FONT_SIZE / 4
                     ),
                 )
@@ -277,3 +336,58 @@ class Scatter2d(Chart):
 
 
 register(Scatter2d)
+
+
+class Point2d:
+    "A point in a 2D scatter chart."
+
+    # Fields, with converter and checker functions.
+    fields = dict(
+        x=dict(convert=float, required=True),
+        y=dict(convert=float, required=True),
+        marker=dict(check=lambda m: m in constants.MARKERS),
+        size=dict(convert=float, check=lambda s: s > 0),
+        color=dict(check=lambda c: utils.is_color(c)),
+        opacity=dict(convert=float, check=lambda o: 0 <= o <= 1),
+        label=None,
+        href=None,
+    )
+
+    def __init__(
+            self, x, y, marker=None, size=None, color=None, opacity=None, label=None, href=None,
+    ):
+        assert isinstance(x, (int, float))
+        assert isinstance(y, (int, float))
+        assert marker is None or marker in constants.MARKERS
+        assert size is None or (isinstance(size, (int, float)) and size > 0)
+        assert color is None or utils.is_color(color)
+        assert opacity is None or (
+            isinstance(opacity, (int, float)) and (0 <= opacity <= 1)
+        )
+        assert label is None or isinstance(label, str)
+        assert href is None or isinstance(href, str)
+
+        self.x = x
+        self.y = y
+        self.marker = marker
+        self.size = size
+        self.color = color
+        self.opacity = opacity
+        self.label = label
+        self.href = href
+
+    def as_dict(self):
+        result = dict(x=self.x, y=self.y)
+        if self.marker is not None:
+            result["marker"] = self.marker
+        if self.size is not None:
+            result["size"] = self.size
+        if self.color is not None:
+            result["color"] = self.color
+        if self.opacity is not None:
+            result["opacity"] = self.opacity
+        if self.label is not None:
+            result["label"] = self.label
+        if self.href is not None:
+            result["href"] = self.href
+        return result

@@ -252,138 +252,186 @@ DEFS = {
             },
         ],
     },
-    "datapoints": {
-        "$anchor": "datapoints",
-        "title": "Data provided inline, or from a file, web resource or database.",
+    "datasource": {
+        "$anchor": "datasource",
+        "title": "Data from a file, web resource or database.",
         "oneOf": [
             {
-                "title": "Inline data points.",
-                "type": "array",
-                "minItems": 1,
-                "items": {
-                    "type": "object",
-                    "additionalProperties": False,
-                    "properties": {
-                        "x": {"type": "number"},
-                        "y": {"type": "number"},
-                        "size": {
-                            "title": "Size of the marker (pixels).",
-                            "type": "number",
-                            "minimumExclusive": 0,
-                        },
-                        "color": {
-                            "title": "Color specified by hex code '#rrggbb' or CSS3 color name.",
-                            "type": "string",
-                            "format": "color",
-                        },
-                        "opacity": {
-                            "title": "Opacity of the marker.",
-                            "type": "number",
-                            "minimum": 0,
-                            "maximum": 1,
-                            "default": 1,
-                        },
-                        "marker": {"$ref": "#marker"},
-                    },
-                },
-            },
-            {
-                "title": "Data from file, web resource or database.",
+                "title": "File path or web resource URL, with optional explicit file format and parameter map.",
                 "type": "object",
                 "required": ["source"],
                 "additionalProperties": False,
                 "properties": {
                     "source": {
-                        "oneOf": [
-                            {
-                                "title": "File path or href. File format is deduced from the extension, or 'csv' if not recognized.",
-                                "type": "string",
-                                "format": "uri-reference",
-                            },
-                            {
-                                "title": "File path or href, with explicit file format.",
-                                "type": "object",
-                                "required": ["location", "format"],
-                                "additionalProperties": False,
-                                "properties": {
-                                    "location": {
-                                        "title": "File path or href.",
-                                        "type": "string",
-                                        "format": "uri-reference",
-                                    },
-                                    "format": {
-                                        "title": "File format.",
-                                        "enum": constants.FORMATS,
-                                    },
-                                },
-                            },
-                            {
-                                "title": "Sqlite database.",
-                                "type": "object",
-                                "required": ["database", "location", "select"],
-                                "additionalProperties": False,
-                                "properties": {
-                                    "database": {"const": "sqlite"},
-                                    "location": {
-                                        "title": "File path or href.",
-                                        "type": "string",
-                                        "format": "uri-reference",
-                                    },
-                                    "select": {
-                                        "title": "SQL 'select' statement retrieving the data from the database.",
-                                        "type": "string",
-                                    },
-                                },
-                            },
-                        ],
+                        "title": "File path or web resource URL.",
+                        "type": "string",
+                        "format": "uri-reference",
                     },
-                    "parameters": {
-                        "title": "Mapping of plot parameters to the fields in the source data.",
+                    "format": {
+                        "title": "File format.",
+                        "enum": constants.FORMATS,
+                    },
+                    "map": {
+                        "title": "For a chart parameter, specify the source data field to use.",
                         "type": "object",
-                        "additionalProperties": False,
                         "properties": {
-                            "x": {"$ref": "#field"},
-                            "y": {"$ref": "#field"},
-                            "size": {"$ref": "#field"},
-                            "color": {"$ref": "#field"},
-                            "opacity": {"$ref": "#field"},
-                            "marker": {"$ref": "#field"},
+                            # Not specified here; depends on the chart.
                         },
+                    },
+                },
+            },
+            {
+                "title": "Sqlite database.",
+                "type": "object",
+                "required": ["database", "source", "select"],
+                "additionalProperties": False,
+                "properties": {
+                    "database": {"const": "sqlite"},
+                    "source": {
+                        "title": "File path or URL for the Sqlite database file.",
+                        "type": "string",
+                        "format": "uri-reference",
+                    },
+                    "select": {
+                        "title": "SQL 'select' statement retrieving the data from the database.",
+                        "type": "string",
                     },
                 },
             },
         ],
     },
+    # "datapoints": {
+    #     "$anchor": "datapoints",
+    #     "title": "Data provided inline, or from a file, web resource or database.",
+    #     "oneOf": [
+    #         {
+    #             "title": "Inline data points.",
+    #             "type": "array",
+    #             "minItems": 1,
+    #             "items": {
+    #                 "type": "object",
+    #                 "additionalProperties": False,
+    #                 "properties": {
+    #                     "x": {"type": "number"},
+    #                     "y": {"type": "number"},
+    #                     "size": {
+    #                         "title": "Size of the marker (pixels).",
+    #                         "type": "number",
+    #                         "minimumExclusive": 0,
+    #                     },
+    #                     "color": {
+    #                         "title": "Color specified by hex code '#rrggbb' or CSS3 color name.",
+    #                         "type": "string",
+    #                         "format": "color",
+    #                     },
+    #                     "opacity": {
+    #                         "title": "Opacity of the marker.",
+    #                         "type": "number",
+    #                         "minimum": 0,
+    #                         "maximum": 1,
+    #                         "default": 1,
+    #                     },
+    #                     "marker": {"$ref": "#marker"},
+    #                 },
+    #             },
+    #         },
+    #         {
+    #             "title": "Data from file, web resource or database.",
+    #             "type": "object",
+    #             "required": ["source"],
+    #             "additionalProperties": False,
+    #             "properties": {
+    #                 "source": {
+    #                     "oneOf": [
+    #                         {
+    #                             "title": "File path or href. File format is deduced from the extension, or 'csv' if not recognized.",
+    #                             "type": "string",
+    #                             "format": "uri-reference",
+    #                         },
+    #                         {
+    #                             "title": "File path or href, with explicit file format.",
+    #                             "type": "object",
+    #                             "required": ["location", "format"],
+    #                             "additionalProperties": False,
+    #                             "properties": {
+    #                                 "location": {
+    #                                     "title": "File path or href.",
+    #                                     "type": "string",
+    #                                     "format": "uri-reference",
+    #                                 },
+    #                                 "format": {
+    #                                     "title": "File format.",
+    #                                     "enum": constants.FORMATS,
+    #                                 },
+    #                             },
+    #                         },
+    #                         {
+    #                             "title": "Sqlite database.",
+    #                             "type": "object",
+    #                             "required": ["database", "location", "select"],
+    #                             "additionalProperties": False,
+    #                             "properties": {
+    #                                 "database": {"const": "sqlite"},
+    #                                 "location": {
+    #                                     "title": "File path or href.",
+    #                                     "type": "string",
+    #                                     "format": "uri-reference",
+    #                                 },
+    #                                 "select": {
+    #                                     "title": "SQL 'select' statement retrieving the data from the database.",
+    #                                     "type": "string",
+    #                                 },
+    #                             },
+    #                         },
+    #                     ],
+    #                 },
+    #                 "parameters": {
+    #                     "title": "Mapping of plot parameters to the fields in the source data.",
+    #                     "type": "object",
+    #                     "additionalProperties": False,
+    #                     "properties": {
+    #                         "x": {"$ref": "#field"},
+    #                         "y": {"$ref": "#field"},
+    #                         "size": {"$ref": "#field"},
+    #                         "color": {"$ref": "#field"},
+    #                         "opacity": {"$ref": "#field"},
+    #                         "marker": {"$ref": "#field"},
+    #                     },
+    #                 },
+    #             },
+    #         },
+    #     ],
+    # },
     "field": {
         "$anchor": "field",
-        "title": "Mapping of a plot parameter to a field in source data.",
+        "title": "For a chart parameter, give the source data field to use.",
         "oneOf": [
             {
-                "title": "Name of the field in the source data; CSV column header. The values are used directly.",
+                "title": "Name of the field in the source data; e.g. CSV column header.",
                 "type": "string",
                 "minLength": 1,
             },
             {
-                "title": "Number of the field in the source data; CSV column number, starting with 1. The values are used directly.",
+                "title": "Number of the field in the source data; e.g. CSV column number, starting with 1.",
                 "type": "integer",
                 "minimum": 1,
             },
             {
-                "title": "Mapping of values in source data to a plot parameter.",
+                "title": "Mapping of values in a field of source data to values in a chart parameter.",
                 "type": "object",
-                "required": ["field"],
+                "required": ["field", "map"],
                 "additionalProperties": False,
                 "properties": {
                     "field": {
-                        "title": "Name of the field in the source data; CSV column header.",
+                        "title": "Name of the field in the source data; e.g. CSV column header.",
                         "type": "string",
                         "minLength": 1,
                     },
                     "map": {
-                        "title": "Map a string value in the source data to a value for the plot parameter.",
+                        "title": "Convert a string value in the source data to a value for the chart parameter.",
                         "type": "object",
                         "properties": {
-                            # Any.
+                            # Not specified here; depends on the chart.
                         },
                     },
                 },

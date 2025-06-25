@@ -1,20 +1,20 @@
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 title: Pies in column
 subcharts:
 - chart: piechart
   title: Strawberry pie
   slices:
-  - x: 7
+  - value: 7
     label: Flour
     color: white
-  - x: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - x: 3
+  - value: 3
     label: Butter
     color: gold
-  - x: 3
+  - value: 3
     label: Strawberries
     color: orangered
     href: https://en.wikipedia.org/wiki/Strawberry
@@ -22,16 +22,16 @@ subcharts:
   title: Rhubarb pie
   diameter: 250
   slices:
-  - x: 7
+  - value: 7
     label: Flour
     color: white
-  - x: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - x: 3
+  - value: 3
     label: Butter
     color: gold
-  - x: 3
+  - value: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb

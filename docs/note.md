@@ -16,7 +16,7 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: note
 title:
   bold: true
@@ -37,7 +37,7 @@ width: 200
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 title: Notes in a column
 subcharts:
@@ -73,7 +73,7 @@ padding: 4
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: board
 items:
 - x: 0
@@ -115,23 +115,23 @@ items:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: column
 title: Pies in column
 subcharts:
 - chart: piechart
   title: Strawberry pie
   slices:
-  - x: 7
+  - value: 7
     label: Flour
     color: white
-  - x: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - x: 3
+  - value: 3
     label: Butter
     color: gold
-  - x: 3
+  - value: 3
     label: Strawberries
     color: orangered
     href: https://en.wikipedia.org/wiki/Strawberry
@@ -139,16 +139,16 @@ subcharts:
   title: Rhubarb pie
   diameter: 250
   slices:
-  - x: 7
+  - value: 7
     label: Flour
     color: white
-  - x: 2
+  - value: 2
     label: Eggs
     color: yellow
-  - x: 3
+  - value: 3
     label: Butter
     color: gold
-  - x: 3
+  - value: 3
     label: Rhubarb
     color: green
     href: https://en.wikipedia.org/wiki/Rhubarb
@@ -165,7 +165,7 @@ padding: 10
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.4.2
+chysl: 0.5.0
 chart: board
 title: Poster
 items:

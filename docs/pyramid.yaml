@@ -1,4 +1,4 @@
-chysl: 0.4.2
+chysl: 0.5.0
 chart: piechart
 title: Pyramid
 frame:
@@ -10,9 +10,9 @@ palette:
 - '#9ecae9'
 - '#f58518'
 slices:
-- x: 7
+- value: 7
   label: Shadow
-- x: 18
+- value: 18
   label: Sunny
-- x: 70
+- value: 70
   label: Sky
