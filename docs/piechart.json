@@ -159,39 +159,6 @@
         }
       ]
     },
-    "frame": {
-      "$anchor": "frame",
-      "title": "Specification of the chart area frame.",
-      "oneOf": [
-        {
-          "title": "Default chart area frame, or no frame.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Specification of the chart area frame.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "thickness": {
-              "title": "Thickness of the frame (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "color": {
-              "title": "Color of the frame. Default depends on the chart.",
-              "type": "string",
-              "format": "color"
-            },
-            "radius": {
-              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimum": 0
-            }
-          }
-        }
-      ]
-    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -246,6 +213,39 @@
                 "right"
               ],
               "default": "center"
+            }
+          }
+        }
+      ]
+    },
+    "frame": {
+      "$anchor": "frame",
+      "title": "Specification of the chart area frame.",
+      "oneOf": [
+        {
+          "title": "Default chart area frame, or no frame.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Specification of the chart area frame.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "thickness": {
+              "title": "Thickness of the frame (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "color": {
+              "title": "Color of the frame. Default depends on the chart.",
+              "type": "string",
+              "format": "color"
+            },
+            "radius": {
+              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimum": 0
             }
           }
         }

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="515" height="363.8" viewBox="0 0 515 363.8" transform="translate(0.5, 0.5)">
+<svg xmlns="http://www.w3.org/2000/svg" width="515" height="354.2" viewBox="0 0 515 354.2" transform="translate(0.5, 0.5)">
   <title>Pies in row</title>
   <g class="layout">
-    <g fill="black" font-family="sans-serif" font-size="22" text-anchor="middle" transform="translate(195.136,0)">
-      <text y="22" x="61.864">Pies in row</text>
+    <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(212,0)">
+      <text y="16" x="44.992">Pies in row</text>
     </g>
-    <g transform="translate(0,35.2)">
+    <g transform="translate(0,25.6)">
       <g class="layout">
         <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(91.644,0)">
           <text y="16" x="59.356">Strawberry pie</text>
@@ -37,7 +37,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(312,85.2)">
+    <g transform="translate(312,75.6)">
       <g class="layout">
         <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(51.296,0)">
           <text y="16" x="49.704">Rhubarb pie</text>

@@ -13,7 +13,7 @@
 ![pies_row SVG](pies_row.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: row
 title: Pies in row
 subcharts:
@@ -62,7 +62,7 @@ padding: 10
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: column
 title:
   size: 30

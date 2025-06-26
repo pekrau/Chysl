@@ -16,7 +16,7 @@
 ![declaration SVG](declaration.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: note
 title:
   bold: true
@@ -37,7 +37,7 @@ width: 200
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: column
 title: Notes in a column
 subcharts:
@@ -73,7 +73,7 @@ padding: 4
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: board
 items:
 - x: 0
@@ -115,7 +115,7 @@ items:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: column
 title: Pies in column
 subcharts:
@@ -165,7 +165,7 @@ padding: 10
 ![poster SVG](poster.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: board
 title: Poster
 items:

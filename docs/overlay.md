@@ -12,7 +12,7 @@
 ![points_marks SVG](points_marks.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: overlay
 title: One scatterplot on top of another
 layers:

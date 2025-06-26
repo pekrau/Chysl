@@ -21,7 +21,6 @@ TESTS = {
         "universe",
         "earth",
         "universe_earth",
-        "markers",
         "poster",
         "dimensions",
     ],
@@ -96,14 +95,14 @@ def get_universe(legend=True):
         legend=legend,
         axis=dict(absolute=True, caption="Billion years ago", max=50_000_000),
     )
-    universe += Event(
+    universe += dict(
         instant=-13_787_000_000,
         label="Big Bang",
         timeline="Universe",
         marker="burst",
         color="red",
     )
-    universe += Period(
+    universe += dict(
         begin=dict(value=-7_500_000_000, low=-8_500_000_000),
         end=0,
         label="Milky Way galaxy",
@@ -112,14 +111,14 @@ def get_universe(legend=True):
         fuzzy="gradient",
         href="https://en.wikipedia.org/wiki/Milky_Way",
     )
-    universe += Event(
+    universe += dict(
         instant=-7_500_000_000,
         timeline="Universe",
         color="white",
         marker="galaxy",
         href="https://en.wikipedia.org/wiki/Milky_Way",
     )
-    universe += Period(begin=-4_567_000_000, end=0, label="Earth", color="lightgreen")
+    universe += dict(begin=-4_567_000_000, end=0, label="Earth", color="lightgreen")
     return universe
 
 
@@ -129,33 +128,33 @@ def get_earth(legend=True):
         legend=legend,
         axis=dict(absolute=True, caption="Billion years ago", max=20_000_000),
     )
-    earth += Period(begin=-4_567_000_000, end=0, label="Earth", color="skyblue")
-    earth += Period(
+    earth += dict(begin=-4_567_000_000, end=0, label="Earth", color="skyblue")
+    earth += dict(
         begin=dict(value=-4_000_000_000, low=-4_100_000_000, high=-3_950_000_000),
         end=dict(value=-2_500_000_000, error=200_000_000),
         label="Archean",
         color="wheat",
         fuzzy="gradient",
     )
-    earth += Event(instant=-4_200_000_000, label="LUCA?", timeline="Unicellular")
-    earth += Period(
+    earth += dict(instant=-4_200_000_000, label="LUCA?", timeline="Unicellular")
+    earth += dict(
         begin=dict(value=-3_480_000_000, low=-4_200_000_000),
         end=0,
         label="Unicellular organisms",
         timeline="Unicellular",
         fuzzy="gradient",
     )
-    earth += Period(
+    earth += dict(
         begin=dict(value=-1_650_000_000, error=200_000_000), end=0, label="Eukaryotes"
     )
-    earth += Period(
+    earth += dict(
         begin=dict(value=-3_400_000_000, high=-2_600_000_000),
         end=0,
         label="Photosynthesis",
         color="springgreen",
         fuzzy="gradient",
     )
-    earth += Period(
+    earth += dict(
         begin=dict(value=-470_000_000, error=50_000_000),
         end=0,
         label="Plants",
@@ -197,9 +196,9 @@ def test_pyramid():
         palette=["#4c78a8", "#9ecae9", "#f58518"],
         frame=dict(color="gray", thickness=4),
     )
-    pyramid += Slice(value=7, label="Shadow")
-    pyramid.add(Slice(value=18, label="Sunny"))
-    pyramid.add(Slice(value=70, label="Sky"))
+    pyramid += dict(value=7, label="Shadow")
+    pyramid.add(dict(value=18, label="Sunny"))
+    pyramid.add(dict(value=70, label="Sky"))
     pyramid.save("pyramid.yaml")
     pyramid.render("pyramid.svg")
     check_roundtrip(pyramid, "pyramid.yaml")
@@ -270,10 +269,10 @@ def test_pies_column():
     pajer = Column("Pies in column", padding=10)
 
     pajer += (paj := Piechart("Strawberry pie", diameter=200))
-    paj += Slice(value=7, label="Flour", color="white")
-    paj += Slice(value=2, label="Eggs", color="yellow")
-    paj += Slice(value=3, label="Butter", color="gold")
-    paj += Slice(
+    paj += dict(value=7, label="Flour", color="white")
+    paj += dict(value=2, label="Eggs", color="yellow")
+    paj += dict(value=3, label="Butter", color="gold")
+    paj += dict(
         value=3,
         label="Strawberries",
         color="orangered",
@@ -281,10 +280,10 @@ def test_pies_column():
     )
 
     pajer += (paj := Piechart("Rhubarb pie", diameter=250))
-    paj += Slice(value=7, label="Flour", color="white")
-    paj += Slice(value=2, label="Eggs", color="yellow")
-    paj += Slice(value=3, label="Butter", color="gold")
-    paj += Slice(
+    paj += dict(value=7, label="Flour", color="white")
+    paj += dict(value=2, label="Eggs", color="yellow")
+    paj += dict(value=3, label="Butter", color="gold")
+    paj += dict(
         value=3,
         label="Rhubarb",
         color="green",
@@ -548,7 +547,7 @@ def test_dimensions():
         10_000_000_000,
     ]:
         column += (timelines := Timelines(f"1 - {last}"))
-        timelines += Period(begin=1, end=last)
+        timelines += dict(begin=1, end=last)
     column.save("dimensions.yaml")
     column.render("dimensions.svg")
     check_roundtrip(column, "dimensions.yaml")

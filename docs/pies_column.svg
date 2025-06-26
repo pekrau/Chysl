@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="253" height="637.4" viewBox="0 0 253 637.4" transform="translate(0.5, 0.5)">
+<svg xmlns="http://www.w3.org/2000/svg" width="253" height="627.8" viewBox="0 0 253 627.8" transform="translate(0.5, 0.5)">
   <title>Pies in column</title>
   <g class="layout">
-    <g fill="black" font-family="sans-serif" font-size="22" text-anchor="middle" transform="translate(44.281,0)">
-      <text y="22" x="81.719">Pies in column</text>
+    <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(66.568,0)">
+      <text y="16" x="59.432">Pies in column</text>
     </g>
-    <g transform="translate(25,35.2)">
+    <g transform="translate(25,25.6)">
       <g class="layout">
         <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(41.644,0)">
           <text y="16" x="59.356">Strawberry pie</text>
@@ -37,7 +37,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0,272.8)">
+    <g transform="translate(0,263.2)">
       <g class="layout">
         <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(76.296,0)">
           <text y="16" x="49.704">Rhubarb pie</text>
@@ -69,7 +69,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(39.376,560.4)">
+    <g transform="translate(39.376,550.8)">
       <g class="layout">
         <g transform="translate(0,0)">
           <rect x="2.5" y="2.5" width="168.248" height="71" stroke="gold" fill="none" class="frame" rx="10" ry="10" stroke-width="5" />

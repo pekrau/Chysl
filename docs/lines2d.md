@@ -14,7 +14,7 @@
 ![lines_random_walks SVG](lines_random_walks.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: lines2d
 title: 'Random walks (source: db)'
 lines:

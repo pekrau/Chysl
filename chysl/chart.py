@@ -24,12 +24,12 @@ from utils import N
 class Chart:
     "Abstract chart."
 
-    TITLE_CLASS = components.Title
+    title_class = components.Title
 
     def __init__(self, title=None, description=None):
         assert title is None or isinstance(title, (str, dict))
         assert description is None or isinstance(description, (str, dict))
-        self.title = self.TITLE_CLASS(title)
+        self.title = self.title_class(title)
         self.description = description
 
     def __eq__(self, other):
@@ -44,7 +44,7 @@ class Chart:
         return self.__class__.__name__.casefold()
 
     def as_dict(self):
-        result = {"chart": self.name}
+        result = dict(chart=self.name)
         result.update(self.title.as_dict("title"))
         if self.description:
             result["description"] = self.description

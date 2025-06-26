@@ -18,7 +18,7 @@
 ![universe_earth SVG](universe_earth.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: column
 title: Universe and Earth
 subcharts:
@@ -116,7 +116,7 @@ subcharts:
 ![pies_column SVG](pies_column.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: column
 title: Pies in column
 subcharts:
@@ -166,7 +166,7 @@ padding: 10
 ![notes_column SVG](notes_column.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: column
 title: Notes in a column
 subcharts:
@@ -202,7 +202,7 @@ padding: 4
 ![notes SVG](notes.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: board
 items:
 - x: 0
@@ -244,7 +244,7 @@ items:
 ![markers SVG](markers.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: column
 subcharts:
 - chart: scatter2d
@@ -663,7 +663,7 @@ padding: 10
 ![dimensions SVG](dimensions.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: column
 title: Dimension tick ranges
 subcharts:
@@ -726,7 +726,7 @@ padding: 20
 ![scatter_iris SVG](scatter_iris.svg)
 
 ```yaml
-chysl: 0.5.0
+chysl: 0.5.1
 chart: column
 title:
   size: 30

@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="603" height="310.6" viewBox="0 0 603 310.6" transform="translate(0.5, 0.5)">
+<svg xmlns="http://www.w3.org/2000/svg" width="603" height="301" viewBox="0 0 603 301" transform="translate(0.5, 0.5)">
   <title>Universe and Earth</title>
   <g class="layout">
-    <g fill="black" font-family="sans-serif" font-size="22" text-anchor="middle" transform="translate(194.619,0)">
-      <text y="22" x="106.381">Universe and Earth</text>
+    <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(223.632,0)">
+      <text y="16" x="77.368">Universe and Earth</text>
     </g>
-    <g transform="translate(0,35.2)">
+    <g transform="translate(0,25.6)">
       <g class="layout">
         <g fill="darkorchid" font-family="sans-serif" font-size="24" font-weight="bold" text-anchor="middle" transform="translate(243.544,0)">
           <text y="24" x="57.456">Universe</text>
@@ -69,7 +69,7 @@
         </g>
       </g>
     </g>
-    <g transform="translate(0,148.8)">
+    <g transform="translate(0,139.2)">
       <g class="layout">
         <g fill="black" font-family="sans-serif" font-size="16" text-anchor="middle" transform="translate(279.036,0)">
           <text y="16" x="21.964">Earth</text>

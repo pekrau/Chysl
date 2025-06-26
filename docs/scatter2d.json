@@ -130,6 +130,30 @@
     }
   },
   "$defs": {
+    "grid": {
+      "$anchor": "grid",
+      "title": "Coordinate grid, with optional styling.",
+      "oneOf": [
+        {
+          "title": "Display default grid or not.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Grid with styling.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "color": {
+              "title": "Color of grid lines.",
+              "type": "string",
+              "format": "color",
+              "default": "lightgray"
+            }
+          }
+        }
+      ]
+    },
     "text": {
       "$anchor": "text",
       "title": "Text, with or without explicit styling.",
@@ -189,55 +213,34 @@
         }
       ]
     },
-    "axis": {
-      "$anchor": "axis",
-      "title": "Coordinate axis specification.",
+    "frame": {
+      "$anchor": "frame",
+      "title": "Specification of the chart area frame.",
       "oneOf": [
         {
-          "title": "Display default axis, or no display.",
+          "title": "Default chart area frame, or no frame.",
           "type": "boolean",
           "default": true
         },
         {
-          "title": "Coordinate axis specification.",
+          "title": "Specification of the chart area frame.",
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "min": {
-              "title": "Explicit minimum for the axis.",
-              "type": "number"
-            },
-            "max": {
-              "title": "Explicit maximum for the axis.",
-              "type": "number"
-            },
-            "ticks": {
-              "title": "Explicit positions for axis ticks.",
-              "type": "array",
-              "minItems": 1,
-              "items": {
-                "title": "Axis coordinate of a tick.",
-                "type": "number"
-              }
-            },
-            "labels": {
-              "title": "Display tick labels, or not.",
-              "type": "boolean",
-              "default": true
-            },
-            "factor": {
-              "title": "Factor to divide tick value by for label display. Default depends on context.",
+            "thickness": {
+              "title": "Thickness of the frame (pixels). Default depends on the chart.",
               "type": "number",
               "minimumExclusive": 0
             },
-            "absolute": {
-              "title": "Display absolute values for tick labels.",
-              "type": "boolean",
-              "default": false
+            "color": {
+              "title": "Color of the frame. Default depends on the chart.",
+              "type": "string",
+              "format": "color"
             },
-            "caption": {
-              "title": "Axis description.",
-              "type": "string"
+            "radius": {
+              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
+              "type": "number",
+              "minimum": 0
             }
           }
         }
@@ -333,6 +336,60 @@
         }
       ]
     },
+    "axis": {
+      "$anchor": "axis",
+      "title": "Coordinate axis specification.",
+      "oneOf": [
+        {
+          "title": "Display default axis, or no display.",
+          "type": "boolean",
+          "default": true
+        },
+        {
+          "title": "Coordinate axis specification.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "min": {
+              "title": "Explicit minimum for the axis.",
+              "type": "number"
+            },
+            "max": {
+              "title": "Explicit maximum for the axis.",
+              "type": "number"
+            },
+            "ticks": {
+              "title": "Explicit positions for axis ticks.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "title": "Axis coordinate of a tick.",
+                "type": "number"
+              }
+            },
+            "labels": {
+              "title": "Display tick labels, or not.",
+              "type": "boolean",
+              "default": true
+            },
+            "factor": {
+              "title": "Factor to divide tick value by for label display. Default depends on context.",
+              "type": "number",
+              "minimumExclusive": 0
+            },
+            "absolute": {
+              "title": "Display absolute values for tick labels.",
+              "type": "boolean",
+              "default": false
+            },
+            "caption": {
+              "title": "Axis description.",
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
     "datasource": {
       "$anchor": "datasource",
       "title": "Data from a file, web resource or database.",
@@ -387,63 +444,6 @@
             "select": {
               "title": "SQL 'select' statement retrieving the data from the database.",
               "type": "string"
-            }
-          }
-        }
-      ]
-    },
-    "grid": {
-      "$anchor": "grid",
-      "title": "Coordinate grid, with optional styling.",
-      "oneOf": [
-        {
-          "title": "Display default grid or not.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Grid with styling.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "color": {
-              "title": "Color of grid lines.",
-              "type": "string",
-              "format": "color",
-              "default": "lightgray"
-            }
-          }
-        }
-      ]
-    },
-    "frame": {
-      "$anchor": "frame",
-      "title": "Specification of the chart area frame.",
-      "oneOf": [
-        {
-          "title": "Default chart area frame, or no frame.",
-          "type": "boolean",
-          "default": true
-        },
-        {
-          "title": "Specification of the chart area frame.",
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "thickness": {
-              "title": "Thickness of the frame (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimumExclusive": 0
-            },
-            "color": {
-              "title": "Color of the frame. Default depends on the chart.",
-              "type": "string",
-              "format": "color"
-            },
-            "radius": {
-              "title": "Radius of the frame corner curvature (pixels). Default depends on the chart.",
-              "type": "number",
-              "minimum": 0
             }
           }
         }

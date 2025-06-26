@@ -327,8 +327,7 @@ class Scatter2d(Chart):
                         + self.PADDING
                     ),
                     y=N(
-                        ydimension.get_pixel(point.y)
-                        + constants.DEFAULT_FONT_SIZE / 4
+                        ydimension.get_pixel(point.y) + constants.DEFAULT_FONT_SIZE / 4
                     ),
                 )
 
@@ -354,7 +353,15 @@ class Point2d:
     )
 
     def __init__(
-            self, x, y, marker=None, size=None, color=None, opacity=None, label=None, href=None,
+        self,
+        x,
+        y,
+        marker=None,
+        size=None,
+        color=None,
+        opacity=None,
+        label=None,
+        href=None,
     ):
         assert isinstance(x, (int, float))
         assert isinstance(y, (int, float))

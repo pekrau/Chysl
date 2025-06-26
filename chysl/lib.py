@@ -1,7 +1,7 @@
-"All chart classes and their supporting classes."
+"All chart classes."
 
-from timelines import Timelines, Event, Period
-from piechart import Piechart, Slice
+from timelines import Timelines
+from piechart import Piechart
 from scatter2d import Scatter2d
 from lines2d import Lines2d
 from note import Note
